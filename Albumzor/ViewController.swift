@@ -12,7 +12,21 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        let client = SpotifyClient.sharedInstance()
+        
+        let parameters = [SpotifyClient.ParameterKeys.searchQuery : "Red+Hot+Chili+Peppers", SpotifyClient.ParameterKeys.searchType : "artist"]
+        
+        _ = client.task(getMethod: SpotifyClient.Methods.search, parameters: parameters as [String : AnyObject]) { results, error in
+            
+            if let error = error {
+                print("")
+            }
+            
+        }
+        
+        
+        
     }
     
     
