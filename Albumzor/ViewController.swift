@@ -14,12 +14,23 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
+    
+    
+    func getSpotifyAPIKey() -> String? {
+        
+        let filePath = Bundle.main.path(forResource: "SpotifyApiKey", ofType: "txt")
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        print("file path: \(filePath)")
+        
+        do {
+            let textString = try String(contentsOfFile: filePath!)
+            return textString
+        } catch {
+            print("error reading file to string")
+        }
+        
+        return nil
     }
-
+    
 
 }
-
