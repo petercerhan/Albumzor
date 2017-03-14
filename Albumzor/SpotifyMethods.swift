@@ -11,14 +11,14 @@ import Foundation
 
 extension SpotifyClient {
     
-    func getAlbums(forArtist artistID: String,completion: @escaping SpotifyCompletionHandler) {
+    func getAlbums(forArtist artistID: String, completion: @escaping SpotifyCompletionHandler) {
         
         let parameters = ["album_type" : "album", "market" : "US"]
         
-        let finalMethod = replace(placeholder: "id", inMethod: Methods.getArtistAlbums, value: artistID)
+        let method = replace(placeholder: "id", inMethod: Methods.getArtistAlbums, value: artistID)
         
-        _ = task(getMethod: finalMethod, parameters: parameters) { result, error in
-            print("this this")
+        _ = task(getMethod: method, parameters: parameters) { result, error in
+            
             if let error = error {
                 completion(nil, error)
                 return
@@ -32,13 +32,24 @@ extension SpotifyClient {
             for album in items {
                 print("Album: \(album["name"] as? String ?? "unfound") Album_type: \(album["album_type"] as? String ?? "unfound")")
             }
-            
         }
-        
-        
     }
     
-    
-    
+    func getRelatedArtists(forArtist artistID: String, completion: @escaping SpotifyCompletionHandler) {
+        let parameters = [String : String]()
+        
+        let method = replace(placeholder: "id", inMethod: Methods.getRelatedArtists, value: artistID)
+        
+        _ = task(getMethod: method, parameters: parameters) { result, error in
+            
+            if let error = error {
+                completion(nil, error)
+                return
+            } else {
+                completion(result, nil)
+                return
+            }
+        }
+    }
     
 }
