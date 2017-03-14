@@ -13,9 +13,11 @@ extension SpotifyClient {
     
     func getAlbums(forArtist artistID: String,completion: @escaping SpotifyCompletionHandler) {
         
+        let parameters = ["album_type" : "album", "market" : "US"]
+        
         let finalMethod = replace(placeholder: "id", inMethod: Methods.getArtistAlbums, value: artistID)
         
-        _ = task(getMethod: finalMethod, parameters: [String : AnyObject]()) { result, error in
+        _ = task(getMethod: finalMethod, parameters: parameters) { result, error in
             print("this this")
             if let error = error {
                 completion(nil, error)
@@ -30,8 +32,6 @@ extension SpotifyClient {
             for album in items {
                 print("Album: \(album["name"] as? String ?? "unfound") Album_type: \(album["album_type"] as? String ?? "unfound")")
             }
-            
-            print("first album \(items[0])")
             
         }
         

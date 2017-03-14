@@ -15,7 +15,7 @@ class SpotifyClient {
     var session = URLSession.shared
     
     
-    func task(getMethod method: String, parameters: [String : AnyObject], completionHandler: @escaping SpotifyCompletionHandler) -> URLSessionDataTask {
+    func task(getMethod method: String, parameters: [String : String], completionHandler: @escaping SpotifyCompletionHandler) -> URLSessionDataTask {
         
         let request = NSMutableURLRequest(url: url(fromParameters: parameters, method: method))
         
@@ -78,7 +78,7 @@ class SpotifyClient {
             return method.replacingOccurrences(of: "{\(placeholder)}", with: value)
     }
     
-    private func url(fromParameters parameters: [String:AnyObject], method: String) -> URL {
+    private func url(fromParameters parameters: [String : String], method: String) -> URL {
         var components = URLComponents()
         components.scheme = Constants.apiScheme
         components.host = Constants.apiHost
