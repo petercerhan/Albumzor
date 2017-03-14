@@ -10,9 +10,9 @@ import Foundation
 
 class DataManager {
     
+    let client = SpotifyClient.sharedInstance()
+    
     func getInitialData() {
-        
-        let client = SpotifyClient.sharedInstance()
         
         let parameters = [SpotifyClient.ParameterKeys.searchQuery : "Red hot chili peppers", SpotifyClient.ParameterKeys.searchType : "artist"]
 
@@ -34,16 +34,62 @@ class DataManager {
             //get related artists
             print("artist: \(artist["id"] as? String ?? "")")
             
+            self.getRelatedArtists(artist: artist["id"] as! String)
         }
         
     }
     
-    func getRelatedArtists() {
+    func getRelatedArtists(artist artistID: String) {
+        
+        client.getRelatedArtists(forArtist: artistID) { result, error in
+            
+            if let error = error {
+                print("error: \(error)")
+                return
+            }
+            
+            guard let result = result as? [String : AnyObject], let artistsData = result["artists"] as? [[String : AnyObject]] else {
+                print("Data not formatted correctly")
+                return
+            }
+     
+            var artists = [Artist]()
+            
+            for artist in artistsData {
+                guard let name = artist["name"] as? String, let id = artist["id"] as? String else {
+                    continue
+                }
+                artists.append(Artist(id: id, name: name))
+            }
+            
+            self.getAlbums(forArtists: artists)
+        }
         
     }
     
     
     
-    
+    func getAlbums(forArtists artists: [Artist]) {
+        let artistID = artists[0].id
+        
+        client.getAlbums(forArtist: artistID) { result, error in
+            
+            if let error = error {
+                print("error: \(error)")
+                return
+            }
+            
+            guard let result = result as? [String : AnyObject], let items = result["items"] as? [[String : AnyObject]] else {
+                print("Bad return data")
+                return
+            }
+            
+            for album in items {
+                print("Album: \(album["name"] as? String ?? "unfound") Album_type: \(album["album_type"] as? String ?? "unfound")")
+            }
+            
+        }
+        
+    }
     
 }

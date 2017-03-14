@@ -22,16 +22,11 @@ extension SpotifyClient {
             if let error = error {
                 completion(nil, error)
                 return
-            }
-            
-            guard let result = result as? [String : AnyObject], let items = result["items"] as? [[String : AnyObject]] else {
-                print("Bad return data")
+            } else {
+                completion(result, nil)
                 return
             }
-            
-            for album in items {
-                print("Album: \(album["name"] as? String ?? "unfound") Album_type: \(album["album_type"] as? String ?? "unfound")")
-            }
+
         }
     }
     
@@ -51,5 +46,6 @@ extension SpotifyClient {
             }
         }
     }
+    
     
 }
