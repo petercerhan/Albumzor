@@ -8,14 +8,16 @@
 
 import Foundation
 
+typealias SpotifyCompletionHandler = (_ result: AnyObject?, _ error: NSError?) -> Void
+
 class SpotifyClient {
     
     var session = URLSession.shared
     
     
-    func task(getMethod method: String, parameters: [String : AnyObject], completionHandler: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) -> URLSessionDataTask {
+    func task(getMethod method: String, parameters: [String : AnyObject], completionHandler: @escaping SpotifyCompletionHandler) -> URLSessionDataTask {
         
-        let request = NSMutableURLRequest(url: urlFromParameters(parameters, method: method))
+        let request = NSMutableURLRequest(url: url(fromParameters: parameters, method: method))
         
         return(task(request: request as URLRequest, completionHandler: completionHandler))
     }
@@ -72,7 +74,11 @@ class SpotifyClient {
         completionHandler(parsedResult, nil)
     }
     
-    private func urlFromParameters(_ parameters: [String:AnyObject], method: String) -> URL {
+    func replace(placeholder: String, inMethod method: String, value: String) -> String {
+            return method.replacingOccurrences(of: "{\(placeholder)}", with: value)
+    }
+    
+    private func url(fromParameters parameters: [String:AnyObject], method: String) -> URL {
         var components = URLComponents()
         components.scheme = Constants.apiScheme
         components.host = Constants.apiHost

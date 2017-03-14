@@ -16,6 +16,7 @@
 		E45D98DB1E75DC2F00CD3CE7 /* AlbumzorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D98DA1E75DC2F00CD3CE7 /* AlbumzorUITests.swift */; };
 		E45D98ED1E75EC2600CD3CE7 /* SpotifyClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D98EC1E75EC2600CD3CE7 /* SpotifyClient.swift */; };
 		E45D98EF1E75EE8C00CD3CE7 /* SpotifyConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D98EE1E75EE8C00CD3CE7 /* SpotifyConstants.swift */; };
+		E45D98F11E776BFE00CD3CE7 /* SpotifyMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D98F01E776BFE00CD3CE7 /* SpotifyMethods.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		E45D98DC1E75DC2F00CD3CE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E45D98EC1E75EC2600CD3CE7 /* SpotifyClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifyClient.swift; sourceTree = "<group>"; };
 		E45D98EE1E75EE8C00CD3CE7 /* SpotifyConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifyConstants.swift; sourceTree = "<group>"; };
+		E45D98F01E776BFE00CD3CE7 /* SpotifyMethods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifyMethods.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				E45D98EC1E75EC2600CD3CE7 /* SpotifyClient.swift */,
+				E45D98F01E776BFE00CD3CE7 /* SpotifyMethods.swift */,
 				E45D98EE1E75EE8C00CD3CE7 /* SpotifyConstants.swift */,
 			);
 			name = SpotifyClient;
@@ -285,6 +288,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E45D98EF1E75EE8C00CD3CE7 /* SpotifyConstants.swift in Sources */,
+				E45D98F11E776BFE00CD3CE7 /* SpotifyMethods.swift in Sources */,
 				E45D98BD1E75DC2F00CD3CE7 /* ViewController.swift in Sources */,
 				E45D98BB1E75DC2F00CD3CE7 /* AppDelegate.swift in Sources */,
 				E45D98ED1E75EC2600CD3CE7 /* SpotifyClient.swift in Sources */,

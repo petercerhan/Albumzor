@@ -20,6 +20,7 @@ extension SpotifyClient {
     
     struct Methods {
         static let search = "/search"
+        static let getArtistAlbums = "/artists/{id}/albums"
     }
   
     struct ParameterKeys {
