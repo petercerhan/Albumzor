@@ -10,18 +10,31 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    var chilisID = "0L8ExT028jH3ddEcZwqJJ5"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let client = SpotifyClient.sharedInstance()
         
-        let parameters = [SpotifyClient.ParameterKeys.searchQuery : "Red+Hot+Chili+Peppers", SpotifyClient.ParameterKeys.searchType : "artist"]
+        let parameters = [SpotifyClient.ParameterKeys.searchQuery : "Red hot chili peppers", SpotifyClient.ParameterKeys.searchType : "artist"]
         
-        _ = client.task(getMethod: SpotifyClient.Methods.search, parameters: parameters as [String : AnyObject]) { results, error in
+        _ = client.task(getMethod: SpotifyClient.Methods.search, parameters: parameters as [String : AnyObject]) { result, error in
             
             if let error = error {
-                print("")
+                print("error: \(error)")
+                return
             }
+            
+            guard let result = result as? [String : AnyObject], let artists = result["artists"] as? [String : AnyObject], let items = artists["items"] as? [[String : AnyObject]] else {
+                print("Data not formatted correctly")
+                return
+            }
+            
+            for item in items {
+                print("Artist: \(item["name"] as? String ?? "NOT FOUND") id: \(item["id"])")
+            }
+            
             
         }
         

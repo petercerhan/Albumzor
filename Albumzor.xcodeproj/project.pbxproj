@@ -14,7 +14,6 @@
 		E45D98C51E75DC2F00CD3CE7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E45D98C31E75DC2F00CD3CE7 /* LaunchScreen.storyboard */; };
 		E45D98D01E75DC2F00CD3CE7 /* AlbumzorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D98CF1E75DC2F00CD3CE7 /* AlbumzorTests.swift */; };
 		E45D98DB1E75DC2F00CD3CE7 /* AlbumzorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D98DA1E75DC2F00CD3CE7 /* AlbumzorUITests.swift */; };
-		E45D98E91E75DF8C00CD3CE7 /* SpotifyApiKey.txt in Resources */ = {isa = PBXBuildFile; fileRef = E45D98E81E75DF8C00CD3CE7 /* SpotifyApiKey.txt */; };
 		E45D98ED1E75EC2600CD3CE7 /* SpotifyClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D98EC1E75EC2600CD3CE7 /* SpotifyClient.swift */; };
 		E45D98EF1E75EE8C00CD3CE7 /* SpotifyConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D98EE1E75EE8C00CD3CE7 /* SpotifyConstants.swift */; };
 /* End PBXBuildFile section */
@@ -50,7 +49,6 @@
 		E45D98D61E75DC2F00CD3CE7 /* AlbumzorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AlbumzorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E45D98DA1E75DC2F00CD3CE7 /* AlbumzorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumzorUITests.swift; sourceTree = "<group>"; };
 		E45D98DC1E75DC2F00CD3CE7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E45D98E81E75DF8C00CD3CE7 /* SpotifyApiKey.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SpotifyApiKey.txt; sourceTree = "<group>"; };
 		E45D98EC1E75EC2600CD3CE7 /* SpotifyClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifyClient.swift; sourceTree = "<group>"; };
 		E45D98EE1E75EE8C00CD3CE7 /* SpotifyConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifyConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -109,7 +107,6 @@
 				E45D98BE1E75DC2F00CD3CE7 /* Main.storyboard */,
 				E45D98C11E75DC2F00CD3CE7 /* Assets.xcassets */,
 				E45D98C31E75DC2F00CD3CE7 /* LaunchScreen.storyboard */,
-				E45D98E81E75DF8C00CD3CE7 /* SpotifyApiKey.txt */,
 				E45D98C61E75DC2F00CD3CE7 /* Info.plist */,
 			);
 			path = Albumzor;
@@ -260,7 +257,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E45D98E91E75DF8C00CD3CE7 /* SpotifyApiKey.txt in Resources */,
 				E45D98C51E75DC2F00CD3CE7 /* LaunchScreen.storyboard in Resources */,
 				E45D98C21E75DC2F00CD3CE7 /* Assets.xcassets in Resources */,
 				E45D98C01E75DC2F00CD3CE7 /* Main.storyboard in Resources */,
