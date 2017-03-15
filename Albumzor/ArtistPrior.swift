@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Artist {
+class ArtistPrior {
     
     let id: String
     let name: String

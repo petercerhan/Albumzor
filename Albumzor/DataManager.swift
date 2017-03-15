@@ -48,21 +48,21 @@ class DataManager {
                 return
             }
      
-            var artists = [Artist]()
+            var artists = [ArtistPrior]()
 
             //Probably don't need to make this array of artists
             for artist in artistsData {
                 guard let name = artist["name"] as? String, let id = artist["id"] as? String else {
                     continue
                 }
-                artists.append(Artist(id: id, name: name))
+                artists.append(ArtistPrior(id: id, name: name))
             }
             
             self.getAlbums(forArtists: artists)
         }
     }
     
-    func getAlbums(forArtists artists: [Artist]) {
+    func getAlbums(forArtists artists: [ArtistPrior]) {
         
         for artist in artists {
             client.getAlbums(forArtist: artist.id) { result, error in
