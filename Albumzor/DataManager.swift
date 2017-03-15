@@ -90,7 +90,6 @@ class DataManager {
                 }
                 
                 self.getAlbums(searchString: albumString)
-                
             }
         }
     }
@@ -98,15 +97,18 @@ class DataManager {
     func getAlbums(searchString: String) {
         client.getAlbums(ids: searchString) { result, error in
             
-            guard let result = result as? [String : AnyObject], let albums = result["albums"] as? [[String : AnyObject]] else {
+            guard let albumsData = result as? [[String : AnyObject]] else {
                 print("bad data structure")
                 return
             }
             
-            for album in albums {
+            for album in albumsData {
                 print("Album: \(album["name"] as? String ?? ""), popularity: \(album["popularity"] as? Int ?? 0)")
             }
         }
         
     }
 }
+
+
+

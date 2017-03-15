@@ -77,6 +77,7 @@ extension SpotifyClient {
         }
     }
     
+    //Sends the albums data as [[String : AnyObject to the completion handler
     func getAlbums(ids: String, completion: @escaping SpotifyCompletionHandler) {
         let parameters = ["ids" : ids]
         
@@ -85,13 +86,15 @@ extension SpotifyClient {
             if let error = error {
                 completion(nil, error)
                 return
-            } else {
-                completion(result, nil)
+            }
+            
+            guard let result = result as? [String : AnyObject], let albums = result["albums"] as? [[String : AnyObject]] else {
+                print("bad data structure")
                 return
             }
             
+            completion(albums as AnyObject, nil)
         }
-        
     }
     
 }
