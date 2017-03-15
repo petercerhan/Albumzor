@@ -15,13 +15,13 @@ extension SpotifyClient {
         static let apiHost = "api.spotify.com"
         static let apiPath = "/v1"
         
-//        static let jsonContentType = "application/json"
     }
     
     struct Methods {
         static let search = "/search"
         static let getArtistAlbums = "/artists/{id}/albums"
         static let getRelatedArtists = "/artists/{id}/related-artists"
+        static let getAlbums = "/albums"
     }
   
     struct ParameterKeys {

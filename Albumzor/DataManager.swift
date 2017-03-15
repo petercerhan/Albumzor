@@ -68,28 +68,51 @@ class DataManager {
     }
     
     
-    
     func getAlbums(forArtists artists: [Artist]) {
         let artistID = artists[0].id
         
-        client.getAlbums(forArtist: artistID) { result, error in
+        for artist in artists {
+            client.getAlbums(forArtist: artist.id) { result, error in
+                
+                if let error = error {
+                    print("error: \(error)")
+                    return
+                }
+                
+                guard let result = result as? [String : AnyObject], let items = result["items"] as? [[String : AnyObject]] else {
+                    print("Bad return data")
+                    return
+                }
+                
+                var albumString = ""
+                
+                for (index, album) in items.enumerated() {
+                    albumString += (album["id"] as? String ?? "")
+                    
+                    if index != items.count - 1 {
+                        albumString += ","
+                    }
+                    
+                }
+                
+                self.getAlbums(searchString: albumString)
+                
+            }
+        }
+    }
+    
+    func getAlbums(searchString: String) {
+        client.getAlbums(ids: searchString) { result, error in
             
-            if let error = error {
-                print("error: \(error)")
+            guard let result = result as? [String : AnyObject], let albums = result["albums"] as? [[String : AnyObject]] else {
+                print("bad data structure")
                 return
             }
             
-            guard let result = result as? [String : AnyObject], let items = result["items"] as? [[String : AnyObject]] else {
-                print("Bad return data")
-                return
+            for album in albums {
+                print("Album: \(album["name"] as? String ?? ""), popularity: \(album["popularity"] as? Int ?? 0)")
             }
-            
-            for album in items {
-                print("Album: \(album["name"] as? String ?? "unfound") Album_type: \(album["album_type"] as? String ?? "unfound")")
-            }
-            
         }
         
     }
-    
 }

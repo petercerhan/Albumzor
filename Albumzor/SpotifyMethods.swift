@@ -47,5 +47,21 @@ extension SpotifyClient {
         }
     }
     
+    func getAlbums(ids: String, completion: @escaping SpotifyCompletionHandler) {
+        let parameters = ["ids" : ids]
+        
+        _ = task(getMethod: Methods.getAlbums, parameters: parameters) { result, error in
+            
+            if let error = error {
+                completion(nil, error)
+                return
+            } else {
+                completion(result, nil)
+                return
+            }
+            
+        }
+        
+    }
     
 }
