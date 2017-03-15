@@ -15,9 +15,15 @@ class DataManager {
     func getInitialData() {
         
         //start with artist search
-        client.searchArtist(searchString: "Red Hot Chili Peppers") { result, error in
+        client.searchArtist(searchString: "Katy Perry") { result, error in
+            
+            if let error = error {
+                print("Networking Error \(error)")
+                return
+            }
             
             guard let artistData = result as? [String : AnyObject] else {
+                print("Networking Error \(error)")
                 return
             }
             
@@ -28,7 +34,7 @@ class DataManager {
     }
     
     func getRelatedArtists(artist artistID: String) {
-        
+
         
         client.getRelatedArtists(forArtist: artistID) { result, error in
             
@@ -55,7 +61,6 @@ class DataManager {
         }
         
     }
-    
     
     func getAlbums(forArtists artists: [Artist]) {
         let artistID = artists[0].id

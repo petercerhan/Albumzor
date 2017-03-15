@@ -22,20 +22,17 @@ extension SpotifyClient {
                 return
             }
             
-            //check against empty array?
-            guard let result = result as? [String : AnyObject], let artists = result["artists"] as? [String : AnyObject], let items = artists["items"] as? [[String : AnyObject]], items.count != 0 else {
+            //check against empty array? -- return nil if empty
+            guard let result = result as? [String : AnyObject], let artists = result["artists"] as? [String : AnyObject], let items = artists["items"] as? [[String : AnyObject]] else {
                 print("Data not formatted correctly")
                 return
             }
             
             completion(items[0] as AnyObject?,nil)
-
         }
-
-        
-        
     }
     
+    //Sends the artists data as [[String : AnyObject]] to the completion handler
     func getAlbums(forArtist artistID: String, completion: @escaping SpotifyCompletionHandler) {
         
         let parameters = ["album_type" : "album", "market" : "US"]
@@ -51,7 +48,13 @@ extension SpotifyClient {
                 completion(result, nil)
                 return
             }
-
+            
+            guard let result = result as? [String : AnyObject], let artistsData = result["artists"] as? [[String : AnyObject]] else {
+                print("Data not formatted correctly")
+                return
+            }
+            
+            completion(artistsData as AnyObject?, nil)
         }
     }
     
