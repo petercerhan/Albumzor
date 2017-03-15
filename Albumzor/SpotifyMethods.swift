@@ -11,6 +11,31 @@ import Foundation
 
 extension SpotifyClient {
     
+    //Sends the top result as [String : AnyObject] to the completion handler
+    func searchArtist(searchString: String, completion: @escaping SpotifyCompletionHandler) {
+        let parameters = [SpotifyClient.ParameterKeys.searchQuery : searchString, SpotifyClient.ParameterKeys.searchType : "artist"]
+        
+        _ = task(getMethod: SpotifyClient.Methods.search, parameters: parameters) { result, error in
+            
+            if let error = error {
+                print("error: \(error)")
+                return
+            }
+            
+            //check against empty array?
+            guard let result = result as? [String : AnyObject], let artists = result["artists"] as? [String : AnyObject], let items = artists["items"] as? [[String : AnyObject]], items.count != 0 else {
+                print("Data not formatted correctly")
+                return
+            }
+            
+            completion(items[0] as AnyObject?,nil)
+
+        }
+
+        
+        
+    }
+    
     func getAlbums(forArtist artistID: String, completion: @escaping SpotifyCompletionHandler) {
         
         let parameters = ["album_type" : "album", "market" : "US"]

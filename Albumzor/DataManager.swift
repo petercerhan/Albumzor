@@ -14,32 +14,21 @@ class DataManager {
     
     func getInitialData() {
         
-        let parameters = [SpotifyClient.ParameterKeys.searchQuery : "Red hot chili peppers", SpotifyClient.ParameterKeys.searchType : "artist"]
-
-        _ = client.task(getMethod: SpotifyClient.Methods.search, parameters: parameters) { result, error in
-
-            if let error = error {
-                print("error: \(error)")
+        //start with artist search
+        client.searchArtist(searchString: "Red Hot Chili Peppers") { result, error in
+            
+            guard let artistData = result as? [String : AnyObject] else {
                 return
             }
-
-            //check against empty array?
-            guard let result = result as? [String : AnyObject], let artists = result["artists"] as? [String : AnyObject], let items = artists["items"] as? [[String : AnyObject]] else {
-                print("Data not formatted correctly")
-                return
-            }
-
-            let artist = items[0]
             
-            //get related artists
-            print("artist: \(artist["id"] as? String ?? "")")
+            //Check that artist data is correct/exists; create and store artist object in core data
             
-            self.getRelatedArtists(artist: artist["id"] as! String)
+            self.getRelatedArtists(artist: artistData["id"] as! String)
         }
-        
     }
     
     func getRelatedArtists(artist artistID: String) {
+        
         
         client.getRelatedArtists(forArtist: artistID) { result, error in
             
