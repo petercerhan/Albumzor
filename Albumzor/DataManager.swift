@@ -15,7 +15,7 @@ class DataManager {
     func getInitialData() {
         
         //start with artist search
-        client.searchArtist(searchString: "Katy Perry") { result, error in
+        client.searchArtist(searchString: "Bad Bad Not Good") { result, error in
             
             if let error = error {
                 print("Networking Error \(error)")
@@ -43,13 +43,14 @@ class DataManager {
                 return
             }
             
-            guard let result = result as? [String : AnyObject], let artistsData = result["artists"] as? [[String : AnyObject]] else {
+            guard let artistsData = result as? [[String : AnyObject]] else {
                 print("Data not formatted correctly")
                 return
             }
      
             var artists = [Artist]()
-            
+
+            //Probably don't need to make this array of artists
             for artist in artistsData {
                 guard let name = artist["name"] as? String, let id = artist["id"] as? String else {
                     continue
@@ -63,7 +64,6 @@ class DataManager {
     }
     
     func getAlbums(forArtists artists: [Artist]) {
-        let artistID = artists[0].id
         
         for artist in artists {
             client.getAlbums(forArtist: artist.id) { result, error in
@@ -73,17 +73,17 @@ class DataManager {
                     return
                 }
                 
-                guard let result = result as? [String : AnyObject], let items = result["items"] as? [[String : AnyObject]] else {
+                guard let albumsData = result as? [[String : AnyObject]] else {
                     print("Bad return data")
                     return
                 }
                 
                 var albumString = ""
                 
-                for (index, album) in items.enumerated() {
+                for (index, album) in albumsData.enumerated() {
                     albumString += (album["id"] as? String ?? "")
                     
-                    if index != items.count - 1 {
+                    if index != albumsData.count - 1 {
                         albumString += ","
                     }
                     

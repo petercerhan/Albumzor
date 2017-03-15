@@ -32,7 +32,7 @@ extension SpotifyClient {
         }
     }
     
-    //Sends the artists data as [[String : AnyObject]] to the completion handler
+    //Sends the albums data as [[String : AnyObject]] to the completion handler
     func getAlbums(forArtist artistID: String, completion: @escaping SpotifyCompletionHandler) {
         
         let parameters = ["album_type" : "album", "market" : "US"]
@@ -44,20 +44,18 @@ extension SpotifyClient {
             if let error = error {
                 completion(nil, error)
                 return
-            } else {
-                completion(result, nil)
-                return
             }
             
-            guard let result = result as? [String : AnyObject], let artistsData = result["artists"] as? [[String : AnyObject]] else {
+            guard let result = result as? [String : AnyObject], let albumsData = result["items"] as? [[String : AnyObject]] else {
                 print("Data not formatted correctly")
                 return
             }
             
-            completion(artistsData as AnyObject?, nil)
+            completion(albumsData as AnyObject?, nil)
         }
     }
     
+    //Sends the artists data as [[String : AnyObject]] to the completion handler
     func getRelatedArtists(forArtist artistID: String, completion: @escaping SpotifyCompletionHandler) {
         let parameters = [String : String]()
         
@@ -68,10 +66,14 @@ extension SpotifyClient {
             if let error = error {
                 completion(nil, error)
                 return
-            } else {
-                completion(result, nil)
+            }
+            
+            guard let result = result as? [String : AnyObject], let artistsData = result["artists"] as? [[String : AnyObject]] else {
+                print("Data not formatted correctly")
                 return
             }
+            
+            completion(artistsData as AnyObject, nil)
         }
     }
     
