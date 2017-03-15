@@ -60,7 +60,6 @@ class DataManager {
             
             self.getAlbums(forArtists: artists)
         }
-        
     }
     
     func getAlbums(forArtists artists: [Artist]) {
