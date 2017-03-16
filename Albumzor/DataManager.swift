@@ -114,6 +114,12 @@ class DataManager {
                 
                 print("Album: \(album["name"] as? String ?? ""), popularity: \(album["popularity"] as? Int ?? 0)")
             }
+            
+            do {
+                try delegate.persistingContext.save()
+            } catch {
+                print("Could not save context")
+            }
         }
         
         
