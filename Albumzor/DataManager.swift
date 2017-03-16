@@ -6,7 +6,7 @@
 //  Copyright © 2017 Peter Cerhan. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class DataManager {
     
@@ -35,6 +35,7 @@ class DataManager {
     
     func getRelatedArtists(artist artistID: String) {
 
+        let delegate = (UIApplication.shared.delegate as! AppDelegate).coreDataStack
         
         client.getRelatedArtists(forArtist: artistID) { result, error in
             
@@ -48,24 +49,24 @@ class DataManager {
                 return
             }
      
-            var artists = [ArtistPrior]()
+            var artists = [Artist]()
 
             //Probably don't need to make this array of artists
             for artist in artistsData {
                 guard let name = artist["name"] as? String, let id = artist["id"] as? String else {
                     continue
                 }
-                artists.append(ArtistPrior(id: id, name: name))
+                artists.append(Artist(id: id, name: name, context: delegate.persistingContext))
             }
             
             self.getAlbums(forArtists: artists)
         }
     }
     
-    func getAlbums(forArtists artists: [ArtistPrior]) {
+    func getAlbums(forArtists artists: [Artist]) {
         
         for artist in artists {
-            client.getAlbums(forArtist: artist.id) { result, error in
+            client.getAlbums(forArtist: artist.id!) { result, error in
                 
                 if let error = error {
                     print("error: \(error)")
@@ -94,6 +95,8 @@ class DataManager {
     }
     
     func getAlbums(searchString: String) {
+        let delegate = (UIApplication.shared.delegate as! AppDelegate).coreDataStack
+        
         client.getAlbums(ids: searchString) { result, error in
             
             guard let albumsData = result as? [[String : AnyObject]] else {
@@ -102,6 +105,14 @@ class DataManager {
             }
             
             for album in albumsData {
+                guard let id = album["id"] as? String, let name = album["name"] as? String, let popularity = album["popularity"] as? Int, let images = album["images"] as? [[String : AnyObject]], let largeImage = images[0]["url"] as? String, let smallImage = images[2]["url"]  as? String else {
+                    print("incomplete album data for album \(album["name"] as? String ?? "")")
+                    return
+                }
+                
+                
+                
+                
                 print("Album: \(album["name"] as? String ?? ""), popularity: \(album["popularity"] as? Int ?? 0)")
             }
         }
