@@ -95,7 +95,7 @@ class DataManager {
     }
     
     func getAlbums(searchString: String) {
-        let delegate = (UIApplication.shared.delegate as! AppDelegate).coreDataStack
+        let stack = (UIApplication.shared.delegate as! AppDelegate).coreDataStack
         
         client.getAlbums(ids: searchString) { result, error in
             
@@ -110,18 +110,17 @@ class DataManager {
                     return
                 }
                 
-                _ = Album(id: id, name: name, popularity: Int16(popularity), largeImage: largeImage, smallImage: smallImage, context: delegate.persistingContext)
+                _ = Album(id: id, name: name, popularity: Int16(popularity), largeImage: largeImage, smallImage: smallImage, context: stack.persistingContext)
                 
-                print("Album: \(album["name"] as? String ?? ""), popularity: \(album["popularity"] as? Int ?? 0)")
+                //print("Album: \(album["name"] as? String ?? ""), popularity: \(album["popularity"] as? Int ?? 0)")
             }
             
             do {
-                try delegate.persistingContext.save()
+                try stack.persistingContext.save()
             } catch {
                 print("Could not save context")
             }
         }
-        
         
     }
 }
