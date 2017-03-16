@@ -25,17 +25,41 @@ class ViewController: UIViewController {
     }
     
     @IBAction func getInfo() {
+        let request = NSFetchRequest<Album>(entityName: "Album")
+        request.sortDescriptors = [NSSortDescriptor(key: "popularity", ascending: false)]
+        request.fetchLimit = 10
+
+        var albumArt = [UIImage]()
+        var albums = [Album]()
         
-        let vc = storyboard?.instantiateViewController(withIdentifier: "AlbumsViewController")
-        present(vc!, animated: true, completion: nil)
+        do {
+            let albumsTry = try stack.context.fetch(request)
+            albums = albumsTry
+            for album in albums {
+                //print("Album \(album.name!), popularity: \(album.popularity)")
+                
+                if let imageData = try? Data(contentsOf: URL(string: album.largeImage!)!) {
+                    albumArt.append(UIImage(data: imageData)!)
+                }
+                
+            }
+        } catch {
+            
+        }
+        
+        print("images \(albumArt.count)")
+        
+        let vc = storyboard?.instantiateViewController(withIdentifier: "AlbumsViewController") as! AlbumsViewController
+        vc.albumArt = albumArt
+        vc.albums = albums
+        present(vc, animated: true, completion: nil)
         
         
         
       //  let request = NSFetchRequest<Artist>(entityName: "Artist")
         
         
-//        let request = NSFetchRequest<Album>(entityName: "Album")
-//        request.sortDescriptors = [NSSortDescriptor(key: "popularity", ascending: false)]
+
 //        
 ////        do {
 ////            let artists = try stack.context.fetch(request)
@@ -47,17 +71,7 @@ class ViewController: UIViewController {
 ////        } catch {
 ////            //Could not get data
 ////        }
-//        
-//        do {
-//            let albums = try stack.context.fetch(request)
-//            
-//            
-//            for album in albums {
-//                print("Album \(album.name!), popularity: \(album.popularity)")
-//            }
-//        } catch {
-//            
-//        }
+//
         
         
         //        request.sortDescriptors = [NSSortDescriptor(key: "popularity", ascending: false)]

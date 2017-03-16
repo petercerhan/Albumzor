@@ -12,6 +12,9 @@ class AlbumsViewController: UIViewController {
     
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var collectionViewFlowLayout: UICollectionViewFlowLayout!
+    
+    var albumArt: [UIImage]!
+    var albums: [Album]!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +40,8 @@ extension AlbumsViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! CollectionViewCell
-        
+        cell.imageView.image = albumArt[indexPath.item]
+        cell.titleLabel.text = albums[indexPath.item].name!
         return cell
     }
     
