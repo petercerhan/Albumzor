@@ -40,8 +40,10 @@ extension AlbumsViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! CollectionViewCell
+        let album = albums[indexPath.item]
         cell.imageView.image = albumArt[indexPath.item]
-        cell.titleLabel.text = albums[indexPath.item].name!
+        cell.titleLabel.text = album.name!
+        cell.artistLabel.text = album.artist!.name!
         return cell
     }
     

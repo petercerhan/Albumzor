@@ -89,12 +89,12 @@ class DataManager {
                     
                 }
                 
-                self.getAlbums(searchString: albumString)
+                self.getAlbums(searchString: albumString, artist: artist)
             }
         }
     }
     
-    func getAlbums(searchString: String) {
+    func getAlbums(searchString: String, artist: Artist) {
         let stack = (UIApplication.shared.delegate as! AppDelegate).coreDataStack
         
         client.getAlbums(ids: searchString) { result, error in
@@ -110,9 +110,8 @@ class DataManager {
                     return
                 }
                 
-                _ = Album(id: id, name: name, popularity: Int16(popularity), largeImage: largeImage, smallImage: smallImage, context: stack.persistingContext)
-                
-                //print("Album: \(album["name"] as? String ?? ""), popularity: \(album["popularity"] as? Int ?? 0)")
+                let album = Album(id: id, name: name, popularity: Int16(popularity), largeImage: largeImage, smallImage: smallImage, context: stack.persistingContext)
+                album.artist = artist
             }
             
             do {

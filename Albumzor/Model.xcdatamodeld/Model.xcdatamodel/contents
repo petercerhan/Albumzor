@@ -11,7 +11,7 @@
     <entity name="Artist" representedClassName="Artist" syncable="YES" codeGenerationType="class">
         <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
-        <relationship name="album" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Album" inverseName="artist" inverseEntity="Album" syncable="YES"/>
+        <relationship name="album" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Album" inverseName="artist" inverseEntity="Album" syncable="YES"/>
     </entity>
     <elements>
         <element name="Album" positionX="-54" positionY="9" width="128" height="135"/>
