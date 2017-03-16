@@ -23,6 +23,8 @@
 		E45D98FD1E78D7A800CD3CE7 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E45D98FB1E78D7A800CD3CE7 /* Model.xcdatamodeld */; };
 		E45D99091E7A05A900CD3CE7 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99081E7A05A900CD3CE7 /* Artist.swift */; };
 		E45D990B1E7A0ED400CD3CE7 /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D990A1E7A0ED400CD3CE7 /* Album.swift */; };
+		E45D990D1E7A18CE00CD3CE7 /* AlbumsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D990C1E7A18CE00CD3CE7 /* AlbumsViewController.swift */; };
+		E45D99101E7A23E700CD3CE7 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D990F1E7A23E700CD3CE7 /* CollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +67,8 @@
 		E45D98FC1E78D7A800CD3CE7 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		E45D99081E7A05A900CD3CE7 /* Artist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
 		E45D990A1E7A0ED400CD3CE7 /* Album.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
+		E45D990C1E7A18CE00CD3CE7 /* AlbumsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumsViewController.swift; sourceTree = "<group>"; };
+		E45D990F1E7A23E700CD3CE7 /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,7 +121,8 @@
 			children = (
 				E45D98BA1E75DC2F00CD3CE7 /* AppDelegate.swift */,
 				E45D98BC1E75DC2F00CD3CE7 /* ViewController.swift */,
-				E45D98F61E77826D00CD3CE7 /* DataManager.swift */,
+				E45D990C1E7A18CE00CD3CE7 /* AlbumsViewController.swift */,
+				E45D990E1E7A23D300CD3CE7 /* View */,
 				E45D98EA1E75EC0500CD3CE7 /* Model */,
 				E45D98BE1E75DC2F00CD3CE7 /* Main.storyboard */,
 				E45D98C11E75DC2F00CD3CE7 /* Assets.xcassets */,
@@ -148,6 +153,7 @@
 		E45D98EA1E75EC0500CD3CE7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E45D98F61E77826D00CD3CE7 /* DataManager.swift */,
 				E45D98F81E78D70D00CD3CE7 /* CoreData */,
 				E45D98EB1E75EC1100CD3CE7 /* SpotifyClient */,
 			);
@@ -174,6 +180,14 @@
 				E45D990A1E7A0ED400CD3CE7 /* Album.swift */,
 			);
 			name = CoreData;
+			sourceTree = "<group>";
+		};
+		E45D990E1E7A23D300CD3CE7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E45D990F1E7A23E700CD3CE7 /* CollectionViewCell.swift */,
+			);
+			name = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -321,6 +335,8 @@
 				E45D98BD1E75DC2F00CD3CE7 /* ViewController.swift in Sources */,
 				E45D98BB1E75DC2F00CD3CE7 /* AppDelegate.swift in Sources */,
 				E45D98FD1E78D7A800CD3CE7 /* Model.xcdatamodeld in Sources */,
+				E45D99101E7A23E700CD3CE7 /* CollectionViewCell.swift in Sources */,
+				E45D990D1E7A18CE00CD3CE7 /* AlbumsViewController.swift in Sources */,
 				E45D990B1E7A0ED400CD3CE7 /* Album.swift in Sources */,
 				E45D99091E7A05A900CD3CE7 /* Artist.swift in Sources */,
 				E45D98ED1E75EC2600CD3CE7 /* SpotifyClient.swift in Sources */,

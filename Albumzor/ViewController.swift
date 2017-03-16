@@ -26,33 +26,38 @@ class ViewController: UIViewController {
     
     @IBAction func getInfo() {
         
+        let vc = storyboard?.instantiateViewController(withIdentifier: "AlbumsViewController")
+        present(vc!, animated: true, completion: nil)
+        
+        
+        
       //  let request = NSFetchRequest<Artist>(entityName: "Artist")
         
         
-        let request = NSFetchRequest<Album>(entityName: "Album")
-        request.sortDescriptors = [NSSortDescriptor(key: "popularity", ascending: false)]
-        
+//        let request = NSFetchRequest<Album>(entityName: "Album")
+//        request.sortDescriptors = [NSSortDescriptor(key: "popularity", ascending: false)]
+//        
+////        do {
+////            let artists = try stack.context.fetch(request)
+////            
+////            for artist in artists {
+////                print("Artist \(artist.name!), id: \(artist.id!)")
+////            }
+////            
+////        } catch {
+////            //Could not get data
+////        }
+//        
 //        do {
-//            let artists = try stack.context.fetch(request)
+//            let albums = try stack.context.fetch(request)
 //            
-//            for artist in artists {
-//                print("Artist \(artist.name!), id: \(artist.id!)")
+//            
+//            for album in albums {
+//                print("Album \(album.name!), popularity: \(album.popularity)")
 //            }
-//            
 //        } catch {
-//            //Could not get data
+//            
 //        }
-        
-        do {
-            let albums = try stack.context.fetch(request)
-            
-            
-            for album in albums {
-                print("Album \(album.name!), popularity: \(album.popularity)")
-            }
-        } catch {
-            
-        }
         
         
         //        request.sortDescriptors = [NSSortDescriptor(key: "popularity", ascending: false)]
