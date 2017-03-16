@@ -110,12 +110,12 @@ class DataManager {
                     return
                 }
                 
-                
-                
+                _ = Album(id: id, name: name, popularity: Int16(popularity), largeImage: largeImage, smallImage: smallImage, context: delegate.persistingContext)
                 
                 print("Album: \(album["name"] as? String ?? ""), popularity: \(album["popularity"] as? Int ?? 0)")
             }
         }
+        
         
     }
 }
