@@ -21,7 +21,7 @@ class PrepareAlbumsViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
                 
-        //prepareAlbums()
+        prepareAlbums()
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,34 +30,39 @@ class PrepareAlbumsViewController: UIViewController {
     }
     
     func prepareAlbums() {
-        let request = NSFetchRequest<Album>(entityName: "Album")
-        request.sortDescriptors = [NSSortDescriptor(key: "popularity", ascending: false)]
-        request.fetchLimit = 10
         
-        var albumArt = [UIImage]()
-        var albums = [Album]()
-        
-        do {
-            let albumsTry = try stack.context.fetch(request)
-            albums = albumsTry
-            for album in albums {
-                //print("Album \(album.name!), popularity: \(album.popularity)")
-                
-                if let imageData = try? Data(contentsOf: URL(string: album.largeImage!)!) {
-                    albumArt.append(UIImage(data: imageData)!)
+        DispatchQueue.global(qos: .userInitiated).async {
+            let request = NSFetchRequest<Album>(entityName: "Album")
+            request.sortDescriptors = [NSSortDescriptor(key: "popularity", ascending: false)]
+            request.fetchLimit = 10
+            
+            var albumArt = [UIImage]()
+            var albums = [Album]()
+            
+            do {
+                let albumsTry = try self.stack.networkingContext.fetch(request)
+                albums = albumsTry
+                for album in albums {
+                    //print("Album \(album.name!), popularity: \(album.popularity)")
+                    
+                    if let imageData = try? Data(contentsOf: URL(string: album.largeImage!)!) {
+                        albumArt.append(UIImage(data: imageData)!)
+                    }
+                    
                 }
+            } catch {
                 
             }
-        } catch {
             
+            DispatchQueue.main.async {
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "AlbumsViewController") as! AlbumsViewController
+                vc.albumArt = albumArt
+                vc.albums = albums
+                self.present(vc, animated: false, completion: nil)
+            }
         }
         
-        let vc = storyboard?.instantiateViewController(withIdentifier: "AlbumsViewController") as! AlbumsViewController
-        vc.albumArt = albumArt
-        vc.albums = albums
-        present(vc, animated: true, completion: nil)
     }
-    
 }
 
 
