@@ -24,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("Could not reset data model")
         }
         
+        
+        
         return true
     }
 

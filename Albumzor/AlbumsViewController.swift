@@ -22,6 +22,21 @@ class AlbumsViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+   
+    
+    //Album liked
+    
+    //Album starred
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
 
 extension AlbumsViewController: UICollectionViewDelegate {
