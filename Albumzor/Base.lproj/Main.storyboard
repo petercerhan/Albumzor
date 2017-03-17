@@ -38,6 +38,40 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
         </scene>
+        <!--Prepare Albums View Controller-->
+        <scene sceneID="Bt0-tK-glO">
+            <objects>
+                <viewController storyboardIdentifier="PrepareAlbumsViewController" id="WM4-pJ-smq" customClass="PrepareAlbumsViewController" customModule="Albumzor" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="qc3-DB-ItM"/>
+                        <viewControllerLayoutGuide type="bottom" id="RBX-Ls-rJ9"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="01Y-Pj-qnn">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="0Q7-Rw-Vgo">
+                                <rect key="frame" x="177" y="323" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Initializing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2KY-bs-SZc">
+                                <rect key="frame" x="142.5" y="28" width="89.5" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="2KY-bs-SZc" firstAttribute="top" secondItem="qc3-DB-ItM" secondAttribute="bottom" constant="8" id="HKc-0I-h1L"/>
+                            <constraint firstItem="2KY-bs-SZc" firstAttribute="centerX" secondItem="01Y-Pj-qnn" secondAttribute="centerX" id="kbt-A4-aJ1"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="11d-2g-dnl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="820" y="36"/>
+        </scene>
         <!--Albums View Controller-->
         <scene sceneID="VVz-h7-emS">
             <objects>
@@ -137,7 +171,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Out-Jv-gFj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="956" y="35.532233883058474"/>
+            <point key="canvasLocation" x="1602" y="36"/>
         </scene>
     </scenes>
 </document>
