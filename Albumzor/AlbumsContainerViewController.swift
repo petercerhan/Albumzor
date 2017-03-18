@@ -64,4 +64,9 @@ extension AlbumsContainerViewController: AlbumsViewControllerDelegate {
     func quit() {
         dismiss(animated: true, completion: nil)
     }
+    
+    func batteryComplete() {
+        let vc = appStoryboard.instantiateViewController(withIdentifier: "NextStepViewController") as! NextStepViewController
+        update(contentViewController: vc)
+    }
 }

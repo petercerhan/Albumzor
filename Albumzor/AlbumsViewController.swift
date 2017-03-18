@@ -10,7 +10,7 @@ import UIKit
 
 protocol AlbumsViewControllerDelegate {
     func quit()
-    func 
+    func batteryComplete()
 }
 
 class AlbumsViewController: UIViewController {
@@ -102,6 +102,12 @@ extension AlbumsViewController: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         print("did end decelerating")
         print("index \(scrollView.contentOffset.x / scrollView.frame.size.width + 1)")
+        let indexDouble = scrollView.contentOffset.x / scrollView.frame.size.width + 1
+        let index = Int(indexDouble)
+        
+        if index == albums.count + 1 {
+            delegate.batteryComplete()
+        }
     }
     
 }

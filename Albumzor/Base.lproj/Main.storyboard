@@ -187,7 +187,51 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Out-Jv-gFj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1602" y="36"/>
+            <point key="canvasLocation" x="1618" y="36"/>
+        </scene>
+        <!--Next Step View Controller-->
+        <scene sceneID="BRd-ir-5v1">
+            <objects>
+                <viewController storyboardIdentifier="NextStepViewController" id="ttC-tc-IqK" customClass="NextStepViewController" customModule="Albumzor" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="pf7-9e-Rbg"/>
+                        <viewControllerLayoutGuide type="bottom" id="zzJ-Id-2DI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="9ND-bE-GJR">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Next Steps" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W6g-8V-BYd">
+                                <rect key="frame" x="138.5" y="35" width="98" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DhE-v0-QUF">
+                                <rect key="frame" x="160" y="208" width="54" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Home"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zLJ-ZK-Bba">
+                                <rect key="frame" x="107" y="315" width="160" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Find more albums"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="W6g-8V-BYd" firstAttribute="centerX" secondItem="9ND-bE-GJR" secondAttribute="centerX" id="Ec3-a7-XU2"/>
+                            <constraint firstItem="zLJ-ZK-Bba" firstAttribute="top" secondItem="DhE-v0-QUF" secondAttribute="bottom" constant="71" id="F57-zL-qOB"/>
+                            <constraint firstItem="zLJ-ZK-Bba" firstAttribute="centerX" secondItem="9ND-bE-GJR" secondAttribute="centerX" id="TzJ-rs-wEf"/>
+                            <constraint firstItem="zLJ-ZK-Bba" firstAttribute="centerY" secondItem="9ND-bE-GJR" secondAttribute="centerY" id="fM2-t2-eaX"/>
+                            <constraint firstItem="DhE-v0-QUF" firstAttribute="centerX" secondItem="9ND-bE-GJR" secondAttribute="centerX" id="gbv-kz-8Pd"/>
+                            <constraint firstItem="W6g-8V-BYd" firstAttribute="top" secondItem="pf7-9e-Rbg" secondAttribute="bottom" constant="15" id="xCb-F8-oZV"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Wdu-Db-wkE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2398" y="36"/>
         </scene>
     </scenes>
 </document>
