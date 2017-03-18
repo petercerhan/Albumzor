@@ -15,7 +15,7 @@ class DataManager {
     func getInitialData() {
         
         //start with artist search
-        client.searchArtist(searchString: "Bad Bad Not Good") { result, error in
+        client.searchArtist(searchString: "Bob Dylan") { result, error in
             
             if let error = error {
                 print("Networking Error \(error)")

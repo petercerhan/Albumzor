@@ -11,12 +11,13 @@ import UIKit
 class AlbumsContainerViewController: UIViewController {
 
     private var contentViewController: UIViewController
+    let appStoryboard = UIStoryboard(name: "Main", bundle: nil)
     
     init() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "PrepareAlbumsViewController") as! PrepareAlbumsViewController
+        let vc = appStoryboard.instantiateViewController(withIdentifier: "PrepareAlbumsViewController") as! PrepareAlbumsViewController
         contentViewController = vc
         super.init(nibName: nil, bundle: nil)
+        vc.delegate = self
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -29,7 +30,7 @@ class AlbumsContainerViewController: UIViewController {
         view.addSubview(contentViewController.view)
     }
     
-    private func update(contentViewController newViewController: UIViewController) {
+    func update(contentViewController newViewController: UIViewController) {
         
         let priorViewController = contentViewController
         
@@ -47,7 +48,20 @@ class AlbumsContainerViewController: UIViewController {
         priorViewController.removeFromParentViewController()
     }
     
-    
-    
+}
 
+extension AlbumsContainerViewController: PrepareAlbumsViewControllerDelegate {
+    func launchAlbumView(albums: [Album], albumArt: [UIImage]) {
+        let vc = appStoryboard.instantiateViewController(withIdentifier: "AlbumsViewController") as! AlbumsViewController
+        vc.albums = albums
+        vc.albumArt = albumArt
+        vc.delegate = self
+        update(contentViewController: vc)
+    }
+}
+
+extension AlbumsContainerViewController: AlbumsViewControllerDelegate {
+    func quit() {
+        dismiss(animated: true, completion: nil)
+    }
 }

@@ -8,10 +8,17 @@
 
 import UIKit
 
+protocol AlbumsViewControllerDelegate {
+    func quit()
+    func 
+}
+
 class AlbumsViewController: UIViewController {
     
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var collectionViewFlowLayout: UICollectionViewFlowLayout!
+    
+    var delegate: AlbumsViewControllerDelegate!
     
     var albumArt: [UIImage]!
     var albums: [Album]!
@@ -22,7 +29,9 @@ class AlbumsViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-   
+    @IBAction func quit(){
+        delegate.quit()
+    }
     
     //Album liked
     
@@ -50,16 +59,49 @@ extension AlbumsViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return albums.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! CollectionViewCell
-        let album = albums[indexPath.item]
-        cell.imageView.image = albumArt[indexPath.item]
-        cell.titleLabel.text = album.name!
-        cell.artistLabel.text = album.artist!.name!
+        
+        if(indexPath.item < albums.count) {
+            let album = albums[indexPath.item]
+            cell.imageView.image = albumArt[indexPath.item]
+            cell.titleLabel.text = album.name!
+            cell.artistLabel.text = album.artist!.name!
+        } else {
+            cell.imageView.image = nil
+            cell.titleLabel.text = ""
+            cell.artistLabel.text = ""
+        }
+        
         return cell
+    }
+    
+}
+
+extension AlbumsViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        //print("scroll detected")
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        //print("will begin dragging")
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        //print("did end dragging")
+    }
+    
+    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        //print("will begin decelerating")
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        print("did end decelerating")
+        print("index \(scrollView.contentOffset.x / scrollView.frame.size.width + 1)")
     }
     
 }

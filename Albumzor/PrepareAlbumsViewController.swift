@@ -9,9 +9,15 @@
 import UIKit
 import CoreData
 
+protocol PrepareAlbumsViewControllerDelegate {
+    func launchAlbumView(albums: [Album], albumArt: [UIImage])
+}
+
 class PrepareAlbumsViewController: UIViewController {
     
     let stack = (UIApplication.shared.delegate as! AppDelegate).coreDataStack
+    
+    var delegate: PrepareAlbumsViewControllerDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,10 +61,11 @@ class PrepareAlbumsViewController: UIViewController {
             }
             
             DispatchQueue.main.async {
-                let vc = self.storyboard?.instantiateViewController(withIdentifier: "AlbumsViewController") as! AlbumsViewController
-                vc.albumArt = albumArt
-                vc.albums = albums
-                self.present(vc, animated: false, completion: nil)
+//                let vc = self.storyboard?.instantiateViewController(withIdentifier: "AlbumsViewController") as! AlbumsViewController
+//                vc.albumArt = albumArt
+//                vc.albums = albums
+//                self.present(vc, animated: false, completion: nil)
+                self.delegate.launchAlbumView(albums: albums, albumArt: albumArt)
             }
         }
         
