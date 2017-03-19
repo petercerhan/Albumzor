@@ -211,11 +211,17 @@
                                 <rect key="frame" x="160" y="208" width="54" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Home"/>
+                                <connections>
+                                    <action selector="home" destination="ttC-tc-IqK" eventType="touchUpInside" id="HmC-Xz-Pqo"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zLJ-ZK-Bba">
                                 <rect key="frame" x="107" y="315" width="160" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Find more albums"/>
+                                <connections>
+                                    <action selector="continueBrowsing" destination="ttC-tc-IqK" eventType="touchUpInside" id="PK0-2c-Rdt"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

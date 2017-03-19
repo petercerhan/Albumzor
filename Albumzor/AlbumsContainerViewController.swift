@@ -67,6 +67,15 @@ extension AlbumsContainerViewController: AlbumsViewControllerDelegate {
     
     func batteryComplete() {
         let vc = appStoryboard.instantiateViewController(withIdentifier: "NextStepViewController") as! NextStepViewController
+        vc.delegate = self
+        update(contentViewController: vc)
+    }
+}
+
+extension AlbumsContainerViewController: NextStepViewControllerDelegate {
+    func nextBattery() {
+        let vc = appStoryboard.instantiateViewController(withIdentifier: "PrepareAlbumsViewController") as! PrepareAlbumsViewController
+        vc.delegate = self
         update(contentViewController: vc)
     }
 }
