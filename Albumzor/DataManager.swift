@@ -15,7 +15,7 @@ class DataManager {
     func getInitialData() {
         
         //start with artist search
-        client.searchArtist(searchString: "Bob Dylan") { result, error in
+        client.searchArtist(searchString: "Prince") { result, error in
             
             if let error = error {
                 print("Networking Error \(error)")
@@ -28,6 +28,7 @@ class DataManager {
             }
             
             //Check that artist data is correct/exists; create and store artist object in core data
+            //add artist
             
             self.getRelatedArtists(artist: artistData["id"] as! String)
         }
@@ -73,9 +74,21 @@ class DataManager {
                     return
                 }
                 
-                guard let albumsData = result as? [[String : AnyObject]] else {
+                guard var albumsData = result as? [[String : AnyObject]] else {
                     print("Bad return data")
                     return
+                }
+                
+                albumsData = albumsData.sorted {
+                    guard let string1 = $0["name"] as? String, let string2 = $1["name"] as? String, let popularity1 = $0["popularity"] as? Int, let popularity2 = $1["popularity"] as? Int else {
+                        return false
+                    }
+                    
+                    if string1.cleanAlbumName() == string2.cleanAlbumName() {
+                        return popularity1 > popularity2
+                    } else {
+                        return string1.localizedCaseInsensitiveCompare(string2) == ComparisonResult.orderedAscending
+                    }
                 }
                 
                 var albumString = ""
@@ -112,6 +125,7 @@ class DataManager {
                 
                 let album = Album(id: id, name: name, popularity: Int16(popularity), largeImage: largeImage, smallImage: smallImage, context: stack.persistingContext)
                 album.artist = artist
+                print("Album name \(album.name!.cleanAlbumName()) artist \(artist.name!) popularity \(popularity)")
             }
             
             do {
