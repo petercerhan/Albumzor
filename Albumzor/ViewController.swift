@@ -26,8 +26,24 @@ class ViewController: UIViewController {
 //        let vc = storyboard?.instantiateViewController(withIdentifier: "PrepareAlbumsViewController") as! PrepareAlbumsViewController
         let vc = AlbumsContainerViewController()
         present(vc, animated: true, completion: nil)
+        
+        testAlbumData()
     }
     
+    func testAlbumData() {
+        
+        let request = NSFetchRequest<Album>(entityName: "Album")
+        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: false)]
+        
+        do {
+            let albumsTry = try self.stack.context.fetch(request)
+            for album in albumsTry {
+                print("Album \(album.name!), popularity: \(album.popularity)")
+            }
+        } catch {
+            
+        }
+    }
     
     func getSpotifyAPIKey() -> String? {
         

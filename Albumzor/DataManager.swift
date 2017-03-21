@@ -7,15 +7,17 @@
 //
 
 import UIKit
+import CoreData
 
 class DataManager {
     
     let client = SpotifyClient.sharedInstance()
+    let stack = (UIApplication.shared.delegate as! AppDelegate).coreDataStack
     
     func getInitialData() {
         
         //start with artist search
-        client.searchArtist(searchString: "Prince") { result, error in
+        client.searchArtist(searchString: "Bob Dylan") { result, error in
             
             if let error = error {
                 print("Networking Error \(error)")
@@ -74,41 +76,38 @@ class DataManager {
                     return
                 }
                 
-                guard var albumsData = result as? [[String : AnyObject]] else {
+                guard let albumsData = result as? [[String : AnyObject]] else {
                     print("Bad return data")
                     return
                 }
+
+                var albumSearchString = ""
                 
-                albumsData = albumsData.sorted {
-                    guard let string1 = $0["name"] as? String, let string2 = $1["name"] as? String, let popularity1 = $0["popularity"] as? Int, let popularity2 = $1["popularity"] as? Int else {
-                        return false
+                for album in albumsData {
+                    guard let id = album["id"] as? String, let name = album["name"] as? String else {
+                        print("missing value")
+                        continue
                     }
                     
-                    if string1.cleanAlbumName() == string2.cleanAlbumName() {
-                        return popularity1 > popularity2
-                    } else {
-                        return string1.localizedCaseInsensitiveCompare(string2) == ComparisonResult.orderedAscending
+                    if self.titleContainsDissallowedKeywords(title: name) {
+                        continue
                     }
+                    
+                    albumSearchString += id
+                    albumSearchString += ","
                 }
                 
-                var albumString = ""
-                
-                for (index, album) in albumsData.enumerated() {
-                    albumString += (album["id"] as? String ?? "")
-                    
-                    if index != albumsData.count - 1 {
-                        albumString += ","
-                    }
-                    
+                //remove last comma
+                if albumSearchString != "" {
+                    albumSearchString.remove(at: albumSearchString.index(before: albumSearchString.endIndex))
                 }
                 
-                self.getAlbums(searchString: albumString, artist: artist)
+                self.getAlbums(searchString: albumSearchString, artist: artist)
             }
         }
     }
     
     func getAlbums(searchString: String, artist: Artist) {
-        let stack = (UIApplication.shared.delegate as! AppDelegate).coreDataStack
         
         client.getAlbums(ids: searchString) { result, error in
             
@@ -117,19 +116,53 @@ class DataManager {
                 return
             }
             
+            //unpack albums
+            var albumsArray = [Album]()
             for album in albumsData {
-                guard let id = album["id"] as? String, let name = album["name"] as? String, let popularity = album["popularity"] as? Int, let images = album["images"] as? [[String : AnyObject]], let largeImage = images[0]["url"] as? String, let smallImage = images[2]["url"]  as? String else {
+                guard let id = album["id"] as? String,
+                      let name = album["name"] as? String,
+                      let popularity = album["popularity"] as? Int,
+                      let images = album["images"] as? [[String : AnyObject]],
+                      let largeImage = images[0]["url"] as? String,
+                      let smallImage = images[2]["url"]  as? String else {
+
                     print("incomplete album data for album \(album["name"] as? String ?? "")")
-                    return
+                    continue
                 }
                 
-                let album = Album(id: id, name: name, popularity: Int16(popularity), largeImage: largeImage, smallImage: smallImage, context: stack.persistingContext)
+                if self.titleContainsDissallowedKeywords(title: name) {
+                    continue
+                }
+                
+                let album = Album(id: id, name: name, popularity: Int16(popularity), largeImage: largeImage, smallImage: smallImage, context: self.stack.persistingContext)
                 album.artist = artist
-                print("Album name \(album.name!.cleanAlbumName()) artist \(artist.name!) popularity \(popularity)")
+                albumsArray.append(album)
+            }
+
+            albumsArray = albumsArray.sorted {
+                if $0.name!.cleanAlbumName() == $1.name!.cleanAlbumName() {
+                    return $0.popularity > $1.popularity
+                } else {
+                    return $0.name!.cleanAlbumName().localizedCaseInsensitiveCompare($1.name!.cleanAlbumName()) == ComparisonResult.orderedAscending
+                }
             }
             
+            for album in albumsArray {
+                print("Album name \(album.name!.cleanAlbumName()) artist \(artist.name!) popularity \(album.popularity)")
+            }
+            
+            for (index, album) in albumsArray.enumerated() {
+                if index != 0 {
+                    if album.name!.cleanAlbumName() == albumsArray[index - 1].name!.cleanAlbumName() {
+                        self.stack.persistingContext.delete(album as NSManagedObject)
+                    }
+                }
+            }
+            
+            
+            
             do {
-                try stack.persistingContext.save()
+                try self.stack.persistingContext.save()
             } catch {
                 print("Could not save context")
             }
@@ -138,5 +171,30 @@ class DataManager {
     }
 }
 
+//MARK:- Album filtering
+
+extension DataManager {
+    
+    //Do not save albums with these keywords in the title
+    static let filterKeywords = ["Live",
+                                 "Collection",
+                                 "Duets",
+                                 "Anthology",
+                                 "Greatest Hits",
+                                 "20th Century Masters",
+                                 "In Concert",
+                                 "Best of"]
+
+    func titleContainsDissallowedKeywords(title: String) -> Bool {
+        for keyword in DataManager.filterKeywords {
+            if title.localizedCaseInsensitiveContains(keyword) {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+}
 
 

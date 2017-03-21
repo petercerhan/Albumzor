@@ -16,8 +16,12 @@ extension String {
     func cleanAlbumName() -> String {
         if let index = index(of: "(") {
             return substring(to: index).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        } else if let index = index(of: "[") {
+            return substring(to: index).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         } else {
             return self
         }
     }
+    
 }
+
