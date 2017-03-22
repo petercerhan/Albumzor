@@ -178,6 +178,7 @@ extension DataManager {
                                  "Greatest Hits",
                                  "20th Century Masters",
                                  "In Concert",
+                                 "Spotify",
                                  "Best of"]
 
     func titleContainsDissallowedKeywords(title: String) -> Bool {

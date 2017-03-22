@@ -18,28 +18,43 @@ class ViewController: UIViewController {
         
 
         DataManager().getInitialData()
-        
     }
     
     @IBAction func getInfo() {
         let vc = AlbumsContainerViewController()
         present(vc, animated: true, completion: nil)
+        
+        testArtistData()
     }
     
     func testAlbumData() {
-        
         let request = NSFetchRequest<Album>(entityName: "Album")
-        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: false)]
+        request.sortDescriptors = [NSSortDescriptor(key: "popularity", ascending: false)]
         
         do {
             let albumsTry = try self.stack.context.fetch(request)
             for album in albumsTry {
-                print("Album \(album.name!), popularity: \(album.popularity)")
+                print("Album \(album.name!), seen: \(album.seen)")
             }
         } catch {
             
         }
     }
+    
+    func testArtistData() {
+        let request = NSFetchRequest<Artist>(entityName: "Artist")
+        request.sortDescriptors = [NSSortDescriptor(key: "references", ascending: false)]
+        do {
+            let artists = try self.stack.context.fetch(request)
+            for artist in artists {
+                print("Artist \(artist.name!), References: \(artist.references)")
+            }
+        } catch {
+            
+        }
+    }
+    
+    
     
     func getSpotifyAPIKey() -> String? {
         
