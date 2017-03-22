@@ -19,15 +19,11 @@ class ViewController: UIViewController {
 
         DataManager().getInitialData()
         
-        
     }
     
     @IBAction func getInfo() {
-//        let vc = storyboard?.instantiateViewController(withIdentifier: "PrepareAlbumsViewController") as! PrepareAlbumsViewController
         let vc = AlbumsContainerViewController()
         present(vc, animated: true, completion: nil)
-        
-        testAlbumData()
     }
     
     func testAlbumData() {

@@ -139,6 +139,7 @@ class DataManager {
                 albumsArray.append(album)
             }
 
+            //Sort albums and remove multiple versions of the same album, based on popularity
             albumsArray = albumsArray.sorted {
                 if $0.name!.cleanAlbumName() == $1.name!.cleanAlbumName() {
                     return $0.popularity > $1.popularity
@@ -147,19 +148,13 @@ class DataManager {
                 }
             }
             
-            for album in albumsArray {
-                print("Album name \(album.name!.cleanAlbumName()) artist \(artist.name!) popularity \(album.popularity)")
-            }
-            
             for (index, album) in albumsArray.enumerated() {
                 if index != 0 {
-                    if album.name!.cleanAlbumName() == albumsArray[index - 1].name!.cleanAlbumName() {
+                    if album.name!.cleanAlbumName().localizedCaseInsensitiveCompare(albumsArray[index - 1].name!.cleanAlbumName()) == ComparisonResult.orderedSame {
                         self.stack.persistingContext.delete(album as NSManagedObject)
                     }
                 }
             }
-            
-            
             
             do {
                 try self.stack.persistingContext.save()
