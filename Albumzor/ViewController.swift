@@ -24,7 +24,6 @@ class ViewController: UIViewController {
         let vc = AlbumsContainerViewController()
         present(vc, animated: true, completion: nil)
         
-        testAlbumData()
     }
     
     func testAlbumData() {

@@ -40,27 +40,32 @@ class PrepareAlbumsViewController: UIViewController {
         request.fetchLimit = 10
         
         var albums = [Album]()
+        var imageLinks = [String]()
         
         do {
-            let albumsTry = try self.stack.context.fetch(request)
-            albums = albumsTry
-
+            albums = try self.stack.context.fetch(request)
         } catch {
-            
+            print("could not get albums")
         }
         
-        var albumArt = [UIImage]()
         for album in albums {
-            //print("Album \(album.name!), popularity: \(album.popularity)")
-            
-            if let imageData = try? Data(contentsOf: URL(string: album.largeImage!)!) {
-                albumArt.append(UIImage(data: imageData)!)
-            }
-            
+            imageLinks.append(album.largeImage!)
         }
-    
-        self.delegate.launchAlbumView(albums: albums, albumArt: albumArt)
-            
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            var albumArt = [UIImage]()
+            for imageLink in imageLinks {
+                
+                if let imageData = try? Data(contentsOf: URL(string: imageLink)!) {
+                    albumArt.append(UIImage(data: imageData)!)
+                }
+                
+            }
+
+            DispatchQueue.main.async {
+                self.delegate.launchAlbumView(albums: albums, albumArt: albumArt)
+            }
+        }
     }
 }
 
