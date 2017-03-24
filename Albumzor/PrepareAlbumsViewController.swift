@@ -21,8 +21,6 @@ class PrepareAlbumsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        print("Prepare Albums VC Did Load")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -37,38 +35,32 @@ class PrepareAlbumsViewController: UIViewController {
     
     func prepareAlbums() {
         
-        DispatchQueue.global(qos: .userInitiated).async {
-            let request = NSFetchRequest<Album>(entityName: "Album")
-            request.sortDescriptors = [NSSortDescriptor(key: "popularity", ascending: false)]
-            request.fetchLimit = 10
+        let request = NSFetchRequest<Album>(entityName: "Album")
+        request.sortDescriptors = [NSSortDescriptor(key: "popularity", ascending: false)]
+        request.fetchLimit = 10
+        
+        var albums = [Album]()
+        
+        do {
+            let albumsTry = try self.stack.context.fetch(request)
+            albums = albumsTry
+
+        } catch {
             
-            var albumArt = [UIImage]()
-            var albums = [Album]()
-            
-            do {
-                let albumsTry = try self.stack.networkingContext.fetch(request)
-                albums = albumsTry
-                for album in albums {
-                    //print("Album \(album.name!), popularity: \(album.popularity)")
-                    
-                    if let imageData = try? Data(contentsOf: URL(string: album.largeImage!)!) {
-                        albumArt.append(UIImage(data: imageData)!)
-                    }
-                    
-                }
-            } catch {
-                
-            }
-            
-            DispatchQueue.main.async {
-//                let vc = self.storyboard?.instantiateViewController(withIdentifier: "AlbumsViewController") as! AlbumsViewController
-//                vc.albumArt = albumArt
-//                vc.albums = albums
-//                self.present(vc, animated: false, completion: nil)
-                self.delegate.launchAlbumView(albums: albums, albumArt: albumArt)
-            }
         }
         
+        var albumArt = [UIImage]()
+        for album in albums {
+            //print("Album \(album.name!), popularity: \(album.popularity)")
+            
+            if let imageData = try? Data(contentsOf: URL(string: album.largeImage!)!) {
+                albumArt.append(UIImage(data: imageData)!)
+            }
+            
+        }
+    
+        self.delegate.launchAlbumView(albums: albums, albumArt: albumArt)
+            
     }
 }
 

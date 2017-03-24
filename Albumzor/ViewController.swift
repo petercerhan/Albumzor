@@ -16,20 +16,20 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
         DataManager().getInitialData()
+        
     }
     
     @IBAction func getInfo() {
         let vc = AlbumsContainerViewController()
         present(vc, animated: true, completion: nil)
         
-        testArtistData()
+        testAlbumData()
     }
     
     func testAlbumData() {
         let request = NSFetchRequest<Album>(entityName: "Album")
-        request.sortDescriptors = [NSSortDescriptor(key: "popularity", ascending: false)]
+        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: false)]
         
         do {
             let albumsTry = try self.stack.context.fetch(request)
