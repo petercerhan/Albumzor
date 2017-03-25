@@ -252,6 +252,9 @@
                                 <rect key="frame" x="314" y="623" width="37" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Like"/>
+                                <connections>
+                                    <action selector="likeAlbum" destination="9YC-WQ-Sgs" eventType="touchUpInside" id="Ygc-fm-QUd"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RUd-TA-2au">
                                 <rect key="frame" x="16" y="629" width="46" height="30"/>

@@ -33,12 +33,12 @@ class ViewController: UIViewController {
     
     func testAlbumData() {
         let request = NSFetchRequest<Album>(entityName: "Album")
-        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: false)]
+        request.sortDescriptors = [NSSortDescriptor(key: "liked", ascending: false)]
         
         do {
             let albumsTry = try self.stack.context.fetch(request)
             for album in albumsTry {
-                print("Album \(album.name!), popularity: \(album.seen)")
+                print("Album \(album.name!), liked: \(album.liked)")
             }
         } catch {
             

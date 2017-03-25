@@ -22,6 +22,10 @@ class AlbumsViewController: UIViewController {
     
     var albumArt: [UIImage]!
     var albums: [Album]!
+    
+    var currentIndex: Int = 0
+    
+    let dataManager = DataManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +38,12 @@ class AlbumsViewController: UIViewController {
     }
     
     //Album liked
+    @IBAction func likeAlbum() {
+        print("liked \(currentIndex)")
+        
+        dataManager.like(album: albums[currentIndex].objectID)
+    }
+    
     
     //Album starred
     
@@ -101,9 +111,10 @@ extension AlbumsViewController: UIScrollViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         print("did end decelerating")
-        print("index \(scrollView.contentOffset.x / scrollView.frame.size.width + 1)")
-        let indexDouble = scrollView.contentOffset.x / scrollView.frame.size.width + 1
+        print("index \(scrollView.contentOffset.x / scrollView.frame.size.width)")
+        let indexDouble = scrollView.contentOffset.x / scrollView.frame.size.width
         let index = Int(indexDouble)
+        currentIndex = index
         
         if index == albums.count + 1 {
             delegate.batteryComplete()

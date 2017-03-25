@@ -16,6 +16,51 @@ class DataManager {
     let client = SpotifyClient.sharedInstance()
     let stack = (UIApplication.shared.delegate as! AppDelegate).coreDataStack
     
+    
+    
+    func like(album albumID: NSManagedObjectID) {
+        let backgroundContext = stack.networkingContext
+        
+        backgroundContext.perform {
+            var artist: Artist?
+            
+            do {
+                let album = try backgroundContext.existingObject(with: albumID) as! Album
+                artist = album.artist
+                
+                album.liked = true
+                
+            } catch {
+                print("Core data error")
+            }
+            
+            guard artist != nil else {
+                print("no artist")
+                return
+            }
+            
+            artist!.references = artist!.references + 1
+            
+            do {
+                try backgroundContext.save()
+            } catch {
+                print("Could not save context")
+            }
+            self.stack.save()
+            
+            self.getRelatedArtists(artistID: artist!.id!) { error in
+                if let error = error {
+                    print("error \(error)")
+                }
+            }
+            
+        }
+    }
+    
+    
+    
+    
+    
     //Completion handler will be invoked after the last album data request has been processed. However, multiple album requests are made asynchronously, so it is possible that some will not have finished by the time the completionHandler is called, and the code invoking this method should not depend on that.
     func addArtist(searchString: String, completionHandler: @escaping DataManagerCompletionHandler) {
         
@@ -35,7 +80,7 @@ class DataManager {
             //Check that artist data is correct/exists; create and store artist object in core data
             //add artist
             
-            self.getRelatedArtists(artist: artistData["id"] as! String) { error in
+            self.getRelatedArtists(artistID: artistData["id"] as! String) { error in
                 if let error = error {
                     completionHandler(error)
                 } else {
@@ -45,9 +90,7 @@ class DataManager {
         }
     }
     
-    func getRelatedArtists(artist artistID: String, completionHandler: @escaping DataManagerCompletionHandler) {
-
-        let delegate = (UIApplication.shared.delegate as! AppDelegate).coreDataStack
+    func getRelatedArtists(artistID: String, completionHandler: @escaping DataManagerCompletionHandler) {
         
         client.getRelatedArtists(forArtist: artistID) { result, error in
             
@@ -63,7 +106,7 @@ class DataManager {
 
             //
             
-            let backgroundContext = self.stack.persistingContext
+            let backgroundContext = self.stack.networkingContext
             
             backgroundContext.perform {
                 
@@ -89,10 +132,11 @@ class DataManager {
                     testArtist.references = testArtist.references + 1
                     
                     do {
-                        try self.stack.persistingContext.save()
+                        try backgroundContext.save()
                     } catch {
                         print("Could not save context")
                     }
+                    self.stack.save()
                     continue
                 }
                 
@@ -169,12 +213,12 @@ class DataManager {
                 return
             }
             
-            let persistingContext = self.stack.persistingContext
+            let backgroundContext = self.stack.networkingContext
             
-            persistingContext.perform {
+            backgroundContext.perform {
                 
             
-                let artist = Artist(id: artistData["id"] as! String, name: artistData["name"] as! String, context: persistingContext)
+                let artist = Artist(id: artistData["id"] as! String, name: artistData["name"] as! String, context: backgroundContext)
                 //unpack albums
                 var albumsArray = [Album]()
                 for album in albumsData {
@@ -193,7 +237,7 @@ class DataManager {
                         continue
                     }
                     
-                    let album = Album(id: id, name: name, popularity: Int16(popularity), largeImage: largeImage, smallImage: smallImage, context: persistingContext)
+                    let album = Album(id: id, name: name, popularity: Int16(popularity), largeImage: largeImage, smallImage: smallImage, context: backgroundContext)
                     album.artist = artist
                     albumsArray.append(album)
                 }
@@ -210,16 +254,17 @@ class DataManager {
                 for (index, album) in albumsArray.enumerated() {
                     if index != 0 {
                         if album.name!.cleanAlbumName().localizedCaseInsensitiveCompare(albumsArray[index - 1].name!.cleanAlbumName()) == ComparisonResult.orderedSame {
-                            self.stack.persistingContext.delete(album as NSManagedObject)
+                            backgroundContext.delete(album as NSManagedObject)
                         }
                     }
                 }
                 
                 do {
-                    try self.stack.persistingContext.save()
+                    try backgroundContext.save()
                 } catch {
                     print("Could not save context")
                 }
+                self.stack.save()
             }
             
             //If the completion handler was passed, we know that we have received on a response to the last album search request made. Although not gauranteed to be completely finished, it's reasonable to assume most of this networking process has completed. No object calling addArtist() should depend on the process being 100% finished retrieving, parsing, and adding its albums & artists to Core Data
