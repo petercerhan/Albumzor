@@ -61,19 +61,44 @@ class DataManager {
                 return
             }
 
+            //
+            
+            let backgroundContext = self.stack.persistingContext
+            
+            backgroundContext.perform {
+                
             for (index, artist) in artistsData.enumerated() {
-                guard let name = artist["name"] as? String, let id = artist["id"] as? String else {
+                guard let _ = artist["name"] as? String, let id = artist["id"] as? String else {
                     continue
                 }
                 
-                delegate.persistingContext.perform{
-                    let _ = Artist(id: id, name: name, context: delegate.persistingContext)
+                //If the artist is already saved, increment references. Some of this maybe should go in a helper function?
+                let request = NSFetchRequest<Artist>(entityName: "Artist")
+                request.predicate = NSPredicate(format: "id == %@", id)
+                
+                var testArtist: Artist?
+                
+                do {
+                    let testArtists = try backgroundContext.fetch(request)
+                    if testArtists.count > 0 { testArtist = testArtists[0] }
+                } catch {
+                    print("fetch request failed")
+                }
+                
+                if let testArtist = testArtist {
+                    testArtist.references = testArtist.references + 1
+                    
                     do {
-                        try delegate.persistingContext.save()
+                        try self.stack.persistingContext.save()
                     } catch {
                         print("Could not save context")
                     }
+                    continue
                 }
+                
+                //
+                
+                
                 if index == artistsData.count - 1 {
                     self.getAlbums(forArtist: artist){ error in
                         if let error = error {
@@ -86,6 +111,9 @@ class DataManager {
                     self.getAlbums(forArtist: artist, completionHandler: nil)
                 }
             }
+                
+            }
+            //
             
         }
     }

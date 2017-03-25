@@ -40,6 +40,7 @@ class SearchArtistViewController: UIViewController {
             } else {
                 print("success")
             }
+            
             DispatchQueue.main.async {
                 self.set(uiEnabled: true)
                 self.activityIndicator.stopAnimating()

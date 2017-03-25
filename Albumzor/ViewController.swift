@@ -28,7 +28,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func testData() {
-        testAlbumData()
+        testArtistData()
     }
     
     func testAlbumData() {
@@ -38,7 +38,7 @@ class ViewController: UIViewController {
         do {
             let albumsTry = try self.stack.context.fetch(request)
             for album in albumsTry {
-                print("Album \(album.name!), seen: \(album.seen)")
+                print("Album \(album.name!), popularity: \(album.seen)")
             }
         } catch {
             
@@ -57,8 +57,6 @@ class ViewController: UIViewController {
             
         }
     }
-    
-    
     
     func getSpotifyAPIKey() -> String? {
         
