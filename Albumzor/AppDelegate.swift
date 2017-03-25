@@ -12,12 +12,16 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     let coreDataStack = CoreDataStack(modelName: "Model")!
+    var dataManager: DataManager!
     
     var window: UIWindow?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        dataManager = DataManager()
+        
         do {
             try coreDataStack.dropAllData()
         } catch {

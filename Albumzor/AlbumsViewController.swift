@@ -31,7 +31,7 @@ class AlbumsViewController: UIViewController {
     
     var currentIndex: Int = 0
     
-    let dataManager = DataManager()
+    let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
 
     override func viewDidLoad() {
         super.viewDidLoad()
