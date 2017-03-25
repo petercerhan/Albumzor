@@ -90,9 +90,69 @@ class DataManager {
     }
     
     //func star(album albumID: NSManagedObjectID){}
+    func star(album albumID: NSManagedObjectID, addRelatedArtists: Bool) {
+        let backgroundContext = stack.networkingContext
+        
+        backgroundContext.perform {
+            var artist: Artist?
+            
+            do {
+                let album = try backgroundContext.existingObject(with: albumID) as! Album
+                artist = album.artist
+                album.starred = true
+                
+            } catch {
+                print("Core data error")
+            }
+            
+            guard artist != nil else {
+                print("no artist")
+                return
+            }
+            
+            artist!.references = artist!.references + 1
+            
+            if addRelatedArtists {
+                self.getRelatedArtists(artistID: artist!.id!) { error in
+                    if let error = error {
+                        print("error \(error)")
+                    }
+                }
+            }
+        }
+    }
     
     //func unstar(album albumID: NSManagedObjectID) {}
-    
+    func unstar(album albumID: NSManagedObjectID) {
+        let backgroundContext = stack.networkingContext
+        
+        backgroundContext.perform {
+            var artist: Artist?
+            
+            do {
+                let album = try backgroundContext.existingObject(with: albumID) as! Album
+                artist = album.artist
+                album.starred = false
+                
+            } catch {
+                print("Core data error")
+            }
+            
+            guard artist != nil else {
+                print("no artist")
+                return
+            }
+            
+            artist!.references = artist!.references - 1
+            
+            do {
+                try backgroundContext.save()
+            } catch {
+                print("Could not save context")
+            }
+            self.stack.save()
+        }
+    }
     
     
     //Completion handler will be invoked after the last album data request has been processed. However, multiple album requests are made asynchronously, so it is possible that some will not have finished by the time the completionHandler is called, and the code invoking this method should not depend on that.
@@ -260,6 +320,7 @@ class DataManager {
                           let name = album["name"] as? String,
                           let popularity = album["popularity"] as? Int,
                           let images = album["images"] as? [[String : AnyObject]],
+                          images.count > 0,
                           let largeImage = images[0]["url"] as? String,
                           let smallImage = images[2]["url"]  as? String else {
 

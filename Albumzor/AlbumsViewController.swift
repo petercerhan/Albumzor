@@ -45,7 +45,6 @@ class AlbumsViewController: UIViewController {
     }
     
     
-    
     @IBAction func quit() {
         delegate.quit()
     }
@@ -69,13 +68,14 @@ class AlbumsViewController: UIViewController {
         if usage[currentIndex].starred {
             starButton.setTitleColor(UIColor.blue, for: .normal)
             usage[currentIndex].starred = false
+            dataManager.unstar(album: albums[currentIndex].objectID)
         } else {
             starButton.setTitleColor(UIColor.green, for: .normal)
             usage[currentIndex].starred = true
+            dataManager.star(album: albums[currentIndex].objectID, addRelatedArtists: !usage[currentIndex].relatedAdded)
+            usage[currentIndex].relatedAdded = true
         }
     }
-    
-    
     
     
     
