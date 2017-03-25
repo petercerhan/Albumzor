@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 protocol PrepareAlbumsViewControllerDelegate {
-    func launchAlbumView(albums: [Album], albumArt: [UIImage])
+    func launchAlbumView(albums: [Album], albumArt: [UIImage], albumUsage: [AlbumUsage])
 }
 
 class PrepareAlbumsViewController: UIViewController {
@@ -41,6 +41,7 @@ class PrepareAlbumsViewController: UIViewController {
         
         var albums = [Album]()
         var imageLinks = [String]()
+        var albumsUsage = [AlbumUsage]()
         
         do {
             albums = try self.stack.context.fetch(request)
@@ -58,12 +59,13 @@ class PrepareAlbumsViewController: UIViewController {
                 
                 if let imageData = try? Data(contentsOf: URL(string: imageLink)!) {
                     albumArt.append(UIImage(data: imageData)!)
+                    albumsUsage.append((seen: false, liked: false, starred: false))
                 }
                 
             }
 
             DispatchQueue.main.async {
-                self.delegate.launchAlbumView(albums: albums, albumArt: albumArt)
+                self.delegate.launchAlbumView(albums: albums, albumArt: albumArt, albumUsage: albumsUsage)
             }
         }
     }

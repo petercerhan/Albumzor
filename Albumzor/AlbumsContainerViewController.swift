@@ -51,10 +51,11 @@ class AlbumsContainerViewController: UIViewController {
 }
 
 extension AlbumsContainerViewController: PrepareAlbumsViewControllerDelegate {
-    func launchAlbumView(albums: [Album], albumArt: [UIImage]) {
+    func launchAlbumView(albums: [Album], albumArt: [UIImage], albumUsage: [AlbumUsage]) {
         let vc = appStoryboard.instantiateViewController(withIdentifier: "AlbumsViewController") as! AlbumsViewController
         vc.albums = albums
         vc.albumArt = albumArt
+        vc.usage = albumUsage
         vc.delegate = self
         update(contentViewController: vc)
     }

@@ -13,6 +13,8 @@ protocol AlbumsViewControllerDelegate {
     func batteryComplete()
 }
 
+typealias AlbumUsage = (seen: Bool, liked: Bool, starred: Bool)
+
 class AlbumsViewController: UIViewController {
     
     @IBOutlet var collectionView: UICollectionView!
@@ -22,6 +24,7 @@ class AlbumsViewController: UIViewController {
     
     var albumArt: [UIImage]!
     var albums: [Album]!
+    var usage: [AlbumUsage]!
     
     var currentIndex: Int = 0
     
@@ -110,13 +113,13 @@ extension AlbumsViewController: UIScrollViewDelegate {
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        print("did end decelerating")
-        print("index \(scrollView.contentOffset.x / scrollView.frame.size.width)")
         let indexDouble = scrollView.contentOffset.x / scrollView.frame.size.width
         let index = Int(indexDouble)
         currentIndex = index
         
-        if index == albums.count + 1 {
+        print("index: \(index) seen: \(usage[index].seen) liked: \(usage[index].liked)")
+        
+        if index == albums.count {
             delegate.batteryComplete()
         }
     }
