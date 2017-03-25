@@ -59,7 +59,7 @@ class PrepareAlbumsViewController: UIViewController {
                 
                 if let imageData = try? Data(contentsOf: URL(string: imageLink)!) {
                     albumArt.append(UIImage(data: imageData)!)
-                    albumsUsage.append((seen: false, liked: false, starred: false))
+                    albumsUsage.append( (seen: false, liked: false, starred: false, relatedAdded: false) )
                 }
                 
             }

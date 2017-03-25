@@ -18,7 +18,7 @@ class DataManager {
     
     
     
-    func like(album albumID: NSManagedObjectID) {
+    func like(album albumID: NSManagedObjectID, addRelatedArtists: Bool) {
         let backgroundContext = stack.networkingContext
         
         backgroundContext.perform {
@@ -48,16 +48,22 @@ class DataManager {
             }
             self.stack.save()
             
-            self.getRelatedArtists(artistID: artist!.id!) { error in
-                if let error = error {
-                    print("error \(error)")
+            if addRelatedArtists {
+                self.getRelatedArtists(artistID: artist!.id!) { error in
+                    if let error = error {
+                        print("error \(error)")
+                    }
                 }
             }
             
         }
     }
     
+    //func star(album albumID: NSManagedObjectID){}
     
+    //func unlike(album albumID: NSManagedObjectID){}
+    
+    //func unstar(album albumID: NSManagedObjectID) {}
     
     
     

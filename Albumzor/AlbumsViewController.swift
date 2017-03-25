@@ -13,12 +13,15 @@ protocol AlbumsViewControllerDelegate {
     func batteryComplete()
 }
 
-typealias AlbumUsage = (seen: Bool, liked: Bool, starred: Bool)
+typealias AlbumUsage = (seen: Bool, liked: Bool, starred: Bool, relatedAdded: Bool)
 
 class AlbumsViewController: UIViewController {
     
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var collectionViewFlowLayout: UICollectionViewFlowLayout!
+    
+    @IBOutlet var likeButton: UIButton!
+    @IBOutlet var starButton: UIButton!
     
     var delegate: AlbumsViewControllerDelegate!
     
@@ -32,27 +35,45 @@ class AlbumsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
     
-    @IBAction func quit(){
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        //album 1 seen
+        usage[0].seen = true
+    }
+    
+    
+    
+    @IBAction func quit() {
         delegate.quit()
     }
     
     //Album liked
     @IBAction func likeAlbum() {
-        print("liked \(currentIndex)")
+        if usage[currentIndex].liked {
+            likeButton.setTitleColor(UIColor.blue, for: .normal)
+            usage[currentIndex].liked = false
+        } else {
+            likeButton.setTitleColor(UIColor.green, for: .normal)
+            usage[currentIndex].liked = true
+        }
         
-        dataManager.like(album: albums[currentIndex].objectID)
+        dataManager.like(album: albums[currentIndex].objectID, addRelatedArtists: !usage[currentIndex].relatedAdded)
+        usage[currentIndex].relatedAdded = true
     }
     
-    
     //Album starred
-    
-    
-    
-    
+    @IBAction func starAlbum() {
+        if usage[currentIndex].starred {
+            starButton.setTitleColor(UIColor.blue, for: .normal)
+            usage[currentIndex].starred = false
+        } else {
+            starButton.setTitleColor(UIColor.green, for: .normal)
+            usage[currentIndex].starred = true
+        }
+    }
     
     
     
@@ -92,6 +113,20 @@ extension AlbumsViewController: UICollectionViewDataSource {
         return cell
     }
     
+    func updateButtons() {
+        if usage[currentIndex].liked {
+            likeButton.setTitleColor(UIColor.green, for: .normal)
+        } else {
+            likeButton.setTitleColor(UIColor.blue, for: .normal)
+        }
+        
+        if usage[currentIndex].starred {
+            starButton.setTitleColor(UIColor.green, for: .normal)
+        } else {
+            starButton.setTitleColor(UIColor.blue, for: .normal)
+        }
+    }
+    
 }
 
 extension AlbumsViewController: UIScrollViewDelegate {
@@ -101,27 +136,45 @@ extension AlbumsViewController: UIScrollViewDelegate {
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        //print("will begin dragging")
+        //print("will begin dragging; index \(currentIndex)")
+        likeButton.isUserInteractionEnabled = false
+        starButton.isUserInteractionEnabled = false
+        collectionView.isUserInteractionEnabled = false
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        //print("did end dragging")
+        if scrollView.contentOffset.x == 0.0 {
+            likeButton.isUserInteractionEnabled = true
+            starButton.isUserInteractionEnabled = true
+            collectionView.isUserInteractionEnabled = true
+        }
     }
     
     func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-        //print("will begin decelerating")
+        //print("will begin decelerating; index \(currentIndex)")
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        
         let indexDouble = scrollView.contentOffset.x / scrollView.frame.size.width
         let index = Int(indexDouble)
-        currentIndex = index
         
-        print("index: \(index) seen: \(usage[index].seen) liked: \(usage[index].liked)")
+        currentIndex = index
         
         if index == albums.count {
             delegate.batteryComplete()
+            return
         }
+        
+        likeButton.isUserInteractionEnabled = true
+        starButton.isUserInteractionEnabled = true
+        collectionView.isUserInteractionEnabled = true
+        
+        updateButtons()
+        
+        usage[index].seen = true
+        //print("index: \(index) seen: \(usage[index].seen) liked: \(usage[index].liked) starred: \(usage[index].starred)")
+        
     }
     
 }
@@ -129,7 +182,6 @@ extension AlbumsViewController: UIScrollViewDelegate {
 extension AlbumsViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-
         let widthPerItem = collectionView.frame.width - 40.0
         let cellHeight = collectionView.frame.height - 40.0
         

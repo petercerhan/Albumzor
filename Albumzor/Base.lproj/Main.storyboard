@@ -260,6 +260,9 @@
                                 <rect key="frame" x="16" y="628" width="46" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Star"/>
+                                <connections>
+                                    <action selector="starAlbum" destination="9YC-WQ-Sgs" eventType="touchUpInside" id="yDb-4A-S3x"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
@@ -279,6 +282,8 @@
                     <connections>
                         <outlet property="collectionView" destination="eFP-aM-QAD" id="wJi-G8-hkU"/>
                         <outlet property="collectionViewFlowLayout" destination="oOU-wI-nfV" id="wEJ-4w-Ak2"/>
+                        <outlet property="likeButton" destination="faH-fy-bKl" id="oJm-06-Wlb"/>
+                        <outlet property="starButton" destination="RUd-TA-2au" id="QLC-PL-coA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Out-Jv-gFj" userLabel="First Responder" sceneMemberID="firstResponder"/>
