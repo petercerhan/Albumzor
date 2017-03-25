@@ -15,15 +15,20 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        DataManager().getInitialData()
-        
     }
     
-    @IBAction func getInfo() {
+    @IBAction func addArtist() {
+        let vc = storyboard?.instantiateViewController(withIdentifier: "SearchArtistViewController") as! SearchArtistViewController
+        present(vc, animated: true, completion: nil)
+    }
+    
+    @IBAction func discoverAlbums() {
         let vc = AlbumsContainerViewController()
         present(vc, animated: true, completion: nil)
-        
+    }
+    
+    @IBAction func testData() {
+        testAlbumData()
     }
     
     func testAlbumData() {

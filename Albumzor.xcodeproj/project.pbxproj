@@ -29,6 +29,7 @@
 		E45D99151E7B6DB100CD3CE7 /* AlbumsContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99141E7B6DB100CD3CE7 /* AlbumsContainerViewController.swift */; };
 		E45D99171E7DC59300CD3CE7 /* NextStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99161E7DC59300CD3CE7 /* NextStepViewController.swift */; };
 		E45D99191E7F767400CD3CE7 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99181E7F767400CD3CE7 /* String.swift */; };
+		E45D991D1E84BE5900CD3CE7 /* SearchArtistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D991C1E84BE5900CD3CE7 /* SearchArtistViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,7 @@
 		E45D99141E7B6DB100CD3CE7 /* AlbumsContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumsContainerViewController.swift; sourceTree = "<group>"; };
 		E45D99161E7DC59300CD3CE7 /* NextStepViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NextStepViewController.swift; sourceTree = "<group>"; };
 		E45D99181E7F767400CD3CE7 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		E45D991C1E84BE5900CD3CE7 /* SearchArtistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchArtistViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,6 +204,7 @@
 			isa = PBXGroup;
 			children = (
 				E45D98BC1E75DC2F00CD3CE7 /* ViewController.swift */,
+				E45D991C1E84BE5900CD3CE7 /* SearchArtistViewController.swift */,
 				E45D99141E7B6DB100CD3CE7 /* AlbumsContainerViewController.swift */,
 				E45D99121E7B5F7F00CD3CE7 /* PrepareAlbumsViewController.swift */,
 				E45D990C1E7A18CE00CD3CE7 /* AlbumsViewController.swift */,
@@ -347,6 +350,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E45D991D1E84BE5900CD3CE7 /* SearchArtistViewController.swift in Sources */,
 				E45D98F31E777F5B00CD3CE7 /* ArtistPrior.swift in Sources */,
 				E45D99171E7DC59300CD3CE7 /* NextStepViewController.swift in Sources */,
 				E45D98F71E77826E00CD3CE7 /* DataManager.swift in Sources */,

@@ -9,15 +9,18 @@
 import UIKit
 import CoreData
 
+typealias DataManagerCompletionHandler = (_ error: NSError?) -> Void
+
 class DataManager {
     
     let client = SpotifyClient.sharedInstance()
     let stack = (UIApplication.shared.delegate as! AppDelegate).coreDataStack
     
-    func getInitialData() {
+    //Completion handler will be invoked after the last album data request has been processed. However, multiple album requests are made asynchronously, so it is possible that some will not have finished by the time the completionHandler is called, and the code invoking this method should not depend on that.
+    func addArtist(searchString: String, completionHandler: @escaping DataManagerCompletionHandler) {
         
         //start with artist search
-        client.searchArtist(searchString: "Bob Dylan") { result, error in
+        client.searchArtist(searchString: searchString) { result, error in
             
             if let error = error {
                 print("Networking Error \(error)")
@@ -32,11 +35,17 @@ class DataManager {
             //Check that artist data is correct/exists; create and store artist object in core data
             //add artist
             
-            self.getRelatedArtists(artist: artistData["id"] as! String)
+            self.getRelatedArtists(artist: artistData["id"] as! String) { error in
+                if let error = error {
+                    completionHandler(error)
+                } else {
+                    completionHandler(nil)
+                }
+            }
         }
     }
     
-    func getRelatedArtists(artist artistID: String) {
+    func getRelatedArtists(artist artistID: String, completionHandler: @escaping DataManagerCompletionHandler) {
 
         let delegate = (UIApplication.shared.delegate as! AppDelegate).coreDataStack
         
@@ -52,7 +61,7 @@ class DataManager {
                 return
             }
 
-            for artist in artistsData {
+            for (index, artist) in artistsData.enumerated() {
                 guard let name = artist["name"] as? String, let id = artist["id"] as? String else {
                     continue
                 }
@@ -65,13 +74,24 @@ class DataManager {
                         print("Could not save context")
                     }
                 }
-                
-                self.getAlbums(forArtist: artist)
+                if index == artistsData.count - 1 {
+                    self.getAlbums(forArtist: artist){ error in
+                        if let error = error {
+                            completionHandler(error)
+                        } else {
+                            completionHandler(nil)
+                        }
+                    }
+                } else {
+                    self.getAlbums(forArtist: artist, completionHandler: nil)
+                }
             }
+            
         }
     }
     
-    func getAlbums(forArtist artistData: [String : AnyObject]) {
+    //Optional closures are treated as escaping(?) SR-2444
+    func getAlbums(forArtist artistData: [String : AnyObject], completionHandler: DataManagerCompletionHandler?) {
         
         client.getAlbums(forArtist: artistData["id"] as! String) { result, error in
             
@@ -106,12 +126,13 @@ class DataManager {
                 albumSearchString.remove(at: albumSearchString.index(before: albumSearchString.endIndex))
             }
             
-            self.getAlbums(searchString: albumSearchString, artist: artistData)
+            self.getAlbums(searchString: albumSearchString, artist: artistData, completionHandler: completionHandler)
+            
         }
         
     }
     
-    func getAlbums(searchString: String, artist artistData: [String : AnyObject]) {
+    func getAlbums(searchString: String, artist artistData: [String : AnyObject], completionHandler: DataManagerCompletionHandler?) {
         
         client.getAlbums(ids: searchString) { result, error in
             
@@ -119,7 +140,6 @@ class DataManager {
                 print("bad data structure")
                 return
             }
-            
             
             let persistingContext = self.stack.persistingContext
             
@@ -172,10 +192,16 @@ class DataManager {
                 } catch {
                     print("Could not save context")
                 }
-        }
-        
+            }
             
-            
+            //If the completion handler was passed, we know that we have received on a response to the last album search request made. Although not gauranteed to be completely finished, it's reasonable to assume most of this networking process has completed. No object calling addArtist() should depend on the process being 100% finished retrieving, parsing, and adding its albums & artists to Core Data
+            if let completionHandler = completionHandler {
+                if let error = error {
+                    completionHandler(error)
+                } else {
+                    completionHandler(nil)
+                }
+            }
             
         }
         
