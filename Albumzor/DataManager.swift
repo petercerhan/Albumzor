@@ -320,7 +320,7 @@ class DataManager {
                           let name = album["name"] as? String,
                           let popularity = album["popularity"] as? Int,
                           let images = album["images"] as? [[String : AnyObject]],
-                          images.count > 0,
+                          images.count >= 3,
                           let largeImage = images[0]["url"] as? String,
                           let smallImage = images[2]["url"]  as? String else {
 
@@ -362,7 +362,7 @@ class DataManager {
                 self.stack.save()
             }
             
-            //If the completion handler was passed, we know that we have received on a response to the last album search request made. Although not gauranteed to be completely finished, it's reasonable to assume most of this networking process has completed. No object calling addArtist() should depend on the process being 100% finished retrieving, parsing, and adding its albums & artists to Core Data
+            //If the completion handler was passed, we know that we have received a response to the last album search request made. Although not gauranteed to be completely finished, it's reasonable to assume most of this networking process has completed. No object calling addArtist() should depend on the process being 100% finished retrieving, parsing, and adding its albums & artists to Core Data
             if let completionHandler = completionHandler {
                 if let error = error {
                     completionHandler(error)
