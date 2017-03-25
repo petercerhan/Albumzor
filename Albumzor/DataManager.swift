@@ -27,7 +27,6 @@ class DataManager {
             do {
                 let album = try backgroundContext.existingObject(with: albumID) as! Album
                 artist = album.artist
-                
                 album.liked = true
                 
             } catch {
@@ -59,9 +58,38 @@ class DataManager {
         }
     }
     
-    //func star(album albumID: NSManagedObjectID){}
+    func unlike(album albumID: NSManagedObjectID) {
+        let backgroundContext = stack.networkingContext
+        
+        backgroundContext.perform {
+            var artist: Artist?
+            
+            do {
+                let album = try backgroundContext.existingObject(with: albumID) as! Album
+                artist = album.artist
+                album.liked = false
+                
+            } catch {
+                print("Core data error")
+            }
+            
+            guard artist != nil else {
+                print("no artist")
+                return
+            }
+            
+            artist!.references = artist!.references - 1
+            
+            do {
+                try backgroundContext.save()
+            } catch {
+                print("Could not save context")
+            }
+            self.stack.save()
+        }
+    }
     
-    //func unlike(album albumID: NSManagedObjectID){}
+    //func star(album albumID: NSManagedObjectID){}
     
     //func unstar(album albumID: NSManagedObjectID) {}
     

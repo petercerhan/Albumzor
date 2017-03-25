@@ -29,6 +29,7 @@ class ViewController: UIViewController {
     
     @IBAction func testData() {
         testArtistData()
+        //testAlbumData()
     }
     
     func testAlbumData() {

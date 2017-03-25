@@ -55,13 +55,13 @@ class AlbumsViewController: UIViewController {
         if usage[currentIndex].liked {
             likeButton.setTitleColor(UIColor.blue, for: .normal)
             usage[currentIndex].liked = false
+            dataManager.unlike(album: albums[currentIndex].objectID)
         } else {
             likeButton.setTitleColor(UIColor.green, for: .normal)
             usage[currentIndex].liked = true
+            dataManager.like(album: albums[currentIndex].objectID, addRelatedArtists: !usage[currentIndex].relatedAdded)
+            usage[currentIndex].relatedAdded = true
         }
-        
-        dataManager.like(album: albums[currentIndex].objectID, addRelatedArtists: !usage[currentIndex].relatedAdded)
-        usage[currentIndex].relatedAdded = true
     }
     
     //Album starred
