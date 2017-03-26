@@ -266,7 +266,7 @@ class DataManager {
                 index += 1
             }
             
-            return index
+            return index - 1
         }
         
         var index = 0
@@ -281,7 +281,7 @@ class DataManager {
         case 2:
             index = chooseIndex([0.7, 0.3])
         default:
-            index = 1
+            index = 0
         }
         
         return index
