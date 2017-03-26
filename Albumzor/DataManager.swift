@@ -188,6 +188,7 @@ class DataManager {
         }
     }
     
+    //get albums to display. These albums are fetched in the main queue context
     func getAlbums() -> [Album] {
         let context = stack.context
         
@@ -205,21 +206,83 @@ class DataManager {
             print("could not get artists")
         }
         
-        if unseenArtists != nil {
-            for artist in unseenArtists! {
-                print("artist \(artist.name!) seen \(artist.seenAlbums)")
-            }
-        }
-        
         //Fill remaining spots with artists based on score (references - seen)
         let scoreArtistRequest = NSFetchRequest<Artist>(entityName: "Artist")
         let scoreArtistPredicate = NSPredicate(format: "totalAlbums - seenAlbums > 0")
+        scoreArtistRequest.sortDescriptors = [NSSortDescriptor(key: "score", ascending: false)]
+        scoreArtistRequest.predicate = scoreArtistPredicate
+        scoreArtistRequest.fetchLimit = 11 - unseenArtists!.count
         
+        var scoreArtists: [Artist]?
         
+        do {
+            scoreArtists = try context.fetch(scoreArtistRequest)
+        } catch {
+            print("could not get artists")
+        }
         
+        var albums = [Album]()
         
+        for artist in unseenArtists! {
+            albums.append(chooseAlbum(artist: artist))
+        }
         
-        return [Album]()
+        for artist in scoreArtists! {
+            albums.append(chooseAlbum(artist: artist))
+        }
+        
+        return albums
+    }
+    
+    private func chooseAlbum(artist: Artist) -> Album {
+        let request = NSFetchRequest<Album>(entityName: "Album")
+        let predicate = NSPredicate(format: "(seen = false) AND (artist = %@)", artist)
+        request.sortDescriptors = [NSSortDescriptor(key: "popularity", ascending: false)]
+        request.predicate = predicate
+        request.fetchLimit = 5
+        
+        var albums: [Album]?
+        
+        do {
+            albums = try stack.context.fetch(request)
+        } catch {
+            print("could not get artists")
+        }
+        
+        return albums![randomAlbumIndex(albumCount: albums!.count)]
+    }
+    
+    private func randomAlbumIndex(albumCount count: Int) -> Int {
+        func chooseIndex(_ probabilitites: [Double]) -> Int {
+            let r = drand48()
+            if r == 0 { return 1 }
+            var sum = 0.0
+            var index = 0
+            
+            while r > sum {
+                sum += probabilitites[index]
+                index += 1
+            }
+            
+            return index
+        }
+        
+        var index = 0
+        
+        switch count {
+        case 5:
+            index = chooseIndex([0.45, 0.25, 0.15, 0.1, 0.05])
+        case 4:
+            index = chooseIndex([0.5, 0.25, 0.15, 0.1])
+        case 3:
+            index = chooseIndex([0.55, 0.3, 0.15])
+        case 2:
+            index = chooseIndex([0.7, 0.3])
+        default:
+            index = 1
+        }
+        
+        return index
     }
     
     //Completion handler will be invoked after the last album data request has been processed. However, multiple album requests are made asynchronously, so it is possible that some will not have finished by the time the completionHandler is called, and the code invoking this method should not depend on that.

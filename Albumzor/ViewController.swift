@@ -28,14 +28,17 @@ class ViewController: UIViewController {
     }
     
     @IBAction func testData() {
-        testArtistData()
+        //testArtistData()
         //testAlbumData()
         testAlbumChoice()
     }
     
     func testAlbumChoice() {
         let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
-        _ = dataManager.getAlbums()
+        let albums = dataManager.getAlbums()
+        for album in albums {
+            print("album \(album.name!) artist \(album.artist!.name!)")
+        }
     }
     
     func testAlbumData() {
@@ -58,11 +61,12 @@ class ViewController: UIViewController {
         do {
             let artists = try self.stack.context.fetch(request)
             for artist in artists {
-                print("Artist \(artist.name!), Seen: \(artist.seenAlbums), Total: \(artist.totalAlbums)")
+                print("Artist \(artist.name!), Score: \(artist.score)")
             }
         } catch {
             
         }
+        print("-")
     }
     
     func getSpotifyAPIKey() -> String? {
