@@ -16,7 +16,36 @@ class DataManager {
     let client = SpotifyClient.sharedInstance()
     let stack = (UIApplication.shared.delegate as! AppDelegate).coreDataStack
     
-    
+    func seen(album albumID: NSManagedObjectID) {
+        let backgroundContext = stack.networkingContext
+        
+        backgroundContext.perform{
+            var artist: Artist?
+            
+            do {
+                let album = try backgroundContext.existingObject(with: albumID) as! Album
+                artist = album.artist
+                album.seen = true
+                
+            } catch {
+                print("Core data error")
+            }
+            
+            guard artist != nil else {
+                print("no artist")
+                return
+            }
+            
+            artist!.seenAlbums += 1
+            
+            do {
+                try backgroundContext.save()
+            } catch {
+                print("Could not save context")
+            }
+            self.stack.save()
+        }        
+    }
     
     func like(album albumID: NSManagedObjectID, addRelatedArtists: Bool) {
         let backgroundContext = stack.networkingContext
@@ -78,7 +107,7 @@ class DataManager {
                 return
             }
             
-            artist!.references = artist!.references - 1
+            artist!.references -= 1
             
             do {
                 try backgroundContext.save()

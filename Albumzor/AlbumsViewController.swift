@@ -41,6 +41,7 @@ class AlbumsViewController: UIViewController {
         super.viewWillAppear(animated)
         
         //album 1 seen
+        dataManager.seen(album: albums[0].objectID)
         usage[0].seen = true
     }
     
@@ -160,10 +161,14 @@ extension AlbumsViewController: UIScrollViewDelegate {
         let index = Int(indexDouble)
         
         currentIndex = index
-        
         if index == albums.count {
             delegate.batteryComplete()
             return
+        }
+        
+        if !usage[index].seen {
+            dataManager.seen(album: albums[index].objectID)
+            usage[index].seen = true
         }
         
         likeButton.isUserInteractionEnabled = true
