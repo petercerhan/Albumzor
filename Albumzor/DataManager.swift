@@ -223,8 +223,10 @@ class DataManager {
         
         var albums = [Album]()
         
-        for artist in unseenArtists! {
-            albums.append(chooseAlbum(artist: artist))
+        if unseenArtists!.count > 0 {
+            for artist in unseenArtists! {
+                albums.append(chooseAlbum(artist: artist))
+            }
         }
         
         for artist in scoreArtists! {
