@@ -37,6 +37,7 @@ class DataManager {
             }
             
             artist!.seenAlbums += 1
+            artist!.score -= 1
             
             do {
                 try backgroundContext.save()
@@ -67,7 +68,8 @@ class DataManager {
                 return
             }
             
-            artist!.references = artist!.references + 1
+            artist!.references += 1
+            artist!.score += 1
             
             do {
                 try backgroundContext.save()
@@ -108,6 +110,7 @@ class DataManager {
             }
             
             artist!.references -= 1
+            artist!.score -= 1
             
             do {
                 try backgroundContext.save()
@@ -139,7 +142,8 @@ class DataManager {
                 return
             }
             
-            artist!.references = artist!.references + 1
+            artist!.references += 1
+            artist!.score += 1
             
             if addRelatedArtists {
                 self.getRelatedArtists(artistID: artist!.id!) { error in
@@ -172,7 +176,8 @@ class DataManager {
                 return
             }
             
-            artist!.references = artist!.references - 1
+            artist!.references -= 1
+            artist!.score -= 1
             
             do {
                 try backgroundContext.save()
@@ -183,6 +188,39 @@ class DataManager {
         }
     }
     
+    func getAlbums() -> [Album] {
+        let context = stack.context
+        
+        //Choose 3 unseen artists
+        let unseenArtistRequest = NSFetchRequest<Artist>(entityName: "Artist")
+        let unseenArtistPredicate = NSPredicate(format: "(seenAlbums = 0) AND (totalAlbums > 0)")
+        unseenArtistRequest.predicate = unseenArtistPredicate
+        unseenArtistRequest.fetchLimit = 3
+        
+        var unseenArtists: [Artist]?
+        
+        do {
+            unseenArtists = try context.fetch(unseenArtistRequest)
+        } catch {
+            print("could not get artists")
+        }
+        
+        if unseenArtists != nil {
+            for artist in unseenArtists! {
+                print("artist \(artist.name!) seen \(artist.seenAlbums)")
+            }
+        }
+        
+        //Fill remaining spots with artists based on score (references - seen)
+        let scoreArtistRequest = NSFetchRequest<Artist>(entityName: "Artist")
+        let scoreArtistPredicate = NSPredicate(format: "totalAlbums - seenAlbums > 0")
+        
+        
+        
+        
+        
+        return [Album]()
+    }
     
     //Completion handler will be invoked after the last album data request has been processed. However, multiple album requests are made asynchronously, so it is possible that some will not have finished by the time the completionHandler is called, and the code invoking this method should not depend on that.
     func addArtist(searchString: String, completionHandler: @escaping DataManagerCompletionHandler) {
@@ -252,7 +290,8 @@ class DataManager {
                 }
                 
                 if let testArtist = testArtist {
-                    testArtist.references = testArtist.references + 1
+                    testArtist.references += 1
+                    testArtist.score += 1
                     
                     do {
                         try backgroundContext.save()

@@ -35,6 +35,8 @@ class PrepareAlbumsViewController: UIViewController {
     
     func prepareAlbums() {
         
+        //get albums from data manager
+        
         let request = NSFetchRequest<Album>(entityName: "Album")
         request.sortDescriptors = [NSSortDescriptor(key: "popularity", ascending: false)]
         request.fetchLimit = 10
@@ -48,6 +50,7 @@ class PrepareAlbumsViewController: UIViewController {
         } catch {
             print("could not get albums")
         }
+        //
         
         for album in albums {
             imageLinks.append(album.largeImage!)

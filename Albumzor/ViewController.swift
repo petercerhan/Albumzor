@@ -30,6 +30,12 @@ class ViewController: UIViewController {
     @IBAction func testData() {
         testArtistData()
         //testAlbumData()
+        testAlbumChoice()
+    }
+    
+    func testAlbumChoice() {
+        let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
+        _ = dataManager.getAlbums()
     }
     
     func testAlbumData() {
