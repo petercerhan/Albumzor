@@ -28,8 +28,8 @@ class ViewController: UIViewController {
     }
     
     @IBAction func testData() {
-        //testArtistData()
-        testAlbumData()
+        testArtistData()
+        //testAlbumData()
     }
     
     func testAlbumData() {
@@ -52,7 +52,7 @@ class ViewController: UIViewController {
         do {
             let artists = try self.stack.context.fetch(request)
             for artist in artists {
-                print("Artist \(artist.name!), References: \(artist.references)")
+                print("Artist \(artist.name!), Seen: \(artist.seenAlbums), Total: \(artist.totalAlbums)")
             }
         } catch {
             

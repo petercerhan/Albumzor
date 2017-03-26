@@ -346,10 +346,13 @@ class DataManager {
                     }
                 }
                 
+                artist.totalAlbums = Int16(albumsArray.count)
+                
                 for (index, album) in albumsArray.enumerated() {
                     if index != 0 {
                         if album.name!.cleanAlbumName().localizedCaseInsensitiveCompare(albumsArray[index - 1].name!.cleanAlbumName()) == ComparisonResult.orderedSame {
                             backgroundContext.delete(album as NSManagedObject)
+                            artist.totalAlbums = artist.totalAlbums - 1
                         }
                     }
                 }
