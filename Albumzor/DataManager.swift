@@ -211,7 +211,7 @@ class DataManager {
         let scoreArtistPredicate = NSPredicate(format: "totalAlbums - seenAlbums > 0")
         scoreArtistRequest.sortDescriptors = [NSSortDescriptor(key: "score", ascending: false)]
         scoreArtistRequest.predicate = scoreArtistPredicate
-        scoreArtistRequest.fetchLimit = 11 - unseenArtists!.count
+        scoreArtistRequest.fetchLimit = 13 - unseenArtists!.count
         
         var scoreArtists: [Artist]?
         
@@ -230,6 +230,9 @@ class DataManager {
         }
         
         for artist in scoreArtists! {
+            if unseenArtists!.contains(artist) {
+                continue
+            }
             albums.append(chooseAlbum(artist: artist))
         }
         
