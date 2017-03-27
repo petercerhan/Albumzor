@@ -85,6 +85,14 @@ class AlbumsViewController: UIViewController {
 
 extension AlbumsViewController: UICollectionViewDelegate {
     
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        
+        let vc = storyboard!.instantiateViewController(withIdentifier: "AlbumDetailsViewController") as! AlbumDetailsViewController
+        present(vc, animated: true, completion: nil)
+        
+        return false
+    }
+    
 }
 
 extension AlbumsViewController: UICollectionViewDataSource {

@@ -30,6 +30,7 @@
 		E45D99171E7DC59300CD3CE7 /* NextStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99161E7DC59300CD3CE7 /* NextStepViewController.swift */; };
 		E45D99191E7F767400CD3CE7 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99181E7F767400CD3CE7 /* String.swift */; };
 		E45D991D1E84BE5900CD3CE7 /* SearchArtistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D991C1E84BE5900CD3CE7 /* SearchArtistViewController.swift */; };
+		E45D991F1E89D69300CD3CE7 /* AlbumDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D991E1E89D69300CD3CE7 /* AlbumDetailsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +80,7 @@
 		E45D99161E7DC59300CD3CE7 /* NextStepViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NextStepViewController.swift; sourceTree = "<group>"; };
 		E45D99181E7F767400CD3CE7 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		E45D991C1E84BE5900CD3CE7 /* SearchArtistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchArtistViewController.swift; sourceTree = "<group>"; };
+		E45D991E1E89D69300CD3CE7 /* AlbumDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumDetailsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,6 +210,7 @@
 				E45D99141E7B6DB100CD3CE7 /* AlbumsContainerViewController.swift */,
 				E45D99121E7B5F7F00CD3CE7 /* PrepareAlbumsViewController.swift */,
 				E45D990C1E7A18CE00CD3CE7 /* AlbumsViewController.swift */,
+				E45D991E1E89D69300CD3CE7 /* AlbumDetailsViewController.swift */,
 				E45D99161E7DC59300CD3CE7 /* NextStepViewController.swift */,
 			);
 			name = Controller;
@@ -355,6 +358,7 @@
 				E45D99171E7DC59300CD3CE7 /* NextStepViewController.swift in Sources */,
 				E45D98F71E77826E00CD3CE7 /* DataManager.swift in Sources */,
 				E45D98EF1E75EE8C00CD3CE7 /* SpotifyConstants.swift in Sources */,
+				E45D991F1E89D69300CD3CE7 /* AlbumDetailsViewController.swift in Sources */,
 				E45D98FA1E78D71800CD3CE7 /* CoreDataStack.swift in Sources */,
 				E45D99151E7B6DB100CD3CE7 /* AlbumsContainerViewController.swift in Sources */,
 				E45D98F11E776BFE00CD3CE7 /* SpotifyMethods.swift in Sources */,

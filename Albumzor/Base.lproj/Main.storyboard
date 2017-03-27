@@ -58,6 +58,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="116" y="36"/>
         </scene>
         <!--Search Artist View Controller-->
         <scene sceneID="Mkg-m6-vqS">
@@ -129,7 +130,51 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uzg-Xd-2Of" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="812" y="-638.2308845577212"/>
+            <point key="canvasLocation" x="116" y="-677"/>
+        </scene>
+        <!--Album Details View Controller-->
+        <scene sceneID="RaJ-HB-PJv">
+            <objects>
+                <viewController storyboardIdentifier="AlbumDetailsViewController" id="z37-xA-2s9" customClass="AlbumDetailsViewController" customModule="Albumzor" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Bou-CD-Eec"/>
+                        <viewControllerLayoutGuide type="bottom" id="p85-e2-E58"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="xtX-Yl-hrn">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UP5-Vb-zCI">
+                                <rect key="frame" x="164" y="629" width="46" height="30"/>
+                                <state key="normal" title="Back"/>
+                                <connections>
+                                    <action selector="back" destination="z37-xA-2s9" eventType="touchUpInside" id="IPQ-GQ-cPY"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FhF-oV-obe">
+                                <rect key="frame" x="16" y="20" width="343" height="343"/>
+                                <color key="backgroundColor" red="0.20000000000000001" green="0.72592592590000005" blue="0.96296296299999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="FhF-oV-obe" secondAttribute="height" multiplier="1:1" id="dXD-HF-VAd"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="p85-e2-E58" firstAttribute="top" secondItem="UP5-Vb-zCI" secondAttribute="bottom" constant="8" id="gh8-W6-x9D"/>
+                            <constraint firstItem="FhF-oV-obe" firstAttribute="top" secondItem="Bou-CD-Eec" secondAttribute="bottom" id="hAj-DS-hCJ"/>
+                            <constraint firstItem="FhF-oV-obe" firstAttribute="leading" secondItem="xtX-Yl-hrn" secondAttribute="leadingMargin" id="qMS-Jt-Lbi"/>
+                            <constraint firstItem="FhF-oV-obe" firstAttribute="trailing" secondItem="xtX-Yl-hrn" secondAttribute="trailingMargin" id="vn1-CV-Edu"/>
+                            <constraint firstItem="UP5-Vb-zCI" firstAttribute="centerX" secondItem="xtX-Yl-hrn" secondAttribute="centerX" id="z3b-zg-Bff"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="FhF-oV-obe" id="jgb-VJ-jyC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cj2-BW-kza" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1616.8" y="-638.2308845577212"/>
         </scene>
         <!--Prepare Albums View Controller-->
         <scene sceneID="Bt0-tK-glO">
@@ -338,7 +383,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wdu-Db-wkE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2398" y="36"/>
+            <point key="canvasLocation" x="2396" y="36"/>
         </scene>
     </scenes>
 </document>
