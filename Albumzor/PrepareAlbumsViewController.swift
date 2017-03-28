@@ -39,20 +39,6 @@ class PrepareAlbumsViewController: UIViewController {
         let albums = dataManager.getAlbums()
         var imageLinks = [String]()
         var albumsUsage = [AlbumUsage]()
-        //get albums from data manager
-    
-//        let request = NSFetchRequest<Album>(entityName: "Album")
-//        request.sortDescriptors = [NSSortDescriptor(key: "popularity", ascending: false)]
-//        request.fetchLimit = 10
-//        
-//        var albums = [Album]()
-//        
-//        do {
-//            albums = try self.stack.context.fetch(request)
-//        } catch {
-//            print("could not get albums")
-//        }
-        //
         
         for album in albums {
             imageLinks.append(album.largeImage!)

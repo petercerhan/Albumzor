@@ -210,8 +210,8 @@
 				E45D99141E7B6DB100CD3CE7 /* AlbumsContainerViewController.swift */,
 				E45D99121E7B5F7F00CD3CE7 /* PrepareAlbumsViewController.swift */,
 				E45D990C1E7A18CE00CD3CE7 /* AlbumsViewController.swift */,
-				E45D991E1E89D69300CD3CE7 /* AlbumDetailsViewController.swift */,
 				E45D99161E7DC59300CD3CE7 /* NextStepViewController.swift */,
+				E45D991E1E89D69300CD3CE7 /* AlbumDetailsViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";

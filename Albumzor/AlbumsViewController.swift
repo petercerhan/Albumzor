@@ -88,6 +88,7 @@ extension AlbumsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         
         let vc = storyboard!.instantiateViewController(withIdentifier: "AlbumDetailsViewController") as! AlbumDetailsViewController
+        vc.albumImage = albumArt[currentIndex]
         present(vc, animated: true, completion: nil)
         
         return false
@@ -111,7 +112,7 @@ extension AlbumsViewController: UICollectionViewDataSource {
         if(indexPath.item < albums.count) {
             let album = albums[indexPath.item]
             cell.imageView.image = albumArt[indexPath.item]
-            cell.titleLabel.text = album.name!
+            cell.titleLabel.text = album.name!.cleanAlbumName()
             cell.artistLabel.text = album.artist!.name!
         } else {
             cell.imageView.image = nil
