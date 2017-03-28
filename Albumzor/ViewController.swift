@@ -30,7 +30,7 @@ class ViewController: UIViewController {
     @IBAction func testData() {
         //testArtistData()
         //testAlbumData()
-        testAlbumChoice()
+        //testAlbumChoice()
     }
     
     func testAlbumChoice() {
