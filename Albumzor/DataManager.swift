@@ -71,21 +71,21 @@ class DataManager {
             artist!.references += 1
             artist!.score += 1
             
+            if addRelatedArtists, !(artist!.relatedAdded) {
+                self.getRelatedArtists(artistID: artist!.id!) { error in
+                    if let error = error {
+                        print("error \(error)")
+                    }
+                }
+                artist!.relatedAdded = true
+            }
+            
             do {
                 try backgroundContext.save()
             } catch {
                 print("Could not save context")
             }
             self.stack.save()
-            
-            if addRelatedArtists {
-                self.getRelatedArtists(artistID: artist!.id!) { error in
-                    if let error = error {
-                        print("error \(error)")
-                    }
-                }
-            }
-            
         }
     }
     
@@ -121,7 +121,6 @@ class DataManager {
         }
     }
     
-    //func star(album albumID: NSManagedObjectID){}
     func star(album albumID: NSManagedObjectID, addRelatedArtists: Bool) {
         let backgroundContext = stack.networkingContext
         
@@ -145,13 +144,21 @@ class DataManager {
             artist!.references += 1
             artist!.score += 1
             
-            if addRelatedArtists {
+            if addRelatedArtists, !(artist!.relatedAdded) {
                 self.getRelatedArtists(artistID: artist!.id!) { error in
                     if let error = error {
                         print("error \(error)")
                     }
                 }
+                artist!.relatedAdded = true
             }
+            
+            do {
+                try backgroundContext.save()
+            } catch {
+                print("Could not save context")
+            }
+            self.stack.save()
         }
     }
     
@@ -449,6 +456,7 @@ class DataManager {
                 
             
                 let artist = Artist(id: artistData["id"] as! String, name: artistData["name"] as! String, context: backgroundContext)
+                print("added \(artist.name!)")
                 //unpack albums
                 var albumsArray = [Album]()
                 for album in albumsData {

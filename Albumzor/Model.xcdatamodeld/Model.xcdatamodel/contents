@@ -15,6 +15,7 @@
         <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="references" optional="YES" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="relatedAdded" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="score" optional="YES" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="seenAlbums" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="totalAlbums" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -22,6 +23,6 @@
     </entity>
     <elements>
         <element name="Album" positionX="-54" positionY="9" width="128" height="180"/>
-        <element name="Artist" positionX="-36" positionY="63" width="128" height="150"/>
+        <element name="Artist" positionX="-36" positionY="63" width="128" height="165"/>
     </elements>
 </model>

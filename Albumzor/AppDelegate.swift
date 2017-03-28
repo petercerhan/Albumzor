@@ -22,12 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         dataManager = DataManager()
         
-//        do {
-//            try coreDataStack.dropAllData()
-//        } catch {
-//            print("Could not reset data model")
-//        }
-        
+        do {
+            try coreDataStack.dropAllData()
+        } catch {
+            print("Could not reset data model")
+        }
         
         
         return true
