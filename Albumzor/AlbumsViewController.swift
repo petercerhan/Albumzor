@@ -87,25 +87,9 @@ extension AlbumsViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         
-//        let vc = storyboard!.instantiateViewController(withIdentifier: "AlbumDetailsViewController") as! AlbumDetailsViewController
-//        vc.albumImage = albumArt[currentIndex]
-//        present(vc, animated: true, completion: nil)
-        
-        SpotifyClient.sharedInstance().getTracks(albumID: albums[currentIndex].id!) { result, error in
-            
-            if let error = error {
-                print("error: \(error)")
-            } else {
-                guard let tracksData = result as? [[String : AnyObject]] else {
-                    return
-                }
-                
-                for track in tracksData {
-                    print("track \(track["track_number"]) \(track["name"])")
-                }
-            }
-            
-        }
+        let vc = storyboard!.instantiateViewController(withIdentifier: "AlbumDetailsViewController") as! AlbumDetailsViewController
+        vc.albumImage = albumArt[currentIndex]
+        present(vc, animated: true, completion: nil)
         
         return false
     }

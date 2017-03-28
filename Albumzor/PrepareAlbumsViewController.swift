@@ -39,18 +39,21 @@ class PrepareAlbumsViewController: UIViewController {
         let albums = dataManager.getAlbums()
         var imageLinks = [String]()
         var albumsUsage = [AlbumUsage]()
+        var albumIDs = [(spotifyID: String, managedObjectID: NSManagedObjectID)]()
         
         for album in albums {
             imageLinks.append(album.largeImage!)
+            albumIDs.append((spotifyID: album.id!, managedObjectID: album.objectID))
         }
         
         DispatchQueue.global(qos: .userInitiated).async {
             var albumArt = [UIImage]()
-            for imageLink in imageLinks {
+            for (index, imageLink) in imageLinks.enumerated() {
                 
                 if let imageData = try? Data(contentsOf: URL(string: imageLink)!) {
                     albumArt.append(UIImage(data: imageData)!)
                     albumsUsage.append( (seen: false, liked: false, starred: false, relatedAdded: false) )
+                    self.dataManager.addTracks(forAlbumID: albumIDs[index].spotifyID, albumManagedObjectID: albumIDs[index].managedObjectID)
                 }
                 
             }

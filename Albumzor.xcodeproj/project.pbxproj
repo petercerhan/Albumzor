@@ -31,6 +31,7 @@
 		E45D99191E7F767400CD3CE7 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99181E7F767400CD3CE7 /* String.swift */; };
 		E45D991D1E84BE5900CD3CE7 /* SearchArtistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D991C1E84BE5900CD3CE7 /* SearchArtistViewController.swift */; };
 		E45D991F1E89D69300CD3CE7 /* AlbumDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D991E1E89D69300CD3CE7 /* AlbumDetailsViewController.swift */; };
+		E45D99211E8A9BAF00CD3CE7 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99201E8A9BAF00CD3CE7 /* Track.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,7 @@
 		E45D99181E7F767400CD3CE7 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		E45D991C1E84BE5900CD3CE7 /* SearchArtistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchArtistViewController.swift; sourceTree = "<group>"; };
 		E45D991E1E89D69300CD3CE7 /* AlbumDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumDetailsViewController.swift; sourceTree = "<group>"; };
+		E45D99201E8A9BAF00CD3CE7 /* Track.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +192,7 @@
 				E45D98F21E777F5B00CD3CE7 /* ArtistPrior.swift */,
 				E45D99081E7A05A900CD3CE7 /* Artist.swift */,
 				E45D990A1E7A0ED400CD3CE7 /* Album.swift */,
+				E45D99201E8A9BAF00CD3CE7 /* Track.swift */,
 			);
 			name = CoreData;
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 				E45D98F11E776BFE00CD3CE7 /* SpotifyMethods.swift in Sources */,
 				E45D98BD1E75DC2F00CD3CE7 /* ViewController.swift in Sources */,
 				E45D98BB1E75DC2F00CD3CE7 /* AppDelegate.swift in Sources */,
+				E45D99211E8A9BAF00CD3CE7 /* Track.swift in Sources */,
 				E45D98FD1E78D7A800CD3CE7 /* Model.xcdatamodeld in Sources */,
 				E45D99131E7B5F7F00CD3CE7 /* PrepareAlbumsViewController.swift in Sources */,
 				E45D99101E7A23E700CD3CE7 /* CollectionViewCell.swift in Sources */,

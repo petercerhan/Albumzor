@@ -19,7 +19,7 @@ class DataManager {
     func seen(album albumID: NSManagedObjectID) {
         let backgroundContext = stack.networkingContext
         
-        backgroundContext.perform{
+        backgroundContext.perform {
             var artist: Artist?
             
             do {
@@ -519,6 +519,60 @@ class DataManager {
             }
             
         }
+        
+    }
+
+    ///
+    func addTracks(forAlbumID: String, albumManagedObjectID: NSManagedObjectID) {
+        
+        client.getTracks(albumID: forAlbumID) { result, error in
+            let backgroundContext = self.stack.networkingContext
+            
+            backgroundContext.perform {
+                var album: Album?
+                do {
+                    album = try backgroundContext.existingObject(with: albumManagedObjectID) as? Album
+                } catch {
+                    print("Core data error")
+                }
+                
+                guard album != nil else {
+                    print("no artist")
+                    return
+                }
+                
+                guard let tracksData = result as? [[String : AnyObject]] else {
+                    print("bad data structure")
+                    return
+                }
+                
+                for trackData in tracksData {
+                    guard let id = trackData["id"] as? String,
+                            let name = trackData["name"] as? String,
+                            let trackNo = trackData["track_number"] as? Int,
+                            let discNo = trackData["disc_number"] as? Int else {
+                        
+                        print("Incomplete data for album \(album!.name!)")
+                        continue
+                    }
+                    
+                    let track = Track(id: id, name: name, trackNo: trackNo, discNo: discNo, context: backgroundContext)
+                    track.album = album
+                    track.popularity = trackData["popularity"] as? Int16 ?? 0
+                    track.previewURL = trackData["preview_url"] as? String ?? ""
+                    
+                    print("Adding track \(track.name)")
+                }
+                
+                do {
+                    try backgroundContext.save()
+                } catch {
+                    print("Could not save context")
+                }
+                self.stack.save()
+            }
+        }
+        
         
     }
 }
