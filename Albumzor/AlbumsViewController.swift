@@ -96,6 +96,7 @@ extension AlbumsViewController: UICollectionViewDelegate {
         let vc = storyboard!.instantiateViewController(withIdentifier: "AlbumDetailsViewController") as! AlbumDetailsViewController
         vc.albumImage = albumArt[currentIndex]
         vc.tracks = currentAlbumTracks
+        vc.album = albums[currentIndex]
         present(vc, animated: true, completion: nil)
         
         return false

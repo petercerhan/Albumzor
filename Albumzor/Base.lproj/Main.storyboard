@@ -145,7 +145,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FhF-oV-obe">
-                                <rect key="frame" x="15" y="5" width="345" height="345"/>
+                                <rect key="frame" x="40" y="10" width="295" height="295"/>
                                 <color key="backgroundColor" red="0.20000000000000001" green="0.72592592590000005" blue="0.96296296299999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="FhF-oV-obe" secondAttribute="height" multiplier="1:1" id="dXD-HF-VAd"/>
@@ -159,28 +159,46 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hBC-lM-7WT">
-                                <rect key="frame" x="0.0" y="423" width="375" height="198"/>
+                                <rect key="frame" x="0.0" y="391.5" width="375" height="229.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="z37-xA-2s9" id="Cka-tg-jdr"/>
                                     <outlet property="delegate" destination="z37-xA-2s9" id="2z8-C6-xns"/>
                                 </connections>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Album" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nbj-tq-tcN">
+                                <rect key="frame" x="156" y="313" width="63.5" height="26.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="prc-Lf-wSE">
+                                <rect key="frame" x="164" y="347.5" width="47.5" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="UP5-Vb-zCI" firstAttribute="top" secondItem="hBC-lM-7WT" secondAttribute="bottom" constant="8" id="0dY-W2-JJz"/>
-                            <constraint firstItem="FhF-oV-obe" firstAttribute="top" secondItem="xtX-Yl-hrn" secondAttribute="topMargin" constant="5" id="DHd-iZ-esc"/>
-                            <constraint firstItem="hBC-lM-7WT" firstAttribute="top" secondItem="FhF-oV-obe" secondAttribute="bottom" constant="73" id="Dgr-dC-0Q4"/>
-                            <constraint firstAttribute="trailing" secondItem="FhF-oV-obe" secondAttribute="trailing" constant="15" id="FlJ-dX-dNJ"/>
-                            <constraint firstItem="FhF-oV-obe" firstAttribute="leading" secondItem="xtX-Yl-hrn" secondAttribute="leading" constant="15" id="XAU-kg-ZSY"/>
+                            <constraint firstItem="FhF-oV-obe" firstAttribute="top" secondItem="xtX-Yl-hrn" secondAttribute="topMargin" constant="10" id="DHd-iZ-esc"/>
+                            <constraint firstAttribute="trailing" secondItem="FhF-oV-obe" secondAttribute="trailing" constant="40" id="FlJ-dX-dNJ"/>
+                            <constraint firstItem="nbj-tq-tcN" firstAttribute="centerX" secondItem="xtX-Yl-hrn" secondAttribute="centerX" id="Hrt-81-pZK"/>
+                            <constraint firstItem="FhF-oV-obe" firstAttribute="leading" secondItem="xtX-Yl-hrn" secondAttribute="leading" constant="40" id="XAU-kg-ZSY"/>
+                            <constraint firstItem="prc-Lf-wSE" firstAttribute="centerX" secondItem="xtX-Yl-hrn" secondAttribute="centerX" id="ax6-QC-Hsw"/>
+                            <constraint firstItem="hBC-lM-7WT" firstAttribute="top" secondItem="prc-Lf-wSE" secondAttribute="bottom" constant="20" id="bXU-zH-o42"/>
+                            <constraint firstItem="nbj-tq-tcN" firstAttribute="top" secondItem="FhF-oV-obe" secondAttribute="bottom" constant="8" id="dTC-Mw-QwZ"/>
                             <constraint firstItem="p85-e2-E58" firstAttribute="top" secondItem="UP5-Vb-zCI" secondAttribute="bottom" constant="8" id="gh8-W6-x9D"/>
                             <constraint firstAttribute="trailing" secondItem="hBC-lM-7WT" secondAttribute="trailing" id="opw-tD-vsT"/>
+                            <constraint firstItem="prc-Lf-wSE" firstAttribute="top" secondItem="nbj-tq-tcN" secondAttribute="bottom" constant="8" id="rpW-wR-Q5M"/>
                             <constraint firstItem="hBC-lM-7WT" firstAttribute="leading" secondItem="xtX-Yl-hrn" secondAttribute="leading" id="t0h-7x-dfz"/>
                             <constraint firstItem="UP5-Vb-zCI" firstAttribute="centerX" secondItem="xtX-Yl-hrn" secondAttribute="centerX" id="z3b-zg-Bff"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="albumLabel" destination="nbj-tq-tcN" id="6Y3-mQ-eyM"/>
+                        <outlet property="artistLabel" destination="prc-Lf-wSE" id="tat-Rb-AlN"/>
                         <outlet property="imageView" destination="FhF-oV-obe" id="jgb-VJ-jyC"/>
                         <outlet property="tableView" destination="hBC-lM-7WT" id="2Wf-jz-mFf"/>
                     </connections>

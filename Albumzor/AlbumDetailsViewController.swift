@@ -12,21 +12,22 @@ class AlbumDetailsViewController: UIViewController {
     
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var tableView: UITableView!
+    @IBOutlet var albumLabel: UILabel!
+    @IBOutlet var artistLabel: UILabel!
     
+    var album: Album!
     var tracks: [Track]?
     
     var albumImage: UIImage!
 
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Default")
         
-        super.viewDidLoad()
-        if let tracks = tracks {
-            for track in tracks {
-                print("track \(track.track): \(track.name)")
-            }
-        }
         imageView.image = albumImage
+        albumLabel.text = album.name!.cleanAlbumName()
+        artistLabel.text = album.artist!.name!
     }
     
     override func viewWillAppear(_ animated: Bool) {
