@@ -17,6 +17,11 @@ class ViewController: UIViewController {
         super.viewDidLoad()
     }
     
+    @IBAction func artistChooser() {
+        let vc = storyboard?.instantiateViewController(withIdentifier: "ChooseArtistViewController") as! ChooseArtistViewController
+        present(vc, animated: true, completion: nil)
+    }
+    
     @IBAction func addArtist() {
         let vc = storyboard?.instantiateViewController(withIdentifier: "SearchArtistViewController") as! SearchArtistViewController
         present(vc, animated: true, completion: nil)
@@ -31,6 +36,13 @@ class ViewController: UIViewController {
         //testArtistData()
         //testAlbumData()
         //testAlbumChoice()
+        
+        let label = UILabel()
+        label.text = "Red Hot Chili Peppers"
+        label.font = UIFont.systemFont(ofSize: 18.0)
+        label.frame = CGRect(x: 0, y: 0, width: 1, height: 1)
+        label.sizeToFit()
+        print("Frame: \(label.frame.size.width) x \(label.frame.size.height)")
     }
     
     func testAlbumChoice() {

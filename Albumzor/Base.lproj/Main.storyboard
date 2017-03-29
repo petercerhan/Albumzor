@@ -44,10 +44,19 @@
                                     <action selector="discoverAlbums" destination="BYZ-38-t0r" eventType="touchUpInside" id="mVI-c9-zNQ"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iv5-jc-1RC">
+                                <rect key="frame" x="137" y="164" width="100" height="30"/>
+                                <state key="normal" title="Artist Chooser"/>
+                                <connections>
+                                    <action selector="artistChooser" destination="BYZ-38-t0r" eventType="touchUpInside" id="qfm-sX-al2"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="Iv5-jc-1RC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="13K-Dm-jCT"/>
                             <constraint firstItem="YO6-Wq-FnD" firstAttribute="top" secondItem="XMh-wg-CLS" secondAttribute="bottom" constant="49" id="38Q-IL-6wV"/>
+                            <constraint firstItem="XMh-wg-CLS" firstAttribute="top" secondItem="Iv5-jc-1RC" secondAttribute="bottom" constant="45.5" id="3AO-ou-dtj"/>
                             <constraint firstItem="XMh-wg-CLS" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="52H-5k-MOp"/>
                             <constraint firstItem="YO6-Wq-FnD" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="5Kj-qU-RxL"/>
                             <constraint firstItem="vdV-lZ-wPU" firstAttribute="top" secondItem="YO6-Wq-FnD" secondAttribute="bottom" constant="46" id="9zp-pB-8hH"/>
@@ -59,6 +68,93 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="116" y="36"/>
+        </scene>
+        <!--Choose Artist View Controller-->
+        <scene sceneID="bhD-xP-ca5">
+            <objects>
+                <viewController storyboardIdentifier="ChooseArtistViewController" id="CIP-Kg-Qf9" customClass="ChooseArtistViewController" customModule="Albumzor" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="7o1-Ce-jve"/>
+                        <viewControllerLayoutGuide type="bottom" id="yGX-gv-7ru"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="fRG-p8-Tph">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wsc-9h-Z5s">
+                                <rect key="frame" x="168.5" y="627" width="37" height="30"/>
+                                <state key="normal" title="Done"/>
+                                <connections>
+                                    <action selector="done" destination="CIP-Kg-Qf9" eventType="touchUpInside" id="fVo-nw-7lG"/>
+                                </connections>
+                            </button>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="PuU-K6-39w">
+                                <rect key="frame" x="0.0" y="77" width="375" height="542"/>
+                                <color key="backgroundColor" red="0.93725490570000003" green="0.93725490570000003" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="sVZ-tJ-cK7">
+                                    <size key="itemSize" width="152" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ChooseArtistCollectionViewCell" id="mZM-qe-XTp" customClass="ChooseArtistCollectionViewCell" customModule="Albumzor" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="152" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="152" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oyX-Py-BzJ">
+                                                    <rect key="frame" x="55" y="54" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </view>
+                                        <color key="backgroundColor" red="0.20000000000000001" green="0.72592592590000005" blue="0.96296296299999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="oyX-Py-BzJ" firstAttribute="centerY" secondItem="mZM-qe-XTp" secondAttribute="centerY" id="F5c-C8-gI5"/>
+                                            <constraint firstItem="oyX-Py-BzJ" firstAttribute="centerX" secondItem="mZM-qe-XTp" secondAttribute="centerX" id="uOB-NB-arM"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="label" destination="oyX-Py-BzJ" id="rcq-IJ-9KD"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="CIP-Kg-Qf9" id="KJR-6X-Hmd"/>
+                                    <outlet property="delegate" destination="CIP-Kg-Qf9" id="jC3-NT-LA1"/>
+                                </connections>
+                            </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose 5 - 10 Artist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Gd-ec-JM4">
+                                <rect key="frame" x="110.5" y="28" width="153.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="PuU-K6-39w" secondAttribute="trailing" id="EZt-rR-leN"/>
+                            <constraint firstItem="Wsc-9h-Z5s" firstAttribute="centerX" secondItem="fRG-p8-Tph" secondAttribute="centerX" id="EvH-W6-Kdh"/>
+                            <constraint firstItem="PuU-K6-39w" firstAttribute="leading" secondItem="fRG-p8-Tph" secondAttribute="leading" id="HBg-WN-ueb"/>
+                            <constraint firstItem="yGX-gv-7ru" firstAttribute="top" secondItem="Wsc-9h-Z5s" secondAttribute="bottom" constant="10" id="mFh-Pv-Noz"/>
+                            <constraint firstItem="PuU-K6-39w" firstAttribute="top" secondItem="1Gd-ec-JM4" secondAttribute="bottom" constant="28" id="mTL-63-mEa"/>
+                            <constraint firstItem="1Gd-ec-JM4" firstAttribute="top" secondItem="7o1-Ce-jve" secondAttribute="bottom" constant="8" id="sXa-ua-VeY"/>
+                            <constraint firstItem="Wsc-9h-Z5s" firstAttribute="top" secondItem="PuU-K6-39w" secondAttribute="bottom" constant="8" id="vre-8D-DqM"/>
+                            <constraint firstItem="1Gd-ec-JM4" firstAttribute="centerX" secondItem="fRG-p8-Tph" secondAttribute="centerX" id="wjp-JU-Kjw"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="collectionView" destination="PuU-K6-39w" id="Dyk-iY-cjq"/>
+                        <outlet property="collectionViewFlowLayout" destination="sVZ-tJ-cK7" id="5jW-BN-r7q"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tWw-1i-aV4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-154.40000000000001" y="-661.61919040479768"/>
         </scene>
         <!--Search Artist View Controller-->
         <scene sceneID="Mkg-m6-vqS">
@@ -130,7 +226,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uzg-Xd-2Of" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="116" y="-677"/>
+            <point key="canvasLocation" x="602" y="-660"/>
         </scene>
         <!--Album Details View Controller-->
         <scene sceneID="RaJ-HB-PJv">

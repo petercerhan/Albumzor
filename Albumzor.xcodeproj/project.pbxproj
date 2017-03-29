@@ -32,6 +32,8 @@
 		E45D991D1E84BE5900CD3CE7 /* SearchArtistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D991C1E84BE5900CD3CE7 /* SearchArtistViewController.swift */; };
 		E45D991F1E89D69300CD3CE7 /* AlbumDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D991E1E89D69300CD3CE7 /* AlbumDetailsViewController.swift */; };
 		E45D99211E8A9BAF00CD3CE7 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99201E8A9BAF00CD3CE7 /* Track.swift */; };
+		E45D99231E8B4FEF00CD3CE7 /* ChooseArtistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99221E8B4FEF00CD3CE7 /* ChooseArtistViewController.swift */; };
+		E45D99251E8B534000CD3CE7 /* ChooseArtistCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99241E8B534000CD3CE7 /* ChooseArtistCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +85,8 @@
 		E45D991C1E84BE5900CD3CE7 /* SearchArtistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchArtistViewController.swift; sourceTree = "<group>"; };
 		E45D991E1E89D69300CD3CE7 /* AlbumDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumDetailsViewController.swift; sourceTree = "<group>"; };
 		E45D99201E8A9BAF00CD3CE7 /* Track.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
+		E45D99221E8B4FEF00CD3CE7 /* ChooseArtistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseArtistViewController.swift; sourceTree = "<group>"; };
+		E45D99241E8B534000CD3CE7 /* ChooseArtistCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseArtistCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +205,7 @@
 			isa = PBXGroup;
 			children = (
 				E45D990F1E7A23E700CD3CE7 /* CollectionViewCell.swift */,
+				E45D99241E8B534000CD3CE7 /* ChooseArtistCollectionViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -209,6 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				E45D98BC1E75DC2F00CD3CE7 /* ViewController.swift */,
+				E45D99221E8B4FEF00CD3CE7 /* ChooseArtistViewController.swift */,
 				E45D991C1E84BE5900CD3CE7 /* SearchArtistViewController.swift */,
 				E45D99141E7B6DB100CD3CE7 /* AlbumsContainerViewController.swift */,
 				E45D99121E7B5F7F00CD3CE7 /* PrepareAlbumsViewController.swift */,
@@ -362,6 +368,7 @@
 				E45D98F71E77826E00CD3CE7 /* DataManager.swift in Sources */,
 				E45D98EF1E75EE8C00CD3CE7 /* SpotifyConstants.swift in Sources */,
 				E45D991F1E89D69300CD3CE7 /* AlbumDetailsViewController.swift in Sources */,
+				E45D99251E8B534000CD3CE7 /* ChooseArtistCollectionViewCell.swift in Sources */,
 				E45D98FA1E78D71800CD3CE7 /* CoreDataStack.swift in Sources */,
 				E45D99151E7B6DB100CD3CE7 /* AlbumsContainerViewController.swift in Sources */,
 				E45D98F11E776BFE00CD3CE7 /* SpotifyMethods.swift in Sources */,
@@ -371,6 +378,7 @@
 				E45D98FD1E78D7A800CD3CE7 /* Model.xcdatamodeld in Sources */,
 				E45D99131E7B5F7F00CD3CE7 /* PrepareAlbumsViewController.swift in Sources */,
 				E45D99101E7A23E700CD3CE7 /* CollectionViewCell.swift in Sources */,
+				E45D99231E8B4FEF00CD3CE7 /* ChooseArtistViewController.swift in Sources */,
 				E45D990D1E7A18CE00CD3CE7 /* AlbumsViewController.swift in Sources */,
 				E45D990B1E7A0ED400CD3CE7 /* Album.swift in Sources */,
 				E45D99191E7F767400CD3CE7 /* String.swift in Sources */,

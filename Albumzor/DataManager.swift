@@ -480,10 +480,8 @@ class DataManager {
             let backgroundContext = self.stack.networkingContext
             
             backgroundContext.perform {
-                
-            
                 let artist = Artist(id: artistData["id"] as! String, name: artistData["name"] as! String, context: backgroundContext)
-                print("added \(artist.name!)")
+                
                 //unpack albums
                 var albumsArray = [Album]()
                 for album in albumsData {
@@ -565,6 +563,11 @@ class DataManager {
                 
                 guard album != nil else {
                     print("no artist")
+                    return
+                }
+                
+                //don't add tracks a second time
+                if let tracks = album!.track, tracks.count > 0 {
                     return
                 }
                 
