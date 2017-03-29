@@ -12,12 +12,23 @@ class AlbumDetailsViewController: UIViewController {
     
     @IBOutlet var imageView: UIImageView!
     
+    var tracks: [Track]?
+    
     var albumImage: UIImage!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         imageView.image = albumImage
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let tracks = tracks {
+            for track in tracks {
+                print("track \(track.track): \(track.name)")
+            }
+        }
     }
     
     @IBAction func back() {

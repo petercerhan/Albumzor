@@ -31,6 +31,9 @@ class AlbumsViewController: UIViewController {
     
     var currentIndex: Int = 0
     
+    var currentAlbumTracks: [Track]?
+    var nextAlbumTracks: [Track]?
+    
     let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
 
     override func viewDidLoad() {
@@ -43,6 +46,9 @@ class AlbumsViewController: UIViewController {
         //album 1 seen
         dataManager.seen(album: albums[0].objectID)
         usage[0].seen = true
+        //get tracks
+        currentAlbumTracks = dataManager.getTracks(forAlbum: albums[0].objectID)
+        nextAlbumTracks = dataManager.getTracks(forAlbum: albums[1].objectID)
     }
     
     
@@ -89,6 +95,7 @@ extension AlbumsViewController: UICollectionViewDelegate {
         
         let vc = storyboard!.instantiateViewController(withIdentifier: "AlbumDetailsViewController") as! AlbumDetailsViewController
         vc.albumImage = albumArt[currentIndex]
+        vc.tracks = currentAlbumTracks
         present(vc, animated: true, completion: nil)
         
         return false
@@ -187,7 +194,17 @@ extension AlbumsViewController: UIScrollViewDelegate {
         updateButtons()
         
         usage[index].seen = true
-        //print("index: \(index) seen: \(usage[index].seen) liked: \(usage[index].liked) starred: \(usage[index].starred)")
+        
+        if currentIndex > 10 {
+            currentAlbumTracks = nil
+        } else {
+            currentAlbumTracks = dataManager.getTracks(forAlbum: albums[currentIndex].objectID)
+        }
+        if currentIndex > 9 {
+            nextAlbumTracks = nil
+        } else {
+            nextAlbumTracks = dataManager.getTracks(forAlbum: albums[currentIndex + 1].objectID)
+        }
         
     }
     

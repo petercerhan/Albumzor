@@ -195,7 +195,7 @@ class DataManager {
         }
     }
     
-    //get albums to display. These albums are fetched in the main queue context
+    //get albums to display. These albums are in the main context
     func getAlbums() -> [Album] {
         let context = stack.context
         
@@ -244,6 +244,33 @@ class DataManager {
         }
         
         return albums
+    }
+    
+    //get tracks to display. These tracks are in the main context
+    func getTracks(forAlbum albumID: NSManagedObjectID) -> [Track] {
+        let context = stack.context
+        var album: Album?
+        
+        do {
+            album = try context.existingObject(with: albumID) as! Album
+        } catch {
+            print("core data error")
+        }
+        
+        let request = NSFetchRequest<Track>(entityName: "Track")
+        let predicate = NSPredicate(format: "album = %@", album!)
+        request.predicate = predicate
+        request.sortDescriptors = [NSSortDescriptor(key: "disc", ascending: true), NSSortDescriptor(key: "track", ascending: true)]
+        
+        var tracks: [Track]?
+        
+        do {
+            tracks = try context.fetch(request)
+        } catch {
+            print("could not get tracks")
+        }
+        
+        return tracks!
     }
     
     private func chooseAlbum(artist: Artist) -> Album {
@@ -560,8 +587,6 @@ class DataManager {
                     track.album = album
                     track.popularity = trackData["popularity"] as? Int16 ?? 0
                     track.previewURL = trackData["preview_url"] as? String ?? ""
-                    
-                    print("Adding track \(track.name)")
                 }
                 
                 do {
