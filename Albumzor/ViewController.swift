@@ -36,13 +36,6 @@ class ViewController: UIViewController {
         //testArtistData()
         //testAlbumData()
         //testAlbumChoice()
-        
-        let label = UILabel()
-        label.text = "Red Hot Chili Peppers"
-        label.font = UIFont.systemFont(ofSize: 18.0)
-        label.frame = CGRect(x: 0, y: 0, width: 1, height: 1)
-        label.sizeToFit()
-        print("Frame: \(label.frame.size.width) x \(label.frame.size.height)")
     }
     
     func testAlbumChoice() {

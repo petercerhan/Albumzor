@@ -58,10 +58,11 @@ extension ChooseArtistViewController: ArtistCollectionViewLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, sizeForLabelAtIndexPath path: IndexPath) -> CGSize {
         let label = UILabel()
         label.text = ChooseArtistViewController.suggestedArtists[path.item]
-        label.font = UIFont.systemFont(ofSize: 18.0)
+        label.font = UIFont.systemFont(ofSize: 22.0)
         label.frame = CGRect(x: 0, y: 0, width: 1, height: 1)
         label.sizeToFit()
-        return label.frame.size
+        let size = label.frame.size
+        return CGSize(width: size.width + CGFloat(20), height: size.height + CGFloat(10))
     }
 }
 
