@@ -34,6 +34,7 @@
 		E45D99211E8A9BAF00CD3CE7 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99201E8A9BAF00CD3CE7 /* Track.swift */; };
 		E45D99231E8B4FEF00CD3CE7 /* ChooseArtistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99221E8B4FEF00CD3CE7 /* ChooseArtistViewController.swift */; };
 		E45D99251E8B534000CD3CE7 /* ChooseArtistCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99241E8B534000CD3CE7 /* ChooseArtistCollectionViewCell.swift */; };
+		E45D99271E8C7C7900CD3CE7 /* ArtistCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99261E8C7C7900CD3CE7 /* ArtistCollectionViewLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,7 @@
 		E45D99201E8A9BAF00CD3CE7 /* Track.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
 		E45D99221E8B4FEF00CD3CE7 /* ChooseArtistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseArtistViewController.swift; sourceTree = "<group>"; };
 		E45D99241E8B534000CD3CE7 /* ChooseArtistCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseArtistCollectionViewCell.swift; sourceTree = "<group>"; };
+		E45D99261E8C7C7900CD3CE7 /* ArtistCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtistCollectionViewLayout.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +208,7 @@
 			children = (
 				E45D990F1E7A23E700CD3CE7 /* CollectionViewCell.swift */,
 				E45D99241E8B534000CD3CE7 /* ChooseArtistCollectionViewCell.swift */,
+				E45D99261E8C7C7900CD3CE7 /* ArtistCollectionViewLayout.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -372,6 +375,7 @@
 				E45D98FA1E78D71800CD3CE7 /* CoreDataStack.swift in Sources */,
 				E45D99151E7B6DB100CD3CE7 /* AlbumsContainerViewController.swift in Sources */,
 				E45D98F11E776BFE00CD3CE7 /* SpotifyMethods.swift in Sources */,
+				E45D99271E8C7C7900CD3CE7 /* ArtistCollectionViewLayout.swift in Sources */,
 				E45D98BD1E75DC2F00CD3CE7 /* ViewController.swift in Sources */,
 				E45D98BB1E75DC2F00CD3CE7 /* AppDelegate.swift in Sources */,
 				E45D99211E8A9BAF00CD3CE7 /* Track.swift in Sources */,

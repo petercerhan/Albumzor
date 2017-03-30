@@ -91,22 +91,17 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="PuU-K6-39w">
                                 <rect key="frame" x="0.0" y="77" width="375" height="542"/>
                                 <color key="backgroundColor" red="0.93725490570000003" green="0.93725490570000003" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="sVZ-tJ-cK7">
-                                    <size key="itemSize" width="152" height="128"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
+                                <collectionViewLayout key="collectionViewLayout" id="JK9-cP-xQC" customClass="ArtistCollectionViewLayout" customModule="Albumzor" customModuleProvider="target"/>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ChooseArtistCollectionViewCell" id="mZM-qe-XTp" customClass="ChooseArtistCollectionViewCell" customModule="Albumzor" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="152" height="128"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="163" height="126"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="152" height="128"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="163" height="126"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oyX-Py-BzJ">
-                                                    <rect key="frame" x="55" y="54" width="42" height="21"/>
+                                                    <rect key="frame" x="60.5" y="52.5" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -118,6 +113,7 @@
                                             <constraint firstItem="oyX-Py-BzJ" firstAttribute="centerY" secondItem="mZM-qe-XTp" secondAttribute="centerY" id="F5c-C8-gI5"/>
                                             <constraint firstItem="oyX-Py-BzJ" firstAttribute="centerX" secondItem="mZM-qe-XTp" secondAttribute="centerX" id="uOB-NB-arM"/>
                                         </constraints>
+                                        <size key="customSize" width="163" height="126"/>
                                         <connections>
                                             <outlet property="label" destination="oyX-Py-BzJ" id="rcq-IJ-9KD"/>
                                         </connections>
@@ -149,7 +145,6 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="PuU-K6-39w" id="Dyk-iY-cjq"/>
-                        <outlet property="collectionViewFlowLayout" destination="sVZ-tJ-cK7" id="5jW-BN-r7q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tWw-1i-aV4" userLabel="First Responder" sceneMemberID="firstResponder"/>
