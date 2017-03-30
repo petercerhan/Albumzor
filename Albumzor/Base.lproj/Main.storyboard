@@ -69,6 +69,38 @@
             </objects>
             <point key="canvasLocation" x="116" y="36"/>
         </scene>
+        <!--Confirm Artist View Controller-->
+        <scene sceneID="5u6-rb-t2H">
+            <objects>
+                <viewController storyboardIdentifier="ConfirmArtistViewController" id="Pac-VK-2Zx" customClass="ConfirmArtistViewController" customModule="Albumzor" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="xV2-Sb-PTT"/>
+                        <viewControllerLayoutGuide type="bottom" id="QJf-un-BEO"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="z0T-gX-ePp">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PZs-iF-E1s">
+                                <rect key="frame" x="164" y="318" width="46" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Back"/>
+                                <connections>
+                                    <action selector="back" destination="Pac-VK-2Zx" eventType="touchUpInside" id="aJE-zB-pNe"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="PZs-iF-E1s" firstAttribute="centerY" secondItem="z0T-gX-ePp" secondAttribute="centerY" id="Ipf-8K-8Ec"/>
+                            <constraint firstItem="PZs-iF-E1s" firstAttribute="centerX" secondItem="z0T-gX-ePp" secondAttribute="centerX" id="S5B-aC-Obg"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VGv-V8-PkL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-641" y="-727"/>
+        </scene>
         <!--Choose Artist View Controller-->
         <scene sceneID="bhD-xP-ca5">
             <objects>
@@ -100,8 +132,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="163" height="126"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oyX-Py-BzJ">
-                                                    <rect key="frame" x="56.5" y="50" width="52" height="26.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tVW-kz-4mT">
+                                                    <rect key="frame" x="55" y="50.5" width="54" height="26.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -110,12 +142,12 @@
                                         </view>
                                         <color key="backgroundColor" red="0.20000000000000001" green="0.72592592590000005" blue="0.96296296299999995" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
-                                            <constraint firstItem="oyX-Py-BzJ" firstAttribute="centerY" secondItem="mZM-qe-XTp" secondAttribute="centerY" id="F5c-C8-gI5"/>
-                                            <constraint firstItem="oyX-Py-BzJ" firstAttribute="centerX" secondItem="mZM-qe-XTp" secondAttribute="centerX" id="uOB-NB-arM"/>
+                                            <constraint firstItem="tVW-kz-4mT" firstAttribute="centerY" secondItem="mZM-qe-XTp" secondAttribute="centerY" id="SUi-IM-oEX"/>
+                                            <constraint firstItem="tVW-kz-4mT" firstAttribute="centerX" secondItem="mZM-qe-XTp" secondAttribute="centerX" id="WNt-Zf-IXj"/>
                                         </constraints>
                                         <size key="customSize" width="163" height="126"/>
                                         <connections>
-                                            <outlet property="label" destination="oyX-Py-BzJ" id="rcq-IJ-9KD"/>
+                                            <outlet property="label" destination="tVW-kz-4mT" id="pzF-gF-j5w"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -149,7 +181,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tWw-1i-aV4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-154.40000000000001" y="-661.61919040479768"/>
+            <point key="canvasLocation" x="116" y="-727"/>
         </scene>
         <!--Search Artist View Controller-->
         <scene sceneID="Mkg-m6-vqS">
@@ -221,7 +253,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uzg-Xd-2Of" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="602" y="-660"/>
+            <point key="canvasLocation" x="940" y="-727"/>
         </scene>
         <!--Album Details View Controller-->
         <scene sceneID="RaJ-HB-PJv">
@@ -296,7 +328,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cj2-BW-kza" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1616.8" y="-638.2308845577212"/>
+            <point key="canvasLocation" x="1617" y="722"/>
         </scene>
         <!--Prepare Albums View Controller-->
         <scene sceneID="Bt0-tK-glO">

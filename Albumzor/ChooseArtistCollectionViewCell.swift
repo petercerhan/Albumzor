@@ -12,4 +12,5 @@ class ChooseArtistCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet var label: UILabel!
     
+    
 }

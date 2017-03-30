@@ -11,7 +11,6 @@ import UIKit
 class ChooseArtistViewController: UIViewController {
     
     @IBOutlet var collectionView: UICollectionView!
-    @IBOutlet var collectionViewFlowLayout: UICollectionViewFlowLayout!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +29,18 @@ class ChooseArtistViewController: UIViewController {
 
 extension ChooseArtistViewController: UICollectionViewDelegate {
     
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        
+        var cell = collectionView.cellForItem(at: indexPath)
+        cell?.contentView.backgroundColor = UIColor.red
+        
+        
+        let vc = storyboard!.instantiateViewController(withIdentifier: "ConfirmArtistViewController")
+        present(vc, animated: true, completion: nil)
+        
+        
+        return true
+    }
 }
 
 extension ChooseArtistViewController: UICollectionViewDataSource {
@@ -48,10 +59,6 @@ extension ChooseArtistViewController: UICollectionViewDataSource {
         
         return cell
     }
-}
-
-extension ChooseArtistViewController: UICollectionViewDelegateFlowLayout {
-    
 }
 
 extension ChooseArtistViewController: ArtistCollectionViewLayoutDelegate {
@@ -106,5 +113,7 @@ extension ChooseArtistViewController {
                           "Talking Heads",
                           "U2",
                           "The Velvet Underground",
-                          "Willie Nelson"]
+                          "Willie Nelson",
+                          "Capadonna",
+                          "Lil Wayne"]
 }
