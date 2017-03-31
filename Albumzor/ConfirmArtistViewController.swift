@@ -8,8 +8,15 @@
 
 import UIKit
 
+protocol ConfirmArtistViewControllerDelegate {
+    func artistChosen()
+    func artistCanceled()
+}
+
 class ConfirmArtistViewController: UIViewController {
 
+    var delegate: ConfirmArtistViewControllerDelegate!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -17,7 +24,7 @@ class ConfirmArtistViewController: UIViewController {
     }
 
     @IBAction func back() {
-        dismiss(animated: true, completion: nil)
+        delegate.artistChosen()
     }
 
 }

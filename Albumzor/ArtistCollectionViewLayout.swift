@@ -99,6 +99,8 @@ class ArtistCollectionViewLayout: UICollectionViewLayout {
         return layoutAttributes
     }
     
-    
+    func clearCache() {
+        cache = [UICollectionViewLayoutAttributes]()
+    }
     
 }

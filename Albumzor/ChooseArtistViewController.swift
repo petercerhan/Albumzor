@@ -12,6 +12,9 @@ class ChooseArtistViewController: UIViewController {
     
     @IBOutlet var collectionView: UICollectionView!
     
+    var selectedCellPath: IndexPath?
+    var artists = ChooseArtistViewController.suggestedArtists
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -24,20 +27,18 @@ class ChooseArtistViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-
 }
 
 extension ChooseArtistViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        
-        var cell = collectionView.cellForItem(at: indexPath)
+        let cell = collectionView.cellForItem(at: indexPath)
         cell?.contentView.backgroundColor = UIColor.red
+        selectedCellPath = indexPath
         
-        
-        let vc = storyboard!.instantiateViewController(withIdentifier: "ConfirmArtistViewController")
+        let vc = storyboard!.instantiateViewController(withIdentifier: "ConfirmArtistViewController") as! ConfirmArtistViewController
+        vc.delegate = self
         present(vc, animated: true, completion: nil)
-        
         
         return true
     }
@@ -49,13 +50,18 @@ extension ChooseArtistViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return ChooseArtistViewController.suggestedArtists.count
+        return artists.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ChooseArtistCollectionViewCell", for: indexPath) as! ChooseArtistCollectionViewCell
         
-        cell.label.text = ChooseArtistViewController.suggestedArtists[indexPath.item]
+        cell.label.text = artists[indexPath.item]
+
+        cell.layer.borderWidth = 2.0
+        cell.layer.borderColor = UIColor.blue.cgColor
+        cell.layer.cornerRadius = 20.0
+        cell.contentView.backgroundColor = UIColor.white
         
         return cell
     }
@@ -64,13 +70,38 @@ extension ChooseArtistViewController: UICollectionViewDataSource {
 extension ChooseArtistViewController: ArtistCollectionViewLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, sizeForLabelAtIndexPath path: IndexPath) -> CGSize {
         let label = UILabel()
-        label.text = ChooseArtistViewController.suggestedArtists[path.item]
+        label.text = artists[path.item]
         label.font = UIFont.systemFont(ofSize: 22.0)
         label.frame = CGRect(x: 0, y: 0, width: 1, height: 1)
         label.sizeToFit()
         let size = label.frame.size
-        return CGSize(width: size.width + CGFloat(20), height: size.height + CGFloat(10))
+        
+        //Add padded label vertical & horiztonal padding
+        return CGSize(width: size.width + CGFloat(20), height: size.height + CGFloat(14))
     }
+}
+
+//MARK:- ConfirmArtistViewControllerDelegate
+
+extension ChooseArtistViewController: ConfirmArtistViewControllerDelegate {
+    func artistChosen() {
+        let cell = collectionView.cellForItem(at: selectedCellPath!) as! ChooseArtistCollectionViewCell
+        cell.contentView.backgroundColor = UIColor.blue
+        
+        (collectionView.collectionViewLayout as! ArtistCollectionViewLayout).clearCache()
+        artists.remove(at: selectedCellPath!.item)
+        collectionView.deleteItems(at: [selectedCellPath!])
+        collectionView.reloadData()                                   
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func artistCanceled() {
+        let cell = collectionView.cellForItem(at: selectedCellPath!) as! ChooseArtistCollectionViewCell
+        cell.contentView.backgroundColor = UIColor.blue
+        dismiss(animated: true, completion: nil)
+    }
+    
 }
 
 //MARK:- Artist Data
