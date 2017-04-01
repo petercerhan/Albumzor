@@ -52,7 +52,7 @@ class PrepareAlbumsViewController: UIViewController {
                 
                 if let imageData = try? Data(contentsOf: URL(string: imageLink)!) {
                     albumArt.append(UIImage(data: imageData)!)
-                    albumsUsage.append( (seen: false, liked: false, starred: false, relatedAdded: false) )
+                    albumsUsage.append( (seen: false, liked: false, relatedAdded: false) )
                     self.dataManager.addTracks(forAlbumID: albumIDs[index].spotifyID, albumManagedObjectID: albumIDs[index].managedObjectID)
                 }
                 

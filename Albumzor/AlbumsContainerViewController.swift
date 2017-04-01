@@ -50,9 +50,11 @@ class AlbumsContainerViewController: UIViewController {
     
 }
 
+//MARK:- PrepareAlbumsViewControllerDelegate
+
 extension AlbumsContainerViewController: PrepareAlbumsViewControllerDelegate {
     func launchAlbumView(albums: [Album], albumArt: [UIImage], albumUsage: [AlbumUsage]) {
-        let vc = appStoryboard.instantiateViewController(withIdentifier: "AlbumsViewController") as! AlbumsViewController
+        let vc = appStoryboard.instantiateViewController(withIdentifier: "SuggestAlbumsViewController") as! SuggestAlbumsViewController
         vc.albums = albums
         vc.albumArt = albumArt
         vc.usage = albumUsage
@@ -61,7 +63,9 @@ extension AlbumsContainerViewController: PrepareAlbumsViewControllerDelegate {
     }
 }
 
-extension AlbumsContainerViewController: AlbumsViewControllerDelegate {
+//MARK:- AlbumsViewControllerDelegate
+
+extension AlbumsContainerViewController: AlbumsViewControllerDelegate, SuggestAlbumsViewControllerDelegate {
     func quit() {
         dismiss(animated: true, completion: nil)
     }
@@ -72,6 +76,8 @@ extension AlbumsContainerViewController: AlbumsViewControllerDelegate {
         update(contentViewController: vc)
     }
 }
+
+//MARK:- NextStepViewControllerDelegate
 
 extension AlbumsContainerViewController: NextStepViewControllerDelegate {
     func nextBattery() {

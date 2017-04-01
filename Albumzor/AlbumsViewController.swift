@@ -13,7 +13,6 @@ protocol AlbumsViewControllerDelegate {
     func batteryComplete()
 }
 
-typealias AlbumUsage = (seen: Bool, liked: Bool, starred: Bool, relatedAdded: Bool)
 
 class AlbumsViewController: UIViewController {
     
@@ -72,16 +71,16 @@ class AlbumsViewController: UIViewController {
     
     //Album starred
     @IBAction func starAlbum() {
-        if usage[currentIndex].starred {
-            starButton.setTitleColor(UIColor.blue, for: .normal)
-            usage[currentIndex].starred = false
-            dataManager.unstar(album: albums[currentIndex].objectID)
-        } else {
-            starButton.setTitleColor(UIColor.green, for: .normal)
-            usage[currentIndex].starred = true
-            dataManager.star(album: albums[currentIndex].objectID, addRelatedArtists: !usage[currentIndex].relatedAdded)
-            usage[currentIndex].relatedAdded = true
-        }
+//        if usage[currentIndex].starred {
+//            starButton.setTitleColor(UIColor.blue, for: .normal)
+//            usage[currentIndex].starred = false
+//            dataManager.unstar(album: albums[currentIndex].objectID)
+//        } else {
+//            starButton.setTitleColor(UIColor.green, for: .normal)
+//            usage[currentIndex].starred = true
+//            dataManager.star(album: albums[currentIndex].objectID, addRelatedArtists: !usage[currentIndex].relatedAdded)
+//            usage[currentIndex].relatedAdded = true
+//        }
     }
     
     
@@ -138,11 +137,11 @@ extension AlbumsViewController: UICollectionViewDataSource {
             likeButton.setTitleColor(UIColor.blue, for: .normal)
         }
         
-        if usage[currentIndex].starred {
-            starButton.setTitleColor(UIColor.green, for: .normal)
-        } else {
-            starButton.setTitleColor(UIColor.blue, for: .normal)
-        }
+//        if usage[currentIndex].starred {
+//            starButton.setTitleColor(UIColor.green, for: .normal)
+//        } else {
+//            starButton.setTitleColor(UIColor.blue, for: .normal)
+//        }
     }
     
 }

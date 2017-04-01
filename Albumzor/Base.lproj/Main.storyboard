@@ -262,6 +262,41 @@
             </objects>
             <point key="canvasLocation" x="940" y="-727"/>
         </scene>
+        <!--Suggest Albums View Controller-->
+        <scene sceneID="crP-FI-xXu">
+            <objects>
+                <viewController storyboardIdentifier="SuggestAlbumsViewController" id="X8r-tE-8de" customClass="SuggestAlbumsViewController" customModule="Albumzor" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="PgD-Xw-Dk3"/>
+                        <viewControllerLayoutGuide type="bottom" id="IOi-8T-ica"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="KEZ-zS-ewq">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RVp-es-UfG" customClass="CGDraggableView" customModule="Albumzor" customModuleProvider="target">
+                                <rect key="frame" x="66" y="211.5" width="243" height="243"/>
+                                <color key="backgroundColor" red="0.45591514909999997" green="0.73202645310000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="RVp-es-UfG" secondAttribute="height" multiplier="1:1" id="yoc-4t-UvH"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="RVp-es-UfG" firstAttribute="centerY" secondItem="KEZ-zS-ewq" secondAttribute="centerY" id="1he-zK-Jr4"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="RVp-es-UfG" secondAttribute="trailing" constant="50" id="6T2-cg-hbL"/>
+                            <constraint firstItem="RVp-es-UfG" firstAttribute="leading" secondItem="KEZ-zS-ewq" secondAttribute="leadingMargin" constant="50" id="HjX-bs-CDy"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="initialAlbumView" destination="RVp-es-UfG" id="UND-wa-jUl"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zaJ-Ed-Ofb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="608.79999999999995" y="698.5007496251875"/>
+        </scene>
         <!--Album Details View Controller-->
         <scene sceneID="RaJ-HB-PJv">
             <objects>

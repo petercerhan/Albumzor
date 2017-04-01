@@ -39,6 +39,7 @@
 		E45D992D1E8DD41700CD3CE7 /* PaddedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D992C1E8DD41700CD3CE7 /* PaddedLabel.swift */; };
 		E45D996D1E90369100CD3CE7 /* CGDraggableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D996C1E90369000CD3CE7 /* CGDraggableView.swift */; };
 		E45D996F1E90369C00CD3CE7 /* CGOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D996E1E90369C00CD3CE7 /* CGOverlayView.swift */; };
+		E45D99731E903B0B00CD3CE7 /* SuggestAlbumsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99721E903B0B00CD3CE7 /* SuggestAlbumsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +98,7 @@
 		E45D992C1E8DD41700CD3CE7 /* PaddedLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaddedLabel.swift; sourceTree = "<group>"; };
 		E45D996C1E90369000CD3CE7 /* CGDraggableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGDraggableView.swift; sourceTree = "<group>"; };
 		E45D996E1E90369C00CD3CE7 /* CGOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGOverlayView.swift; sourceTree = "<group>"; };
+		E45D99721E903B0B00CD3CE7 /* SuggestAlbumsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestAlbumsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -236,6 +238,7 @@
 				E45D990C1E7A18CE00CD3CE7 /* AlbumsViewController.swift */,
 				E45D99161E7DC59300CD3CE7 /* NextStepViewController.swift */,
 				E45D991E1E89D69300CD3CE7 /* AlbumDetailsViewController.swift */,
+				E45D99721E903B0B00CD3CE7 /* SuggestAlbumsViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -399,6 +402,7 @@
 				E45D99101E7A23E700CD3CE7 /* CollectionViewCell.swift in Sources */,
 				E45D99231E8B4FEF00CD3CE7 /* ChooseArtistViewController.swift in Sources */,
 				E45D990D1E7A18CE00CD3CE7 /* AlbumsViewController.swift in Sources */,
+				E45D99731E903B0B00CD3CE7 /* SuggestAlbumsViewController.swift in Sources */,
 				E45D990B1E7A0ED400CD3CE7 /* Album.swift in Sources */,
 				E45D996D1E90369100CD3CE7 /* CGDraggableView.swift in Sources */,
 				E45D99191E7F767400CD3CE7 /* String.swift in Sources */,

@@ -8,6 +8,12 @@
 
 import UIKit
 
+enum SwipeDirection: Int {
+    case none
+    case left
+    case right
+}
+
 protocol CGDraggableViewDelegate {
     func swipeComplete(direction: SwipeDirection)
 }
@@ -23,7 +29,6 @@ class CGDraggableView: UIView {
     
     var delegate: CGDraggableViewDelegate?
     
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dragged(gestureRecognizer:)))
@@ -33,7 +38,6 @@ class CGDraggableView: UIView {
         self.addGestureRecognizer(tapGestureRecognizer)
         
         imageView = UIImageView(frame: bounds)
-        imageView.image = UIImage(named: "TestImage")
         addSubview(imageView)
         
         overlayView = CGOverlayView(frame: bounds)
@@ -51,7 +55,6 @@ class CGDraggableView: UIView {
         self.addGestureRecognizer(tapGestureRecognizer)
         
         imageView = UIImageView(frame: bounds)
-        imageView.image = UIImage(named: "TestImage")
         addSubview(imageView)
         
         overlayView = CGOverlayView(frame: bounds)

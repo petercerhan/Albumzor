@@ -8,12 +8,6 @@
 
 import UIKit
 
-enum SwipeDirection: Int {
-    case none
-    case left
-    case right
-}
-
 class CGOverlayView: UIView {
     
     var mode: SwipeDirection = .none {
