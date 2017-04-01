@@ -20,7 +20,7 @@ class ArtistCollectionViewLayout: UICollectionViewLayout {
 
     var cellSpacing: CGFloat = 10.0
     
-    var contentHeight: CGFloat = 0
+    var contentHeight: CGFloat = 0.0
     private var contentWidth: CGFloat {
         let insets = collectionView!.contentInset
         return collectionView!.bounds.width - (insets.left + insets.right)
@@ -29,7 +29,7 @@ class ArtistCollectionViewLayout: UICollectionViewLayout {
     
     override func prepare() {
         if cache.isEmpty {
-            contentHeight = 0
+            contentHeight = cellSpacing
             let maxRowWidth = contentWidth
             
             var item = 0
