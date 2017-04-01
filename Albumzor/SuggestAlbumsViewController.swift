@@ -28,6 +28,9 @@ class SuggestAlbumsViewController: UIViewController {
     var albums: [Album]!
     var usage: [AlbumUsage]!
     
+    var currentAlbumTracks: [Track]?
+    var nextAlbumTracks: [Track]?
+    
     var currentIndex: Int = 0
     
     let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
@@ -35,8 +38,6 @@ class SuggestAlbumsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        print("Albums count \(albums.count)")
 
         //ConfigureAlbumViews
         currentAlbumView = initialAlbumView
@@ -50,7 +51,9 @@ class SuggestAlbumsViewController: UIViewController {
         nextAlbumView.imageView.image = albumArt[1]
         nextAlbumView.delegate = self
         view.insertSubview(nextAlbumView, belowSubview: currentAlbumView)
-        
+
+        currentAlbumTracks = dataManager.getTracks(forAlbum: albums[0].objectID)
+        nextAlbumTracks = dataManager.getTracks(forAlbum: albums[1].objectID)
     }
 
     @IBAction func quit() {
@@ -61,11 +64,13 @@ class SuggestAlbumsViewController: UIViewController {
 
 extension SuggestAlbumsViewController: CGDraggableViewDelegate {
     func swipeComplete(direction: SwipeDirection) {
+
+        //potentially move "seen" code to here
+        
         if direction == .right {
             dataManager.like(album: albums[currentIndex].objectID, addRelatedArtists: !usage[currentIndex].relatedAdded)
             usage[currentIndex].relatedAdded = true
         } else {
-            //potentially move "seen" code to here
         }
         
         //if last album has been swiped, go to next steps view
@@ -75,7 +80,6 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
         }
         
         currentIndex += 1
-        print("Current Index \(currentIndex)")
         
         //add bottom album unless we are on the final album of the battery
         if currentIndex < albums.count - 1 {
@@ -87,9 +91,24 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
         }
         
         //get tracks
+        currentAlbumTracks = nextAlbumTracks
+        
+        if currentIndex == albums.count - 1 {
+            nextAlbumTracks = nil
+        } else {
+            nextAlbumTracks = dataManager.getTracks(forAlbum: albums[currentIndex + 1].objectID)
+        }
         
         dataManager.seen(album: albums[currentIndex].objectID)
         usage[currentIndex].seen = true
+    }
+
+    func tapped() {
+        let vc = storyboard!.instantiateViewController(withIdentifier: "AlbumDetailsViewController") as! AlbumDetailsViewController
+        vc.albumImage = albumArt[currentIndex]
+        vc.tracks = currentAlbumTracks
+        vc.album = albums[currentIndex]
+        present(vc, animated: true, completion: nil)
     }
 }
 

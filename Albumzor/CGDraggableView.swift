@@ -16,6 +16,7 @@ enum SwipeDirection: Int {
 
 protocol CGDraggableViewDelegate {
     func swipeComplete(direction: SwipeDirection)
+    func tapped()
 }
 
 class CGDraggableView: UIView {
@@ -63,7 +64,7 @@ class CGDraggableView: UIView {
     }
     
     func tapped(gestureRecognizer: UITapGestureRecognizer) {
-        print("tap detected")
+        delegate!.tapped()
     }
     
     func dragged(gestureRecognizer: UIPanGestureRecognizer) {
@@ -112,33 +113,30 @@ class CGDraggableView: UIView {
     }
     
     func completeSwipe() {
-        
         UIView.animate(withDuration: 0.1,
                        animations: {
-                        
-                        if self.overlayView.mode == .right {
-                            self.center = CGPoint(x: self.center.x + 100.0, y: self.center.y + 0.0)
-                        } else {
-                            self.center = CGPoint(x: self.center.x - 100.0, y: self.center.y + 0.0)
-                        }
-                        self.alpha = 0
-        },
+                            if self.overlayView.mode == .right {
+                                self.center = CGPoint(x: self.center.x + 100.0, y: self.center.y + 0.0)
+                            } else {
+                                self.center = CGPoint(x: self.center.x - 100.0, y: self.center.y + 0.0)
+                            }
+                            self.alpha = 0
+                        },
                        completion: { _ in self.removeFromSuperview()
-                        if let delegate = self.delegate {
-                            delegate.swipeComplete(direction: self.direction)
-                        }
-        })
+                            if let delegate = self.delegate {
+                                delegate.swipeComplete(direction: self.direction)
+                            }
+                        })
     }
     
     func resetViewPositionAndTransformations() {
         
         UIView.animate(withDuration: 0.2, animations: {
-            self.center = self.originalPoint
-            self.transform = CGAffineTransform(rotationAngle: 0)
-            self.overlayView.alpha = 0
-        },
+                            self.center = self.originalPoint
+                            self.transform = CGAffineTransform(rotationAngle: 0)
+                            self.overlayView.alpha = 0
+                        },
                        completion: { _ in self.direction = .none})
-        
     }
     
 }
