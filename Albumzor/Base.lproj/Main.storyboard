@@ -274,9 +274,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RVp-es-UfG" customClass="CGDraggableView" customModule="Albumzor" customModuleProvider="target">
-                                <rect key="frame" x="46" y="191.5" width="283" height="283"/>
-                                <color key="backgroundColor" red="0.45591514909999997" green="0.73202645310000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RVp-es-UfG">
+                                <rect key="frame" x="46" y="120" width="283" height="283"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="RVp-es-UfG" secondAttribute="height" multiplier="1:1" id="yoc-4t-UvH"/>
                                 </constraints>
@@ -289,18 +288,38 @@
                                     <action selector="quit" destination="X8r-tE-8de" eventType="touchUpInside" id="UUp-wZ-zYW"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Album" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FoF-1Y-GXe">
+                                <rect key="frame" x="46" y="425" width="283" height="26.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artist" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TwY-sF-SYZ">
+                                <rect key="frame" x="46" y="466" width="283" height="26.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="RVp-es-UfG" firstAttribute="centerY" secondItem="KEZ-zS-ewq" secondAttribute="centerY" id="1he-zK-Jr4"/>
                             <constraint firstAttribute="trailingMargin" secondItem="RVp-es-UfG" secondAttribute="trailing" constant="30" id="6T2-cg-hbL"/>
                             <constraint firstItem="MXn-7G-w2S" firstAttribute="leading" secondItem="KEZ-zS-ewq" secondAttribute="leadingMargin" id="AKz-M2-z3h"/>
                             <constraint firstItem="RVp-es-UfG" firstAttribute="leading" secondItem="KEZ-zS-ewq" secondAttribute="leadingMargin" constant="30" id="HjX-bs-CDy"/>
+                            <constraint firstItem="FoF-1Y-GXe" firstAttribute="centerX" secondItem="RVp-es-UfG" secondAttribute="centerX" id="WDl-7C-mVX"/>
+                            <constraint firstItem="TwY-sF-SYZ" firstAttribute="top" secondItem="FoF-1Y-GXe" secondAttribute="bottom" constant="14.5" id="a1L-eN-wsl"/>
+                            <constraint firstItem="TwY-sF-SYZ" firstAttribute="centerX" secondItem="FoF-1Y-GXe" secondAttribute="centerX" id="dtR-pC-a5Q"/>
+                            <constraint firstItem="TwY-sF-SYZ" firstAttribute="width" secondItem="FoF-1Y-GXe" secondAttribute="width" id="etk-Js-snV"/>
+                            <constraint firstItem="FoF-1Y-GXe" firstAttribute="top" secondItem="RVp-es-UfG" secondAttribute="bottom" constant="22" id="ex4-Uu-Rt5"/>
+                            <constraint firstItem="RVp-es-UfG" firstAttribute="top" secondItem="PgD-Xw-Dk3" secondAttribute="bottom" constant="100" id="ncm-Iv-pGL"/>
+                            <constraint firstItem="FoF-1Y-GXe" firstAttribute="width" secondItem="RVp-es-UfG" secondAttribute="width" id="tGd-Dx-drE"/>
                             <constraint firstItem="MXn-7G-w2S" firstAttribute="top" secondItem="PgD-Xw-Dk3" secondAttribute="bottom" id="v7E-Im-HJz"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="initialAlbumView" destination="RVp-es-UfG" id="UND-wa-jUl"/>
+                        <outlet property="artistLabel" destination="TwY-sF-SYZ" id="hD5-lB-Sk8"/>
+                        <outlet property="defaultView" destination="RVp-es-UfG" id="ndT-Kf-Bgo"/>
+                        <outlet property="titleLabel" destination="FoF-1Y-GXe" id="S86-PI-W3w"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zaJ-Ed-Ofb" userLabel="First Responder" sceneMemberID="firstResponder"/>

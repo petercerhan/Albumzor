@@ -17,7 +17,9 @@ protocol SuggestAlbumsViewControllerDelegate {
 
 class SuggestAlbumsViewController: UIViewController {
     
-    @IBOutlet var initialAlbumView: CGDraggableView!
+    @IBOutlet var defaultView: UIView!
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var artistLabel: UILabel!
 
     var currentAlbumView: CGDraggableView!
     var nextAlbumView: CGDraggableView!
@@ -33,27 +35,38 @@ class SuggestAlbumsViewController: UIViewController {
     
     var currentIndex: Int = 0
     
-    let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
+    var initialLayoutCongifured = false
     
+    let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        //ConfigureAlbumViews
-        currentAlbumView = initialAlbumView
-        currentAlbumView.imageView.image = albumArt[0]
-        currentAlbumView.delegate = self
-        
-        dataManager.seen(album: albums[0].objectID)
-        usage[0].seen = true
-        
-        nextAlbumView = CGDraggableView(frame: currentAlbumView.frame)
-        nextAlbumView.imageView.image = albumArt[1]
-        nextAlbumView.delegate = self
-        view.insertSubview(nextAlbumView, belowSubview: currentAlbumView)
-
-        currentAlbumTracks = dataManager.getTracks(forAlbum: albums[0].objectID)
-        nextAlbumTracks = dataManager.getTracks(forAlbum: albums[1].objectID)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        if !initialLayoutCongifured {
+            //ConfigureAlbumViews
+            currentAlbumView = CGDraggableView(frame: defaultView.frame)
+            currentAlbumView.imageView.image = albumArt[0]
+            currentAlbumView.delegate = self
+            view.addSubview(currentAlbumView)
+            
+            dataManager.seen(album: albums[0].objectID)
+            usage[0].seen = true
+            
+            nextAlbumView = CGDraggableView(frame: defaultView.frame)
+            nextAlbumView.imageView.image = albumArt[1]
+            nextAlbumView.delegate = self
+            view.insertSubview(nextAlbumView, belowSubview: currentAlbumView)
+            
+            currentAlbumTracks = dataManager.getTracks(forAlbum: albums[0].objectID)
+            nextAlbumTracks = dataManager.getTracks(forAlbum: albums[1].objectID)
+            
+            titleLabel.text = albums[0].name!
+            artistLabel.text = albums[0].artist!.name!
+            
+            initialLayoutCongifured = true
+        }
     }
 
     @IBAction func quit() {
@@ -84,7 +97,7 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
         //add bottom album unless we are on the final album of the battery
         if currentIndex < albums.count - 1 {
             currentAlbumView = nextAlbumView
-            nextAlbumView = CGDraggableView(frame: currentAlbumView.frame)
+            nextAlbumView = CGDraggableView(frame: defaultView.frame)
             nextAlbumView.imageView.image = albumArt[currentIndex + 1]
             nextAlbumView.delegate = self
             view.insertSubview(nextAlbumView, belowSubview: currentAlbumView)
