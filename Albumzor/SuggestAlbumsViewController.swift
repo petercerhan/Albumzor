@@ -53,9 +53,8 @@ class SuggestAlbumsViewController: UIViewController {
         
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @IBAction func quit() {
+        delegate.quit()
     }
 
 }
@@ -81,12 +80,14 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
         if currentIndex < albums.count - 1 {
             currentAlbumView = nextAlbumView
             nextAlbumView = CGDraggableView(frame: currentAlbumView.frame)
-            nextAlbumView.imageView.image = albumArt[currentIndex]
+            nextAlbumView.imageView.image = albumArt[currentIndex + 1]
             nextAlbumView.delegate = self
             view.insertSubview(nextAlbumView, belowSubview: currentAlbumView)
         }
         
         //get tracks
+        
+        
         
         dataManager.seen(album: albums[currentIndex].objectID)
         usage[currentIndex].seen = true
