@@ -62,9 +62,10 @@ class SuggestAlbumsViewController: UIViewController {
 extension SuggestAlbumsViewController: CGDraggableViewDelegate {
     func swipeComplete(direction: SwipeDirection) {
         if direction == .right {
-            print("liked")
+            dataManager.like(album: albums[currentIndex].objectID, addRelatedArtists: !usage[currentIndex].relatedAdded)
+            usage[currentIndex].relatedAdded = true
         } else {
-            print("not liked")
+            //potentially move "seen" code to here
         }
         
         //if last album has been swiped, go to next steps view
@@ -86,8 +87,6 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
         }
         
         //get tracks
-        
-        
         
         dataManager.seen(album: albums[currentIndex].objectID)
         usage[currentIndex].seen = true

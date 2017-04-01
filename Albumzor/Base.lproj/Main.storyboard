@@ -275,7 +275,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RVp-es-UfG" customClass="CGDraggableView" customModule="Albumzor" customModuleProvider="target">
-                                <rect key="frame" x="66" y="211.5" width="243" height="243"/>
+                                <rect key="frame" x="46" y="191.5" width="283" height="283"/>
                                 <color key="backgroundColor" red="0.45591514909999997" green="0.73202645310000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="RVp-es-UfG" secondAttribute="height" multiplier="1:1" id="yoc-4t-UvH"/>
@@ -293,9 +293,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="RVp-es-UfG" firstAttribute="centerY" secondItem="KEZ-zS-ewq" secondAttribute="centerY" id="1he-zK-Jr4"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="RVp-es-UfG" secondAttribute="trailing" constant="50" id="6T2-cg-hbL"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="RVp-es-UfG" secondAttribute="trailing" constant="30" id="6T2-cg-hbL"/>
                             <constraint firstItem="MXn-7G-w2S" firstAttribute="leading" secondItem="KEZ-zS-ewq" secondAttribute="leadingMargin" id="AKz-M2-z3h"/>
-                            <constraint firstItem="RVp-es-UfG" firstAttribute="leading" secondItem="KEZ-zS-ewq" secondAttribute="leadingMargin" constant="50" id="HjX-bs-CDy"/>
+                            <constraint firstItem="RVp-es-UfG" firstAttribute="leading" secondItem="KEZ-zS-ewq" secondAttribute="leadingMargin" constant="30" id="HjX-bs-CDy"/>
                             <constraint firstItem="MXn-7G-w2S" firstAttribute="top" secondItem="PgD-Xw-Dk3" secondAttribute="bottom" id="v7E-Im-HJz"/>
                         </constraints>
                     </view>
