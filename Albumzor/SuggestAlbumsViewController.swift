@@ -101,6 +101,12 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
             nextAlbumView.imageView.image = albumArt[currentIndex + 1]
             nextAlbumView.delegate = self
             view.insertSubview(nextAlbumView, belowSubview: currentAlbumView)
+            
+            titleLabel.text = albums[currentIndex].name!
+            artistLabel.text = albums[currentIndex].artist!.name!
+        } else {
+            titleLabel.removeFromSuperview()
+            artistLabel.removeFromSuperview()
         }
         
         //get tracks
