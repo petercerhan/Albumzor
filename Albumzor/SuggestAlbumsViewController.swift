@@ -49,6 +49,7 @@ class SuggestAlbumsViewController: UIViewController {
             currentAlbumView = CGDraggableView(frame: defaultView.frame)
             currentAlbumView.imageView.image = albumArt[0]
             currentAlbumView.delegate = self
+            currentAlbumView.addShadow()
             view.addSubview(currentAlbumView)
             
             dataManager.seen(album: albums[0].objectID)
@@ -57,12 +58,13 @@ class SuggestAlbumsViewController: UIViewController {
             nextAlbumView = CGDraggableView(frame: defaultView.frame)
             nextAlbumView.imageView.image = albumArt[1]
             nextAlbumView.delegate = self
+            nextAlbumView.addShadow()
             view.insertSubview(nextAlbumView, belowSubview: currentAlbumView)
             
             currentAlbumTracks = dataManager.getTracks(forAlbum: albums[0].objectID)
             nextAlbumTracks = dataManager.getTracks(forAlbum: albums[1].objectID)
             
-            titleLabel.text = albums[0].name!
+            titleLabel.text = albums[0].name!.cleanAlbumName()
             artistLabel.text = albums[0].artist!.name!
             
             initialLayoutCongifured = true
@@ -99,11 +101,14 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
             currentAlbumView = nextAlbumView
             nextAlbumView = CGDraggableView(frame: defaultView.frame)
             nextAlbumView.imageView.image = albumArt[currentIndex + 1]
+            nextAlbumView.addShadow()
             nextAlbumView.delegate = self
             view.insertSubview(nextAlbumView, belowSubview: currentAlbumView)
             
-            titleLabel.text = albums[currentIndex].name!
+            titleLabel.text = albums[currentIndex].name!.cleanAlbumName()
             artistLabel.text = albums[currentIndex].artist!.name!
+            titleLabel.alpha = 1.0
+            artistLabel.alpha = 1.0
         } else {
             titleLabel.removeFromSuperview()
             artistLabel.removeFromSuperview()
@@ -128,6 +133,16 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
         vc.tracks = currentAlbumTracks
         vc.album = albums[currentIndex]
         present(vc, animated: true, completion: nil)
+    }
+    
+    func swipeBegan() {
+        titleLabel.alpha = 0.4
+        artistLabel.alpha = 0.4
+    }
+    
+    func swipeCanceled() {
+        titleLabel.alpha = 1.0
+        artistLabel.alpha = 1.0
     }
 }
 

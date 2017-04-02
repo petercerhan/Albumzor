@@ -15,6 +15,8 @@ enum SwipeDirection: Int {
 }
 
 protocol CGDraggableViewDelegate {
+    func swipeBegan()
+    func swipeCanceled()
     func swipeComplete(direction: SwipeDirection)
     func tapped()
 }
@@ -64,7 +66,7 @@ class CGDraggableView: UIView {
     }
     
     func tapped(gestureRecognizer: UITapGestureRecognizer) {
-        delegate!.tapped()
+        delegate?.tapped()
     }
     
     func dragged(gestureRecognizer: UIPanGestureRecognizer) {
@@ -73,6 +75,7 @@ class CGDraggableView: UIView {
         
         switch gestureRecognizer.state {
         case .began:
+            delegate?.swipeBegan()
             originalPoint = center
         case .changed:
             let rotationStrength = min(xDistance / 375, 1.0)
@@ -91,6 +94,7 @@ class CGDraggableView: UIView {
                 completeSwipe()
             } else {
                 resetViewPositionAndTransformations()
+                delegate?.swipeCanceled()
             }
         default:
             break

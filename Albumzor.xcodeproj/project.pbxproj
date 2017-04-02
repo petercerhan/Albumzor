@@ -40,6 +40,7 @@
 		E45D996D1E90369100CD3CE7 /* CGDraggableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D996C1E90369000CD3CE7 /* CGDraggableView.swift */; };
 		E45D996F1E90369C00CD3CE7 /* CGOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D996E1E90369C00CD3CE7 /* CGOverlayView.swift */; };
 		E45D99731E903B0B00CD3CE7 /* SuggestAlbumsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99721E903B0B00CD3CE7 /* SuggestAlbumsViewController.swift */; };
+		E45D99751E908C6500CD3CE7 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99741E908C6500CD3CE7 /* UIView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +100,7 @@
 		E45D996C1E90369000CD3CE7 /* CGDraggableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGDraggableView.swift; sourceTree = "<group>"; };
 		E45D996E1E90369C00CD3CE7 /* CGOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGOverlayView.swift; sourceTree = "<group>"; };
 		E45D99721E903B0B00CD3CE7 /* SuggestAlbumsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestAlbumsViewController.swift; sourceTree = "<group>"; };
+		E45D99741E908C6500CD3CE7 /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,6 +219,7 @@
 			isa = PBXGroup;
 			children = (
 				E45D990F1E7A23E700CD3CE7 /* CollectionViewCell.swift */,
+				E45D99741E908C6500CD3CE7 /* UIView.swift */,
 				E45D99241E8B534000CD3CE7 /* ChooseArtistCollectionViewCell.swift */,
 				E45D99261E8C7C7900CD3CE7 /* ArtistCollectionViewLayout.swift */,
 				E45D992C1E8DD41700CD3CE7 /* PaddedLabel.swift */,
@@ -384,6 +387,7 @@
 				E45D98F31E777F5B00CD3CE7 /* ArtistPrior.swift in Sources */,
 				E45D99171E7DC59300CD3CE7 /* NextStepViewController.swift in Sources */,
 				E45D98F71E77826E00CD3CE7 /* DataManager.swift in Sources */,
+				E45D99751E908C6500CD3CE7 /* UIView.swift in Sources */,
 				E45D98EF1E75EE8C00CD3CE7 /* SpotifyConstants.swift in Sources */,
 				E45D991F1E89D69300CD3CE7 /* AlbumDetailsViewController.swift in Sources */,
 				E45D99251E8B534000CD3CE7 /* ChooseArtistCollectionViewCell.swift in Sources */,
