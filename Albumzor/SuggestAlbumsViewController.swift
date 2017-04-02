@@ -52,6 +52,8 @@ class SuggestAlbumsViewController: UIViewController {
             currentAlbumView.addShadow()
             view.addSubview(currentAlbumView)
             
+            print("frame \(defaultView.frame)")
+            
             dataManager.seen(album: albums[0].objectID)
             usage[0].seen = true
             

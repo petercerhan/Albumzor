@@ -41,6 +41,7 @@
 		E45D996F1E90369C00CD3CE7 /* CGOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D996E1E90369C00CD3CE7 /* CGOverlayView.swift */; };
 		E45D99731E903B0B00CD3CE7 /* SuggestAlbumsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99721E903B0B00CD3CE7 /* SuggestAlbumsViewController.swift */; };
 		E45D99751E908C6500CD3CE7 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99741E908C6500CD3CE7 /* UIView.swift */; };
+		E45D99771E90927B00CD3CE7 /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99761E90927B00CD3CE7 /* Styles.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +102,7 @@
 		E45D996E1E90369C00CD3CE7 /* CGOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGOverlayView.swift; sourceTree = "<group>"; };
 		E45D99721E903B0B00CD3CE7 /* SuggestAlbumsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestAlbumsViewController.swift; sourceTree = "<group>"; };
 		E45D99741E908C6500CD3CE7 /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		E45D99761E90927B00CD3CE7 /* Styles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +155,7 @@
 			children = (
 				E45D98BA1E75DC2F00CD3CE7 /* AppDelegate.swift */,
 				E45D99181E7F767400CD3CE7 /* String.swift */,
+				E45D99761E90927B00CD3CE7 /* Styles.swift */,
 				E45D99111E7B5F6600CD3CE7 /* Controller */,
 				E45D990E1E7A23D300CD3CE7 /* View */,
 				E45D98EA1E75EC0500CD3CE7 /* Model */,
@@ -404,6 +407,7 @@
 				E45D99131E7B5F7F00CD3CE7 /* PrepareAlbumsViewController.swift in Sources */,
 				E45D99291E8D398100CD3CE7 /* ConfirmArtistViewController.swift in Sources */,
 				E45D99101E7A23E700CD3CE7 /* CollectionViewCell.swift in Sources */,
+				E45D99771E90927B00CD3CE7 /* Styles.swift in Sources */,
 				E45D99231E8B4FEF00CD3CE7 /* ChooseArtistViewController.swift in Sources */,
 				E45D990D1E7A18CE00CD3CE7 /* AlbumsViewController.swift in Sources */,
 				E45D99731E903B0B00CD3CE7 /* SuggestAlbumsViewController.swift in Sources */,

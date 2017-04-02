@@ -10,13 +10,17 @@ import UIKit
 
 class CGOverlayView: UIView {
     
+    var imageView: UIImageView
+    
     var mode: SwipeDirection = .none {
         didSet {
             if mode != oldValue {
                 if mode == .left {
-                    label.text = "left"
+                    imageView.image = UIImage(named: "X_white")
+                    backgroundColor = Styles.xRed
                 } else {
-                    label.text = "right"
+                    imageView.image = UIImage(named: "Check_white")
+                    backgroundColor = Styles.likeGreen
                 }
             }
         }
@@ -25,22 +29,18 @@ class CGOverlayView: UIView {
     var label: UILabel!
     
     override init(frame: CGRect) {
+        let imageViewFrame = CGRect(x: 0, y: 0, width: 100.0, height: 100.0)
+        imageView = UIImageView(frame: imageViewFrame)
         super.init(frame: frame)
         
         backgroundColor = UIColor.white
-        label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 22.0)
-        label.text = "Long Sentence"
-        label.frame = CGRect(x: 0, y: 0, width: 1, height: 1)
-        label.sizeToFit()
-        addSubview(label)
-        
+        imageView.center = center
+        addSubview(imageView)
     }
     
     required init?(coder aDecoder: NSCoder) {
+        imageView = UIImageView()
         super.init(coder: aDecoder)
     }
-    
-    
     
 }
