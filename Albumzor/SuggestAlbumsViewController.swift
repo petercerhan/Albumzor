@@ -98,6 +98,18 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
         
         currentIndex += 1
         
+        //update title
+        if currentIndex < albums.count {
+            titleLabel.text = albums[currentIndex].name!.cleanAlbumName()
+            artistLabel.text = albums[currentIndex].artist!.name!
+            titleLabel.alpha = 1.0
+            artistLabel.alpha = 1.0
+        } else {
+            titleLabel.removeFromSuperview()
+            artistLabel.removeFromSuperview()
+            
+        }
+        
         //add bottom album unless we are on the final album of the battery
         if currentIndex < albums.count - 1 {
             currentAlbumView = nextAlbumView
@@ -111,9 +123,6 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
             artistLabel.text = albums[currentIndex].artist!.name!
             titleLabel.alpha = 1.0
             artistLabel.alpha = 1.0
-        } else {
-            titleLabel.removeFromSuperview()
-            artistLabel.removeFromSuperview()
         }
         
         //get tracks
