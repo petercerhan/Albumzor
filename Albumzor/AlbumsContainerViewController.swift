@@ -65,7 +65,7 @@ extension AlbumsContainerViewController: PrepareAlbumsViewControllerDelegate {
 
 //MARK:- AlbumsViewControllerDelegate
 
-extension AlbumsContainerViewController: AlbumsViewControllerDelegate, SuggestAlbumsViewControllerDelegate {
+extension AlbumsContainerViewController: SuggestAlbumsViewControllerDelegate {
     func quit() {
         dismiss(animated: true, completion: nil)
     }
