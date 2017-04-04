@@ -41,6 +41,8 @@
 		E45D99731E903B0B00CD3CE7 /* SuggestAlbumsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99721E903B0B00CD3CE7 /* SuggestAlbumsViewController.swift */; };
 		E45D99751E908C6500CD3CE7 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99741E908C6500CD3CE7 /* UIView.swift */; };
 		E45D99771E90927B00CD3CE7 /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99761E90927B00CD3CE7 /* Styles.swift */; };
+		E45D99B31E93159800CD3CE7 /* AlbumDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99B21E93159800CD3CE7 /* AlbumDetailsTableViewCell.swift */; };
+		E45D99B51E93225C00CD3CE7 /* TrackTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99B41E93225C00CD3CE7 /* TrackTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +103,8 @@
 		E45D99721E903B0B00CD3CE7 /* SuggestAlbumsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestAlbumsViewController.swift; sourceTree = "<group>"; };
 		E45D99741E908C6500CD3CE7 /* UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		E45D99761E90927B00CD3CE7 /* Styles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
+		E45D99B21E93159800CD3CE7 /* AlbumDetailsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumDetailsTableViewCell.swift; sourceTree = "<group>"; };
+		E45D99B41E93225C00CD3CE7 /* TrackTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,6 +230,8 @@
 				E45D992C1E8DD41700CD3CE7 /* PaddedLabel.swift */,
 				E45D996C1E90369000CD3CE7 /* CGDraggableView.swift */,
 				E45D996E1E90369C00CD3CE7 /* CGOverlayView.swift */,
+				E45D99B21E93159800CD3CE7 /* AlbumDetailsTableViewCell.swift */,
+				E45D99B41E93225C00CD3CE7 /* TrackTableViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -239,8 +245,8 @@
 				E45D991C1E84BE5900CD3CE7 /* SearchArtistViewController.swift */,
 				E45D99141E7B6DB100CD3CE7 /* AlbumsContainerViewController.swift */,
 				E45D99121E7B5F7F00CD3CE7 /* PrepareAlbumsViewController.swift */,
-				E45D99161E7DC59300CD3CE7 /* NextStepViewController.swift */,
 				E45D99721E903B0B00CD3CE7 /* SuggestAlbumsViewController.swift */,
+				E45D99161E7DC59300CD3CE7 /* NextStepViewController.swift */,
 				E45D991E1E89D69300CD3CE7 /* AlbumDetailsViewController.swift */,
 			);
 			name = Controller;
@@ -387,10 +393,12 @@
 				E45D98F31E777F5B00CD3CE7 /* ArtistPrior.swift in Sources */,
 				E45D99171E7DC59300CD3CE7 /* NextStepViewController.swift in Sources */,
 				E45D98F71E77826E00CD3CE7 /* DataManager.swift in Sources */,
+				E45D99B31E93159800CD3CE7 /* AlbumDetailsTableViewCell.swift in Sources */,
 				E45D99751E908C6500CD3CE7 /* UIView.swift in Sources */,
 				E45D98EF1E75EE8C00CD3CE7 /* SpotifyConstants.swift in Sources */,
 				E45D991F1E89D69300CD3CE7 /* AlbumDetailsViewController.swift in Sources */,
 				E45D99251E8B534000CD3CE7 /* ChooseArtistCollectionViewCell.swift in Sources */,
+				E45D99B51E93225C00CD3CE7 /* TrackTableViewCell.swift in Sources */,
 				E45D98FA1E78D71800CD3CE7 /* CoreDataStack.swift in Sources */,
 				E45D99151E7B6DB100CD3CE7 /* AlbumsContainerViewController.swift in Sources */,
 				E45D98F11E776BFE00CD3CE7 /* SpotifyMethods.swift in Sources */,
