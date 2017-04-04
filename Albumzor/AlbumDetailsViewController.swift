@@ -42,7 +42,19 @@ class AlbumDetailsViewController: UIViewController {
 
 extension AlbumDetailsViewController: UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        
+    }
     
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        if indexPath.item == 0 {
+            dismiss(animated: true, completion: nil)
+            return false
+        } else {
+            return true
+        }
+    }
     
 }
 
