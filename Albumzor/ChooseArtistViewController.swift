@@ -17,7 +17,7 @@ class ChooseArtistViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
         if let layout = collectionView.collectionViewLayout as? ArtistCollectionViewLayout {
             layout.delegate = self
         }
@@ -25,8 +25,7 @@ class ChooseArtistViewController: UIViewController {
     
     @IBAction func done() {
         dismiss(animated: true, completion: nil)
-    }
-    
+    }    
 }
 
 extension ChooseArtistViewController: UICollectionViewDelegate {

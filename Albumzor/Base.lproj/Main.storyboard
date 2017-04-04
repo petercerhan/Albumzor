@@ -339,6 +339,9 @@
                     <connections>
                         <outlet property="artistLabel" destination="TwY-sF-SYZ" id="hD5-lB-Sk8"/>
                         <outlet property="defaultView" destination="RVp-es-UfG" id="ndT-Kf-Bgo"/>
+                        <outlet property="dislikeButton" destination="ySh-9V-TfZ" id="OFX-KZ-kc2"/>
+                        <outlet property="likeButton" destination="b03-O6-eNL" id="c5x-F1-4Ev"/>
+                        <outlet property="quitButton" destination="MXn-7G-w2S" id="Tcb-9x-bgZ"/>
                         <outlet property="titleLabel" destination="FoF-1Y-GXe" id="S86-PI-W3w"/>
                     </connections>
                 </viewController>
@@ -359,7 +362,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UP5-Vb-zCI">
-                                <rect key="frame" x="166.5" y="626" width="41" height="33"/>
+                                <rect key="frame" x="167" y="626" width="41" height="33"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" title="Done">
                                     <color key="titleColor" red="1" green="0.63034124961644822" blue="0.050773212482588592" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -435,7 +438,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rVP-OY-mgX">
-                                                    <rect key="frame" x="53" y="14" width="314" height="21"/>
+                                                    <rect key="frame" x="53" y="14" width="314" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -493,26 +496,26 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="0Q7-Rw-Vgo">
-                                <rect key="frame" x="177" y="323" width="20" height="20"/>
+                                <rect key="frame" x="178" y="324" width="20" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </activityIndicatorView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Initializing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2KY-bs-SZc">
-                                <rect key="frame" x="142.5" y="28" width="89.5" height="24"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Finding Albums..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2KY-bs-SZc">
+                                <rect key="frame" x="102.5" y="35" width="170" height="26.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="2KY-bs-SZc" firstAttribute="top" secondItem="qc3-DB-ItM" secondAttribute="bottom" constant="8" id="HKc-0I-h1L"/>
+                            <constraint firstItem="2KY-bs-SZc" firstAttribute="top" secondItem="qc3-DB-ItM" secondAttribute="bottom" constant="15" id="HKc-0I-h1L"/>
                             <constraint firstItem="2KY-bs-SZc" firstAttribute="centerX" secondItem="01Y-Pj-qnn" secondAttribute="centerX" id="kbt-A4-aJ1"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="11d-2g-dnl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="820" y="36"/>
+            <point key="canvasLocation" x="895" y="36"/>
         </scene>
         <!--Next Step View Controller-->
         <scene sceneID="BRd-ir-5v1">
@@ -526,43 +529,98 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Next Steps" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W6g-8V-BYd">
-                                <rect key="frame" x="138.5" y="35" width="98" height="24"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="~ Groovy ~" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W6g-8V-BYd">
+                                <rect key="frame" x="124" y="50" width="128" height="32"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zLJ-ZK-Bba">
+                                <rect key="frame" x="92" y="275.5" width="191" height="41"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="Find more albums">
+                                    <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="continueBrowsing" destination="ttC-tc-IqK" eventType="touchUpInside" id="PK0-2c-Rdt"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Would you like to:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xJb-ZO-2XV">
+                                <rect key="frame" x="101" y="218.5" width="173" height="27"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Mg-bj-b4P">
+                                <rect key="frame" x="98.5" y="346.5" width="178" height="41"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="View My Albums">
+                                    <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="X" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AeC-f9-072">
+                                <rect key="frame" x="65" y="128" width="14.5" height="26.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="X" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RJt-4q-T6E">
+                                <rect key="frame" x="296" y="128" width="14.5" height="26.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 new albums" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tlm-Xf-SXP">
+                                <rect key="frame" x="119.5" y="128" width="136.5" height="26.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DhE-v0-QUF">
-                                <rect key="frame" x="160" y="208" width="54" height="36"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Home"/>
+                                <rect key="frame" x="117" y="418" width="141" height="41"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="Return Home">
+                                    <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="home" destination="ttC-tc-IqK" eventType="touchUpInside" id="HmC-Xz-Pqo"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zLJ-ZK-Bba">
-                                <rect key="frame" x="107" y="315" width="160" height="36"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Find more albums"/>
-                                <connections>
-                                    <action selector="continueBrowsing" destination="ttC-tc-IqK" eventType="touchUpInside" id="PK0-2c-Rdt"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="DhE-v0-QUF" firstAttribute="centerX" secondItem="9ND-bE-GJR" secondAttribute="centerX" id="4DR-XR-FC1"/>
+                            <constraint firstItem="zLJ-ZK-Bba" firstAttribute="top" secondItem="xJb-ZO-2XV" secondAttribute="bottom" constant="30" id="7xi-ax-zTO"/>
                             <constraint firstItem="W6g-8V-BYd" firstAttribute="centerX" secondItem="9ND-bE-GJR" secondAttribute="centerX" id="Ec3-a7-XU2"/>
-                            <constraint firstItem="zLJ-ZK-Bba" firstAttribute="top" secondItem="DhE-v0-QUF" secondAttribute="bottom" constant="71" id="F57-zL-qOB"/>
-                            <constraint firstItem="zLJ-ZK-Bba" firstAttribute="centerX" secondItem="9ND-bE-GJR" secondAttribute="centerX" id="TzJ-rs-wEf"/>
-                            <constraint firstItem="zLJ-ZK-Bba" firstAttribute="centerY" secondItem="9ND-bE-GJR" secondAttribute="centerY" id="fM2-t2-eaX"/>
-                            <constraint firstItem="DhE-v0-QUF" firstAttribute="centerX" secondItem="9ND-bE-GJR" secondAttribute="centerX" id="gbv-kz-8Pd"/>
-                            <constraint firstItem="W6g-8V-BYd" firstAttribute="top" secondItem="pf7-9e-Rbg" secondAttribute="bottom" constant="15" id="xCb-F8-oZV"/>
+                            <constraint firstItem="DhE-v0-QUF" firstAttribute="top" secondItem="1Mg-bj-b4P" secondAttribute="bottom" constant="30" id="PIn-ZK-DDW"/>
+                            <constraint firstItem="xJb-ZO-2XV" firstAttribute="top" secondItem="Tlm-Xf-SXP" secondAttribute="bottom" constant="64" id="VRi-TR-l0H"/>
+                            <constraint firstItem="1Mg-bj-b4P" firstAttribute="top" secondItem="zLJ-ZK-Bba" secondAttribute="bottom" constant="30" id="bCS-ho-Hsq"/>
+                            <constraint firstItem="Tlm-Xf-SXP" firstAttribute="leading" secondItem="AeC-f9-072" secondAttribute="trailing" constant="40" id="bX7-Ws-BkA"/>
+                            <constraint firstItem="Tlm-Xf-SXP" firstAttribute="top" secondItem="W6g-8V-BYd" secondAttribute="bottom" constant="46" id="dZW-ur-lH5"/>
+                            <constraint firstItem="RJt-4q-T6E" firstAttribute="centerY" secondItem="Tlm-Xf-SXP" secondAttribute="centerY" id="glm-Vd-iZS"/>
+                            <constraint firstItem="zLJ-ZK-Bba" firstAttribute="centerX" secondItem="9ND-bE-GJR" secondAttribute="centerX" id="grR-dG-WKV"/>
+                            <constraint firstItem="xJb-ZO-2XV" firstAttribute="centerX" secondItem="9ND-bE-GJR" secondAttribute="centerX" id="h6O-ba-am8"/>
+                            <constraint firstItem="Tlm-Xf-SXP" firstAttribute="centerX" secondItem="9ND-bE-GJR" secondAttribute="centerX" id="hVp-yr-xQB"/>
+                            <constraint firstItem="1Mg-bj-b4P" firstAttribute="centerX" secondItem="9ND-bE-GJR" secondAttribute="centerX" id="mgE-sO-MLx"/>
+                            <constraint firstItem="W6g-8V-BYd" firstAttribute="top" secondItem="pf7-9e-Rbg" secondAttribute="bottom" constant="30" id="xCb-F8-oZV"/>
+                            <constraint firstItem="AeC-f9-072" firstAttribute="centerY" secondItem="Tlm-Xf-SXP" secondAttribute="centerY" id="ypd-PD-Ty1"/>
+                            <constraint firstItem="RJt-4q-T6E" firstAttribute="leading" secondItem="Tlm-Xf-SXP" secondAttribute="trailing" constant="40" id="zsH-IX-ccw"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="countLabel" destination="Tlm-Xf-SXP" id="Pcd-gg-wND"/>
+                        <outlet property="homeButton" destination="DhE-v0-QUF" id="blD-xj-7sd"/>
+                        <outlet property="label3" destination="xJb-ZO-2XV" id="aV6-iY-uEH"/>
+                        <outlet property="messageLabel" destination="W6g-8V-BYd" id="joc-Di-wvN"/>
+                        <outlet property="moreAlbumsButton" destination="zLJ-ZK-Bba" id="HuI-iZ-W5M"/>
+                        <outlet property="symbolLabel1" destination="AeC-f9-072" id="3tr-E0-haP"/>
+                        <outlet property="symbolLabel2" destination="RJt-4q-T6E" id="ZfP-xR-X8m"/>
+                        <outlet property="viewAlbumsButton" destination="1Mg-bj-b4P" id="JFs-j8-DfH"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wdu-Db-wkE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2396" y="36"/>
+            <point key="canvasLocation" x="2396" y="35.532233883058474"/>
         </scene>
     </scenes>
     <resources>

@@ -20,6 +20,10 @@ class SuggestAlbumsViewController: UIViewController {
     @IBOutlet var defaultView: UIView!
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var artistLabel: UILabel!
+    
+    @IBOutlet var quitButton: UIButton!
+    @IBOutlet var dislikeButton: UIButton!
+    @IBOutlet var likeButton: UIButton!
 
     var currentAlbumView: CGDraggableView!
     var nextAlbumView: CGDraggableView!
@@ -76,6 +80,23 @@ class SuggestAlbumsViewController: UIViewController {
     @IBAction func quit() {
         delegate.quit()
     }
+    
+    func animateOut() {
+        
+        titleLabel.alpha = 0.0
+        artistLabel.alpha = 0.0
+        
+        UIView.animate(withDuration: 0.5,
+                       animations: {
+                            self.quitButton.alpha = 0.0
+                            self.dislikeButton.alpha = 0.0
+                            self.likeButton.alpha = 0.0
+                        },
+                       completion: { _ in
+                            self.delegate.batteryComplete()
+                        })
+        
+    }
 
 }
 
@@ -92,7 +113,7 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
         
         //if last album has been swiped, go to next steps view
         if currentIndex == albums.count - 1 {
-            delegate.batteryComplete()
+            animateOut()
             return
         }
         
