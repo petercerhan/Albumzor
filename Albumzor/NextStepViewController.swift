@@ -90,7 +90,7 @@ class NextStepViewController: UIViewController {
         
         //2) 1st Button
         UIView.animate(withDuration: 0.4,
-                       delay: 3.200,
+                       delay: 3.2,
                        options: .curveLinear,
                        animations: {
                         self.moreAlbumsButton.alpha = 1.0

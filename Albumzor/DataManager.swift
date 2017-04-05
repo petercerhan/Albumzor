@@ -589,7 +589,7 @@ class DataManager {
                     let track = Track(id: id, name: name, trackNo: trackNo, discNo: discNo, context: backgroundContext)
                     track.album = album
                     track.popularity = trackData["popularity"] as? Int16 ?? 0
-                    track.previewURL = trackData["preview_url"] as? String ?? ""
+                    track.previewURL = trackData["preview_url"] as? String
                 }
                 
                 do {

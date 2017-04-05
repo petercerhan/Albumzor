@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 typealias AlbumUsage = (seen: Bool, liked: Bool, relatedAdded: Bool)
 
@@ -17,6 +18,7 @@ protocol SuggestAlbumsViewControllerDelegate {
 
 class SuggestAlbumsViewController: UIViewController {
     
+    @IBOutlet var topLabel: UILabel!
     @IBOutlet var defaultView: UIView!
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var artistLabel: UILabel!
@@ -42,6 +44,8 @@ class SuggestAlbumsViewController: UIViewController {
     var initialLayoutCongifured = false
     
     let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
+    
+    var audioPlayer: AVAudioPlayer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,6 +92,7 @@ class SuggestAlbumsViewController: UIViewController {
         
         UIView.animate(withDuration: 0.5,
                        animations: {
+                            self.topLabel.alpha = 0.0
                             self.quitButton.alpha = 0.0
                             self.dislikeButton.alpha = 0.0
                             self.likeButton.alpha = 0.0
@@ -164,6 +169,7 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
         vc.albumImage = albumArt[currentIndex]
         vc.tracks = currentAlbumTracks
         vc.album = albums[currentIndex]
+        vc.delegate = self
         present(vc, animated: true, completion: nil)
     }
     
@@ -176,6 +182,43 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
         titleLabel.alpha = 1.0
         artistLabel.alpha = 1.0
     }
+}
+
+//MARK:- Handle Audio
+
+extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
+    
+    func playTrack(atIndex index: Int) {
+        print("Play track")
+        guard let urlString = currentAlbumTracks?[index].previewURL else {
+            //could not play track
+            print("could not get url")
+            return
+        }
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            //Download audio data
+            //add check/don't force url from string conversion
+            if let audioData = try? Data(contentsOf: URL(string: urlString)!) {
+                DispatchQueue.main.async {
+                    do {
+                        self.audioPlayer = try AVAudioPlayer(data: audioData)
+                        self.audioPlayer.play()
+                    } catch {
+                        //Could not play track
+                        print("could not build player")
+                    }
+                    
+                    //notify details which track is playing
+                }
+            } else {
+                print("could not get data")
+                //could not play track
+            }
+            
+        }
+    }
+    
 }
 
 

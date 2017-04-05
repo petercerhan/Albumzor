@@ -7,6 +7,11 @@
 //
 
 import UIKit
+import AVFoundation
+
+protocol AlbumDetailsViewControllerDelegate {
+    func playTrack(atIndex index: Int)
+}
 
 class AlbumDetailsViewController: UIViewController {
     
@@ -16,33 +21,48 @@ class AlbumDetailsViewController: UIViewController {
     var tracks: [Track]?
     
     var albumImage: UIImage!
-
+    
+    var delegate: AlbumDetailsViewControllerDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 100
         
-//        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Default")
-        
-//        let albumLabel = album.name!.cleanAlbumName()
-//        let artistLabel = album.artist!.name!
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
     }
     
     @IBAction func back() {
         dismiss(animated: true, completion: nil)
     }
-
+    
+    func setTrackPlaying(track: Int) {
+        print("setTrackPlaying \(track)")
+        //highlight table view row that is playing, indicate that track is playing
+    }
+    
+    func couldNotGetTrack(track: Int) {
+        print("couldNotGetTrack \(track)")
+        //Indicate track could not be played
+    }
+    
 }
 
 extension AlbumDetailsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.item == 0 {
+            return
+        }
+        
+        delegate?.playTrack(atIndex: indexPath.item - 1)
+        
+        //let audioURL = self.tracks![indexPath.item - 1].previewURL
+        //self.playAudio(url: audioURL!)
         
         
     }
