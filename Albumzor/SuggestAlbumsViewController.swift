@@ -184,12 +184,13 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
     }
 }
 
-//MARK:- Handle Audio
+//MARK:- Handle Audio / AlbumDetailsViewControllerDelegate
 
 extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
     
     func playTrack(atIndex index: Int) {
-        print("Play track")
+        let albumIndex = currentIndex
+        
         guard let urlString = currentAlbumTracks?[index].previewURL else {
             //could not play track
             print("could not get url")
@@ -200,10 +201,20 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
             //Download audio data
             //add check/don't force url from string conversion
             if let audioData = try? Data(contentsOf: URL(string: urlString)!) {
+                
                 DispatchQueue.main.async {
+                    //make sure the album hasn't changed; if slow network, a song from the previous album could possibly play otherwise
+                    if albumIndex != self.currentIndex {
+                        return
+                    }
+                    
                     do {
                         self.audioPlayer = try AVAudioPlayer(data: audioData)
                         self.audioPlayer.play()
+                        if let childVC = self.presentedViewController as? AlbumDetailsViewController {
+                            childVC.setTrackPlaying(track: index)
+                        }
+                        
                     } catch {
                         //Could not play track
                         print("could not build player")
