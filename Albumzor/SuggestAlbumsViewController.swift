@@ -73,6 +73,7 @@ class SuggestAlbumsViewController: UIViewController {
             
             currentAlbumTracks = dataManager.getTracks(forAlbum: albums[0].objectID)
             nextAlbumTracks = dataManager.getTracks(forAlbum: albums[1].objectID)
+            autoPlay()
             
             titleLabel.text = albums[0].name!.cleanAlbumName()
             artistLabel.text = albums[0].artist!.name!
@@ -105,9 +106,12 @@ class SuggestAlbumsViewController: UIViewController {
 
 }
 
+//MARK:- CGDraggableViewDelegate
+
 extension SuggestAlbumsViewController: CGDraggableViewDelegate {
     func swipeComplete(direction: SwipeDirection) {
-
+        audioPlayer?.stop()
+        
         //potentially move "seen" code to here
         
         if direction == .right {
@@ -153,6 +157,7 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
         
         //get tracks
         currentAlbumTracks = nextAlbumTracks
+        autoPlay()
         
         if currentIndex == albums.count - 1 {
             nextAlbumTracks = nil
@@ -210,11 +215,11 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
                     
                     do {
                         self.audioPlayer = try AVAudioPlayer(data: audioData)
+                        self.audioPlayer.numberOfLoops = 0
                         self.audioPlayer.play()
                         if let childVC = self.presentedViewController as? AlbumDetailsViewController {
                             childVC.setTrackPlaying(track: index)
                         }
-                        
                     } catch {
                         //Could not play track
                         print("could not build player")
@@ -230,6 +235,24 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
         }
     }
     
+    //Automatically play the sample of the most popular track on the album
+    func autoPlay() {
+        var mostPopularTrackIndex = 0
+        var maxPopularity = 0
+        
+        guard let currentAlbumTracks = currentAlbumTracks else {
+            return
+        }
+        
+        for (index, track) in currentAlbumTracks.enumerated() {
+            if Int(track.popularity) > maxPopularity {
+                maxPopularity = Int(track.popularity)
+                mostPopularTrackIndex = index
+            }
+        }
+        
+        playTrack(atIndex: mostPopularTrackIndex)
+    }
 }
 
 
