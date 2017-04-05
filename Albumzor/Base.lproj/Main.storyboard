@@ -274,6 +274,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MXn-7G-w2S">
+                                <rect key="frame" x="16" y="34" width="39" height="39"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="39" id="3ZH-tg-9YB"/>
+                                    <constraint firstAttribute="width" constant="39" id="Qac-MY-EuX"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <state key="normal" title="X">
+                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="quit" destination="X8r-tE-8de" eventType="touchUpInside" id="UUp-wZ-zYW"/>
+                                </connections>
+                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Album" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FoF-1Y-GXe">
                                 <rect key="frame" x="46" y="411" width="283" height="27"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
@@ -314,18 +328,18 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MXn-7G-w2S">
-                                <rect key="frame" x="16" y="34" width="30" height="39"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ggX-MA-VPX">
+                                <rect key="frame" x="320" y="33.5" width="39" height="39"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="39" id="3ZH-tg-9YB"/>
-                                    <constraint firstAttribute="width" constant="30" id="Qac-MY-EuX"/>
+                                    <constraint firstAttribute="width" constant="39" id="MXT-ou-OV8"/>
+                                    <constraint firstAttribute="height" constant="39" id="co6-he-FMz"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                <state key="normal" title="X">
+                                <state key="normal" title="P">
                                     <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="quit" destination="X8r-tE-8de" eventType="touchUpInside" id="UUp-wZ-zYW"/>
+                                    <action selector="togglePause" destination="X8r-tE-8de" eventType="touchUpInside" id="T6Y-yx-eAw"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -333,6 +347,7 @@
                         <constraints>
                             <constraint firstItem="ySh-9V-TfZ" firstAttribute="centerX" secondItem="KEZ-zS-ewq" secondAttribute="centerX" constant="-75" id="44w-ZW-Jub"/>
                             <constraint firstAttribute="trailingMargin" secondItem="RVp-es-UfG" secondAttribute="trailing" constant="30" id="6T2-cg-hbL"/>
+                            <constraint firstItem="ggX-MA-VPX" firstAttribute="trailing" secondItem="KEZ-zS-ewq" secondAttribute="trailingMargin" id="CcO-8z-MmD"/>
                             <constraint firstItem="IOi-8T-ica" firstAttribute="top" secondItem="ySh-9V-TfZ" secondAttribute="bottom" constant="35" id="Fuf-hm-Zi2"/>
                             <constraint firstItem="RVp-es-UfG" firstAttribute="leading" secondItem="KEZ-zS-ewq" secondAttribute="leadingMargin" constant="30" id="HjX-bs-CDy"/>
                             <constraint firstItem="RVp-es-UfG" firstAttribute="top" secondItem="H9X-f8-ZjG" secondAttribute="bottom" constant="35" id="Iyt-s2-ZPH"/>
@@ -348,6 +363,7 @@
                             <constraint firstItem="b03-O6-eNL" firstAttribute="centerX" secondItem="KEZ-zS-ewq" secondAttribute="centerX" constant="75" id="mym-9k-UrA"/>
                             <constraint firstItem="MXn-7G-w2S" firstAttribute="centerY" secondItem="H9X-f8-ZjG" secondAttribute="centerY" id="pQf-4x-X6H"/>
                             <constraint firstItem="FoF-1Y-GXe" firstAttribute="width" secondItem="RVp-es-UfG" secondAttribute="width" id="tGd-Dx-drE"/>
+                            <constraint firstItem="ggX-MA-VPX" firstAttribute="centerY" secondItem="H9X-f8-ZjG" secondAttribute="centerY" id="zU9-DX-vaz"/>
                         </constraints>
                     </view>
                     <connections>

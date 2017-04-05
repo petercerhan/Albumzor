@@ -41,6 +41,8 @@ class SuggestAlbumsViewController: UIViewController {
     
     var currentIndex: Int = 0
     
+    var audioPaused = true
+    
     var initialLayoutCongifured = false
     
     let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
@@ -74,6 +76,7 @@ class SuggestAlbumsViewController: UIViewController {
             currentAlbumTracks = dataManager.getTracks(forAlbum: albums[0].objectID)
             nextAlbumTracks = dataManager.getTracks(forAlbum: albums[1].objectID)
             autoPlay()
+            audioPaused = false
             
             titleLabel.text = albums[0].name!.cleanAlbumName()
             artistLabel.text = albums[0].artist!.name!
@@ -83,7 +86,18 @@ class SuggestAlbumsViewController: UIViewController {
     }
 
     @IBAction func quit() {
+        audioPlayer = nil
         delegate.quit()
+    }
+    
+    @IBAction func togglePause() {
+        if audioPaused {
+            audioPlayer?.play()
+        } else {
+            audioPlayer?.pause()
+        }
+        
+        audioPaused = !audioPaused
     }
     
     func animateOut() {
