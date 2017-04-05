@@ -215,7 +215,7 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
                     
                     do {
                         self.audioPlayer = try AVAudioPlayer(data: audioData)
-                        self.audioPlayer.numberOfLoops = 0
+                        self.audioPlayer.numberOfLoops = -1
                         self.audioPlayer.play()
                         if let childVC = self.presentedViewController as? AlbumDetailsViewController {
                             childVC.setTrackPlaying(track: index)
