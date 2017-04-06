@@ -41,6 +41,7 @@ class SuggestAlbumsViewController: UIViewController {
     
     var currentIndex: Int = 0
     
+    var trackPlaying: Int?
     var audioPaused = true
     
     var initialLayoutCongifured = false
@@ -188,6 +189,7 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
         vc.albumImage = albumArt[currentIndex]
         vc.tracks = currentAlbumTracks
         vc.album = albums[currentIndex]
+        vc.trackPlaying = trackPlaying
         vc.delegate = self
         present(vc, animated: true, completion: nil)
     }
@@ -208,6 +210,7 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
 extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
     
     func playTrack(atIndex index: Int) {
+        audioPlayer?.stop()
         let albumIndex = currentIndex
         
         guard let urlString = currentAlbumTracks?[index].previewURL else {
@@ -231,6 +234,7 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
                         self.audioPlayer = try AVAudioPlayer(data: audioData)
                         self.audioPlayer.numberOfLoops = -1
                         self.audioPlayer.play()
+                        self.trackPlaying = index
                         if let childVC = self.presentedViewController as? AlbumDetailsViewController {
                             childVC.setTrackPlaying(track: index)
                         }

@@ -22,13 +22,16 @@ class AlbumDetailsViewController: UIViewController {
     
     var albumImage: UIImage!
     
+    //Index of currently playing track
+    var trackPlaying: Int?
+    
     var delegate: AlbumDetailsViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 100
+        tableView.estimatedRowHeight = 150
         
     }
     
@@ -42,6 +45,8 @@ class AlbumDetailsViewController: UIViewController {
     
     func setTrackPlaying(track: Int) {
         print("setTrackPlaying \(track)")
+        
+        
         //highlight table view row that is playing, indicate that track is playing
     }
     
@@ -55,15 +60,20 @@ class AlbumDetailsViewController: UIViewController {
 extension AlbumDetailsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("did select")
         if indexPath.item == 0 {
-            return
+            dismiss(animated: true, completion: nil)
+        } else {
+            if let trackPlaying = trackPlaying, let priorCell = tableView.cellForRow(at: IndexPath(item: trackPlaying + 1, section: 0)) as? TrackTableViewCell {
+                priorCell.titleLabel.font = UIFont.systemFont(ofSize: priorCell.titleLabel.font.pointSize)
+            }
+            
+            trackPlaying = indexPath.item - 1
+            
+            let cell = tableView.cellForRow(at: indexPath) as! TrackTableViewCell
+            cell.titleLabel.font = UIFont.boldSystemFont(ofSize: cell.titleLabel.font.pointSize)
+            delegate?.playTrack(atIndex: indexPath.item - 1)
         }
-        
-        delegate?.playTrack(atIndex: indexPath.item - 1)
-        
-        //let audioURL = self.tracks![indexPath.item - 1].previewURL
-        //self.playAudio(url: audioURL!)
-        
         
     }
     
@@ -75,6 +85,10 @@ extension AlbumDetailsViewController: UITableViewDelegate {
             return true
         }
     }
+    
+//    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+//        return false
+//    }
     
 }
 
@@ -96,12 +110,21 @@ extension AlbumDetailsViewController: UITableViewDataSource {
             cell.titleLabel.text = album.name!.cleanAlbumName()
             cell.artistLabel.text = album.artist!.name!
             
+            cell.selectionStyle = .none
+            
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TrackCell") as! TrackTableViewCell
             
+            cell.titleLabel.font = UIFont.systemFont(ofSize: cell.titleLabel.font.pointSize)
             cell.titleLabel.text = tracks?[indexPath.row - 1].name
             cell.numberLabel.text = "\(tracks![indexPath.row - 1].track)"
+            
+            cell.selectionStyle = .none
+            
+            if let trackPlaying = trackPlaying, trackPlaying == indexPath.row - 1 {
+                cell.titleLabel.font = UIFont.boldSystemFont(ofSize: cell.titleLabel.font.pointSize)
+            }
             
             return cell
         }
