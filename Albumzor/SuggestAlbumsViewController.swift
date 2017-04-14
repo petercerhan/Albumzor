@@ -48,7 +48,9 @@ class SuggestAlbumsViewController: UIViewController {
     
     let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
     
-    var audioPlayer: AVAudioPlayer!
+    var audioPlayerPrior: AVAudioPlayer!
+    
+    var audioPlayer = AudioPlayer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,15 +89,15 @@ class SuggestAlbumsViewController: UIViewController {
     }
 
     @IBAction func quit() {
-        audioPlayer = nil
+        audioPlayer.stop()
         delegate.quit()
     }
     
     @IBAction func togglePause() {
         if audioPaused {
-            audioPlayer?.play()
+            audioPlayer.play()
         } else {
-            audioPlayer?.pause()
+            audioPlayer.pause()
         }
         
         audioPaused = !audioPaused
@@ -125,7 +127,7 @@ class SuggestAlbumsViewController: UIViewController {
 
 extension SuggestAlbumsViewController: CGDraggableViewDelegate {
     func swipeComplete(direction: SwipeDirection) {
-        audioPlayer?.stop()
+        audioPlayer.stop()
         
         //potentially move "seen" code to here
         
@@ -210,8 +212,6 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
 extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
     
     func playTrack(atIndex index: Int) {
-        audioPlayer?.stop()
-        let albumIndex = currentIndex
         
         guard let urlString = currentAlbumTracks?[index].previewURL else {
             //could not play track
@@ -219,38 +219,13 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
             return
         }
         
-        DispatchQueue.global(qos: .userInitiated).async {
-            //Download audio data
-            //add check/don't force url from string conversion
-            if let audioData = try? Data(contentsOf: URL(string: urlString)!) {
-                
-                DispatchQueue.main.async {
-                    //make sure the album hasn't changed; if slow network, a song from the previous album could possibly play otherwise
-                    if albumIndex != self.currentIndex {
-                        return
-                    }
-                    
-                    do {
-                        self.audioPlayer = try AVAudioPlayer(data: audioData)
-                        self.audioPlayer.numberOfLoops = -1
-                        self.audioPlayer.play()
-                        self.trackPlaying = index
-                        if let childVC = self.presentedViewController as? AlbumDetailsViewController {
-                            childVC.setTrackPlaying(track: index)
-                        }
-                    } catch {
-                        //Could not play track
-                        print("could not build player")
-                    }
-                    
-                    //notify details which track is playing
-                }
-            } else {
-                print("could not get data")
-                //could not play track
-            }
-            
+        guard let url = URL(string: urlString) else {
+            print("bad url")
+            return
         }
+
+        self.audioPlayer.playTrack(url: url, albumIndex: currentIndex, trackIndex: index)
+        
     }
     
     //Automatically play the sample of the most popular track on the album
@@ -271,6 +246,17 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
         
         playTrack(atIndex: mostPopularTrackIndex)
     }
+    
+    //details view sent pause
+    func pauseAudio() {
+        audioPlayer.pause()
+    }
+    
+    //details view sent play
+    func resumeAudio() {
+        audioPlayer.play()
+    }
+    
 }
 
 

@@ -33,7 +33,7 @@ class CGOverlayView: UIView {
         imageView = UIImageView(frame: imageViewFrame)
         super.init(frame: frame)
         
-        backgroundColor = UIColor.white
+        backgroundColor = UIColor.gray
         imageView.center = center
         addSubview(imageView)
     }

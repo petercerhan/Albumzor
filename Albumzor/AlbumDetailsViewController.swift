@@ -11,6 +11,9 @@ import AVFoundation
 
 protocol AlbumDetailsViewControllerDelegate {
     func playTrack(atIndex index: Int)
+    func pauseAudio()
+    func resumeAudio()
+    //func audioPaused() -> Bool
 }
 
 class AlbumDetailsViewController: UIViewController {
@@ -43,9 +46,14 @@ class AlbumDetailsViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func togglePause() {
+//        if delegate!.audioPaused() {
+//            
+//        }
+    }
+    
     func setTrackPlaying(track: Int) {
         print("setTrackPlaying \(track)")
-        
         
         //highlight table view row that is playing, indicate that track is playing
     }
@@ -86,10 +94,6 @@ extension AlbumDetailsViewController: UITableViewDelegate {
         }
     }
     
-//    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-//        return false
-//    }
-    
 }
 
 extension AlbumDetailsViewController: UITableViewDataSource {
@@ -107,6 +111,7 @@ extension AlbumDetailsViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "AlbumDetailsCell") as! AlbumDetailsTableViewCell
             
             cell.albumImageView.image = albumImage
+            cell.albumImageView.addShadow()
             cell.titleLabel.text = album.name!.cleanAlbumName()
             cell.artistLabel.text = album.artist!.name!
             

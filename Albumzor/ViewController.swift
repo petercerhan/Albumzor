@@ -33,9 +33,11 @@ class ViewController: UIViewController {
     }
     
     @IBAction func testData() {
-        //testArtistData()
-        //testAlbumData()
-        //testAlbumChoice()
+        do {
+            try stack.dropAllData()
+        } catch {
+            print("Could not reset data model")
+        }
     }
     
     func testAlbumChoice() {
