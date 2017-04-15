@@ -19,6 +19,7 @@ protocol AlbumDetailsViewControllerDelegate {
 class AlbumDetailsViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
+    @IBOutlet var audioButton: UIButton!
     
     var album: Album!
     var tracks: [Track]?
@@ -28,6 +29,12 @@ class AlbumDetailsViewController: UIViewController {
     //Index of currently playing track
     var trackPlaying: Int?
     
+    //loading - trackPlaying is currently loading; play - trackPlaying is paused; pause - trackPlaying is playing; error - trackPlaying failed to load; noTrack - autoPlay is presumably disabled, no track has been loaded
+    enum InitialAudioButtonState {
+        case loading, play, pause, error, noTrack
+    }
+    var initialButtonAppearance: InitialAudioButtonState = .noTrack
+    
     var delegate: AlbumDetailsViewControllerDelegate?
     
     override func viewDidLoad() {
@@ -36,6 +43,23 @@ class AlbumDetailsViewController: UIViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 150
         
+        configureAudioButton()
+    }
+    
+    func configureAudioButton() {
+        switch initialButtonAppearance {
+        case .loading:
+            audioButton.setTitle("L", for: .normal)
+        case .play:
+            audioButton.setTitle("G", for: .normal)
+        case .pause:
+            audioButton.setTitle("P", for: .normal)
+        case .error:
+            audioButton.setTitle("!", for: .normal)
+        case .noTrack:
+            audioButton.setTitle("G", for: .normal)
+            audioButton.isUserInteractionEnabled = false
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

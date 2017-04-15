@@ -368,6 +368,7 @@
                     </view>
                     <connections>
                         <outlet property="artistLabel" destination="TwY-sF-SYZ" id="hD5-lB-Sk8"/>
+                        <outlet property="audioButton" destination="ggX-MA-VPX" id="tXn-4h-hzl"/>
                         <outlet property="defaultView" destination="RVp-es-UfG" id="ndT-Kf-Bgo"/>
                         <outlet property="dislikeButton" destination="ySh-9V-TfZ" id="OFX-KZ-kc2"/>
                         <outlet property="likeButton" destination="b03-O6-eNL" id="c5x-F1-4Ev"/>
@@ -497,7 +498,7 @@
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2JD-9A-zOL">
                                 <rect key="frame" x="329" y="627" width="30" height="30"/>
-                                <state key="normal" title="p">
+                                <state key="normal" title="L">
                                     <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
@@ -515,6 +516,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="audioButton" destination="2JD-9A-zOL" id="Guu-dq-b6Y"/>
                         <outlet property="tableView" destination="hBC-lM-7WT" id="XmA-6V-SsC"/>
                     </connections>
                 </viewController>

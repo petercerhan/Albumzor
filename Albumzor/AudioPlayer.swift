@@ -48,6 +48,7 @@ class AudioPlayer {
                         self.audioPlayer = try AVAudioPlayer(data: audioData)
                         self.audioPlayer?.numberOfLoops = -1
                         self.audioPlayer?.play()
+                        self.delegate?.beganPlaying()
                     } catch {
                         //Could not play track
                         self.delegate?.couldNotPlay()
@@ -63,14 +64,17 @@ class AudioPlayer {
     
     func play() {
         audioPlayer?.play()
+        self.delegate?.beganPlaying()
     }
     
     func pause() {
         audioPlayer?.pause()
+        self.delegate?.paused()
     }
     
     func stop() {
         audioPlayer?.stop()
+        self.delegate?.stopped()
     }
     
 }

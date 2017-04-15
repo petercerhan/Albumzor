@@ -11,6 +11,11 @@ import AVFoundation
 
 typealias AlbumUsage = (seen: Bool, liked: Bool, relatedAdded: Bool)
 
+//error - tried and failed to retrieve sample audio; noTrack - autoplay presumably disabled, no track has been retrieved
+enum AudioState {
+    case loading, playing, paused, error, noTrack
+}
+
 protocol SuggestAlbumsViewControllerDelegate {
     func quit()
     func batteryComplete()
@@ -26,6 +31,7 @@ class SuggestAlbumsViewController: UIViewController {
     @IBOutlet var quitButton: UIButton!
     @IBOutlet var dislikeButton: UIButton!
     @IBOutlet var likeButton: UIButton!
+    @IBOutlet var audioButton: UIButton!
 
     var currentAlbumView: CGDraggableView!
     var nextAlbumView: CGDraggableView!
@@ -42,18 +48,18 @@ class SuggestAlbumsViewController: UIViewController {
     var currentIndex: Int = 0
     
     var trackPlaying: Int?
-    var audioPaused = true
+    
+    var audioState: AudioState = .noTrack
     
     var initialLayoutCongifured = false
     
     let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
     
-    var audioPlayerPrior: AVAudioPlayer!
-    
     var audioPlayer = AudioPlayer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        audioPlayer.delegate = self
     }
     
     override func viewDidLayoutSubviews() {
@@ -64,8 +70,6 @@ class SuggestAlbumsViewController: UIViewController {
             currentAlbumView.delegate = self
             currentAlbumView.addShadow()
             view.addSubview(currentAlbumView)
-            
-            print("frame \(defaultView.frame)")
             
             dataManager.seen(album: albums[0].objectID)
             usage[0].seen = true
@@ -79,7 +83,6 @@ class SuggestAlbumsViewController: UIViewController {
             currentAlbumTracks = dataManager.getTracks(forAlbum: albums[0].objectID)
             nextAlbumTracks = dataManager.getTracks(forAlbum: albums[1].objectID)
             autoPlay()
-            audioPaused = false
             
             titleLabel.text = albums[0].name!.cleanAlbumName()
             artistLabel.text = albums[0].artist!.name!
@@ -94,13 +97,18 @@ class SuggestAlbumsViewController: UIViewController {
     }
     
     @IBAction func togglePause() {
-        if audioPaused {
-            audioPlayer.play()
-        } else {
-            audioPlayer.pause()
+        
+        switch audioState {
+        case .playing:
+            pauseAudio()
+        case .paused:
+            resumeAudio()
+        case .noTrack:
+            autoPlay()
+        default:
+            break
         }
         
-        audioPaused = !audioPaused
     }
     
     func animateOut() {
@@ -154,7 +162,6 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
         } else {
             titleLabel.removeFromSuperview()
             artistLabel.removeFromSuperview()
-            
         }
         
         //add bottom album unless we are on the final album of the battery
@@ -191,7 +198,10 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
         vc.albumImage = albumArt[currentIndex]
         vc.tracks = currentAlbumTracks
         vc.album = albums[currentIndex]
+        
         vc.trackPlaying = trackPlaying
+        
+        
         vc.delegate = self
         present(vc, animated: true, completion: nil)
     }
@@ -212,24 +222,31 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
 extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
     
     func playTrack(atIndex index: Int) {
+        //update button
+        trackPlaying = index
+        audioState = .loading
+        audioButton.setTitle("L", for: .normal)
+        audioButton.isEnabled = false
         
         guard let urlString = currentAlbumTracks?[index].previewURL else {
             //could not play track
-            print("could not get url")
+            audioButton.setTitle("!", for: .normal)
+            audioState = .error
             return
         }
         
         guard let url = URL(string: urlString) else {
-            print("bad url")
+            audioButton.setTitle("!", for: .normal)
+            audioState = .error
             return
         }
 
         self.audioPlayer.playTrack(url: url, albumIndex: currentIndex, trackIndex: index)
-        
     }
     
     //Automatically play the sample of the most popular track on the album
     func autoPlay() {
+        //get most popular track ..
         var mostPopularTrackIndex = 0
         var maxPopularity = 0
         
@@ -244,19 +261,62 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
             }
         }
         
+        //play track
         playTrack(atIndex: mostPopularTrackIndex)
     }
     
     //details view sent pause
     func pauseAudio() {
+        audioButton.setTitle("G", for: .normal)
+        audioButton.isEnabled = false
+        audioState = .paused
         audioPlayer.pause()
     }
     
     //details view sent play
     func resumeAudio() {
+        audioButton.setTitle("P", for: .normal)
+        audioButton.isEnabled = false
         audioPlayer.play()
     }
     
 }
+
+//MARK:- AudioPlayerDelegate
+
+extension SuggestAlbumsViewController: AudioPlayerDelegate {
+    
+    func beganLoading() {
+        //no action needed
+    }
+    
+    func beganPlaying() {
+        audioButton.setTitle("P", for: .normal)
+        audioState = .playing
+        audioButton.isEnabled = true
+    }
+    
+    func paused() {
+        audioButton.isEnabled = true
+        audioButton.setTitle("G", for: .normal)
+        audioState = .paused
+    }
+    
+    func stopped() {
+        //no action needed
+    }
+    
+    func couldNotPlay() {
+        audioButton.setTitle("!", for: .normal)
+        audioState = .error
+    }
+
+}
+
+
+
+
+
+
 
 
