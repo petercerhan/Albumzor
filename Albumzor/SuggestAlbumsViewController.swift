@@ -32,6 +32,8 @@ class SuggestAlbumsViewController: UIViewController {
     @IBOutlet var dislikeButton: UIButton!
     @IBOutlet var likeButton: UIButton!
     @IBOutlet var audioButton: UIButton!
+    
+    @IBOutlet var activityIndicator: UIActivityIndicatorView!
 
     var currentAlbumView: CGDraggableView!
     var nextAlbumView: CGDraggableView!
@@ -86,6 +88,9 @@ class SuggestAlbumsViewController: UIViewController {
             
             titleLabel.text = albums[0].name!.cleanAlbumName()
             artistLabel.text = albums[0].artist!.name!
+            
+            audioButton.imageEdgeInsets = UIEdgeInsetsMake(11.0, 11.0, 11.0, 11.0)
+            audioButton.contentMode = .center
             
             initialLayoutCongifured = true
         }
@@ -226,18 +231,22 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
         //update button
         trackPlaying = index
         audioState = .loading
-        audioButton.setTitle("L", for: .normal)
-        audioButton.isEnabled = false
+        audioButton.isHidden = true
+        activityIndicator.startAnimating()
         
         guard let urlString = currentAlbumTracks?[index].previewURL else {
             //could not play track
-            audioButton.setTitle("!", for: .normal)
+            activityIndicator.stopAnimating()
+            audioButton.isHidden = false
+            audioButton.setImage(UIImage(named: "Error"), for: .normal)
             audioState = .error
             return
         }
         
         guard let url = URL(string: urlString) else {
-            audioButton.setTitle("!", for: .normal)
+            activityIndicator.stopAnimating()
+            audioButton.isHidden = false
+            audioButton.setImage(UIImage(named: "Error"), for: .normal)
             audioState = .error
             return
         }
@@ -266,18 +275,19 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
         playTrack(atIndex: mostPopularTrackIndex)
     }
     
-    //details view sent pause
     func pauseAudio() {
-        audioButton.setTitle("G", for: .normal)
-        audioButton.isEnabled = false
+        audioButton.setImage(UIImage(named: "Play"), for: .normal)
+        audioButton.isHidden = false
+        audioButton.isUserInteractionEnabled = false
         audioState = .paused
         audioPlayer.pause()
     }
     
-    //details view sent play
     func resumeAudio() {
-        audioButton.setTitle("P", for: .normal)
-        audioButton.isEnabled = false
+        audioButton.setImage(UIImage(named: "Pause"), for: .normal)
+        audioButton.isHidden = false
+        audioButton.isUserInteractionEnabled = false
+        audioState = .playing
         audioPlayer.play()
     }
     
@@ -295,9 +305,11 @@ extension SuggestAlbumsViewController: AudioPlayerDelegate {
     }
     
     func beganPlaying() {
-        audioButton.setTitle("P", for: .normal)
+        activityIndicator.stopAnimating()
+        audioButton.setImage(UIImage(named: "Pause"), for: .normal)
         audioState = .playing
-        audioButton.isEnabled = true
+        audioButton.isHidden = false
+        audioButton.isUserInteractionEnabled = true
         
         if let vc = presentedViewController as? AlbumDetailsViewController {
             vc.audioBeganPlaying()
@@ -305,8 +317,9 @@ extension SuggestAlbumsViewController: AudioPlayerDelegate {
     }
     
     func paused() {
-        audioButton.isEnabled = true
-        audioButton.setTitle("G", for: .normal)
+        audioButton.isHidden = false
+        audioButton.isUserInteractionEnabled = true
+        audioButton.setImage(UIImage(named: "Play"), for: .normal)
         audioState = .paused
         
         if let vc = presentedViewController as? AlbumDetailsViewController {
@@ -322,7 +335,9 @@ extension SuggestAlbumsViewController: AudioPlayerDelegate {
     }
     
     func couldNotPlay() {
-        audioButton.setTitle("!", for: .normal)
+        activityIndicator.stopAnimating()
+        audioButton.isHidden = false
+        audioButton.setImage(UIImage(named: "Error"), for: .normal)
         audioState = .error
         
         if let vc = presentedViewController as? AlbumDetailsViewController {

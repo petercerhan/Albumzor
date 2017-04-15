@@ -19,6 +19,7 @@ class AlbumDetailsViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
     @IBOutlet var audioButton: UIButton!
+    @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
     var album: Album!
     var tracks: [Track]?
@@ -42,17 +43,30 @@ class AlbumDetailsViewController: UIViewController {
     }
     
     func configureAudioButton() {
+        audioButton.imageEdgeInsets = UIEdgeInsetsMake(8.0, 8.0, 8.0, 8.0)
+        audioButton.contentMode = .center
+        
         switch audioState {
         case .loading:
+            activityIndicator.startAnimating()
+            audioButton.isHidden = true
             audioButton.setTitle("L", for: .normal)
         case .playing:
-            audioButton.setTitle("P", for: .normal)
+            activityIndicator.stopAnimating()
+            audioButton.isHidden = false
+            audioButton.setImage(UIImage(named: "Pause"), for: .normal)
         case .paused:
-            audioButton.setTitle("G", for: .normal)
+            activityIndicator.stopAnimating()
+            audioButton.isHidden = false
+            audioButton.setImage(UIImage(named: "Play"), for: .normal)
         case .error:
-            audioButton.setTitle("!", for: .normal)
+            activityIndicator.stopAnimating()
+            audioButton.isHidden = false
+            audioButton.setImage(UIImage(named: "Error"), for: .normal)
         case .noTrack:
-            audioButton.setTitle("P", for: .normal)
+            activityIndicator.stopAnimating()
+            audioButton.isHidden = false
+            audioButton.setImage(UIImage(named: "Play"), for: .normal)
             audioButton.isUserInteractionEnabled = false
         }
     }
@@ -68,11 +82,13 @@ class AlbumDetailsViewController: UIViewController {
     @IBAction func togglePause() {
         switch audioState {
         case .playing:
-            audioButton.setTitle("G", for: .normal)
+            audioButton.setImage(UIImage(named: "Play"), for: .normal)
+            audioButton.isUserInteractionEnabled = false
             audioState = .paused
             delegate?.pauseAudio()
         case .paused:
-            audioButton.setTitle("P", for: .normal)
+            audioButton.setImage(UIImage(named: "Pause"), for: .normal)
+            audioButton.isUserInteractionEnabled = false
             audioState = .playing
             delegate?.resumeAudio()
         default:
@@ -102,13 +118,15 @@ extension AlbumDetailsViewController {
     }
     
     func audioBeganPlaying() {
-        audioButton.setTitle("P", for: .normal)
+        activityIndicator.stopAnimating()
+        audioButton.setImage(UIImage(named: "Pause"), for: .normal)
         audioButton.isUserInteractionEnabled = true
+        audioButton.isHidden = false
         audioState = .playing
     }
     
     func audioPaused() {
-        audioButton.setTitle("G", for: .normal)
+        audioButton.setImage(UIImage(named: "Play"), for: .normal)
         audioButton.isUserInteractionEnabled = true
         audioState = .paused
     }
@@ -118,7 +136,8 @@ extension AlbumDetailsViewController {
     }
     
     func audioCouldNotPlay() {
-        audioButton.setTitle("!", for: .normal)
+        activityIndicator.stopAnimating()
+        audioButton.setImage(UIImage(named: "Error"), for: .normal)
         audioButton.isUserInteractionEnabled = false
         audioState = .error
     }
@@ -144,9 +163,11 @@ extension AlbumDetailsViewController: UITableViewDelegate {
             let cell = tableView.cellForRow(at: indexPath) as! TrackTableViewCell
             cell.titleLabel.font = UIFont.boldSystemFont(ofSize: cell.titleLabel.font.pointSize)
             
-            audioButton.setTitle("P", for: .normal)
+            audioButton.setImage(UIImage(named: "Pause"), for: .normal)
             audioButton.isUserInteractionEnabled = false
+            audioButton.isHidden = true
             audioState = .playing
+            activityIndicator.startAnimating()
             
             delegate?.playTrack(atIndex: indexPath.item - 1)
         }

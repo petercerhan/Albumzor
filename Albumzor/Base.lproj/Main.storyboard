@@ -328,20 +328,22 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ggX-MA-VPX">
-                                <rect key="frame" x="320" y="31.5" width="39" height="39"/>
+                            <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ggX-MA-VPX">
+                                <rect key="frame" x="320" y="32" width="39" height="39"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="39" id="MXT-ou-OV8"/>
                                     <constraint firstAttribute="height" constant="39" id="co6-he-FMz"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                <state key="normal" title="L">
+                                <state key="normal" image="Play">
                                     <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="togglePause" destination="X8r-tE-8de" eventType="touchUpInside" id="T6Y-yx-eAw"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="O9R-OS-4Xq">
+                                <rect key="frame" x="329" y="41" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -352,6 +354,7 @@
                             <constraint firstItem="RVp-es-UfG" firstAttribute="leading" secondItem="KEZ-zS-ewq" secondAttribute="leadingMargin" constant="30" id="HjX-bs-CDy"/>
                             <constraint firstItem="RVp-es-UfG" firstAttribute="top" secondItem="H9X-f8-ZjG" secondAttribute="bottom" constant="35" id="Iyt-s2-ZPH"/>
                             <constraint firstItem="MXn-7G-w2S" firstAttribute="leading" secondItem="KEZ-zS-ewq" secondAttribute="leadingMargin" id="PRf-QR-DF8"/>
+                            <constraint firstItem="O9R-OS-4Xq" firstAttribute="centerX" secondItem="ggX-MA-VPX" secondAttribute="centerX" id="R8k-hf-uLk"/>
                             <constraint firstItem="FoF-1Y-GXe" firstAttribute="centerX" secondItem="RVp-es-UfG" secondAttribute="centerX" id="WDl-7C-mVX"/>
                             <constraint firstItem="TwY-sF-SYZ" firstAttribute="top" secondItem="FoF-1Y-GXe" secondAttribute="bottom" constant="14.5" id="a1L-eN-wsl"/>
                             <constraint firstItem="H9X-f8-ZjG" firstAttribute="centerX" secondItem="KEZ-zS-ewq" secondAttribute="centerX" id="cBU-BO-GCa"/>
@@ -363,10 +366,12 @@
                             <constraint firstItem="b03-O6-eNL" firstAttribute="centerX" secondItem="KEZ-zS-ewq" secondAttribute="centerX" constant="75" id="mym-9k-UrA"/>
                             <constraint firstItem="MXn-7G-w2S" firstAttribute="centerY" secondItem="H9X-f8-ZjG" secondAttribute="centerY" id="pQf-4x-X6H"/>
                             <constraint firstItem="FoF-1Y-GXe" firstAttribute="width" secondItem="RVp-es-UfG" secondAttribute="width" id="tGd-Dx-drE"/>
+                            <constraint firstItem="O9R-OS-4Xq" firstAttribute="centerY" secondItem="ggX-MA-VPX" secondAttribute="centerY" id="xUv-gA-lwY"/>
                             <constraint firstItem="ggX-MA-VPX" firstAttribute="centerY" secondItem="H9X-f8-ZjG" secondAttribute="centerY" id="zU9-DX-vaz"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="O9R-OS-4Xq" id="Wlr-w4-VhO"/>
                         <outlet property="artistLabel" destination="TwY-sF-SYZ" id="hD5-lB-Sk8"/>
                         <outlet property="audioButton" destination="ggX-MA-VPX" id="tXn-4h-hzl"/>
                         <outlet property="defaultView" destination="RVp-es-UfG" id="ndT-Kf-Bgo"/>
@@ -496,15 +501,22 @@
                                     <outlet property="delegate" destination="z37-xA-2s9" id="2z8-C6-xns"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2JD-9A-zOL">
-                                <rect key="frame" x="329" y="627" width="30" height="30"/>
-                                <state key="normal" title="L">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2JD-9A-zOL">
+                                <rect key="frame" x="327" y="626" width="32" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="32" id="kiN-ea-B6q"/>
+                                    <constraint firstAttribute="height" constant="32" id="zFO-be-1R0"/>
+                                </constraints>
+                                <state key="normal" image="Play">
                                     <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="togglePause" destination="z37-xA-2s9" eventType="touchUpInside" id="9fa-Kr-Ddx"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="q56-N9-u5y">
+                                <rect key="frame" x="332.5" y="632" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -515,10 +527,13 @@
                             <constraint firstItem="2JD-9A-zOL" firstAttribute="trailing" secondItem="xtX-Yl-hrn" secondAttribute="trailingMargin" id="Vvd-CG-hKw"/>
                             <constraint firstItem="p85-e2-E58" firstAttribute="top" secondItem="UP5-Vb-zCI" secondAttribute="bottom" constant="8" id="gh8-W6-x9D"/>
                             <constraint firstAttribute="trailing" secondItem="hBC-lM-7WT" secondAttribute="trailing" id="naL-Km-JuN"/>
+                            <constraint firstItem="q56-N9-u5y" firstAttribute="centerX" secondItem="2JD-9A-zOL" secondAttribute="centerX" id="o2N-qE-KHB"/>
+                            <constraint firstItem="q56-N9-u5y" firstAttribute="centerY" secondItem="2JD-9A-zOL" secondAttribute="centerY" id="uBU-UD-ec8"/>
                             <constraint firstItem="UP5-Vb-zCI" firstAttribute="centerX" secondItem="xtX-Yl-hrn" secondAttribute="centerX" id="z3b-zg-Bff"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="q56-N9-u5y" id="GbJ-jV-S4t"/>
                         <outlet property="audioButton" destination="2JD-9A-zOL" id="Guu-dq-b6Y"/>
                         <outlet property="tableView" destination="hBC-lM-7WT" id="XmA-6V-SsC"/>
                     </connections>
@@ -669,6 +684,7 @@
     </scenes>
     <resources>
         <image name="Check" width="104" height="104"/>
+        <image name="Play" width="27" height="32"/>
         <image name="X" width="104" height="104"/>
     </resources>
 </document>
