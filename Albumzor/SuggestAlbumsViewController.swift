@@ -200,7 +200,7 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
         vc.album = albums[currentIndex]
         
         vc.trackPlaying = trackPlaying
-        
+        vc.audioState = audioState
         
         vc.delegate = self
         present(vc, animated: true, completion: nil)
@@ -218,6 +218,7 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
 }
 
 //MARK:- Handle Audio / AlbumDetailsViewControllerDelegate
+//playTrack(atIndex:), pauseAudio(), and resumeAudio() called internally by SuggestAlbumsViewController, and are also AlbumDetailsViewController Delegate functions
 
 extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
     
@@ -287,6 +288,9 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
 extension SuggestAlbumsViewController: AudioPlayerDelegate {
     
     func beganLoading() {
+        if let vc = presentedViewController as? AlbumDetailsViewController {
+            vc.audioBeganLoading()
+        }
         //no action needed
     }
     
@@ -294,21 +298,36 @@ extension SuggestAlbumsViewController: AudioPlayerDelegate {
         audioButton.setTitle("P", for: .normal)
         audioState = .playing
         audioButton.isEnabled = true
+        
+        if let vc = presentedViewController as? AlbumDetailsViewController {
+            vc.audioBeganPlaying()
+        }
     }
     
     func paused() {
         audioButton.isEnabled = true
         audioButton.setTitle("G", for: .normal)
         audioState = .paused
+        
+        if let vc = presentedViewController as? AlbumDetailsViewController {
+            vc.audioPaused()
+        }
     }
     
     func stopped() {
+        if let vc = presentedViewController as? AlbumDetailsViewController {
+            vc.audioStopped()
+        }
         //no action needed
     }
     
     func couldNotPlay() {
         audioButton.setTitle("!", for: .normal)
         audioState = .error
+        
+        if let vc = presentedViewController as? AlbumDetailsViewController {
+            vc.audioCouldNotPlay()
+        }
     }
 
 }

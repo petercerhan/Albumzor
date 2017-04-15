@@ -13,7 +13,6 @@ protocol AlbumDetailsViewControllerDelegate {
     func playTrack(atIndex index: Int)
     func pauseAudio()
     func resumeAudio()
-    //func audioPaused() -> Bool
 }
 
 class AlbumDetailsViewController: UIViewController {
@@ -29,11 +28,7 @@ class AlbumDetailsViewController: UIViewController {
     //Index of currently playing track
     var trackPlaying: Int?
     
-    //loading - trackPlaying is currently loading; play - trackPlaying is paused; pause - trackPlaying is playing; error - trackPlaying failed to load; noTrack - autoPlay is presumably disabled, no track has been loaded
-    enum InitialAudioButtonState {
-        case loading, play, pause, error, noTrack
-    }
-    var initialButtonAppearance: InitialAudioButtonState = .noTrack
+    var audioState: AudioState = .noTrack
     
     var delegate: AlbumDetailsViewControllerDelegate?
     
@@ -47,17 +42,17 @@ class AlbumDetailsViewController: UIViewController {
     }
     
     func configureAudioButton() {
-        switch initialButtonAppearance {
+        switch audioState {
         case .loading:
             audioButton.setTitle("L", for: .normal)
-        case .play:
-            audioButton.setTitle("G", for: .normal)
-        case .pause:
+        case .playing:
             audioButton.setTitle("P", for: .normal)
+        case .paused:
+            audioButton.setTitle("G", for: .normal)
         case .error:
             audioButton.setTitle("!", for: .normal)
         case .noTrack:
-            audioButton.setTitle("G", for: .normal)
+            audioButton.setTitle("P", for: .normal)
             audioButton.isUserInteractionEnabled = false
         }
     }
@@ -71,9 +66,18 @@ class AlbumDetailsViewController: UIViewController {
     }
     
     @IBAction func togglePause() {
-//        if delegate!.audioPaused() {
-//            
-//        }
+        switch audioState {
+        case .playing:
+            audioButton.setTitle("G", for: .normal)
+            audioState = .paused
+            delegate?.pauseAudio()
+        case .paused:
+            audioButton.setTitle("P", for: .normal)
+            audioState = .playing
+            delegate?.resumeAudio()
+        default:
+            break
+        }
     }
     
     func setTrackPlaying(track: Int) {
@@ -88,6 +92,41 @@ class AlbumDetailsViewController: UIViewController {
     }
     
 }
+
+//MARK:- Audio messages forwarded from parent
+
+extension AlbumDetailsViewController {
+    
+    func audioBeganLoading() {
+        // do nothing
+    }
+    
+    func audioBeganPlaying() {
+        audioButton.setTitle("P", for: .normal)
+        audioButton.isUserInteractionEnabled = true
+        audioState = .playing
+    }
+    
+    func audioPaused() {
+        audioButton.setTitle("G", for: .normal)
+        audioButton.isUserInteractionEnabled = true
+        audioState = .paused
+    }
+    
+    func audioStopped() {
+        // do nothing
+    }
+    
+    func audioCouldNotPlay() {
+        audioButton.setTitle("!", for: .normal)
+        audioButton.isUserInteractionEnabled = false
+        audioState = .error
+    }
+    
+    
+}
+
+//MARK:- TableViewDelegate
 
 extension AlbumDetailsViewController: UITableViewDelegate {
     
@@ -104,6 +143,11 @@ extension AlbumDetailsViewController: UITableViewDelegate {
             
             let cell = tableView.cellForRow(at: indexPath) as! TrackTableViewCell
             cell.titleLabel.font = UIFont.boldSystemFont(ofSize: cell.titleLabel.font.pointSize)
+            
+            audioButton.setTitle("P", for: .normal)
+            audioButton.isUserInteractionEnabled = false
+            audioState = .playing
+            
             delegate?.playTrack(atIndex: indexPath.item - 1)
         }
         
@@ -119,6 +163,8 @@ extension AlbumDetailsViewController: UITableViewDelegate {
     }
     
 }
+
+//MARK:- TableViewDataSource
 
 extension AlbumDetailsViewController: UITableViewDataSource {
     
