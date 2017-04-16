@@ -195,30 +195,16 @@ class DataManager {
         }
     }
     
-    //get albums to display. These albums are in the main context
+    //get albums to display. These albums are in the main context.
     func getAlbums() -> [Album] {
         let context = stack.context
         
-        //Choose 3 unseen artists
-        let unseenArtistRequest = NSFetchRequest<Artist>(entityName: "Artist")
-        let unseenArtistPredicate = NSPredicate(format: "(seenAlbums = 0) AND (totalAlbums > 0)")
-        unseenArtistRequest.predicate = unseenArtistPredicate
-        unseenArtistRequest.fetchLimit = 3
-        
-        var unseenArtists: [Artist]?
-        
-        do {
-            unseenArtists = try context.fetch(unseenArtistRequest)
-        } catch {
-            print("could not get artists")
-        }
-        
-        //Fill remaining spots with artists based on score (references - seen)
+        //Choose artists based on score (references - seen); 13 gives some cusion in case album art can't be downloaded for a few.
         let scoreArtistRequest = NSFetchRequest<Artist>(entityName: "Artist")
         let scoreArtistPredicate = NSPredicate(format: "totalAlbums - seenAlbums > 0")
         scoreArtistRequest.sortDescriptors = [NSSortDescriptor(key: "score", ascending: false)]
         scoreArtistRequest.predicate = scoreArtistPredicate
-        scoreArtistRequest.fetchLimit = 13 - unseenArtists!.count
+        scoreArtistRequest.fetchLimit = 13
         
         var scoreArtists: [Artist]?
         
@@ -230,16 +216,7 @@ class DataManager {
         
         var albums = [Album]()
         
-        if unseenArtists!.count > 0 {
-            for artist in unseenArtists! {
-                albums.append(chooseAlbum(artist: artist))
-            }
-        }
-        
         for artist in scoreArtists! {
-            if unseenArtists!.contains(artist) {
-                continue
-            }
             albums.append(chooseAlbum(artist: artist))
         }
         
@@ -324,7 +301,7 @@ class DataManager {
         return index
     }
     
-    //Completion handler will be invoked after the last album data request has been processed. However, multiple album requests are made asynchronously, so it is possible that some will not have finished by the time the completionHandler is called, and the code invoking this method should not depend on that.
+    //Completion handler will be invoked after the last album data request has been processed. However, when multiple album requests are made asynchronously, it is possible that some will not have finished by the time the completionHandler is called, and the code invoking this method should not depend on that.
     func addArtist(searchString: String, completionHandler: @escaping DataManagerCompletionHandler) {
         
         //start with artist search

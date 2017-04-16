@@ -56,15 +56,7 @@ class NextStepViewController: UIViewController {
     }
     
     func animateIn() {
-        
-        //1) Line 1
-//        UIView.animate(withDuration: 0.4,
-//                       delay: 0.6,
-//                       options: .curveLinear,
-//                       animations: {
-//                            self.messageLabel.alpha = 1.0
-//                        },
-//                       completion: nil)
+
         var delay = 0.7
         
         //2) Line 2
