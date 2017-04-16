@@ -181,7 +181,7 @@ class DataManager {
         let predicate = NSPredicate(format: "(seen = false) AND (artist = %@)", artist)
         request.sortDescriptors = [NSSortDescriptor(key: "popularity", ascending: false)]
         request.predicate = predicate
-        request.fetchLimit = 5
+        request.fetchLimit = 2
         
         var albums: [Album]?
         
@@ -211,6 +211,7 @@ class DataManager {
         
         var index = 0
         
+        //spreads for 3-5 not currently used. Usage seems to suggest the top two albums are usually the best recomendations
         switch count {
         case 5:
             index = chooseIndex([0.45, 0.25, 0.15, 0.1, 0.05])
@@ -219,7 +220,7 @@ class DataManager {
         case 3:
             index = chooseIndex([0.55, 0.3, 0.15])
         case 2:
-            index = chooseIndex([0.7, 0.3])
+            index = chooseIndex([0.8, 0.2])
         default:
             index = 0
         }
