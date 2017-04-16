@@ -40,6 +40,8 @@ class PrepareAlbumsViewController: UIViewController {
     func prepareAlbums() {
         
         let albums = dataManager.getAlbums()
+        
+        var outputAlbums = [Album]()
         var imageLinks = [String]()
         var albumsUsage = [AlbumUsage]()
         var albumIDs = [(spotifyID: String, managedObjectID: NSManagedObjectID)]()
@@ -53,16 +55,26 @@ class PrepareAlbumsViewController: UIViewController {
             var albumArt = [UIImage]()
             for (index, imageLink) in imageLinks.enumerated() {
                 
-                if let imageData = try? Data(contentsOf: URL(string: imageLink)!) {
-                    albumArt.append(UIImage(data: imageData)!)
+                //stop adding albums after 10 images successfully downloaded
+                guard outputAlbums.count < 11 else {
+                    continue
+                }
+                
+                guard let url = URL(string: imageLink) else {
+                    continue
+                }
+                
+                if let imageData = try? Data(contentsOf: url), let image = UIImage(data: imageData) {
+                    albumArt.append(image)
                     albumsUsage.append( (seen: false, liked: false, relatedAdded: false) )
+                    outputAlbums.append(albums[index])
                     self.dataManager.addTracks(forAlbumID: albumIDs[index].spotifyID, albumManagedObjectID: albumIDs[index].managedObjectID)
                 }
                 
             }
 
             DispatchQueue.main.async {
-                self.delegate.launchAlbumView(albums: albums, albumArt: albumArt, albumUsage: albumsUsage)
+                self.delegate.launchAlbumView(albums: outputAlbums, albumArt: albumArt, albumUsage: albumsUsage)
             }
         }
     }
