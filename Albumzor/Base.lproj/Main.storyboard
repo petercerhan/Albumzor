@@ -610,14 +610,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="~ Groovy ~" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W6g-8V-BYd">
-                                <rect key="frame" x="124" y="50" width="128" height="32"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LPSwipe" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W6g-8V-BYd">
+                                <rect key="frame" x="138" y="35" width="100.5" height="32"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zLJ-ZK-Bba">
-                                <rect key="frame" x="92" y="275.5" width="191" height="41"/>
+                                <rect key="frame" x="92" y="260.5" width="191" height="41"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="Find more albums">
                                     <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -627,38 +627,38 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Would you like to:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xJb-ZO-2XV">
-                                <rect key="frame" x="101" y="218.5" width="173" height="27"/>
+                                <rect key="frame" x="101" y="203.5" width="173" height="27"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Mg-bj-b4P">
-                                <rect key="frame" x="98.5" y="346.5" width="178" height="41"/>
+                                <rect key="frame" x="98.5" y="331.5" width="178" height="41"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="View My Albums">
                                     <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="X" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AeC-f9-072">
-                                <rect key="frame" x="65" y="128" width="14.5" height="26.5"/>
+                                <rect key="frame" x="65" y="113" width="14.5" height="26.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="X" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RJt-4q-T6E">
-                                <rect key="frame" x="296" y="128" width="14.5" height="26.5"/>
+                                <rect key="frame" x="296" y="113" width="14.5" height="26.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 new albums" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tlm-Xf-SXP">
-                                <rect key="frame" x="119.5" y="128" width="136.5" height="26.5"/>
+                                <rect key="frame" x="119.5" y="113" width="136.5" height="26.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DhE-v0-QUF">
-                                <rect key="frame" x="117" y="418" width="141" height="41"/>
+                                <rect key="frame" x="117" y="403" width="141" height="41"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="Return Home">
                                     <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -683,7 +683,7 @@
                             <constraint firstItem="xJb-ZO-2XV" firstAttribute="centerX" secondItem="9ND-bE-GJR" secondAttribute="centerX" id="h6O-ba-am8"/>
                             <constraint firstItem="Tlm-Xf-SXP" firstAttribute="centerX" secondItem="9ND-bE-GJR" secondAttribute="centerX" id="hVp-yr-xQB"/>
                             <constraint firstItem="1Mg-bj-b4P" firstAttribute="centerX" secondItem="9ND-bE-GJR" secondAttribute="centerX" id="mgE-sO-MLx"/>
-                            <constraint firstItem="W6g-8V-BYd" firstAttribute="top" secondItem="pf7-9e-Rbg" secondAttribute="bottom" constant="30" id="xCb-F8-oZV"/>
+                            <constraint firstItem="W6g-8V-BYd" firstAttribute="top" secondItem="pf7-9e-Rbg" secondAttribute="bottom" constant="15" id="xCb-F8-oZV"/>
                             <constraint firstItem="AeC-f9-072" firstAttribute="centerY" secondItem="Tlm-Xf-SXP" secondAttribute="centerY" id="ypd-PD-Ty1"/>
                             <constraint firstItem="RJt-4q-T6E" firstAttribute="leading" secondItem="Tlm-Xf-SXP" secondAttribute="trailing" constant="40" id="zsH-IX-ccw"/>
                         </constraints>

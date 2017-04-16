@@ -33,7 +33,6 @@ class NextStepViewController: UIViewController {
         symbolLabel1.text = "\u{1F3B5}"
         symbolLabel2.text = "\u{1F3B5}"
         
-        messageLabel.alpha = 0.0
         countLabel.alpha = 0.0
         label3.alpha = 0.0
         symbolLabel1.alpha = 0.0
@@ -59,17 +58,18 @@ class NextStepViewController: UIViewController {
     func animateIn() {
         
         //1) Line 1
-        UIView.animate(withDuration: 0.4,
-                       delay: 0.6,
-                       options: .curveLinear,
-                       animations: {
-                            self.messageLabel.alpha = 1.0
-                        },
-                       completion: nil)
+//        UIView.animate(withDuration: 0.4,
+//                       delay: 0.6,
+//                       options: .curveLinear,
+//                       animations: {
+//                            self.messageLabel.alpha = 1.0
+//                        },
+//                       completion: nil)
+        var delay = 0.7
         
         //2) Line 2
         UIView.animate(withDuration: 0.4,
-                       delay: 1.6,
+                       delay: delay,
                        options: .curveLinear,
                        animations: {
                         self.countLabel.alpha = 1.0
@@ -78,9 +78,10 @@ class NextStepViewController: UIViewController {
         },
                        completion: nil)
         
+        delay += 1.0
         //2) Line 3
         UIView.animate(withDuration: 0.4,
-                       delay: 2.6,
+                       delay: delay,
                        options: .curveLinear,
                        animations: {
                         self.label3.alpha = 1.0
@@ -88,9 +89,10 @@ class NextStepViewController: UIViewController {
                        completion: nil)
         
         
+        delay += 0.6
         //2) 1st Button
         UIView.animate(withDuration: 0.4,
-                       delay: 3.2,
+                       delay: delay,
                        options: .curveLinear,
                        animations: {
                         self.moreAlbumsButton.alpha = 1.0
@@ -98,18 +100,20 @@ class NextStepViewController: UIViewController {
                        completion: nil)
         
         
+        delay += 0.1
         //2) 2nd Button
         UIView.animate(withDuration: 0.4,
-                       delay: 3.3,
+                       delay: delay,
                        options: .curveLinear,
                        animations: {
                         self.viewAlbumsButton.alpha = 1.0
         },
                        completion: nil)
         
+        delay += 0.1
         //2) 3rd Button
         UIView.animate(withDuration: 0.4,
-                       delay: 3.4,
+                       delay: delay,
                        options: .curveLinear,
                        animations: {
                         self.homeButton.alpha = 1.0

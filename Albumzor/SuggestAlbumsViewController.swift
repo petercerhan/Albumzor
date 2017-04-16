@@ -102,13 +102,14 @@ class SuggestAlbumsViewController: UIViewController {
         
         titleLabel.alpha = 0.0
         artistLabel.alpha = 0.0
+        activityIndicator.stopAnimating()
         
         UIView.animate(withDuration: 0.5,
                        animations: {
-                        self.topLabel.alpha = 0.0
                         self.quitButton.alpha = 0.0
                         self.dislikeButton.alpha = 0.0
                         self.likeButton.alpha = 0.0
+                        self.audioButton.alpha = 0.0
         },
                        completion: { _ in
                         self.delegate.batteryComplete()
