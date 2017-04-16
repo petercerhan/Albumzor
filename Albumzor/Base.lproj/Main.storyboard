@@ -301,20 +301,26 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ySh-9V-TfZ">
-                                <rect key="frame" x="63" y="532" width="100" height="100"/>
+                                <rect key="frame" x="72.5" y="552" width="80" height="80"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="9Cs-ca-SG6"/>
-                                    <constraint firstAttribute="width" constant="100" id="Kj2-f6-ZIA"/>
+                                    <constraint firstAttribute="height" constant="80" id="9Cs-ca-SG6"/>
+                                    <constraint firstAttribute="width" constant="80" id="Kj2-f6-ZIA"/>
                                 </constraints>
                                 <state key="normal" image="X"/>
+                                <connections>
+                                    <action selector="dislike" destination="X8r-tE-8de" eventType="touchUpInside" id="md1-Th-xbU"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b03-O6-eNL">
-                                <rect key="frame" x="213" y="532" width="100" height="100"/>
+                                <rect key="frame" x="222.5" y="552" width="80" height="80"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="2UX-bm-Scv"/>
-                                    <constraint firstAttribute="height" constant="100" id="nUK-Lk-drF"/>
+                                    <constraint firstAttribute="width" constant="80" id="2UX-bm-Scv"/>
+                                    <constraint firstAttribute="height" constant="80" id="nUK-Lk-drF"/>
                                 </constraints>
                                 <state key="normal" image="Check"/>
+                                <connections>
+                                    <action selector="like" destination="X8r-tE-8de" eventType="touchUpInside" id="19n-Wd-e5Q"/>
+                                </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RVp-es-UfG">
                                 <rect key="frame" x="46" y="101.5" width="283" height="283"/>

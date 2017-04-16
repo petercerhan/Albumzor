@@ -59,6 +59,8 @@ class SuggestAlbumsViewController: UIViewController {
     
     var audioPlayer = AudioPlayer()
     
+    //MARK:- Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         audioPlayer.delegate = self
@@ -95,6 +97,75 @@ class SuggestAlbumsViewController: UIViewController {
             initialLayoutCongifured = true
         }
     }
+    
+    func animateOut() {
+        
+        titleLabel.alpha = 0.0
+        artistLabel.alpha = 0.0
+        
+        UIView.animate(withDuration: 0.5,
+                       animations: {
+                        self.topLabel.alpha = 0.0
+                        self.quitButton.alpha = 0.0
+                        self.dislikeButton.alpha = 0.0
+                        self.likeButton.alpha = 0.0
+        },
+                       completion: { _ in
+                        self.delegate.batteryComplete()
+        })
+        
+    }
+    
+    //MARK:- User Actions
+    
+    @IBAction func like() {
+        currentAlbumView.overlayView.imageView.image = UIImage(named: "Check_white")
+        currentAlbumView.overlayView.backgroundColor = Styles.likeGreen
+        currentAlbumView.overlayView.alpha = 0.4
+        
+        let rotationAngle = 2 * CGFloat(M_PI) / 16.0
+        let transform = CGAffineTransform(rotationAngle: rotationAngle)
+        let finalTransform = transform.scaledBy(x: 0.93, y: 0.93)
+        
+        let exitDistance = view.frame.size.width
+        
+        UIView.animate(withDuration: 0.25,
+                       animations: {
+                        self.currentAlbumView.center.x += exitDistance
+                        self.currentAlbumView.center.y -= 20
+                        self.currentAlbumView.transform = finalTransform
+                        
+                    },
+                       completion: { _ in
+                                    self.currentAlbumView.removeFromSuperview()
+                                    self.album(liked: true)
+                    })
+        
+    }
+    
+    @IBAction func dislike() {
+        currentAlbumView.overlayView.imageView.image = UIImage(named: "X_white")
+        currentAlbumView.overlayView.backgroundColor = Styles.xRed
+        currentAlbumView.overlayView.alpha = 0.4
+        
+        let rotationAngle = -2 * CGFloat(M_PI) / 16.0
+        let transform = CGAffineTransform(rotationAngle: rotationAngle)
+        let finalTransform = transform.scaledBy(x: 0.93, y: 0.93)
+        
+        let exitDistance = view.frame.size.width
+        
+        UIView.animate(withDuration: 0.25,
+                       animations: {
+                        self.currentAlbumView.center.x -= exitDistance
+                        self.currentAlbumView.center.y -= 20
+                        self.currentAlbumView.transform = finalTransform
+                        
+        },
+                       completion: { _ in
+                        self.currentAlbumView.removeFromSuperview()
+                        self.album(liked: false)
+        })
+    }
 
     @IBAction func quit() {
         audioPlayer.stop()
@@ -115,42 +186,21 @@ class SuggestAlbumsViewController: UIViewController {
         }
         
     }
+
+    //MARK:- Manage likes
     
-    func animateOut() {
-        
-        titleLabel.alpha = 0.0
-        artistLabel.alpha = 0.0
-        
-        UIView.animate(withDuration: 0.5,
-                       animations: {
-                            self.topLabel.alpha = 0.0
-                            self.quitButton.alpha = 0.0
-                            self.dislikeButton.alpha = 0.0
-                            self.likeButton.alpha = 0.0
-                        },
-                       completion: { _ in
-                            self.delegate.batteryComplete()
-                        })
-        
-    }
-
-}
-
-//MARK:- CGDraggableViewDelegate
-
-extension SuggestAlbumsViewController: CGDraggableViewDelegate {
-    func swipeComplete(direction: SwipeDirection) {
+    func album(liked: Bool) {
         audioPlayer.stop()
         
         //potentially move "seen" code to here
         
-        if direction == .right {
+        if liked {
             dataManager.like(album: albums[currentIndex].objectID, addRelatedArtists: !usage[currentIndex].relatedAdded)
             usage[currentIndex].relatedAdded = true
         } else {
         }
         
-        //if last album has been swiped, go to next steps view
+        //if last album has been reviewed, go to next steps view
         if currentIndex == albums.count - 1 {
             animateOut()
             return
@@ -164,14 +214,12 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
             artistLabel.text = albums[currentIndex].artist!.name!
             titleLabel.alpha = 1.0
             artistLabel.alpha = 1.0
-        } else {
-            titleLabel.removeFromSuperview()
-            artistLabel.removeFromSuperview()
         }
+        
+        currentAlbumView = nextAlbumView
         
         //add bottom album unless we are on the final album of the battery
         if currentIndex < albums.count - 1 {
-            currentAlbumView = nextAlbumView
             nextAlbumView = CGDraggableView(frame: defaultView.frame)
             nextAlbumView.imageView.image = albumArt[currentIndex + 1]
             nextAlbumView.addShadow()
@@ -196,6 +244,23 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
         
         dataManager.seen(album: albums[currentIndex].objectID)
         usage[currentIndex].seen = true
+        
+    }
+    
+    
+}
+
+//MARK:- CGDraggableViewDelegate
+
+extension SuggestAlbumsViewController: CGDraggableViewDelegate {
+    func swipeComplete(direction: SwipeDirection) {
+
+        if direction == .right {
+            album(liked: true)
+        } else {
+            album(liked: false)
+        }
+        
     }
 
     func tapped() {
