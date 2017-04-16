@@ -25,7 +25,6 @@ class PrepareAlbumsViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-                
         prepareAlbums()
     }
 

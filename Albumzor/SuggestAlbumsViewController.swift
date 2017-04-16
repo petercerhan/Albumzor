@@ -303,7 +303,8 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
             //could not play track
             activityIndicator.stopAnimating()
             audioButton.isHidden = false
-            audioButton.setImage(UIImage(named: "Error"), for: .normal)
+            audioButton.setTitle("!", for: .normal)
+            audioButton.setImage(nil, for: .normal)
             audioState = .error
             return
         }
@@ -311,7 +312,8 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
         guard let url = URL(string: urlString) else {
             activityIndicator.stopAnimating()
             audioButton.isHidden = false
-            audioButton.setImage(UIImage(named: "Error"), for: .normal)
+            audioButton.setTitle("!", for: .normal)
+            audioButton.setImage(nil, for: .normal)
             audioState = .error
             return
         }
@@ -325,7 +327,8 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
         var mostPopularTrackIndex = 0
         var maxPopularity = 0
         
-        guard let currentAlbumTracks = currentAlbumTracks else {
+        guard let currentAlbumTracks = currentAlbumTracks, currentAlbumTracks.count > 0 else {
+            couldNotPlay()
             return
         }
         
@@ -341,6 +344,7 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
     }
     
     func pauseAudio() {
+        audioButton.setTitle("", for: .normal)
         audioButton.setImage(UIImage(named: "Play"), for: .normal)
         audioButton.isHidden = false
         audioButton.isUserInteractionEnabled = false
@@ -349,6 +353,7 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
     }
     
     func resumeAudio() {
+        audioButton.setTitle("", for: .normal)
         audioButton.setImage(UIImage(named: "Pause"), for: .normal)
         audioButton.isHidden = false
         audioButton.isUserInteractionEnabled = false
@@ -371,6 +376,7 @@ extension SuggestAlbumsViewController: AudioPlayerDelegate {
     
     func beganPlaying() {
         activityIndicator.stopAnimating()
+        audioButton.setTitle("", for: .normal)
         audioButton.setImage(UIImage(named: "Pause"), for: .normal)
         audioState = .playing
         audioButton.isHidden = false
@@ -384,6 +390,7 @@ extension SuggestAlbumsViewController: AudioPlayerDelegate {
     func paused() {
         audioButton.isHidden = false
         audioButton.isUserInteractionEnabled = true
+        audioButton.setTitle("", for: .normal)
         audioButton.setImage(UIImage(named: "Play"), for: .normal)
         audioState = .paused
         
@@ -402,7 +409,8 @@ extension SuggestAlbumsViewController: AudioPlayerDelegate {
     func couldNotPlay() {
         activityIndicator.stopAnimating()
         audioButton.isHidden = false
-        audioButton.setImage(UIImage(named: "Error"), for: .normal)
+        audioButton.setTitle("!", for: .normal)
+        audioButton.setImage(nil, for: .normal)
         audioState = .error
         
         if let vc = presentedViewController as? AlbumDetailsViewController {
