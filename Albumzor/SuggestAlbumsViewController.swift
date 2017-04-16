@@ -197,6 +197,8 @@ class SuggestAlbumsViewController: UIViewController {
         audioPlayer.stop()
         
         //potentially move "seen" code to here
+        dataManager.seen(album: albums[currentIndex].objectID)
+        usage[currentIndex].seen = true
         
         if liked {
             likedAlbums += 1
@@ -249,8 +251,6 @@ class SuggestAlbumsViewController: UIViewController {
             nextAlbumTracks = dataManager.getTracks(forAlbum: albums[currentIndex + 1].objectID)
         }
         
-        dataManager.seen(album: albums[currentIndex].objectID)
-        usage[currentIndex].seen = true
         
     }
     
