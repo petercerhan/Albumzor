@@ -18,7 +18,7 @@ enum AudioState {
 
 protocol SuggestAlbumsViewControllerDelegate {
     func quit()
-    func batteryComplete()
+    func batteryComplete(liked: Int)
 }
 
 class SuggestAlbumsViewController: UIViewController {
@@ -43,6 +43,7 @@ class SuggestAlbumsViewController: UIViewController {
     var albumArt: [UIImage]!
     var albums: [Album]!
     var usage: [AlbumUsage]!
+    var likedAlbums = 0
     
     var currentAlbumTracks: [Track]?
     var nextAlbumTracks: [Track]?
@@ -110,10 +111,11 @@ class SuggestAlbumsViewController: UIViewController {
                         self.dislikeButton.alpha = 0.0
                         self.likeButton.alpha = 0.0
                         self.audioButton.alpha = 0.0
-        },
-                       completion: { _ in
-                        self.delegate.batteryComplete()
-        })
+                    },
+                       completion: {
+                        _ in
+                        self.delegate.batteryComplete(liked: self.likedAlbums)
+                    })
         
     }
     
@@ -137,9 +139,10 @@ class SuggestAlbumsViewController: UIViewController {
                         self.currentAlbumView.transform = finalTransform
                         
                     },
-                       completion: { _ in
-                                    self.currentAlbumView.removeFromSuperview()
-                                    self.album(liked: true)
+                       completion: {
+                        _ in
+                        self.currentAlbumView.removeFromSuperview()
+                        self.album(liked: true)
                     })
         
     }
@@ -196,6 +199,7 @@ class SuggestAlbumsViewController: UIViewController {
         //potentially move "seen" code to here
         
         if liked {
+            likedAlbums += 1
             dataManager.like(album: albums[currentIndex].objectID, addRelatedArtists: !usage[currentIndex].relatedAdded)
             usage[currentIndex].relatedAdded = true
         } else {

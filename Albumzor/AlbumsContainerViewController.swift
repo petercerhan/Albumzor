@@ -74,8 +74,9 @@ extension AlbumsContainerViewController: SuggestAlbumsViewControllerDelegate {
         dismiss(animated: true, completion: nil)
     }
     
-    func batteryComplete() {
+    func batteryComplete(liked: Int) {
         let vc = appStoryboard.instantiateViewController(withIdentifier: "NextStepViewController") as! NextStepViewController
+        vc.likedAlbums = liked
         vc.delegate = self
         update(contentViewController: vc)
     }

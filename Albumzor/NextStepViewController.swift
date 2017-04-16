@@ -27,6 +27,8 @@ class NextStepViewController: UIViewController {
     @IBOutlet var viewAlbumsButton: UIButton!
     @IBOutlet var homeButton: UIButton!
     
+    var likedAlbums = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,6 +42,12 @@ class NextStepViewController: UIViewController {
         moreAlbumsButton.alpha = 0.0
         viewAlbumsButton.alpha = 0.0
         homeButton.alpha = 0.0
+        
+        if likedAlbums == 1 {
+            countLabel.text = "\(likedAlbums) new album"
+        } else {
+            countLabel.text = "\(likedAlbums) new albums"
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
