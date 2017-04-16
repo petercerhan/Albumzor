@@ -61,6 +61,10 @@ extension AlbumsContainerViewController: PrepareAlbumsViewControllerDelegate {
         vc.delegate = self
         update(contentViewController: vc)
     }
+    
+    func cancelPrepareAlbums() {
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 //MARK:- AlbumsViewControllerDelegate

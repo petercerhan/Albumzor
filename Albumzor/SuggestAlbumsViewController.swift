@@ -202,6 +202,8 @@ class SuggestAlbumsViewController: UIViewController {
         
         //if last album has been reviewed, go to next steps view
         if currentIndex == albums.count - 1 {
+            audioPlayer.currentAlbum = -1
+            audioPlayer.currentTrack = -1
             animateOut()
             return
         }

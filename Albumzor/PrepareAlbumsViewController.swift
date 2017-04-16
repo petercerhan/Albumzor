@@ -11,6 +11,7 @@ import CoreData
 
 protocol PrepareAlbumsViewControllerDelegate {
     func launchAlbumView(albums: [Album], albumArt: [UIImage], albumUsage: [AlbumUsage])
+    func cancelPrepareAlbums()
 }
 
 class PrepareAlbumsViewController: UIViewController {
@@ -20,6 +21,8 @@ class PrepareAlbumsViewController: UIViewController {
     
     var delegate: PrepareAlbumsViewControllerDelegate!
     
+    //MARK:- Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -27,10 +30,11 @@ class PrepareAlbumsViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         prepareAlbums()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    //MARK:- User Actions
+    
+    @IBAction func cancel() {
+        delegate.cancelPrepareAlbums()
     }
     
     func prepareAlbums() {
