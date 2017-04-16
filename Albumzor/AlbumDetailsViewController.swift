@@ -13,6 +13,7 @@ protocol AlbumDetailsViewControllerDelegate {
     func playTrack(atIndex index: Int)
     func pauseAudio()
     func resumeAudio()
+    func stopAudio()
 }
 
 class AlbumDetailsViewController: UIViewController {
@@ -167,6 +168,7 @@ extension AlbumDetailsViewController: UITableViewDelegate {
             audioState = .playing
             activityIndicator.startAnimating()
             
+            delegate?.stopAudio()
             delegate?.playTrack(atIndex: indexPath.item - 1)
         }
         

@@ -288,7 +288,7 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
 }
 
 //MARK:- Handle Audio / AlbumDetailsViewControllerDelegate
-//playTrack(atIndex:), pauseAudio(), and resumeAudio() called internally by SuggestAlbumsViewController, and are also AlbumDetailsViewController Delegate functions
+//playTrack(atIndex:), pauseAudio(), stopAudio(), and resumeAudio() called internally by SuggestAlbumsViewController, and are also AlbumDetailsViewController Delegate functions
 
 extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
     
@@ -359,6 +359,10 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
         audioButton.isUserInteractionEnabled = false
         audioState = .playing
         audioPlayer.play()
+    }
+    
+    func stopAudio() {
+        audioPlayer.stop()
     }
     
 }
