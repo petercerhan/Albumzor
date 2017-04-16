@@ -331,7 +331,7 @@ class DataManager {
     }
     
     //Optional closures are treated as escaping(?) SR-2444
-    func getAlbums(forArtist artistData: [String : AnyObject], completionHandler: DataManagerCompletionHandler?) {
+    private func getAlbums(forArtist artistData: [String : AnyObject], completionHandler: DataManagerCompletionHandler?) {
         
         client.getAlbums(forArtist: artistData["id"] as! String) { result, error in
             
@@ -372,7 +372,7 @@ class DataManager {
         
     }
     
-    func getAlbums(searchString: String, artist artistData: [String : AnyObject], completionHandler: DataManagerCompletionHandler?) {
+    private func getAlbums(searchString: String, artist artistData: [String : AnyObject], completionHandler: DataManagerCompletionHandler?) {
         
         client.getAlbums(ids: searchString) { result, error in
             
@@ -455,6 +455,35 @@ class DataManager {
     func addTracks(forAlbumID: String, albumManagedObjectID: NSManagedObjectID) {
         
         client.getTracks(albumID: forAlbumID) { result, error in
+                
+                guard let tracksData = result as? [[String : AnyObject]] else {
+                    print("bad data structure")
+                    return
+                }
+            
+                var trackSearchString = ""
+                
+                for trackData in tracksData {
+                    guard let id = trackData["id"] as? String else {
+                        continue
+                    }
+                    
+                    trackSearchString += id
+                    trackSearchString += ","
+                }
+            
+                //remove last comma
+                if trackSearchString != "" {
+                    trackSearchString.remove(at: trackSearchString.index(before: trackSearchString.endIndex))
+                }
+            
+            self.addTracks(searchString: trackSearchString, albumManagedObjectID: albumManagedObjectID)
+        }
+    }
+    
+    private func addTracks(searchString: String, albumManagedObjectID: NSManagedObjectID) {
+        
+        client.getTracks(ids: searchString) { result, error in
             let backgroundContext = self.stack.networkingContext
             
             backgroundContext.perform {
@@ -466,7 +495,7 @@ class DataManager {
                 }
                 
                 guard album != nil else {
-                    print("no artist")
+                    print("no album")
                     return
                 }
                 
@@ -479,26 +508,27 @@ class DataManager {
                     print("bad data structure")
                     return
                 }
-                
+
                 for trackData in tracksData {
                     guard let id = trackData["id"] as? String,
-                            let name = trackData["name"] as? String,
-                            let trackNo = trackData["track_number"] as? Int,
-                            let discNo = trackData["disc_number"] as? Int else {
-                        
-                        print("Incomplete data for album \(album!.name!)")
-                        continue
+                        let name = trackData["name"] as? String,
+                        let trackNo = trackData["track_number"] as? Int,
+                        let discNo = trackData["disc_number"] as? Int else {
+                            
+                            print("Incomplete data for album \(album!.name!)")
+                            continue
                     }
+                    
+                    
+                    print("name: \(name)")
                     
                     let track = Track(id: id, name: name, trackNo: trackNo, discNo: discNo, context: backgroundContext)
                     track.album = album
 
-                    //Not returned as part of the get album tracks query. Need to get the tracks with a separate query
-                    //track.popularity = trackData["popularity"] as? Int16 ?? 0
-                    
+                    track.popularity = trackData["popularity"] as? Int16 ?? 0
                     track.previewURL = trackData["preview_url"] as? String
                 }
-                
+
                 do {
                     try backgroundContext.save()
                 } catch {
@@ -507,8 +537,6 @@ class DataManager {
                 self.stack.save()
             }
         }
-        
-        
     }
 }
 

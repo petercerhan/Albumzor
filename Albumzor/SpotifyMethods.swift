@@ -54,6 +54,7 @@ extension SpotifyClient {
             completion(albumsData as AnyObject?, nil)
         }
     }
+
     
     //Sends the artists data as [[String : AnyObject]] to the completion handler
     func getRelatedArtists(forArtist artistID: String, completion: @escaping SpotifyCompletionHandler) {
@@ -94,6 +95,26 @@ extension SpotifyClient {
             }
             
             completion(albums as AnyObject, nil)
+        }
+    }
+    
+    //Sends the tracks data as [[String : AnyObject]] to the completion handler
+    func getTracks(ids: String, completion: @escaping SpotifyCompletionHandler) {
+        let parameters = ["ids" : ids]
+        
+        _ = task(getMethod: Methods.getTracks, parameters: parameters) { result, error in
+        
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+            
+            guard let result = result as? [String : AnyObject], let tracks = result["tracks"] as? [[String : AnyObject]] else {
+                print("bad data structure")
+                return
+            }
+        
+            completion(tracks as AnyObject, nil)
         }
     }
     
