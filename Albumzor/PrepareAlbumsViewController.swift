@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 protocol PrepareAlbumsViewControllerDelegate {
-    func launchAlbumView(albums: [Album], albumArt: [UIImage], albumUsage: [AlbumUsage])
+    func launchAlbumView(albums: [Album], albumArt: [UIImage])
     func cancelPrepareAlbums()
 }
 
@@ -43,7 +43,6 @@ class PrepareAlbumsViewController: UIViewController {
         
         var outputAlbums = [Album]()
         var imageLinks = [String]()
-        var albumsUsage = [AlbumUsage]()
         var albumIDs = [(spotifyID: String, managedObjectID: NSManagedObjectID)]()
         
         for album in albums {
@@ -66,7 +65,6 @@ class PrepareAlbumsViewController: UIViewController {
                 
                 if let imageData = try? Data(contentsOf: url), let image = UIImage(data: imageData) {
                     albumArt.append(image)
-                    albumsUsage.append( (seen: false, liked: false, relatedAdded: false) )
                     outputAlbums.append(albums[index])
                     self.dataManager.addTracks(forAlbumID: albumIDs[index].spotifyID, albumManagedObjectID: albumIDs[index].managedObjectID)
                 }
@@ -74,7 +72,7 @@ class PrepareAlbumsViewController: UIViewController {
             }
 
             DispatchQueue.main.async {
-                self.delegate.launchAlbumView(albums: outputAlbums, albumArt: albumArt, albumUsage: albumsUsage)
+                self.delegate.launchAlbumView(albums: outputAlbums, albumArt: albumArt)
             }
         }
     }

@@ -9,8 +9,6 @@
 import UIKit
 import AVFoundation
 
-typealias AlbumUsage = (seen: Bool, liked: Bool, relatedAdded: Bool)
-
 //error - tried and failed to retrieve sample audio; noTrack - autoplay presumably disabled, no track has been retrieved
 enum AudioState {
     case loading, playing, paused, error, noTrack
@@ -42,7 +40,6 @@ class SuggestAlbumsViewController: UIViewController {
     
     var albumArt: [UIImage]!
     var albums: [Album]!
-    var usage: [AlbumUsage]!
     var likedAlbums = 0
     
     var currentAlbumTracks: [Track]?
@@ -77,7 +74,6 @@ class SuggestAlbumsViewController: UIViewController {
             view.addSubview(currentAlbumView)
             
             dataManager.seen(album: albums[0].objectID)
-            usage[0].seen = true
             
             nextAlbumView = CGDraggableView(frame: defaultView.frame)
             nextAlbumView.imageView.image = albumArt[1]
@@ -198,12 +194,10 @@ class SuggestAlbumsViewController: UIViewController {
         
         //potentially move "seen" code to here
         dataManager.seen(album: albums[currentIndex].objectID)
-        usage[currentIndex].seen = true
         
         if liked {
             likedAlbums += 1
-            dataManager.like(album: albums[currentIndex].objectID, addRelatedArtists: !usage[currentIndex].relatedAdded)
-            usage[currentIndex].relatedAdded = true
+            dataManager.like(album: albums[currentIndex].objectID, addRelatedArtists: true)
         } else {
         }
         
