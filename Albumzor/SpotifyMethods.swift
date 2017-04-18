@@ -28,7 +28,7 @@ extension SpotifyClient {
                 return
             }
             
-            completion(items[0] as AnyObject?,nil)
+            completion(items[0] as AnyObject?, nil)
         }
     }
     

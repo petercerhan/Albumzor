@@ -519,9 +519,6 @@ class DataManager {
                             continue
                     }
                     
-                    
-                    print("name: \(name)")
-                    
                     let track = Track(id: id, name: name, trackNo: trackNo, discNo: discNo, context: backgroundContext)
                     track.album = album
 
@@ -553,7 +550,8 @@ extension DataManager {
                                  "20th Century Masters",
                                  "In Concert",
                                  "Spotify",
-                                 "Best of"]
+                                 "Best of",
+                                 "Essential"]
 
     func titleContainsDissallowedKeywords(title: String) -> Bool {
         for keyword in DataManager.filterKeywords {

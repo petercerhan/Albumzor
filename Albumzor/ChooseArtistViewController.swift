@@ -12,6 +12,8 @@ class ChooseArtistViewController: UIViewController {
     
     @IBOutlet var collectionView: UICollectionView!
     
+    let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
+    
     var selectedCellPath: IndexPath?
     var artists = ChooseArtistViewController.suggestedArtists
     
@@ -28,20 +30,24 @@ class ChooseArtistViewController: UIViewController {
     }    
 }
 
+//MARK:- UICollectionViewDelegate
+
 extension ChooseArtistViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        let cell = collectionView.cellForItem(at: indexPath)
-        cell?.contentView.backgroundColor = UIColor.red
+        let cell = collectionView.cellForItem(at: indexPath) as! ChooseArtistCollectionViewCell
         selectedCellPath = indexPath
         
         let vc = storyboard!.instantiateViewController(withIdentifier: "ConfirmArtistViewController") as! ConfirmArtistViewController
         vc.delegate = self
+        vc.searchString = cell.label.text
         present(vc, animated: true, completion: nil)
         
         return true
     }
 }
+
+//MARK:- UICollectionViewDataSource
 
 extension ChooseArtistViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -56,11 +62,15 @@ extension ChooseArtistViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ChooseArtistCollectionViewCell", for: indexPath) as! ChooseArtistCollectionViewCell
         
         cell.label.text = artists[indexPath.item]
+        cell.label.textColor = UIColor.white
 
-        cell.layer.borderWidth = 2.0
-        cell.layer.borderColor = UIColor.blue.cgColor
-        cell.layer.cornerRadius = 20.0
-        cell.contentView.backgroundColor = UIColor.white
+        cell.layer.borderColor = Styles.lightBlue.cgColor
+        //Corner radius seems to be asking too much of the collection view, which becomes very choppy
+        //cell.layer.cornerRadius = 20.0
+        cell.contentView.backgroundColor = Styles.lightBlue
+        
+        //cell.layer.shouldRasterize = true
+        //cell.layer.rasterizationScale = UIScreen.main.scale
         
         return cell
     }
@@ -70,7 +80,7 @@ extension ChooseArtistViewController: ArtistCollectionViewLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, sizeForLabelAtIndexPath path: IndexPath) -> CGSize {
         let label = UILabel()
         label.text = artists[path.item]
-        label.font = UIFont.systemFont(ofSize: 22.0)
+        label.font = UIFont.systemFont(ofSize: 19.0)
         label.frame = CGRect(x: 0, y: 0, width: 1, height: 1)
         label.sizeToFit()
         let size = label.frame.size
@@ -83,21 +93,22 @@ extension ChooseArtistViewController: ArtistCollectionViewLayoutDelegate {
 //MARK:- ConfirmArtistViewControllerDelegate
 
 extension ChooseArtistViewController: ConfirmArtistViewControllerDelegate {
-    func artistChosen() {
+    func artistChosen(spotifyID: String) {
         let cell = collectionView.cellForItem(at: selectedCellPath!) as! ChooseArtistCollectionViewCell
-        cell.contentView.backgroundColor = UIColor.blue
         
         (collectionView.collectionViewLayout as! ArtistCollectionViewLayout).clearCache()
         artists.remove(at: selectedCellPath!.item)
         collectionView.deleteItems(at: [selectedCellPath!])
         collectionView.reloadData()                                   
         
+        dataManager.getRelatedArtists(artistID: spotifyID) {
+            _ in //do nothing
+        }
+        
         dismiss(animated: true, completion: nil)
     }
     
     func artistCanceled() {
-        let cell = collectionView.cellForItem(at: selectedCellPath!) as! ChooseArtistCollectionViewCell
-        cell.contentView.backgroundColor = UIColor.blue
         dismiss(animated: true, completion: nil)
     }
     
