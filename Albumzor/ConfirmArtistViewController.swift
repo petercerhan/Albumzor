@@ -51,6 +51,10 @@ class ConfirmArtistViewController: UIViewController {
                 let largeImage = images[0]["url"] as? String else {
                     
                     //could not get artist
+                    DispatchQueue.main.async {
+                        self.activityIndicator.stopAnimating()
+                        self.artistNotFound()
+                    }
                     
                     return
             }
@@ -86,6 +90,18 @@ class ConfirmArtistViewController: UIViewController {
     
     @IBAction func rejectArtist() {
         delegate.artistCanceled()
+    }
+    
+    func artistNotFound() {
+        
+        let alert = UIAlertController(title: "Could not find \(searchString!)!", message: "Note: some artists may be unavailable.", preferredStyle: .alert)
+        let dismissAction = UIAlertAction(title: "Done", style: .default) {
+            action in
+            self.delegate.artistCanceled()
+        }
+        alert.addAction(dismissAction)
+        present(alert, animated: true, completion: nil)
+        
     }
 
 }

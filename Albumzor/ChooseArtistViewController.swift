@@ -69,9 +69,6 @@ extension ChooseArtistViewController: UICollectionViewDataSource {
         //cell.layer.cornerRadius = 20.0
         cell.contentView.backgroundColor = Styles.lightBlue
         
-        //cell.layer.shouldRasterize = true
-        //cell.layer.rasterizationScale = UIScreen.main.scale
-        
         return cell
     }
 }
@@ -85,7 +82,7 @@ extension ChooseArtistViewController: ArtistCollectionViewLayoutDelegate {
         label.sizeToFit()
         let size = label.frame.size
         
-        //Add padded label vertical & horiztonal padding
+        //Add padded label vertical & horizontal padding
         return CGSize(width: size.width + CGFloat(20), height: size.height + CGFloat(14))
     }
 }
@@ -94,8 +91,6 @@ extension ChooseArtistViewController: ArtistCollectionViewLayoutDelegate {
 
 extension ChooseArtistViewController: ConfirmArtistViewControllerDelegate {
     func artistChosen(spotifyID: String) {
-        let cell = collectionView.cellForItem(at: selectedCellPath!) as! ChooseArtistCollectionViewCell
-        
         (collectionView.collectionViewLayout as! ArtistCollectionViewLayout).clearCache()
         artists.remove(at: selectedCellPath!.item)
         collectionView.deleteItems(at: [selectedCellPath!])
@@ -111,7 +106,6 @@ extension ChooseArtistViewController: ConfirmArtistViewControllerDelegate {
     func artistCanceled() {
         dismiss(animated: true, completion: nil)
     }
-    
 }
 
 //MARK:- Artist Data
