@@ -44,6 +44,7 @@
 		E45D99B31E93159800CD3CE7 /* AlbumDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99B21E93159800CD3CE7 /* AlbumDetailsTableViewCell.swift */; };
 		E45D99B51E93225C00CD3CE7 /* TrackTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99B41E93225C00CD3CE7 /* TrackTableViewCell.swift */; };
 		E45D99B71EA0568A00CD3CE7 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99B61EA0568A00CD3CE7 /* AudioPlayer.swift */; };
+		E45D99B91EA6E98A00CD3CE7 /* AnimatedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99B81EA6E98900CD3CE7 /* AnimatedButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +108,7 @@
 		E45D99B21E93159800CD3CE7 /* AlbumDetailsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumDetailsTableViewCell.swift; sourceTree = "<group>"; };
 		E45D99B41E93225C00CD3CE7 /* TrackTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackTableViewCell.swift; sourceTree = "<group>"; };
 		E45D99B61EA0568A00CD3CE7 /* AudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
+		E45D99B81EA6E98900CD3CE7 /* AnimatedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,8 +228,9 @@
 		E45D990E1E7A23D300CD3CE7 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				E45D990F1E7A23E700CD3CE7 /* CollectionViewCell.swift */,
 				E45D99741E908C6500CD3CE7 /* UIView.swift */,
+				E45D990F1E7A23E700CD3CE7 /* CollectionViewCell.swift */,
+				E45D99B81EA6E98900CD3CE7 /* AnimatedButton.swift */,
 				E45D99241E8B534000CD3CE7 /* ChooseArtistCollectionViewCell.swift */,
 				E45D99261E8C7C7900CD3CE7 /* ArtistCollectionViewLayout.swift */,
 				E45D992C1E8DD41700CD3CE7 /* PaddedLabel.swift */,
@@ -396,6 +399,7 @@
 				E45D98F31E777F5B00CD3CE7 /* ArtistPrior.swift in Sources */,
 				E45D99171E7DC59300CD3CE7 /* NextStepViewController.swift in Sources */,
 				E45D98F71E77826E00CD3CE7 /* DataManager.swift in Sources */,
+				E45D99B91EA6E98A00CD3CE7 /* AnimatedButton.swift in Sources */,
 				E45D99B31E93159800CD3CE7 /* AlbumDetailsTableViewCell.swift in Sources */,
 				E45D99751E908C6500CD3CE7 /* UIView.swift in Sources */,
 				E45D98EF1E75EE8C00CD3CE7 /* SpotifyConstants.swift in Sources */,
