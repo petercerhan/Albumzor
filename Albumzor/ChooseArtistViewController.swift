@@ -11,6 +11,11 @@ import UIKit
 class ChooseArtistViewController: UIViewController {
     
     @IBOutlet var collectionView: UICollectionView!
+    @IBOutlet var searchButton: UIButton!
+    @IBOutlet var textField: UITextField!
+    @IBOutlet var overlayView: UIView!
+    
+    var searchActive = false
     
     let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
     
@@ -20,9 +25,73 @@ class ChooseArtistViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        searchButton.imageEdgeInsets = UIEdgeInsetsMake(8.0, 8.0, 8.0, 8.0)
+        overlayView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.cancelSearch)))
+        
+        textField.translatesAutoresizingMaskIntoConstraints = true
+        
         if let layout = collectionView.collectionViewLayout as? ArtistCollectionViewLayout {
             layout.delegate = self
         }
+    }
+    
+    @IBAction func search() {
+        if searchActive {
+            return
+        }
+        
+        animateInSearch()
+    }
+    
+    func animateInSearch() {
+        searchActive = true
+        textField.center.x += view.frame.width
+        overlayView.alpha = 0
+        self.textField.isHidden = false
+        self.overlayView.isHidden = false
+        self.textField.becomeFirstResponder()
+        
+        UIView.animate(withDuration: 0.3,
+                       animations: {
+                        self.textField.center.x -= self.view.frame.width
+                        self.overlayView.alpha = 0.8
+        },
+                       completion: {
+                        _ in
+        })
+    }
+    
+    func animateOutSearch() {
+        
+        UIView.animate(withDuration: 0.3,
+                       animations: {
+                        self.textField.center.x += self.view.frame.width
+                        self.overlayView.alpha = 0
+        },
+                       completion: {
+                        _ in
+                        self.textField.center.x -= self.view.frame.width
+                        self.textField.isHidden = true
+                        self.overlayView.isHidden = true
+                        self.searchActive = false
+        })
+    }
+    
+    func launchConfirmArtistScene(searchString: String) {
+        let vc = storyboard!.instantiateViewController(withIdentifier: "ConfirmArtistViewController") as! ConfirmArtistViewController
+        vc.delegate = self
+        vc.searchString = searchString
+        present(vc, animated: true) {
+            if self.searchActive {
+                self.dismissKeyboard()
+                self.animateOutSearch()
+            }
+        }
+    }
+    
+    func cancelSearch() {
+        dismissKeyboard()
+        animateOutSearch()
     }
     
     @IBAction func done() {
@@ -38,10 +107,7 @@ extension ChooseArtistViewController: UICollectionViewDelegate {
         let cell = collectionView.cellForItem(at: indexPath) as! ChooseArtistCollectionViewCell
         selectedCellPath = indexPath
         
-        let vc = storyboard!.instantiateViewController(withIdentifier: "ConfirmArtistViewController") as! ConfirmArtistViewController
-        vc.delegate = self
-        vc.searchString = cell.label.text
-        present(vc, animated: true, completion: nil)
+        launchConfirmArtistScene(searchString: cell.label.text!)
         
         return true
     }
@@ -108,7 +174,28 @@ extension ChooseArtistViewController: ConfirmArtistViewControllerDelegate {
     }
 }
 
-//MARK:- Artist Data
+//MARK:- UITextFieldDelegate
+
+extension ChooseArtistViewController: UITextFieldDelegate {
+    
+    func dismissKeyboard() {
+        textField.resignFirstResponder()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField.text == "" {
+            cancelSearch()
+        } else {
+            launchConfirmArtistScene(searchString: textField.text!)
+        }
+        
+        return true
+    }
+    
+    
+}
+
+//MARK:- Suggested Artist Data
 
 extension ChooseArtistViewController {
     static let suggestedArtists = ["Red Hot Chili Peppers",
