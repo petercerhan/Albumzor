@@ -45,6 +45,7 @@
 		E45D99B51E93225C00CD3CE7 /* TrackTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99B41E93225C00CD3CE7 /* TrackTableViewCell.swift */; };
 		E45D99B71EA0568A00CD3CE7 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99B61EA0568A00CD3CE7 /* AudioPlayer.swift */; };
 		E45D99B91EA6E98A00CD3CE7 /* AnimatedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99B81EA6E98900CD3CE7 /* AnimatedButton.swift */; };
+		E45D99BB1EA843D900CD3CE7 /* AlbumTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99BA1EA843D900CD3CE7 /* AlbumTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +110,7 @@
 		E45D99B41E93225C00CD3CE7 /* TrackTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackTableViewCell.swift; sourceTree = "<group>"; };
 		E45D99B61EA0568A00CD3CE7 /* AudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		E45D99B81EA6E98900CD3CE7 /* AnimatedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedButton.swift; sourceTree = "<group>"; };
+		E45D99BA1EA843D900CD3CE7 /* AlbumTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,6 +240,7 @@
 				E45D996E1E90369C00CD3CE7 /* CGOverlayView.swift */,
 				E45D99B21E93159800CD3CE7 /* AlbumDetailsTableViewCell.swift */,
 				E45D99B41E93225C00CD3CE7 /* TrackTableViewCell.swift */,
+				E45D99BA1EA843D900CD3CE7 /* AlbumTableViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -416,6 +419,7 @@
 				E45D98BB1E75DC2F00CD3CE7 /* AppDelegate.swift in Sources */,
 				E45D992D1E8DD41700CD3CE7 /* PaddedLabel.swift in Sources */,
 				E45D99211E8A9BAF00CD3CE7 /* Track.swift in Sources */,
+				E45D99BB1EA843D900CD3CE7 /* AlbumTableViewCell.swift in Sources */,
 				E45D98FD1E78D7A800CD3CE7 /* Model.xcdatamodeld in Sources */,
 				E45D99131E7B5F7F00CD3CE7 /* PrepareAlbumsViewController.swift in Sources */,
 				E45D99291E8D398100CD3CE7 /* ConfirmArtistViewController.swift in Sources */,
