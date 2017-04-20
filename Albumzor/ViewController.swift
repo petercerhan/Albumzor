@@ -39,15 +39,18 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
         let request = NSFetchRequest<Album>(entityName: "Album")
         let predicate = NSPredicate(format: "(liked = true)")
         request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: false)]
         request.predicate = predicate
-
+        
         let frc = NSFetchedResultsController(fetchRequest: request, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
         frc.delegate = self
-
+        
         fetchedResultsController = frc
     }
     
@@ -61,46 +64,7 @@ class ViewController: UIViewController {
         albums = dataManager.getLikedAlbums()
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    @IBAction func artistChooser() {
-        let vc = storyboard?.instantiateViewController(withIdentifier: "ChooseArtistViewController") as! ChooseArtistViewController
-        present(vc, animated: true, completion: nil)
-    }
-    
-    @IBAction func addArtist() {
-        let vc = storyboard?.instantiateViewController(withIdentifier: "SearchArtistViewController") as! SearchArtistViewController
-        present(vc, animated: true, completion: nil)
-    }
-    
-    @IBAction func testData() {
-        do {
-            try stack.dropAllData()
-        } catch {
-            print("Could not reset data model")
-        }
-    }
-    
-    func testAlbumChoice() {
-        let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
-        let albums = dataManager.getAlbums()
-        for album in albums {
-            print("album \(album.name!) artist \(album.artist!.name!)")
-        }
-    }
+
     
     func testAlbumData() {
         let request = NSFetchRequest<Album>(entityName: "Album")
@@ -194,6 +158,8 @@ extension ViewController: NSFetchedResultsControllerDelegate {
         let set = IndexSet(integer: sectionIndex)
         
         switch (type) {
+        case .insert:
+            tableView.insertSections(set, with: .fade)
         case .delete:
             tableView.deleteSections(set, with: .fade)
         default:
@@ -203,9 +169,9 @@ extension ViewController: NSFetchedResultsControllerDelegate {
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         
-        print("DidChange")
-        
         switch(type) {
+        case .insert:
+            tableView.insertRows(at: [newIndexPath!], with: .fade)
         case .delete:
             tableView.deleteRows(at: [indexPath!], with: .fade)
         default:
