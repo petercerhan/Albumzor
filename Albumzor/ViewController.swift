@@ -12,6 +12,8 @@ import CoreData
 class ViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
+    @IBOutlet var findAlbumsButton: AnimatedButton!
+    @IBOutlet var editButton: UIBarButtonItem!
     
     let stack = (UIApplication.shared.delegate as! AppDelegate).coreDataStack
     var albums: [Album]!
@@ -36,9 +38,10 @@ class ViewController: UIViewController {
         }
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+        findAlbumsButton.backgroundColor = Styles.themeBlue
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -52,6 +55,17 @@ class ViewController: UIViewController {
         frc.delegate = self
         
         fetchedResultsController = frc
+    }
+    
+    @IBAction func edit() {
+        if tableView.isEditing {
+            editButton.title = "Edit"
+            tableView.setEditing(false, animated: true)
+            
+        } else {
+            editButton.title = "Done"
+            tableView.setEditing(true, animated: true)
+        }
     }
     
     @IBAction func discoverAlbums() {
@@ -116,6 +130,15 @@ class ViewController: UIViewController {
 //MARK:- UITableViewDelegate
 
 extension ViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let album = fetchedResultsController!.object(at: indexPath)
+            stack.context.delete(album)
+            stack.save()
+        }
+    }
+    
     
 }
 

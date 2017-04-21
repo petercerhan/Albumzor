@@ -25,11 +25,11 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YO6-Wq-FnD" customClass="AnimatedButton" customModule="Albumzor" customModuleProvider="target">
                                 <rect key="frame" x="10" y="607" width="355" height="50"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.10260181615449158" green="0.36559249773487706" blue="0.7810120558375635" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="4L3-G5-9sp"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Find More Albums"/>
                                 <connections>
                                     <action selector="discoverAlbums" destination="BYZ-38-t0r" eventType="touchUpInside" id="bLS-ga-0QF"/>
@@ -103,9 +103,16 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="My Albums" id="RuW-ZE-yUq">
+                        <barButtonItem key="leftBarButtonItem" title="Edit" id="pzD-vH-mbs">
+                            <connections>
+                                <action selector="edit" destination="BYZ-38-t0r" id="2bJ-cx-x2Y"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="Menu" id="PJt-lQ-3x3"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="editButton" destination="pzD-vH-mbs" id="Jdb-tj-Z68"/>
+                        <outlet property="findAlbumsButton" destination="YO6-Wq-FnD" id="OQC-qW-X0z"/>
                         <outlet property="tableView" destination="h7O-eb-Y2Z" id="JQS-WX-eWa"/>
                     </connections>
                 </viewController>
