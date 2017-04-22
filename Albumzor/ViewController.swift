@@ -16,7 +16,9 @@ class ViewController: UIViewController {
     @IBOutlet var editButton: UIBarButtonItem!
     
     let stack = (UIApplication.shared.delegate as! AppDelegate).coreDataStack
-    var albums: [Album]!
+    var audioPlayer = (UIApplication.shared.delegate as! AppDelegate).audioPlayer
+    
+    var currentAlbumTracks: [Track]?
     
     var fetchedResultsController : NSFetchedResultsController<Album>? {
         didSet {
@@ -59,8 +61,7 @@ class ViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
-
+        audioPlayer.delegate = self
     }
     
     @IBAction func edit() {
@@ -78,11 +79,7 @@ class ViewController: UIViewController {
         let vc = AlbumsContainerViewController()
         present(vc, animated: true, completion: nil)
     }
-    
-    func getAlbums() {
-        let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
-        albums = dataManager.getLikedAlbums()
-    }
+
     
     
     
@@ -145,6 +142,25 @@ class ViewController: UIViewController {
 
 extension ViewController: UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let album = fetchedResultsController!.object(at: indexPath)
+        
+        let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
+        
+        currentAlbumTracks = dataManager.getTracks(forAlbum: album.objectID)
+        
+        let vc = storyboard!.instantiateViewController(withIdentifier: "AlbumDetailsViewController") as! AlbumDetailsViewController
+        vc.albumImage = UIImage(data: album.imageData as! Data)
+        vc.tracks = currentAlbumTracks
+        vc.album = album
+        
+        vc.trackPlaying = nil
+        vc.audioState = .noTrack
+        
+        vc.delegate = self
+        present(vc, animated: true, completion: nil)
+    }
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let album = fetchedResultsController!.object(at: indexPath)
@@ -152,8 +168,6 @@ extension ViewController: UITableViewDelegate {
             stack.save()
         }
     }
-    
-    
     
 }
 
@@ -181,7 +195,9 @@ extension ViewController: UITableViewDataSource {
         } else {
             cell.albumImageView.image = nil
         }
-                
+        
+        cell.selectionStyle = .none
+        
 //        downloadImage(imagePath: album.largeImage!) { data, error in
 //            
 //            if let error = error {
@@ -256,6 +272,43 @@ extension ViewController: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
+    }
+}
+
+//MARK:- Handle Audio / AlbumDetailsViewControllerDelegate
+
+extension ViewController: AlbumDetailsViewControllerDelegate {
+    
+    func playTrack(atIndex index: Int) {
+        
+        guard let urlString = currentAlbumTracks?[index].previewURL else {
+            couldNotPlay()
+            return
+        }
+        
+        guard let url = URL(string: urlString) else {
+            couldNotPlay()
+            return
+        }
+        
+        self.audioPlayer.playTrack(url: url)
+    }
+    
+    func pauseAudio() {
+        audioPlayer.pause()
+    }
+    
+    func resumeAudio() {
+        audioPlayer.play()
+    }
+    
+    func stopAudio() {
+        audioPlayer.stop()
+    }
+    
+    func dismiss() {
+        stopAudio()
+        dismiss(animated: true, completion: nil)
     }
 }
 

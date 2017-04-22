@@ -14,6 +14,7 @@ protocol AlbumDetailsViewControllerDelegate {
     func pauseAudio()
     func resumeAudio()
     func stopAudio()
+    func dismiss()
 }
 
 class AlbumDetailsViewController: UIViewController {
@@ -80,7 +81,7 @@ class AlbumDetailsViewController: UIViewController {
     }
     
     @IBAction func back() {
-        dismiss(animated: true, completion: nil)
+        delegate?.dismiss()
     }
     
     @IBAction func togglePause() {

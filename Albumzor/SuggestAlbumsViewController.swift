@@ -306,6 +306,7 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
             audioButton.setTitle("!", for: .normal)
             audioButton.setImage(nil, for: .normal)
             audioState = .error
+            couldNotPlay()
             return
         }
         
@@ -315,6 +316,7 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
             audioButton.setTitle("!", for: .normal)
             audioButton.setImage(nil, for: .normal)
             audioState = .error
+            couldNotPlay()
             return
         }
 
@@ -365,6 +367,9 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
         audioPlayer.stop()
     }
     
+    func dismiss() {
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 //MARK:- AudioPlayerDelegate
