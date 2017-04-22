@@ -10,6 +10,8 @@ import UIKit
 
 class AlbumsContainerViewController: UIViewController {
 
+    var shouldLaunchAlbumView = true
+    
     private var contentViewController: UIViewController
     let appStoryboard = UIStoryboard(name: "Main", bundle: nil)
     
@@ -54,14 +56,18 @@ class AlbumsContainerViewController: UIViewController {
 
 extension AlbumsContainerViewController: PrepareAlbumsViewControllerDelegate {
     func launchAlbumView(albums: [Album], albumArt: [UIImage]) {
-        let vc = appStoryboard.instantiateViewController(withIdentifier: "SuggestAlbumsViewController") as! SuggestAlbumsViewController
-        vc.albums = albums
-        vc.albumArt = albumArt
-        vc.delegate = self
-        update(contentViewController: vc)
+        if shouldLaunchAlbumView {
+            let vc = appStoryboard.instantiateViewController(withIdentifier: "SuggestAlbumsViewController") as! SuggestAlbumsViewController
+            vc.albums = albums
+            vc.albumArt = albumArt
+            vc.delegate = self
+            update(contentViewController: vc)
+        }
     }
     
     func cancelPrepareAlbums() {
+        (UIApplication.shared.delegate as! AppDelegate).audioPlayer.stop()
+        shouldLaunchAlbumView = false
         dismiss(animated: true, completion: nil)
     }
 }

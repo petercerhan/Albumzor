@@ -148,7 +148,6 @@ extension AlbumDetailsViewController {
 extension AlbumDetailsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("did select")
         if indexPath.item == 0 {
             dismiss(animated: true, completion: nil)
         } else {

@@ -140,6 +140,7 @@ extension ViewController: UITableViewDelegate {
     }
     
     
+    
 }
 
 //MARK:- UITableViewDataSource
@@ -161,9 +162,40 @@ extension ViewController: UITableViewDataSource {
         cell.nameLabel.text = album.name!.cleanAlbumName()
         cell.artistLabel.text = album.artist!.name!
         
+        downloadImage(imagePath: album.largeImage!) { data, error in
+            
+            if let error = error {
+                print("error: \(error)")
+            } else {
+                DispatchQueue.main.async {
+                    cell.albumImageView.image = UIImage(data: data!)
+                }
+            }
+        
+        }
+        
         return cell
     }
     
+    //trying out suggested code from Udacity
+    
+    func downloadImage(imagePath: String, completionHandler: @escaping (_ imageData: Data?, _ errorString: String?) -> Void) {
+        let session = URLSession.shared
+        let imgURL = NSURL(string: imagePath)
+        let request: NSURLRequest = NSURLRequest(url: imgURL! as URL)
+        
+        let task = session.dataTask(with: request as URLRequest) {data, response, downloadError in
+            
+            if downloadError != nil {
+                completionHandler(nil, "Could not download image \(imagePath)")
+            } else {
+                
+                completionHandler(data, nil)
+            }
+        }
+    
+        task.resume()
+    }
     
 }
 

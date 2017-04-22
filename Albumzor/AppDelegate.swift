@@ -13,6 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     let coreDataStack = CoreDataStack(modelName: "Model")!
     var dataManager: DataManager!
+    var audioPlayer = AudioPlayer()
     
     var window: UIWindow?
 

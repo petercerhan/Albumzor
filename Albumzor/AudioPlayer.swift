@@ -20,33 +20,31 @@ protocol AudioPlayerDelegate {
 class AudioPlayer {
     
     var audioPlayer: AVAudioPlayer?
-    var shouldPlay = false
+    
+    var currentLoadSignature = 0
     
     var delegate: AudioPlayerDelegate?
     
-    //use these variables to prevent the wrong track from playing (on a slow network, a new download may start before an old one finishes)
-    var currentAlbum = -1
-    var currentTrack = -1
-    
-    func playTrack(url: URL, albumIndex: Int, trackIndex: Int) {
+    func playTrack(url: URL) {
         audioPlayer?.stop()
         
-        currentAlbum = albumIndex
-        currentTrack = trackIndex
-        
+        incrementLoadSignature()
+        let thisLoadSignature = currentLoadSignature
+
         DispatchQueue.global(qos: .userInitiated).async {
             //Download audio data
             if let audioData = try? Data(contentsOf: url) {
                 
                 DispatchQueue.main.async {
-                    //make sure the album hasn't changed; (for slow networks)
-                    if albumIndex != self.currentAlbum, trackIndex != self.currentTrack {
+                    //only play most recently loaded song
+                    if thisLoadSignature != self.currentLoadSignature {
                         return
                     }
                     
                     do {
                         self.audioPlayer = try AVAudioPlayer(data: audioData)
                         self.audioPlayer?.numberOfLoops = -1
+                        print("this load signature: \(thisLoadSignature)")
                         self.audioPlayer?.play()
                         self.delegate?.beganPlaying()
                     } catch {
@@ -74,7 +72,13 @@ class AudioPlayer {
     
     func stop() {
         audioPlayer?.stop()
+        incrementLoadSignature()
         self.delegate?.stopped()
+    }
+    
+    func incrementLoadSignature() {
+        currentLoadSignature += 1
+        print("New loadSignature \(currentLoadSignature)")
     }
     
 }

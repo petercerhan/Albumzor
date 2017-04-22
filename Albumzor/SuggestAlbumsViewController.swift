@@ -55,7 +55,7 @@ class SuggestAlbumsViewController: UIViewController {
     
     let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
     
-    var audioPlayer = AudioPlayer()
+    var audioPlayer = (UIApplication.shared.delegate as! AppDelegate).audioPlayer
     
     //MARK:- Life Cycle
     
@@ -203,8 +203,7 @@ class SuggestAlbumsViewController: UIViewController {
         
         //if last album has been reviewed, go to next steps view
         if currentIndex == albums.count - 1 {
-            audioPlayer.currentAlbum = -1
-            audioPlayer.currentTrack = -1
+            audioPlayer.stop()
             animateOut()
             return
         }
@@ -319,7 +318,7 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
             return
         }
 
-        self.audioPlayer.playTrack(url: url, albumIndex: currentIndex, trackIndex: index)
+        self.audioPlayer.playTrack(url: url)
     }
     
     //Automatically play the sample of the most popular track on the album
