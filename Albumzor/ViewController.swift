@@ -78,6 +78,14 @@ class ViewController: UIViewController {
         albums = dataManager.getLikedAlbums()
     }
     
+    
+    
+    @IBAction func chooseArtists() {
+        let vc = storyboard!.instantiateViewController(withIdentifier: "ChooseArtistViewController")
+        present(vc, animated: true, completion: nil)
+    }
+    
+    
 
     
     func testAlbumData() {
@@ -161,18 +169,24 @@ extension ViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AlbumTableViewCell") as! AlbumTableViewCell
         cell.nameLabel.text = album.name!.cleanAlbumName()
         cell.artistLabel.text = album.artist!.name!
-        
-        downloadImage(imagePath: album.largeImage!) { data, error in
-            
-            if let error = error {
-                print("error: \(error)")
-            } else {
-                DispatchQueue.main.async {
-                    cell.albumImageView.image = UIImage(data: data!)
-                }
-            }
-        
+
+        if let imageData = album.imageData, let image = UIImage(data: imageData as Data) {
+            cell.albumImageView.image = image
+        } else {
+            cell.albumImageView.image = nil
         }
+                
+//        downloadImage(imagePath: album.largeImage!) { data, error in
+//            
+//            if let error = error {
+//                print("error: \(error)")
+//            } else {
+//                DispatchQueue.main.async {
+//                    cell.albumImageView.image = UIImage(data: data!)
+//                }
+//            }
+//        
+//        }
         
         return cell
     }

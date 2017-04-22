@@ -8,6 +8,11 @@
 
 import UIKit
 
+enum ArtistSearchOrigin {
+    case icon(IndexPath)
+    case search
+}
+
 class ChooseArtistViewController: UIViewController {
     
     @IBOutlet var collectionView: UICollectionView!
@@ -77,10 +82,11 @@ class ChooseArtistViewController: UIViewController {
         })
     }
     
-    func launchConfirmArtistScene(searchString: String) {
+    func launchConfirmArtistScene(searchString: String, searchOrigin: ArtistSearchOrigin) {
         let vc = storyboard!.instantiateViewController(withIdentifier: "ConfirmArtistViewController") as! ConfirmArtistViewController
         vc.delegate = self
         vc.searchString = searchString
+        vc.searchOrigin = searchOrigin
         present(vc, animated: true) {
             if self.searchActive {
                 self.dismissKeyboard()
@@ -107,7 +113,7 @@ extension ChooseArtistViewController: UICollectionViewDelegate {
         let cell = collectionView.cellForItem(at: indexPath) as! ChooseArtistCollectionViewCell
         selectedCellPath = indexPath
         
-        launchConfirmArtistScene(searchString: cell.label.text!)
+        launchConfirmArtistScene(searchString: cell.label.text!, searchOrigin: .icon(indexPath))
         
         return true
     }
@@ -156,12 +162,19 @@ extension ChooseArtistViewController: ArtistCollectionViewLayoutDelegate {
 //MARK:- ConfirmArtistViewControllerDelegate
 
 extension ChooseArtistViewController: ConfirmArtistViewControllerDelegate {
-    func artistChosen(spotifyID: String) {
-        (collectionView.collectionViewLayout as! ArtistCollectionViewLayout).clearCache()
-        artists.remove(at: selectedCellPath!.item)
-        collectionView.deleteItems(at: [selectedCellPath!])
-        collectionView.reloadData()                                   
+    func artistChosen(spotifyID: String, searchOrigin: ArtistSearchOrigin) {
+        //If artist was chosen from the collection view, remove that collection view item
+        switch searchOrigin {
+        case .icon(let path):
+            (collectionView.collectionViewLayout as! ArtistCollectionViewLayout).clearCache()
+            artists.remove(at: path.item)
+            collectionView.deleteItems(at: [path])
+            collectionView.reloadData()
+        case .search:
+            break
+        }
         
+        //add the artist's relateds
         dataManager.getRelatedArtists(artistID: spotifyID) {
             _ in //do nothing
         }
@@ -186,7 +199,7 @@ extension ChooseArtistViewController: UITextFieldDelegate {
         if textField.text == "" {
             cancelSearch()
         } else {
-            launchConfirmArtistScene(searchString: textField.text!)
+            launchConfirmArtistScene(searchString: textField.text!, searchOrigin: .search)
         }
         
         return true

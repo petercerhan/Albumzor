@@ -197,7 +197,7 @@ class SuggestAlbumsViewController: UIViewController {
         
         if liked {
             likedAlbums += 1
-            dataManager.like(album: albums[currentIndex].objectID, addRelatedArtists: true)
+            dataManager.like(album: albums[currentIndex].objectID, addRelatedArtists: true, imageData: UIImagePNGRepresentation(albumArt[currentIndex]))
         } else {
         }
         

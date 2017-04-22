@@ -48,7 +48,7 @@ class DataManager {
         }        
     }
     
-    func like(album albumID: NSManagedObjectID, addRelatedArtists: Bool) {
+    func like(album albumID: NSManagedObjectID, addRelatedArtists: Bool, imageData: Data?) {
         let backgroundContext = stack.networkingContext
         
         backgroundContext.perform {
@@ -58,6 +58,9 @@ class DataManager {
                 let album = try backgroundContext.existingObject(with: albumID) as! Album
                 artist = album.artist
                 album.liked = true
+                if let imageData = imageData {
+                    album.imageData = imageData as NSData?
+                }
                 
             } catch {
                 print("Core data error")

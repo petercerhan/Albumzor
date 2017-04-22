@@ -9,7 +9,7 @@
 import UIKit
 
 protocol ConfirmArtistViewControllerDelegate {
-    func artistChosen(spotifyID: String)
+    func artistChosen(spotifyID: String, searchOrigin: ArtistSearchOrigin)
     func artistCanceled()
 }
 
@@ -25,12 +25,15 @@ class ConfirmArtistViewController: UIViewController {
     var client = SpotifyClient.sharedInstance()
     
     var searchString: String!
+    var searchOrigin: ArtistSearchOrigin!
     
     var spotifyID: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         getArtist()
+        
+        print("search string \(searchString)")
         // Do any additional setup after loading the view.
     }
 
@@ -85,7 +88,7 @@ class ConfirmArtistViewController: UIViewController {
     }
     
     @IBAction func selectArtist() {
-        delegate.artistChosen(spotifyID: spotifyID!)
+        delegate.artistChosen(spotifyID: spotifyID!, searchOrigin: searchOrigin)
     }
     
     @IBAction func rejectArtist() {
