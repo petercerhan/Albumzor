@@ -20,12 +20,32 @@ class ViewController: UIViewController {
     
     var fetchedResultsController : NSFetchedResultsController<Album>? {
         didSet {
-            // Whenever the frc changes, we execute the search and
-            // reload the table
             fetchedResultsController?.delegate = self
             executeSearch()
             tableView.reloadData()
         }
+    }
+    
+    //MARK:- Life Cycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        configureFetchedResultsController()
+        
+        findAlbumsButton.backgroundColor = Styles.themeBlue
+    }
+    
+    func configureFetchedResultsController() {
+        let request = NSFetchRequest<Album>(entityName: "Album")
+        let predicate = NSPredicate(format: "(liked = true)")
+        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: false)]
+        request.predicate = predicate
+        
+        let frc = NSFetchedResultsController(fetchRequest: request, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
+        frc.delegate = self
+        
+        fetchedResultsController = frc
     }
     
     func executeSearch() {
@@ -38,23 +58,9 @@ class ViewController: UIViewController {
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    
-        findAlbumsButton.backgroundColor = Styles.themeBlue
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         
-        let request = NSFetchRequest<Album>(entityName: "Album")
-        let predicate = NSPredicate(format: "(liked = true)")
-        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: false)]
-        request.predicate = predicate
-        
-        let frc = NSFetchedResultsController(fetchRequest: request, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
-        frc.delegate = self
-        
-        fetchedResultsController = frc
+
     }
     
     @IBAction func edit() {
@@ -253,7 +259,42 @@ extension ViewController: NSFetchedResultsControllerDelegate {
     }
 }
 
+//MARK:- AudioPlayerDelegate
 
+extension ViewController: AudioPlayerDelegate {
+    
+    func beganLoading() {
+        if let vc = presentedViewController as? AlbumDetailsViewController {
+            vc.audioBeganLoading()
+        }
+        //no action needed
+    }
+    
+    func beganPlaying() {
+        if let vc = presentedViewController as? AlbumDetailsViewController {
+            vc.audioBeganPlaying()
+        }
+    }
+    
+    func paused() {
+        if let vc = presentedViewController as? AlbumDetailsViewController {
+            vc.audioPaused()
+        }
+    }
+    
+    func stopped() {
+        if let vc = presentedViewController as? AlbumDetailsViewController {
+            vc.audioStopped()
+        }
+    }
+    
+    func couldNotPlay() {
+        if let vc = presentedViewController as? AlbumDetailsViewController {
+            vc.audioCouldNotPlay()
+        }
+    }
+    
+}
 
 
 
