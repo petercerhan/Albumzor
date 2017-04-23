@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Cdw-AE-Eg1">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="WOv-TX-XFr">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -8,6 +8,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -846,10 +847,44 @@
             </objects>
             <point key="canvasLocation" x="2374" y="654"/>
         </scene>
+        <!--Open Scene View Controller-->
+        <scene sceneID="Ztg-MP-pFu">
+            <objects>
+                <viewController storyboardIdentifier="OpenSceneViewController" id="WOv-TX-XFr" customClass="OpenSceneViewController" customModule="Albumzor" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Pl6-8I-QXU"/>
+                        <viewControllerLayoutGuide type="bottom" id="fck-93-MLi"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="tpm-wH-iRV">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LargeRecord" translatesAutoresizingMaskIntoConstraints="NO" id="duF-AO-N6T">
+                                <rect key="frame" x="65" y="211.5" width="244" height="244"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="duF-AO-N6T" secondAttribute="height" multiplier="1:1" id="Whq-dr-WVx"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="duF-AO-N6T" firstAttribute="centerX" secondItem="tpm-wH-iRV" secondAttribute="centerX" id="K4F-ex-o3b"/>
+                            <constraint firstItem="duF-AO-N6T" firstAttribute="width" secondItem="tpm-wH-iRV" secondAttribute="width" multiplier="0.65" id="NBL-Q0-1eP"/>
+                            <constraint firstItem="duF-AO-N6T" firstAttribute="centerY" secondItem="tpm-wH-iRV" secondAttribute="centerY" id="wv0-kF-KvB"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="recordImage" destination="duF-AO-N6T" id="dGs-cy-lVw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OhP-9S-LdE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-871.20000000000005" y="-33.733133433283363"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="xGZ-nz-mjp">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Cdw-AE-Eg1" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="HomeNavController" automaticallyAdjustsScrollViewInsets="NO" id="Cdw-AE-Eg1" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="hwe-jC-JgB">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -867,6 +902,7 @@
     </scenes>
     <resources>
         <image name="Check" width="104" height="104"/>
+        <image name="LargeRecord" width="251" height="250"/>
         <image name="Menu" width="30" height="25"/>
         <image name="Play" width="27" height="32"/>
         <image name="Search" width="48" height="48"/>
