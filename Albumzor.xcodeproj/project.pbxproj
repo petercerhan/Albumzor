@@ -47,6 +47,7 @@
 		E45D99B91EA6E98A00CD3CE7 /* AnimatedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99B81EA6E98900CD3CE7 /* AnimatedButton.swift */; };
 		E45D99BB1EA843D900CD3CE7 /* AlbumTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99BA1EA843D900CD3CE7 /* AlbumTableViewCell.swift */; };
 		E4B5077C1EAB0BB80049831B /* OpenSceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B5077B1EAB0BB80049831B /* OpenSceneViewController.swift */; };
+		E4B5077E1EAD70450049831B /* MainContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B5077D1EAD70450049831B /* MainContainerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,6 +114,7 @@
 		E45D99B81EA6E98900CD3CE7 /* AnimatedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedButton.swift; sourceTree = "<group>"; };
 		E45D99BA1EA843D900CD3CE7 /* AlbumTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumTableViewCell.swift; sourceTree = "<group>"; };
 		E4B5077B1EAB0BB80049831B /* OpenSceneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenSceneViewController.swift; sourceTree = "<group>"; };
+		E4B5077D1EAD70450049831B /* MainContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainContainerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -250,6 +252,7 @@
 		E45D99111E7B5F6600CD3CE7 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				E4B5077D1EAD70450049831B /* MainContainerViewController.swift */,
 				E4B5077B1EAB0BB80049831B /* OpenSceneViewController.swift */,
 				E45D98BC1E75DC2F00CD3CE7 /* ViewController.swift */,
 				E45D99221E8B4FEF00CD3CE7 /* ChooseArtistViewController.swift */,
@@ -402,6 +405,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E45D991D1E84BE5900CD3CE7 /* SearchArtistViewController.swift in Sources */,
+				E4B5077E1EAD70450049831B /* MainContainerViewController.swift in Sources */,
 				E45D98F31E777F5B00CD3CE7 /* ArtistPrior.swift in Sources */,
 				E45D99171E7DC59300CD3CE7 /* NextStepViewController.swift in Sources */,
 				E45D98F71E77826E00CD3CE7 /* DataManager.swift in Sources */,

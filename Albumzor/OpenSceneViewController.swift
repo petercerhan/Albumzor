@@ -8,9 +8,15 @@
 
 import UIKit
 
+protocol OpenSceneViewControllerDelegate {
+    func nextScene()
+}
+
 class OpenSceneViewController: UIViewController {
 
     @IBOutlet var recordImage: UIImageView!
+    
+    var delegate: OpenSceneViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,14 +30,17 @@ class OpenSceneViewController: UIViewController {
                        animations: {
                         self.recordImage.center.x += self.view.frame.width
         },
-                       completion: {_ in self.launch()})
+                       completion: {_ in self.nextScene()})
     }
     
-    func launch() {
-        let vc = storyboard!.instantiateViewController(withIdentifier: "HomeNavController")
-        present(vc, animated: false) {
-            self.recordImage.center.x -= self.view.frame.width
-        }
+    func nextScene() {
+        
+        delegate?.nextScene()
+//        
+//        let vc = storyboard!.instantiateViewController(withIdentifier: "HomeNavController")
+//        present(vc, animated: false) {
+//            self.recordImage.center.x -= self.view.frame.width
+//        }
     }
 
 }
