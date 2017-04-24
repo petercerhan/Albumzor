@@ -49,6 +49,7 @@
 		E4B5077C1EAB0BB80049831B /* OpenSceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B5077B1EAB0BB80049831B /* OpenSceneViewController.swift */; };
 		E4B5077E1EAD70450049831B /* MainContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B5077D1EAD70450049831B /* MainContainerViewController.swift */; };
 		E4B507801EAD763D0049831B /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B5077F1EAD763D0049831B /* WelcomeViewController.swift */; };
+		E4B507821EAD98070049831B /* InstructionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B507811EAD98070049831B /* InstructionsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,6 +118,7 @@
 		E4B5077B1EAB0BB80049831B /* OpenSceneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenSceneViewController.swift; sourceTree = "<group>"; };
 		E4B5077D1EAD70450049831B /* MainContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainContainerViewController.swift; sourceTree = "<group>"; };
 		E4B5077F1EAD763D0049831B /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		E4B507811EAD98070049831B /* InstructionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstructionsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,6 +259,7 @@
 				E4B5077D1EAD70450049831B /* MainContainerViewController.swift */,
 				E4B5077B1EAB0BB80049831B /* OpenSceneViewController.swift */,
 				E4B5077F1EAD763D0049831B /* WelcomeViewController.swift */,
+				E4B507811EAD98070049831B /* InstructionsViewController.swift */,
 				E45D98BC1E75DC2F00CD3CE7 /* ViewController.swift */,
 				E45D99221E8B4FEF00CD3CE7 /* ChooseArtistViewController.swift */,
 				E45D99281E8D398100CD3CE7 /* ConfirmArtistViewController.swift */,
@@ -421,6 +424,7 @@
 				E45D99B51E93225C00CD3CE7 /* TrackTableViewCell.swift in Sources */,
 				E45D98FA1E78D71800CD3CE7 /* CoreDataStack.swift in Sources */,
 				E4B507801EAD763D0049831B /* WelcomeViewController.swift in Sources */,
+				E4B507821EAD98070049831B /* InstructionsViewController.swift in Sources */,
 				E45D99B71EA0568A00CD3CE7 /* AudioPlayer.swift in Sources */,
 				E45D99151E7B6DB100CD3CE7 /* AlbumsContainerViewController.swift in Sources */,
 				E45D98F11E776BFE00CD3CE7 /* SpotifyMethods.swift in Sources */,

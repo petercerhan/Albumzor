@@ -200,7 +200,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VGv-V8-PkL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="116" y="-727"/>
+            <point key="canvasLocation" x="-610" y="-1392"/>
         </scene>
         <!--Choose Artist View Controller-->
         <scene sceneID="bhD-xP-ca5">
@@ -332,7 +332,67 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tWw-1i-aV4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1654" y="-727"/>
+            <point key="canvasLocation" x="-609" y="-727"/>
+        </scene>
+        <!--Instructions View Controller-->
+        <scene sceneID="Ach-Ce-Umz">
+            <objects>
+                <viewController storyboardIdentifier="InstructionsViewController" id="kvO-gp-AZW" customClass="InstructionsViewController" customModule="Albumzor" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6j9-7j-POx"/>
+                        <viewControllerLayoutGuide type="bottom" id="meD-fZ-JN1"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="37T-z7-a0y">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LPSwipe" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ANd-Kv-Luv">
+                                <rect key="frame" x="137" y="35" width="100.5" height="31.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe right to like and save" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rf2-zS-ZVb">
+                                <rect key="frame" x="37" y="169" width="300" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe left to skip" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QiQ-hG-0kC">
+                                <rect key="frame" x="37" y="228" width="300" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h9k-ny-bfE">
+                                <rect key="frame" x="121" y="603" width="132" height="44"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <state key="normal" title="Get Started">
+                                    <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="getStarted" destination="kvO-gp-AZW" eventType="touchUpInside" id="DZq-Ip-Lbw"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Rf2-zS-ZVb" firstAttribute="width" secondItem="37T-z7-a0y" secondAttribute="width" multiplier="0.8" id="1Lf-0U-vqP"/>
+                            <constraint firstItem="h9k-ny-bfE" firstAttribute="centerX" secondItem="37T-z7-a0y" secondAttribute="centerX" id="2aL-p5-k0G"/>
+                            <constraint firstItem="QiQ-hG-0kC" firstAttribute="top" secondItem="Rf2-zS-ZVb" secondAttribute="bottom" constant="30" id="2yv-SH-bGa"/>
+                            <constraint firstItem="meD-fZ-JN1" firstAttribute="top" secondItem="h9k-ny-bfE" secondAttribute="bottom" constant="20" id="4te-zh-hIr"/>
+                            <constraint firstItem="Rf2-zS-ZVb" firstAttribute="centerX" secondItem="37T-z7-a0y" secondAttribute="centerX" id="HZw-nQ-ImQ"/>
+                            <constraint firstItem="Rf2-zS-ZVb" firstAttribute="centerY" secondItem="37T-z7-a0y" secondAttribute="centerY" constant="-150" id="Ihk-rU-d8j"/>
+                            <constraint firstItem="ANd-Kv-Luv" firstAttribute="top" secondItem="6j9-7j-POx" secondAttribute="bottom" constant="15" id="QBv-TM-J5r"/>
+                            <constraint firstItem="ANd-Kv-Luv" firstAttribute="centerX" secondItem="37T-z7-a0y" secondAttribute="centerX" id="Qjy-EH-GsY"/>
+                            <constraint firstItem="QiQ-hG-0kC" firstAttribute="centerX" secondItem="37T-z7-a0y" secondAttribute="centerX" id="i4c-Qf-wAd"/>
+                            <constraint firstItem="QiQ-hG-0kC" firstAttribute="width" secondItem="37T-z7-a0y" secondAttribute="width" multiplier="0.8" id="wFh-Tg-DF2"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="URl-5x-eDx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="116" y="-727.28635682158927"/>
         </scene>
         <!--Search Artist View Controller-->
         <scene sceneID="Mkg-m6-vqS">
@@ -879,7 +939,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OhP-9S-LdE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1470" y="-727"/>
+            <point key="canvasLocation" x="-2076" y="-727"/>
         </scene>
         <!--Welcome View Controller-->
         <scene sceneID="5P5-AL-7E1">
@@ -899,9 +959,9 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get started by choosing a few of your favorite artists." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gEF-qW-uxC">
-                                <rect key="frame" x="46.5" y="166.5" width="281.5" height="86"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get started by choosing a few of your favorite artists." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gEF-qW-uxC">
+                                <rect key="frame" x="46.5" y="187" width="281.5" height="93.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -921,8 +981,8 @@
                             <constraint firstItem="wIF-wl-Ds4" firstAttribute="centerX" secondItem="ATk-Lg-Dqr" secondAttribute="centerX" id="7uJ-7Z-gUO"/>
                             <constraint firstItem="9TS-Mx-4aS" firstAttribute="top" secondItem="1QW-97-XxF" secondAttribute="bottom" constant="15" id="RY0-w0-QOI"/>
                             <constraint firstItem="gEF-qW-uxC" firstAttribute="width" secondItem="ATk-Lg-Dqr" secondAttribute="width" multiplier="0.75" id="ahK-Bh-YRA"/>
+                            <constraint firstItem="gEF-qW-uxC" firstAttribute="centerY" secondItem="ATk-Lg-Dqr" secondAttribute="centerY" constant="-100" id="aq7-w6-Lv4"/>
                             <constraint firstItem="2ps-bG-mX8" firstAttribute="top" secondItem="wIF-wl-Ds4" secondAttribute="bottom" constant="20" id="dvb-oV-DlY"/>
-                            <constraint firstItem="gEF-qW-uxC" firstAttribute="top" secondItem="9TS-Mx-4aS" secondAttribute="bottom" constant="100" id="g0J-FG-L3Q"/>
                             <constraint firstItem="gEF-qW-uxC" firstAttribute="centerX" secondItem="ATk-Lg-Dqr" secondAttribute="centerX" id="kjS-PC-8yJ"/>
                             <constraint firstItem="9TS-Mx-4aS" firstAttribute="centerX" secondItem="ATk-Lg-Dqr" secondAttribute="centerX" id="rs6-H7-xgG"/>
                         </constraints>
@@ -930,7 +990,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vcg-EB-Uc3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-665" y="-727"/>
+            <point key="canvasLocation" x="-1345" y="-727"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="xGZ-nz-mjp">

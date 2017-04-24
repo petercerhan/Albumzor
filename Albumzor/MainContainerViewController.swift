@@ -99,12 +99,23 @@ extension MainContainerViewController: WelcomeViewControllerDelegate {
 
 extension MainContainerViewController: ChooseArtistViewControllerDelegate {
     func chooseArtistSceneComplete() {
-        let navController = appStoryboard.instantiateViewController(withIdentifier: "HomeNavController") as! UINavigationController
-        let vc = navController.viewControllers[0] as! ViewController
-        let findAlbumsController = AlbumsContainerViewController()
-        vc.present(findAlbumsController, animated: false, completion: nil)
-        update(contentViewController: navController)
+        let vc = appStoryboard.instantiateViewController(withIdentifier: "InstructionsViewController") as! InstructionsViewController
+        vc.delegate = self
+        updateAnimated(contentViewController: vc)
     }
 }
 
+extension MainContainerViewController: InstructionsViewControllerDelegate {
+    func instructionsSceneComplete() {
+        let vc = AlbumsContainerViewController()
+        vc.delegate = self
+        updateAnimated(contentViewController: vc)
+    }
+}
 
+extension MainContainerViewController: AlbumsContainerViewControllerDelegate {
+    func findAlbumsHome() {
+        let vc = appStoryboard.instantiateViewController(withIdentifier: "HomeNavController")
+        update(contentViewController: vc)
+    }
+}

@@ -8,9 +8,15 @@
 
 import UIKit
 
+protocol AlbumsContainerViewControllerDelegate {
+    func findAlbumsHome()
+}
+
 class AlbumsContainerViewController: UIViewController {
 
     var shouldLaunchAlbumView = true
+    
+    var delegate: AlbumsContainerViewControllerDelegate?
     
     private var contentViewController: UIViewController
     let appStoryboard = UIStoryboard(name: "Main", bundle: nil)
@@ -68,7 +74,7 @@ extension AlbumsContainerViewController: PrepareAlbumsViewControllerDelegate {
     func cancelPrepareAlbums() {
         (UIApplication.shared.delegate as! AppDelegate).audioPlayer.stop()
         shouldLaunchAlbumView = false
-        dismiss(animated: true, completion: nil)
+        delegate?.findAlbumsHome()
     }
 }
 
@@ -76,7 +82,7 @@ extension AlbumsContainerViewController: PrepareAlbumsViewControllerDelegate {
 
 extension AlbumsContainerViewController: SuggestAlbumsViewControllerDelegate {
     func quit() {
-        dismiss(animated: true, completion: nil)
+        delegate?.findAlbumsHome()
     }
     
     func batteryComplete(liked: Int) {

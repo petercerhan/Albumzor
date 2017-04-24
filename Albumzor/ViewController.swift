@@ -77,6 +77,7 @@ class ViewController: UIViewController {
     
     @IBAction func discoverAlbums() {
         let vc = AlbumsContainerViewController()
+        vc.delegate = self
         present(vc, animated: true, completion: nil)
     }
 
@@ -275,7 +276,15 @@ extension ViewController: NSFetchedResultsControllerDelegate {
     }
 }
 
-//MARK:- Handle Audio / AlbumDetailsViewControllerDelegate
+//MARK: - AlbumsContainerViewController
+
+extension ViewController: AlbumsContainerViewControllerDelegate {
+    func findAlbumsHome() {
+        dismiss(animated: true, completion: nil)
+    }
+}
+
+//MARK: - AlbumDetailsViewControllerDelegate
 
 extension ViewController: AlbumDetailsViewControllerDelegate {
     
