@@ -45,10 +45,39 @@ class MainContainerViewController: UIViewController {
         priorViewController.willMove(toParentViewController: nil)
         newViewController.didMove(toParentViewController: self)
         
+        //animate here
+        
         priorViewController.view.removeFromSuperview()
         priorViewController.removeFromParentViewController()
     }
     
+    func updateAnimated(contentViewController newViewController: UIViewController) {
+        
+        let priorViewController = contentViewController
+        
+        contentViewController = newViewController
+        
+        addChildViewController(newViewController)
+        
+        newViewController.view.frame = view.bounds
+        newViewController.view.center.x += view.frame.width
+        view.addSubview(newViewController.view)
+        
+        priorViewController.willMove(toParentViewController: nil)
+        newViewController.didMove(toParentViewController: self)
+        
+        //animate here
+        UIView.animate(withDuration: 0.3, animations: {
+            _ in
+            newViewController.view.center.x -= self.view.frame.width
+            priorViewController.view.center.x -= self.view.frame.width
+        }, completion:{
+            _ in
+            priorViewController.view.removeFromSuperview()
+            priorViewController.removeFromParentViewController()
+        })
+        
+    }
 }
 
 extension MainContainerViewController: OpenSceneViewControllerDelegate {
@@ -64,14 +93,17 @@ extension MainContainerViewController: WelcomeViewControllerDelegate {
     func chooseArtists() {
         let vc = appStoryboard.instantiateViewController(withIdentifier: "ChooseArtistViewController") as! ChooseArtistViewController
         vc.delegate = self
-        update(contentViewController: vc)
+        updateAnimated(contentViewController: vc)
     }
 }
 
 extension MainContainerViewController: ChooseArtistViewControllerDelegate {
     func chooseArtistSceneComplete() {
-        let vc = appStoryboard.instantiateViewController(withIdentifier: "HomeNavController")
-        update(contentViewController: vc)
+        let navController = appStoryboard.instantiateViewController(withIdentifier: "HomeNavController") as! UINavigationController
+        let vc = navController.viewControllers[0] as! ViewController
+        let findAlbumsController = AlbumsContainerViewController()
+        vc.present(findAlbumsController, animated: false, completion: nil)
+        update(contentViewController: navController)
     }
 }
 
