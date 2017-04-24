@@ -62,7 +62,15 @@ extension MainContainerViewController: OpenSceneViewControllerDelegate {
 
 extension MainContainerViewController: WelcomeViewControllerDelegate {
     func chooseArtists() {
-        let vc = appStoryboard.instantiateViewController(withIdentifier: "ChooseArtistViewController")
+        let vc = appStoryboard.instantiateViewController(withIdentifier: "ChooseArtistViewController") as! ChooseArtistViewController
+        vc.delegate = self
+        update(contentViewController: vc)
+    }
+}
+
+extension MainContainerViewController: ChooseArtistViewControllerDelegate {
+    func chooseArtistSceneComplete() {
+        let vc = appStoryboard.instantiateViewController(withIdentifier: "HomeNavController")
         update(contentViewController: vc)
     }
 }

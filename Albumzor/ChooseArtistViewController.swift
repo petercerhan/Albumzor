@@ -13,12 +13,18 @@ enum ArtistSearchOrigin {
     case search
 }
 
+protocol ChooseArtistViewControllerDelegate {
+    func chooseArtistSceneComplete()
+}
+
 class ChooseArtistViewController: UIViewController {
     
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var searchButton: UIButton!
     @IBOutlet var textField: UITextField!
     @IBOutlet var overlayView: UIView!
+    
+    var delegate: ChooseArtistViewControllerDelegate?
     
     var searchActive = false
     
@@ -101,7 +107,7 @@ class ChooseArtistViewController: UIViewController {
     }
     
     @IBAction func done() {
-        dismiss(animated: true, completion: nil)
+        delegate?.chooseArtistSceneComplete()
     }    
 }
 
