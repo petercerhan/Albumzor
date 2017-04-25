@@ -83,8 +83,12 @@ class MainContainerViewController: UIViewController {
 extension MainContainerViewController: OpenSceneViewControllerDelegate {
     func nextScene() {
         //determine whether the app is currently seeded here
-        let vc = appStoryboard.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
-        vc.delegate = self
+//        let vc = appStoryboard.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
+//        vc.delegate = self
+//        update(contentViewController: vc)
+
+        //temporary
+        let vc = appStoryboard.instantiateViewController(withIdentifier: "HomeNavController")
         update(contentViewController: vc)
     }
 }
