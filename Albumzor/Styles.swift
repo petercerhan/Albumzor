@@ -15,5 +15,5 @@ struct Styles {
     static let lightBlue = UIColor(red: 0.13, green: 0.59, blue: 0.78, alpha: 1.0)
     static let themeBlue = UIColor(red: 0.14, green: 0.47, blue: 1.0, alpha: 1.0)
     static let shadedThemeBlue = UIColor(red: 0.10, green: 0.36, blue: 0.78, alpha: 1.0)
-    
+    static let themeOrange = UIColor(red: 1.0, green: 0.45, blue: 0.04, alpha: 1.0)
 }

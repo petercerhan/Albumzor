@@ -82,14 +82,30 @@ class MainContainerViewController: UIViewController {
 
 extension MainContainerViewController: OpenSceneViewControllerDelegate {
     func nextScene() {
+        let userSettings = (UIApplication.shared.delegate as! AppDelegate).userSettings
+        
         //determine whether the app is currently seeded here
-//        let vc = appStoryboard.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
-//        vc.delegate = self
-//        update(contentViewController: vc)
-
-        //temporary
-        let vc = appStoryboard.instantiateViewController(withIdentifier: "HomeNavController")
-        update(contentViewController: vc)
+        if userSettings.instructionsSeen && userSettings.isSeeded {
+            //standard situation - go straight to home screen
+            let vc = appStoryboard.instantiateViewController(withIdentifier: "HomeNavController")
+            update(contentViewController: vc)
+            
+        } else if !(userSettings.instructionsSeen) && !(userSettings.isSeeded) {
+            //first time sequence
+            let vc = appStoryboard.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
+            vc.delegate = self
+            update(contentViewController: vc)
+            
+        } else if userSettings.instructionsSeen && !userSettings.isSeeded {
+            //needs reseeding; implement when build reseed functionality
+            
+        } else if !userSettings.instructionsSeen && userSettings.isSeeded {
+            //user seeded artists but didn't navigate to final instructions pane
+            //show last instruction screen
+            let vc = appStoryboard.instantiateViewController(withIdentifier: "InstructionsViewController") as! InstructionsViewController
+            vc.delegate = self
+            update(contentViewController: vc)
+        }
     }
 }
 

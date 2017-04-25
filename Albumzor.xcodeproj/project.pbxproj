@@ -47,6 +47,7 @@
 		E45D99B91EA6E98A00CD3CE7 /* AnimatedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99B81EA6E98900CD3CE7 /* AnimatedButton.swift */; };
 		E45D99BB1EA843D900CD3CE7 /* AlbumTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99BA1EA843D900CD3CE7 /* AlbumTableViewCell.swift */; };
 		E467C4C91EAECD3800B0A62B /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467C4C81EAECD3800B0A62B /* MenuTableViewController.swift */; };
+		E467C4CB1EAED4B400B0A62B /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467C4CA1EAED4B400B0A62B /* UserSettings.swift */; };
 		E4B5077C1EAB0BB80049831B /* OpenSceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B5077B1EAB0BB80049831B /* OpenSceneViewController.swift */; };
 		E4B5077E1EAD70450049831B /* MainContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B5077D1EAD70450049831B /* MainContainerViewController.swift */; };
 		E4B507801EAD763D0049831B /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B5077F1EAD763D0049831B /* WelcomeViewController.swift */; };
@@ -117,6 +118,7 @@
 		E45D99B81EA6E98900CD3CE7 /* AnimatedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedButton.swift; sourceTree = "<group>"; };
 		E45D99BA1EA843D900CD3CE7 /* AlbumTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumTableViewCell.swift; sourceTree = "<group>"; };
 		E467C4C81EAECD3800B0A62B /* MenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
+		E467C4CA1EAED4B400B0A62B /* UserSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		E4B5077B1EAB0BB80049831B /* OpenSceneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenSceneViewController.swift; sourceTree = "<group>"; };
 		E4B5077D1EAD70450049831B /* MainContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainContainerViewController.swift; sourceTree = "<group>"; };
 		E4B5077F1EAD763D0049831B /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 				E45D98F61E77826D00CD3CE7 /* DataManager.swift */,
 				E45D98F81E78D70D00CD3CE7 /* CoreData */,
 				E45D98EB1E75EC1100CD3CE7 /* SpotifyClient */,
+				E467C4CA1EAED4B400B0A62B /* UserSettings.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -426,6 +429,7 @@
 				E45D991F1E89D69300CD3CE7 /* AlbumDetailsViewController.swift in Sources */,
 				E45D99251E8B534000CD3CE7 /* ChooseArtistCollectionViewCell.swift in Sources */,
 				E45D99B51E93225C00CD3CE7 /* TrackTableViewCell.swift in Sources */,
+				E467C4CB1EAED4B400B0A62B /* UserSettings.swift in Sources */,
 				E45D98FA1E78D71800CD3CE7 /* CoreDataStack.swift in Sources */,
 				E4B507801EAD763D0049831B /* WelcomeViewController.swift in Sources */,
 				E4B507821EAD98070049831B /* InstructionsViewController.swift in Sources */,

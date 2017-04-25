@@ -44,7 +44,6 @@ class AudioPlayer {
                     do {
                         self.audioPlayer = try AVAudioPlayer(data: audioData)
                         self.audioPlayer?.numberOfLoops = -1
-                        print("this load signature: \(thisLoadSignature)")
                         self.audioPlayer?.play()
                         self.delegate?.beganPlaying()
                     } catch {
@@ -78,7 +77,6 @@ class AudioPlayer {
     
     func incrementLoadSignature() {
         currentLoadSignature += 1
-        print("New loadSignature \(currentLoadSignature)")
     }
     
 }

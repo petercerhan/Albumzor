@@ -34,13 +34,7 @@ class OpenSceneViewController: UIViewController {
     }
     
     func nextScene() {
-        
         delegate?.nextScene()
-//        
-//        let vc = storyboard!.instantiateViewController(withIdentifier: "HomeNavController")
-//        present(vc, animated: false) {
-//            self.recordImage.center.x -= self.view.frame.width
-//        }
     }
 
 }

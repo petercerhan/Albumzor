@@ -23,7 +23,9 @@ class ChooseArtistViewController: UIViewController {
     @IBOutlet var searchButton: UIButton!
     @IBOutlet var textField: UITextField!
     @IBOutlet var overlayView: UIView!
+    @IBOutlet var doneButton: UIButton!
     
+    var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
     var delegate: ChooseArtistViewControllerDelegate?
     
     var searchActive = false
@@ -108,7 +110,17 @@ class ChooseArtistViewController: UIViewController {
     
     @IBAction func done() {
         delegate?.chooseArtistSceneComplete()
-    }    
+    }
+    
+    func updateDoneButton() {
+        //if enough albums, enable
+        if dataManager.getAlbumsCount() >= 100 {
+            doneButton.setTitleColor(Styles.themeOrange, for: .normal)
+            doneButton.isEnabled = true
+            appDelegate.userSettings.isSeeded = true
+            appDelegate.saveUserSettings()
+        }
+    }
 }
 
 //MARK:- UICollectionViewDelegate
@@ -182,7 +194,10 @@ extension ChooseArtistViewController: ConfirmArtistViewControllerDelegate {
         
         //add the artist's relateds
         dataManager.getRelatedArtists(artistID: spotifyID) {
-            _ in //do nothing
+            _ in
+            DispatchQueue.main.async {
+                self.updateDoneButton()
+            }
         }
         
         dismiss(animated: true, completion: nil)

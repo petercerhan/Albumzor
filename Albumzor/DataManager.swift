@@ -248,6 +248,23 @@ class DataManager {
         return index
     }
     
+    //MUST BE CALLED IN A BACKGROUND CONTEXT
+    func getAlbumsCount() -> Int {
+        
+        let request = NSFetchRequest<Album>(entityName: "Album")
+        request.includesSubentities = false
+        
+        var count = 0
+        
+        do {
+            count = try stack.context.count(for: request)
+        } catch {
+            print("could not get artists")
+        }
+        
+        return count
+    }
+    
     //Completion handler will be invoked after the last album data request has been processed. However, when multiple album requests are made asynchronously, it is possible that some will not have finished by the time the completionHandler is called, and the code invoking this method should not depend on that.
     func addArtist(searchString: String, completionHandler: @escaping DataManagerCompletionHandler) {
         

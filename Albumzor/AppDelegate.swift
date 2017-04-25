@@ -14,23 +14,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let coreDataStack = CoreDataStack(modelName: "Model")!
     var dataManager: DataManager!
     var audioPlayer = AudioPlayer()
+    //initial/default settings
+    var userSettings = UserSettings(instructionsSeen: false, isSeeded: false, autoplay: true)
+    
     
     var window: UIWindow?
-
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = MainContainerViewController()
         
         self.window?.rootViewController = vc
-        
         self.window?.makeKeyAndVisible()
         
         dataManager = DataManager()
         
+        if let data = UserDefaults.standard.object(forKey: "userSettings") as? Data,
+            let userSettings = NSKeyedUnarchiver.unarchiveObject(with: data) as? UserSettings {
+                print("user settings")
+                print("user settings isSeeded: \(userSettings.isSeeded), instructionsSeen:\(userSettings.instructionsSeen)")
+             self.userSettings = userSettings
+        }
+                
 //        do {
 //            try coreDataStack.dropAllData()
 //        } catch {
@@ -62,6 +69,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+}
 
+//MARK: - Manage user settings
+
+extension AppDelegate {
+    func saveUserSettings() {
+        let data = NSKeyedArchiver.archivedData(withRootObject: userSettings)
+        UserDefaults.standard.set(data, forKey: "userSettings")
+    }
 }
 
