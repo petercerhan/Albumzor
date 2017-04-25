@@ -13,7 +13,8 @@ protocol InstructionsViewControllerDelegate {
 }
 
 class InstructionsViewController: UIViewController {
-
+    
+    var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
     var delegate: InstructionsViewControllerDelegate?
     
     override func viewDidLoad() {
@@ -21,6 +22,9 @@ class InstructionsViewController: UIViewController {
     }
 
     @IBAction func getStarted() {
+        appDelegate.userSettings.instructionsSeen = true
+        appDelegate.saveUserSettings()
+        
         delegate?.instructionsSceneComplete()
     }
 }
