@@ -91,38 +91,6 @@ class DataManager {
             self.stack.save()
         }
     }
-    
-    func unlike(album albumID: NSManagedObjectID) {
-        let backgroundContext = stack.networkingContext
-        
-        backgroundContext.perform {
-            var artist: Artist?
-            
-            do {
-                let album = try backgroundContext.existingObject(with: albumID) as! Album
-                artist = album.artist
-                album.liked = false
-                
-            } catch {
-                print("Core data error")
-            }
-            
-            guard artist != nil else {
-                print("no artist")
-                return
-            }
-            
-            artist!.references -= 1
-            artist!.score -= 1
-            
-            do {
-                try backgroundContext.save()
-            } catch {
-                print("Could not save context")
-            }
-            self.stack.save()
-        }
-    }
 
     //get albums to display. These albums are in the main context.
     func getAlbums() -> [Album] {
@@ -150,23 +118,6 @@ class DataManager {
         }
         
         return albums
-    }
-    
-    //get user's liked albums. These albums are in the main context.
-    func getLikedAlbums() -> [Album] {
-        let request = NSFetchRequest<Album>(entityName: "Album")
-        let predicate = NSPredicate(format: "(liked = true)")
-        request.predicate = predicate
-        
-        var albums: [Album]?
-        
-        do {
-            albums = try stack.context.fetch(request)
-        } catch {
-            print("could not get artists")
-        }
-        
-        return albums!
     }
     
     //get tracks to display. These tracks are in the main context

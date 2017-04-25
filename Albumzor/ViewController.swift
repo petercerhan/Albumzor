@@ -24,7 +24,7 @@ class ViewController: UIViewController {
         didSet {
             fetchedResultsController?.delegate = self
             executeSearch()
-            tableView.reloadData()
+            tableView.reloadData() 
         }
     }
     
