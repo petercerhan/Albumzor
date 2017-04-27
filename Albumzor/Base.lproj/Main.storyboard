@@ -150,6 +150,9 @@
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6KE-vr-Vj7">
                                                     <rect key="frame" x="336" y="11" width="22" height="22"/>
+                                                    <connections>
+                                                        <action selector="reseedInfo" destination="jrd-Zq-LG1" eventType="touchUpInside" id="dfw-RG-q4r"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -175,6 +178,9 @@
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0IU-17-cZf">
                                                     <rect key="frame" x="336" y="11" width="22" height="22"/>
+                                                    <connections>
+                                                        <action selector="resetInfo" destination="jrd-Zq-LG1" eventType="touchUpInside" id="OAL-Vl-UeK"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
