@@ -123,9 +123,17 @@ extension MainContainerViewController: WelcomeViewControllerDelegate {
 
 extension MainContainerViewController: ChooseArtistViewControllerDelegate {
     func chooseArtistSceneComplete() {
-        let vc = appStoryboard.instantiateViewController(withIdentifier: "InstructionsViewController") as! InstructionsViewController
-        vc.delegate = self
-        updateAnimated(contentViewController: vc)
+        let userSettings = (UIApplication.shared.delegate as! AppDelegate).userSettings
+        
+        if userSettings.instructionsSeen {
+            let vc = AlbumsContainerViewController()
+            vc.delegate = self
+            updateAnimated(contentViewController: vc)
+        } else {
+            let vc = appStoryboard.instantiateViewController(withIdentifier: "InstructionsViewController") as! InstructionsViewController
+            vc.delegate = self
+            updateAnimated(contentViewController: vc)
+        }
     }
 }
 
@@ -156,7 +164,6 @@ extension MainContainerViewController: MenuTableViewControllerDelegate {
 extension MainContainerViewController: ResetDataViewControllerDelegate {
     
     func resetSucceeded() {
-        //Update to navigate based on userSettings
         let userSettings = (UIApplication.shared.delegate as! AppDelegate).userSettings
         
         if userSettings.instructionsSeen {
@@ -171,14 +178,11 @@ extension MainContainerViewController: ResetDataViewControllerDelegate {
     }
     
     func resetFailed() {
-        //This should not happen as the core data updates should always succeed
+        //This should not happen as core data updates should always succeed
         let vc = appStoryboard.instantiateViewController(withIdentifier: "HomeNavController")
         update(contentViewController: vc)
     }
 }
-
-
-
 
 
 
