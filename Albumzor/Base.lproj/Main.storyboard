@@ -512,78 +512,6 @@
             </objects>
             <point key="canvasLocation" x="116" y="-727.28635682158927"/>
         </scene>
-        <!--Search Artist View Controller-->
-        <scene sceneID="Mkg-m6-vqS">
-            <objects>
-                <viewController storyboardIdentifier="SearchArtistViewController" id="ZXH-hs-aui" customClass="SearchArtistViewController" customModule="Albumzor" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="1Bb-k8-fKp"/>
-                        <viewControllerLayoutGuide type="bottom" id="crR-uh-XRY"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="phE-vr-eqF">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search Artist" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VN5-pB-17w">
-                                <rect key="frame" x="138" y="20" width="99.5" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="36Z-AJ-4xi">
-                                <rect key="frame" x="166.5" y="629" width="41" height="30"/>
-                                <state key="normal" title="Home"/>
-                                <connections>
-                                    <action selector="home" destination="ZXH-hs-aui" eventType="touchUpInside" id="bhJ-ZV-nPt"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="d6A-Ig-GIZ">
-                                <rect key="frame" x="65" y="318" width="245" height="30"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="ZXH-hs-aui" id="jFU-rT-ajl"/>
-                                </connections>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7YU-1J-3dU">
-                                <rect key="frame" x="163.5" y="437" width="47" height="30"/>
-                                <state key="normal" title="search"/>
-                                <connections>
-                                    <action selector="search" destination="ZXH-hs-aui" eventType="touchUpInside" id="UYy-ez-hcT"/>
-                                </connections>
-                            </button>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="N28-qE-63Y">
-                                <rect key="frame" x="177" y="323.5" width="20" height="20"/>
-                            </activityIndicatorView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="VN5-pB-17w" firstAttribute="centerX" secondItem="phE-vr-eqF" secondAttribute="centerX" id="2qZ-cv-Xwc"/>
-                            <constraint firstItem="d6A-Ig-GIZ" firstAttribute="centerX" secondItem="phE-vr-eqF" secondAttribute="centerX" id="3Td-p5-LVE"/>
-                            <constraint firstItem="N28-qE-63Y" firstAttribute="centerX" secondItem="phE-vr-eqF" secondAttribute="centerX" id="3j9-mM-tEN"/>
-                            <constraint firstItem="36Z-AJ-4xi" firstAttribute="centerX" secondItem="phE-vr-eqF" secondAttribute="centerX" id="3xa-X8-XGG"/>
-                            <constraint firstItem="7YU-1J-3dU" firstAttribute="top" secondItem="d6A-Ig-GIZ" secondAttribute="bottom" constant="89" id="7uh-Q6-nb5"/>
-                            <constraint firstItem="d6A-Ig-GIZ" firstAttribute="leading" secondItem="phE-vr-eqF" secondAttribute="leadingMargin" constant="49" id="9VN-ib-BVs"/>
-                            <constraint firstItem="crR-uh-XRY" firstAttribute="top" secondItem="36Z-AJ-4xi" secondAttribute="bottom" constant="8" id="Lod-u7-Hxe"/>
-                            <constraint firstItem="VN5-pB-17w" firstAttribute="top" secondItem="1Bb-k8-fKp" secondAttribute="bottom" id="O0g-yh-reV"/>
-                            <constraint firstItem="N28-qE-63Y" firstAttribute="centerY" secondItem="phE-vr-eqF" secondAttribute="centerY" id="hzK-Mk-ExA"/>
-                            <constraint firstItem="7YU-1J-3dU" firstAttribute="centerX" secondItem="phE-vr-eqF" secondAttribute="centerX" id="kU5-1W-aNL"/>
-                            <constraint firstItem="d6A-Ig-GIZ" firstAttribute="centerY" secondItem="phE-vr-eqF" secondAttribute="centerY" id="l5D-iD-SdS"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="d6A-Ig-GIZ" secondAttribute="trailing" constant="49" id="yL3-t9-QfF"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="activityIndicator" destination="N28-qE-63Y" id="rC5-dH-XeD"/>
-                        <outlet property="homeButton" destination="36Z-AJ-4xi" id="aBt-HY-TBT"/>
-                        <outlet property="searchButton" destination="7YU-1J-3dU" id="Q9C-he-3Xk"/>
-                        <outlet property="textField" destination="d6A-Ig-GIZ" id="236-9B-2Es"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Uzg-Xd-2Of" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2326" y="-854"/>
-        </scene>
         <!--Suggest Albums View Controller-->
         <scene sceneID="crP-FI-xXu">
             <objects>
@@ -868,7 +796,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cj2-BW-kza" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2326" y="-63"/>
+            <point key="canvasLocation" x="1609" y="1351"/>
         </scene>
         <!--Reset Data View Controller-->
         <scene sceneID="tlU-cO-Rd2">
