@@ -54,6 +54,15 @@ class MenuTableViewController: UITableViewController {
         } else if indexPath.section == 0 && indexPath.row == 1 {
             resetDataAlert()
         }
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        if indexPath.section == 1 {
+            return false
+        }
+        return true
     }
 
     //MARK: - Alerts

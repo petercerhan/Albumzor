@@ -149,7 +149,10 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6KE-vr-Vj7">
-                                                    <rect key="frame" x="336" y="11" width="22" height="22"/>
+                                                    <rect key="frame" x="318" y="-1" width="46" height="46"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="6KE-vr-Vj7" secondAttribute="height" multiplier="1:1" id="l1v-Wa-v5x"/>
+                                                    </constraints>
                                                     <connections>
                                                         <action selector="reseedInfo" destination="jrd-Zq-LG1" eventType="touchUpInside" id="dfw-RG-q4r"/>
                                                     </connections>
@@ -158,8 +161,9 @@
                                             <constraints>
                                                 <constraint firstItem="6KE-vr-Vj7" firstAttribute="centerY" secondItem="ZVS-ay-3g6" secondAttribute="centerY" id="209-Fs-hMk"/>
                                                 <constraint firstItem="M7R-TB-HhS" firstAttribute="centerY" secondItem="ZVS-ay-3g6" secondAttribute="centerY" id="E1i-C3-Si1"/>
+                                                <constraint firstItem="6KE-vr-Vj7" firstAttribute="height" secondItem="ZVS-ay-3g6" secondAttribute="height" id="FK6-IB-2zh"/>
                                                 <constraint firstItem="M7R-TB-HhS" firstAttribute="leading" secondItem="ZVS-ay-3g6" secondAttribute="leadingMargin" constant="8" id="OIN-FT-wyj"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="6KE-vr-Vj7" secondAttribute="trailing" constant="9" id="p52-4o-2f6"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="6KE-vr-Vj7" secondAttribute="trailing" constant="3" id="p52-4o-2f6"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -177,16 +181,20 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0IU-17-cZf">
-                                                    <rect key="frame" x="336" y="11" width="22" height="22"/>
+                                                    <rect key="frame" x="318" y="-1" width="46" height="46"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="0IU-17-cZf" secondAttribute="height" multiplier="1:1" id="k7P-dI-GCs"/>
+                                                    </constraints>
                                                     <connections>
                                                         <action selector="resetInfo" destination="jrd-Zq-LG1" eventType="touchUpInside" id="OAL-Vl-UeK"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="0IU-17-cZf" firstAttribute="height" secondItem="aSd-Lq-viO" secondAttribute="height" id="JAb-YK-uwr"/>
                                                 <constraint firstItem="0IU-17-cZf" firstAttribute="centerY" secondItem="aSd-Lq-viO" secondAttribute="centerY" id="YZq-fM-owG"/>
                                                 <constraint firstItem="XfZ-gj-Xvm" firstAttribute="centerY" secondItem="aSd-Lq-viO" secondAttribute="centerY" id="lyn-6y-sx0"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="0IU-17-cZf" secondAttribute="trailing" constant="9" id="tv9-Cq-bj8"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="0IU-17-cZf" secondAttribute="trailing" constant="3" id="tv9-Cq-bj8"/>
                                                 <constraint firstItem="XfZ-gj-Xvm" firstAttribute="leading" secondItem="aSd-Lq-viO" secondAttribute="leadingMargin" constant="8" id="vxa-ds-Usm"/>
                                             </constraints>
                                         </tableViewCellContentView>
