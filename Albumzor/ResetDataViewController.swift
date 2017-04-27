@@ -37,7 +37,17 @@ class ResetDataViewController: UIViewController {
     }
     
     func resetData() {
-        
+        dataManager.reset() { error in
+            if let error = error {
+                print("error \(error)")
+            } else {
+                DispatchQueue.main.async {
+                    self.appDelegate.userSettings = UserSettings(instructionsSeen: false, isSeeded: false, autoplay: true)
+                    self.appDelegate.saveUserSettings()
+                    self.delegate?.resetSucceeded()
+                }
+            }
+        }
     }
     
     func reseedData() {

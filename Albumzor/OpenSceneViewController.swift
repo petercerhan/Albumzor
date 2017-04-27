@@ -14,6 +14,9 @@ protocol OpenSceneViewControllerDelegate {
 
 class OpenSceneViewController: UIViewController {
 
+    
+    
+    
     @IBOutlet var recordImage: UIImageView!
     
     var delegate: OpenSceneViewControllerDelegate?
@@ -34,6 +37,10 @@ class OpenSceneViewController: UIViewController {
     }
     
     func nextScene() {
+//        //temporary
+//        let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
+//        print("albums \(dataManager.getAlbumsCount())")
+//        print("artists \(dataManager.getArtistsCount())")
         delegate?.nextScene()
     }
 

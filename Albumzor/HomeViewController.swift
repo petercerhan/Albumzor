@@ -10,12 +10,7 @@ import UIKit
 import CoreData
 
 class HomeViewController: UIViewController {
-    
-    //temporary
-    let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
-    
-    
-    
+
     @IBOutlet var tableView: UITableView!
     @IBOutlet var findAlbumsButton: AnimatedButton!
     @IBOutlet var editButton: UIBarButtonItem!
@@ -70,19 +65,14 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func edit() {
-        
-        dataManager.artistList()
-        
-        
-//        
-//        if tableView.isEditing {
-//            editButton.title = "Edit"
-//            tableView.setEditing(false, animated: true)
-//            
-//        } else {
-//            editButton.title = "Done"
-//            tableView.setEditing(true, animated: true)
-//        }
+        if tableView.isEditing {
+            editButton.title = "Edit"
+            tableView.setEditing(false, animated: true)
+            
+        } else {
+            editButton.title = "Done"
+            tableView.setEditing(true, animated: true)
+        }
     }
     
     @IBAction func discoverAlbums() {
@@ -97,41 +87,7 @@ class HomeViewController: UIViewController {
     }
     
     
-    @IBAction func chooseArtists() {
-        let vc = storyboard!.instantiateViewController(withIdentifier: "ChooseArtistViewController")
-        present(vc, animated: true, completion: nil)
-    }
-    
-    
 
-    
-    func testAlbumData() {
-        let request = NSFetchRequest<Album>(entityName: "Album")
-        request.sortDescriptors = [NSSortDescriptor(key: "seen", ascending: false)]
-        
-        do {
-            let albumsTry = try self.stack.context.fetch(request)
-            for album in albumsTry {
-                print("Album \(album.name!), seen: \(album.seen)")
-            }
-        } catch {
-            
-        }
-    }
-    
-    func testArtistData() {
-        let request = NSFetchRequest<Artist>(entityName: "Artist")
-        request.sortDescriptors = [NSSortDescriptor(key: "seenAlbums", ascending: false)]
-        do {
-            let artists = try self.stack.context.fetch(request)
-            for artist in artists {
-                print("Artist \(artist.name!), Score: \(artist.score)")
-            }
-        } catch {
-            
-        }
-        print("-")
-    }
     
     func getSpotifyAPIKey() -> String? {
         
@@ -177,7 +133,14 @@ extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let album = fetchedResultsController!.object(at: indexPath)
-            stack.context.delete(album)
+            let artist = album.artist!
+            
+            if artist.priorSeed, artist.album?.count == 1 {
+                stack.context.delete(artist)
+            } else {
+                stack.context.delete(album)
+            }
+            
             stack.save()
         }
     }

@@ -42,10 +42,9 @@ class MenuTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 && indexPath.row == 0 {
-
             (UIApplication.shared.delegate as! AppDelegate).mainContainerViewController!.resetData(action: .reseed)
-            
-
+        } else if indexPath.section == 0 && indexPath.row == 1 {
+            (UIApplication.shared.delegate as! AppDelegate).mainContainerViewController!.resetData(action: .reset)
         }
     }
 

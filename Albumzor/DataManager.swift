@@ -16,6 +16,13 @@ class DataManager {
     let client = SpotifyClient.sharedInstance()
     let stack = (UIApplication.shared.delegate as! AppDelegate).coreDataStack
     
+    var priorAlbumIDs: [String]!
+    
+    //init call refresh priorAlbumIDs
+    init() {
+        setPriorAlbumIDs()
+    }
+    
     func seen(album albumID: NSManagedObjectID) {
         let backgroundContext = stack.networkingContext
         
@@ -427,6 +434,10 @@ class DataManager {
                         continue
                     }
                     
+                    if self.priorAlbumIDs.contains(id) {
+                        continue
+                    }
+                    
                     let album = Album(id: id, name: name, popularity: Int16(popularity), largeImage: largeImage, smallImage: smallImage, context: backgroundContext)
                     album.artist = artist
                     albumsArray.append(album)
@@ -473,9 +484,27 @@ class DataManager {
         
     }
     
-    //prepare array of SpotifyIDs of all "prior" albums
-    private func listPriorAlbums() -> [String] {
-        return [String]()
+    //prepare array of SpotifyIDs of all albums held from a prior seeding
+    private func setPriorAlbumIDs() {
+        
+        let request = NSFetchRequest<Album>(entityName: "Album")
+        let predicate = NSPredicate(format: "priorSeed = true")
+        request.predicate = predicate
+        var albums = [Album]()
+        
+        do {
+            albums = try stack.context.fetch(request)
+        } catch {
+            print("could not get tracks")
+        }
+
+        var ids = [String]()
+        
+        for album in albums {
+            ids.append(album.id!)
+        }
+        
+        priorAlbumIDs = ids
     }
 
     ///
@@ -567,7 +596,6 @@ class DataManager {
     func reseed(completion: @escaping DataManagerCompletionHandler) {
         let backgroundContext = stack.networkingContext
         
-        
         backgroundContext.perform {
         
             //get liked albums
@@ -655,6 +683,35 @@ class DataManager {
         
         }
         
+    }
+    
+    func reset(completion: @escaping DataManagerCompletionHandler) {
+        let backgroundContext = stack.networkingContext
+        
+        backgroundContext.perform {
+            let request = NSFetchRequest<Artist>(entityName: "Artist")
+            var artists = [Artist]()
+            
+            do {
+                artists = try backgroundContext.fetch(request)
+            } catch {
+                print("could not get tracks")
+            }
+            
+            for artist in artists {
+                backgroundContext.delete(artist)
+            }
+            
+            //Save and call completion handler
+            do {
+                try backgroundContext.save()
+            } catch {
+                print("Could not save context")
+            }
+            self.stack.save()
+            
+            completion(nil)
+        }
     }
 }
 

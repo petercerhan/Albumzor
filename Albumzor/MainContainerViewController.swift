@@ -157,9 +157,17 @@ extension MainContainerViewController: ResetDataViewControllerDelegate {
     
     func resetSucceeded() {
         //Update to navigate based on userSettings
-        let vc = appStoryboard.instantiateViewController(withIdentifier: "ChooseArtistViewController") as! ChooseArtistViewController
-        vc.delegate = self
-        update(contentViewController: vc)
+        let userSettings = (UIApplication.shared.delegate as! AppDelegate).userSettings
+        
+        if userSettings.instructionsSeen {
+            let vc = appStoryboard.instantiateViewController(withIdentifier: "ChooseArtistViewController") as! ChooseArtistViewController
+            vc.delegate = self
+            update(contentViewController: vc)
+        } else {
+            let vc = appStoryboard.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
+            vc.delegate = self
+            update(contentViewController: vc)
+        }
     }
     
     func resetFailed() {
