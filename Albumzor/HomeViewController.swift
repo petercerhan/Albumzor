@@ -11,6 +11,11 @@ import CoreData
 
 class HomeViewController: UIViewController {
     
+    //temporary
+    let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
+    
+    
+    
     @IBOutlet var tableView: UITableView!
     @IBOutlet var findAlbumsButton: AnimatedButton!
     @IBOutlet var editButton: UIBarButtonItem!
@@ -65,14 +70,19 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func edit() {
-        if tableView.isEditing {
-            editButton.title = "Edit"
-            tableView.setEditing(false, animated: true)
-            
-        } else {
-            editButton.title = "Done"
-            tableView.setEditing(true, animated: true)
-        }
+        
+        dataManager.artistList()
+        
+        
+//        
+//        if tableView.isEditing {
+//            editButton.title = "Edit"
+//            tableView.setEditing(false, animated: true)
+//            
+//        } else {
+//            editButton.title = "Done"
+//            tableView.setEditing(true, animated: true)
+//        }
     }
     
     @IBAction func discoverAlbums() {

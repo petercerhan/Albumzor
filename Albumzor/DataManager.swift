@@ -98,7 +98,7 @@ class DataManager {
         
         //Choose artists based on score (references - seen); 13 gives some cusion in case album art can't be downloaded for a few.
         let scoreArtistRequest = NSFetchRequest<Artist>(entityName: "Artist")
-        let scoreArtistPredicate = NSPredicate(format: "totalAlbums - seenAlbums > 0")
+        let scoreArtistPredicate = NSPredicate(format: "totalAlbums - seenAlbums > 0 && priorSeed = false")
         scoreArtistRequest.sortDescriptors = [NSSortDescriptor(key: "score", ascending: false)]
         scoreArtistRequest.predicate = scoreArtistPredicate
         scoreArtistRequest.fetchLimit = 13
@@ -214,6 +214,40 @@ class DataManager {
         }
         
         return count
+    }
+    
+    func getArtistsCount() -> Int {
+        let request = NSFetchRequest<Artist>(entityName: "Artist")
+        request.includesSubentities = false
+        
+        var count = 0
+        
+        do {
+            count = try stack.context.count(for: request)
+        } catch {
+            print("could not get artists")
+        }
+        
+        return count
+    }
+    
+    func artistList() {
+        let context = stack.context
+        
+        let scoreArtistRequest = NSFetchRequest<Artist>(entityName: "Artist")
+        scoreArtistRequest.sortDescriptors = [NSSortDescriptor(key: "priorSeed", ascending: false)]
+        
+        var artists = [Artist]()
+        
+        do {
+            artists = try context.fetch(scoreArtistRequest)
+        } catch {
+            print("could not get artists")
+        }
+        
+        for artist in artists {
+            print("artist: \(artist.name!) priorSeed: \(artist.priorSeed)")
+        }
     }
     
     //Completion handler will be invoked after the last album data request has been processed. However, when multiple album requests are made asynchronously, it is possible that some will not have finished by the time the completionHandler is called, and the code invoking this method should not depend on that.
@@ -530,90 +564,97 @@ class DataManager {
     }
     
     //Re-seed albums
-    func reseed(completion: DataManagerCompletionHandler) {
+    func reseed(completion: @escaping DataManagerCompletionHandler) {
         let backgroundContext = stack.networkingContext
         
-        //get liked albums
-        let request_likedAlbums = NSFetchRequest<Album>(entityName: "Album")
-        let predicate_likeAlbums = NSPredicate(format: "(liked = true)")
-        request_likedAlbums.predicate = predicate_likeAlbums
-        var likedAlbums = [Album]()
         
-        do {
-            likedAlbums = try backgroundContext.fetch(request_likedAlbums)
-        } catch {
-            print("could not get tracks")
-        }
+        backgroundContext.perform {
         
-        //set liked albums priorSeed = true
-        //for each, get artist. If artist has priorSeed = true, next. Else, if a priorSeed artist already exists with same spotify ID, assign that one to the album. Else, artist prior = true
-        for album in likedAlbums {
-            album.priorSeed = true
+            //get liked albums
+            let request_likedAlbums = NSFetchRequest<Album>(entityName: "Album")
+            let predicate_likeAlbums = NSPredicate(format: "(liked = true)")
+            request_likedAlbums.predicate = predicate_likeAlbums
+            var likedAlbums = [Album]()
             
-            let artist = album.artist!
-            if artist.priorSeed == false {
+            do {
+                likedAlbums = try backgroundContext.fetch(request_likedAlbums)
+            } catch {
+                print("could not get tracks")
+            }
+            
+            //set liked albums priorSeed = true
+            //for each, get artist. If artist has priorSeed = true, next. Else, if a priorSeed artist already exists with same spotify ID, assign that one to the album. Else, artist prior = true
+            for album in likedAlbums {
+                print("liked album: \(album.name!)")
+                album.priorSeed = true
                 
-                //check if a "priorSeed" version of this artist already exists. If so, use that one instead of creating another
-                let request = NSFetchRequest<Artist>(entityName: "Artist")
-                let predicate = NSPredicate(format: "(id = \(artist.id)")
-                request.predicate = predicate
-                var existingPriorArtists: [Artist]?
-                
-                do {
-                    existingPriorArtists = try backgroundContext.fetch(request)
-                } catch {
-                    print("could not get tracks")
-                }
-                
-                if let existingPriorArtists = existingPriorArtists, existingPriorArtists.count > 0 {
-                    album.artist = existingPriorArtists[0]
-                } else {
-                    artist.priorSeed = true
+                let artist = album.artist!
+                if artist.priorSeed == false {
+                    
+                    //check if a "priorSeed" version of this artist already exists. If so, use that one instead of creating another
+                    let request = NSFetchRequest<Artist>(entityName: "Artist")
+                    let predicate = NSPredicate(format: "id == %@ && priorSeed == true", artist.id!)
+                    request.predicate = predicate
+                    var existingPriorArtists: [Artist]?
+                    
+                    do {
+                        existingPriorArtists = try backgroundContext.fetch(request)
+                    } catch {
+                        print("could not get tracks")
+                    }
+                    
+                    if let existingPriorArtists = existingPriorArtists, existingPriorArtists.count > 0 {
+                        album.artist = existingPriorArtists[0]
+                    } else {
+                        artist.priorSeed = true
+                    }
                 }
             }
+            
+            //Get not prior artists, delete
+            let request_notPriorArtists = NSFetchRequest<Artist>(entityName: "Artist")
+            let predicate_notPriorArtists = NSPredicate(format: "priorSeed = false")
+            request_notPriorArtists.predicate = predicate_notPriorArtists
+            var notPriorArtists = [Artist]()
+            
+            do {
+                notPriorArtists = try backgroundContext.fetch(request_notPriorArtists)
+            } catch {
+                print("could not get tracks")
+            }
+            
+            for artist in notPriorArtists {
+                backgroundContext.delete(artist)
+            }
+            
+            //get not prior albums delete (albums assigned to an artist that was turned prior)
+            let request_notPriorAlbums = NSFetchRequest<Album>(entityName: "Album")
+            let predicate_notPriorAlbums = NSPredicate(format: "priorSeed = false")
+            request_notPriorAlbums.predicate = predicate_notPriorAlbums
+            var notPriorAlbums = [Album]()
+            
+            do {
+                notPriorAlbums = try backgroundContext.fetch(request_notPriorAlbums)
+            } catch {
+                print("could not get tracks")
+            }
+            
+            for album in notPriorAlbums {
+                backgroundContext.delete(album)
+            }
+            
+            //Save and call completion handler
+            do {
+                try backgroundContext.save()
+            } catch {
+                print("Could not save context")
+            }
+            self.stack.save()
+            
+            completion(nil)
+        
         }
         
-        //Get not prior artists, delete
-        let request_notPriorArtists = NSFetchRequest<Artist>(entityName: "Artist")
-        let predicate_notPriorArtists = NSPredicate(format: "priorSeed = false")
-        request_notPriorArtists.predicate = predicate_notPriorArtists
-        var notPriorArtists = [Artist]()
-        
-        do {
-            notPriorArtists = try backgroundContext.fetch(request_notPriorArtists)
-        } catch {
-            print("could not get tracks")
-        }
-        
-        for artist in notPriorArtists {
-            backgroundContext.delete(artist)
-        }
-        
-        //get not prior albums delete (albums assigned to an artist that was turned prior)
-        let request_notPriorAlbums = NSFetchRequest<Album>(entityName: "Album")
-        let predicate_notPriorAlbums = NSPredicate(format: "priorSeed = false")
-        request_notPriorAlbums.predicate = predicate_notPriorAlbums
-        var notPriorAlbums = [Album]()
-        
-        do {
-            notPriorAlbums = try backgroundContext.fetch(request_notPriorAlbums)
-        } catch {
-            print("could not get tracks")
-        }
-        
-        for album in notPriorAlbums {
-            backgroundContext.delete(album)
-        }
-        
-        //Save and call completion handler
-        do {
-            try backgroundContext.save()
-        } catch {
-            print("Could not save context")
-        }
-        self.stack.save()
-        
-        completion(nil)
     }
 }
 

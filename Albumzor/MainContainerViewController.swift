@@ -97,7 +97,11 @@ extension MainContainerViewController: OpenSceneViewControllerDelegate {
             update(contentViewController: vc)
             
         } else if userSettings.instructionsSeen && !userSettings.isSeeded {
-            //needs reseeding; implement when build reseed functionality
+            //needs reseeding; go to choose artist screen
+            let vc = appStoryboard.instantiateViewController(withIdentifier: "ChooseArtistViewController") as! ChooseArtistViewController
+            vc.delegate = self
+            update(contentViewController: vc)
+            print("3")
             
         } else if !userSettings.instructionsSeen && userSettings.isSeeded {
             //user seeded artists but didn't navigate to final instructions pane

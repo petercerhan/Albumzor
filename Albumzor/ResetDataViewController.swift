@@ -18,7 +18,9 @@ protocol ResetDataViewControllerDelegate {
 }
 
 class ResetDataViewController: UIViewController {
-
+    
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
     var delegate: ResetDataViewControllerDelegate?
     var action: ResetDataAction!
     
@@ -26,17 +28,31 @@ class ResetDataViewController: UIViewController {
         super.viewDidLoad()
 
         if action == .reset {
-            print("reset")
+            resetData()
         } else if action == .reseed {
-            print("reseed")
+            reseedData()
         }
         
         // Do any additional setup after loading the view.
     }
-
     
-    @IBAction func tempAction() {
-        delegate?.resetFailed()
+    func resetData() {
+        
+    }
+    
+    func reseedData() {
+        dataManager.reseed() { error in
+            if let error = error {
+                //Unexpected error state. This method should always succeed
+                //alert load error / please try again
+            } else {
+                DispatchQueue.main.async {
+                    self.appDelegate.userSettings.isSeeded = false
+                    self.appDelegate.saveUserSettings()
+                    self.delegate?.resetSucceeded()
+                }
+            }
+        }
     }
     
 }

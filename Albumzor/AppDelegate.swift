@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print("user settings isSeeded: \(userSettings.isSeeded), instructionsSeen:\(userSettings.instructionsSeen)")
              self.userSettings = userSettings
         }
-                
+        
 //        do {
 //            try coreDataStack.dropAllData()
 //        } catch {

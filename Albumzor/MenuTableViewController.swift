@@ -14,8 +14,6 @@ protocol MenuTableViewControllerDelegate {
 
 class MenuTableViewController: UITableViewController {
     
-    let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     var delegate = (UIApplication.shared.delegate as! AppDelegate).mainContainerViewController!
     
@@ -42,24 +40,12 @@ class MenuTableViewController: UITableViewController {
         }
     }
 
-
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 && indexPath.row == 0 {
 
             (UIApplication.shared.delegate as! AppDelegate).mainContainerViewController!.resetData(action: .reseed)
             
-            
-            //            dataManager.reseed() { error in
-//                if let error = error {
-//                    //Unexpected error state. This method should always succeed
-//                    //alert load error / please try again
-//                } else {
-//                    appDelegate.userSettings.isSeeded = false
-//                    appDelegate.saveUserSettings()
-//                    
-//                }
-//            
-//            }
+
         }
     }
 

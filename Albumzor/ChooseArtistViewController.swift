@@ -38,6 +38,12 @@ class ChooseArtistViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //temporary
+        dataManager.artistList()
+        
+        
+        
+        
         searchButton.imageEdgeInsets = UIEdgeInsetsMake(8.0, 8.0, 8.0, 8.0)
         overlayView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.cancelSearch)))
         
@@ -113,6 +119,8 @@ class ChooseArtistViewController: UIViewController {
     }
     
     func updateDoneButton() {
+        print("albums \(dataManager.getAlbumsCount())")
+        print("artists \(dataManager.getArtistsCount())")
         //if enough albums, enable
         if dataManager.getAlbumsCount() >= 100 {
             doneButton.setTitleColor(Styles.themeOrange, for: .normal)
