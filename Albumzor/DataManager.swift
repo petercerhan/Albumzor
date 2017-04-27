@@ -199,7 +199,7 @@ class DataManager {
         return index
     }
     
-    //MUST BE CALLED IN A BACKGROUND CONTEXT
+    //MUST BE CALLED IN A BACKGROUND QUEUE
     func getAlbumsCount() -> Int {
         
         let request = NSFetchRequest<Album>(entityName: "Album")
@@ -438,6 +438,11 @@ class DataManager {
         }
         
     }
+    
+    //prepare array of SpotifyIDs of all "prior" albums
+    private func listPriorAlbums() -> [String] {
+        return [String]()
+    }
 
     ///
     func addTracks(forAlbumID: String, albumManagedObjectID: NSManagedObjectID) {
@@ -522,6 +527,93 @@ class DataManager {
                 self.stack.save()
             }
         }
+    }
+    
+    //Re-seed albums
+    func reseed(completion: DataManagerCompletionHandler) {
+        let backgroundContext = stack.networkingContext
+        
+        //get liked albums
+        let request_likedAlbums = NSFetchRequest<Album>(entityName: "Album")
+        let predicate_likeAlbums = NSPredicate(format: "(liked = true)")
+        request_likedAlbums.predicate = predicate_likeAlbums
+        var likedAlbums = [Album]()
+        
+        do {
+            likedAlbums = try backgroundContext.fetch(request_likedAlbums)
+        } catch {
+            print("could not get tracks")
+        }
+        
+        //set liked albums priorSeed = true
+        //for each, get artist. If artist has priorSeed = true, next. Else, if a priorSeed artist already exists with same spotify ID, assign that one to the album. Else, artist prior = true
+        for album in likedAlbums {
+            album.priorSeed = true
+            
+            let artist = album.artist!
+            if artist.priorSeed == false {
+                
+                //check if a "priorSeed" version of this artist already exists. If so, use that one instead of creating another
+                let request = NSFetchRequest<Artist>(entityName: "Artist")
+                let predicate = NSPredicate(format: "(id = \(artist.id)")
+                request.predicate = predicate
+                var existingPriorArtists: [Artist]?
+                
+                do {
+                    existingPriorArtists = try backgroundContext.fetch(request)
+                } catch {
+                    print("could not get tracks")
+                }
+                
+                if let existingPriorArtists = existingPriorArtists, existingPriorArtists.count > 0 {
+                    album.artist = existingPriorArtists[0]
+                } else {
+                    artist.priorSeed = true
+                }
+            }
+        }
+        
+        //Get not prior artists, delete
+        let request_notPriorArtists = NSFetchRequest<Artist>(entityName: "Artist")
+        let predicate_notPriorArtists = NSPredicate(format: "priorSeed = false")
+        request_notPriorArtists.predicate = predicate_notPriorArtists
+        var notPriorArtists = [Artist]()
+        
+        do {
+            notPriorArtists = try backgroundContext.fetch(request_notPriorArtists)
+        } catch {
+            print("could not get tracks")
+        }
+        
+        for artist in notPriorArtists {
+            backgroundContext.delete(artist)
+        }
+        
+        //get not prior albums delete (albums assigned to an artist that was turned prior)
+        let request_notPriorAlbums = NSFetchRequest<Album>(entityName: "Album")
+        let predicate_notPriorAlbums = NSPredicate(format: "priorSeed = false")
+        request_notPriorAlbums.predicate = predicate_notPriorAlbums
+        var notPriorAlbums = [Album]()
+        
+        do {
+            notPriorAlbums = try backgroundContext.fetch(request_notPriorAlbums)
+        } catch {
+            print("could not get tracks")
+        }
+        
+        for album in notPriorAlbums {
+            backgroundContext.delete(album)
+        }
+        
+        //Save and call completion handler
+        do {
+            try backgroundContext.save()
+        } catch {
+            print("Could not save context")
+        }
+        self.stack.save()
+        
+        completion(nil)
     }
 }
 

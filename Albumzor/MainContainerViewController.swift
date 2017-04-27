@@ -139,3 +139,39 @@ extension MainContainerViewController: AlbumsContainerViewControllerDelegate {
         update(contentViewController: vc)
     }
 }
+
+extension MainContainerViewController: MenuTableViewControllerDelegate {
+    func resetData(action: ResetDataAction) {
+        let vc = appStoryboard.instantiateViewController(withIdentifier: "ResetDataViewController") as! ResetDataViewController
+        vc.delegate = self
+        vc.action = action
+        update(contentViewController: vc)
+    }
+}
+
+extension MainContainerViewController: ResetDataViewControllerDelegate {
+    
+    func resetSucceeded() {
+        //Update to navigate based on userSettings
+        let vc = appStoryboard.instantiateViewController(withIdentifier: "ChooseArtistViewController") as! ChooseArtistViewController
+        vc.delegate = self
+        update(contentViewController: vc)
+    }
+    
+    func resetFailed() {
+        //This should not happen as the core data updates should always succeed
+        let vc = appStoryboard.instantiateViewController(withIdentifier: "HomeNavController")
+        update(contentViewController: vc)
+    }
+}
+
+
+
+
+
+
+
+
+
+
+

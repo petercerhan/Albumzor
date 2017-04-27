@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class ViewController: UIViewController {
+class HomeViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
     @IBOutlet var findAlbumsButton: AnimatedButton!
@@ -139,12 +139,11 @@ class ViewController: UIViewController {
         return nil
     }
     
-
 }
 
 //MARK:- UITableViewDelegate
 
-extension ViewController: UITableViewDelegate {
+extension HomeViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let album = fetchedResultsController!.object(at: indexPath)
@@ -177,7 +176,7 @@ extension ViewController: UITableViewDelegate {
 
 //MARK:- UITableViewDataSource
 
-extension ViewController: UITableViewDataSource {
+extension HomeViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let fc = fetchedResultsController {
@@ -242,7 +241,7 @@ extension ViewController: UITableViewDataSource {
 
 // MARK: - CoreDataTableViewController: NSFetchedResultsControllerDelegate
 
-extension ViewController: NSFetchedResultsControllerDelegate {
+extension HomeViewController: NSFetchedResultsControllerDelegate {
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
@@ -281,7 +280,7 @@ extension ViewController: NSFetchedResultsControllerDelegate {
 
 //MARK: - AlbumsContainerViewController
 
-extension ViewController: AlbumsContainerViewControllerDelegate {
+extension HomeViewController: AlbumsContainerViewControllerDelegate {
     func findAlbumsHome() {
         dismiss(animated: true, completion: nil)
     }
@@ -289,7 +288,7 @@ extension ViewController: AlbumsContainerViewControllerDelegate {
 
 //MARK: - AlbumDetailsViewControllerDelegate
 
-extension ViewController: AlbumDetailsViewControllerDelegate {
+extension HomeViewController: AlbumDetailsViewControllerDelegate {
     
     func playTrack(atIndex index: Int) {
         
@@ -326,7 +325,7 @@ extension ViewController: AlbumDetailsViewControllerDelegate {
 
 //MARK:- AudioPlayerDelegate
 
-extension ViewController: AudioPlayerDelegate {
+extension HomeViewController: AudioPlayerDelegate {
     
     func beganLoading() {
         if let vc = presentedViewController as? AlbumDetailsViewController {

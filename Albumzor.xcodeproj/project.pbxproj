@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E45D98BB1E75DC2F00CD3CE7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D98BA1E75DC2F00CD3CE7 /* AppDelegate.swift */; };
-		E45D98BD1E75DC2F00CD3CE7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D98BC1E75DC2F00CD3CE7 /* ViewController.swift */; };
+		E45D98BD1E75DC2F00CD3CE7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D98BC1E75DC2F00CD3CE7 /* HomeViewController.swift */; };
 		E45D98C01E75DC2F00CD3CE7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E45D98BE1E75DC2F00CD3CE7 /* Main.storyboard */; };
 		E45D98C21E75DC2F00CD3CE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E45D98C11E75DC2F00CD3CE7 /* Assets.xcassets */; };
 		E45D98C51E75DC2F00CD3CE7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E45D98C31E75DC2F00CD3CE7 /* LaunchScreen.storyboard */; };
@@ -48,6 +48,7 @@
 		E45D99BB1EA843D900CD3CE7 /* AlbumTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D99BA1EA843D900CD3CE7 /* AlbumTableViewCell.swift */; };
 		E467C4C91EAECD3800B0A62B /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467C4C81EAECD3800B0A62B /* MenuTableViewController.swift */; };
 		E467C4CB1EAED4B400B0A62B /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467C4CA1EAED4B400B0A62B /* UserSettings.swift */; };
+		E467C4CD1EB174A800B0A62B /* ResetDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467C4CC1EB174A800B0A62B /* ResetDataViewController.swift */; };
 		E4B5077C1EAB0BB80049831B /* OpenSceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B5077B1EAB0BB80049831B /* OpenSceneViewController.swift */; };
 		E4B5077E1EAD70450049831B /* MainContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B5077D1EAD70450049831B /* MainContainerViewController.swift */; };
 		E4B507801EAD763D0049831B /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B5077F1EAD763D0049831B /* WelcomeViewController.swift */; };
@@ -74,7 +75,7 @@
 /* Begin PBXFileReference section */
 		E45D98B71E75DC2F00CD3CE7 /* Albumzor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Albumzor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E45D98BA1E75DC2F00CD3CE7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E45D98BC1E75DC2F00CD3CE7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E45D98BC1E75DC2F00CD3CE7 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E45D98BF1E75DC2F00CD3CE7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E45D98C11E75DC2F00CD3CE7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E45D98C41E75DC2F00CD3CE7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -119,6 +120,7 @@
 		E45D99BA1EA843D900CD3CE7 /* AlbumTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumTableViewCell.swift; sourceTree = "<group>"; };
 		E467C4C81EAECD3800B0A62B /* MenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
 		E467C4CA1EAED4B400B0A62B /* UserSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
+		E467C4CC1EB174A800B0A62B /* ResetDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetDataViewController.swift; sourceTree = "<group>"; };
 		E4B5077B1EAB0BB80049831B /* OpenSceneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenSceneViewController.swift; sourceTree = "<group>"; };
 		E4B5077D1EAD70450049831B /* MainContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainContainerViewController.swift; sourceTree = "<group>"; };
 		E4B5077F1EAD763D0049831B /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
@@ -265,8 +267,9 @@
 				E4B5077B1EAB0BB80049831B /* OpenSceneViewController.swift */,
 				E4B5077F1EAD763D0049831B /* WelcomeViewController.swift */,
 				E4B507811EAD98070049831B /* InstructionsViewController.swift */,
-				E45D98BC1E75DC2F00CD3CE7 /* ViewController.swift */,
+				E45D98BC1E75DC2F00CD3CE7 /* HomeViewController.swift */,
 				E467C4C81EAECD3800B0A62B /* MenuTableViewController.swift */,
+				E467C4CC1EB174A800B0A62B /* ResetDataViewController.swift */,
 				E45D99221E8B4FEF00CD3CE7 /* ChooseArtistViewController.swift */,
 				E45D99281E8D398100CD3CE7 /* ConfirmArtistViewController.swift */,
 				E45D991C1E84BE5900CD3CE7 /* SearchArtistViewController.swift */,
@@ -435,10 +438,11 @@
 				E4B507821EAD98070049831B /* InstructionsViewController.swift in Sources */,
 				E45D99B71EA0568A00CD3CE7 /* AudioPlayer.swift in Sources */,
 				E45D99151E7B6DB100CD3CE7 /* AlbumsContainerViewController.swift in Sources */,
+				E467C4CD1EB174A800B0A62B /* ResetDataViewController.swift in Sources */,
 				E45D98F11E776BFE00CD3CE7 /* SpotifyMethods.swift in Sources */,
 				E45D996F1E90369C00CD3CE7 /* CGOverlayView.swift in Sources */,
 				E45D99271E8C7C7900CD3CE7 /* ArtistCollectionViewLayout.swift in Sources */,
-				E45D98BD1E75DC2F00CD3CE7 /* ViewController.swift in Sources */,
+				E45D98BD1E75DC2F00CD3CE7 /* HomeViewController.swift in Sources */,
 				E4B5077C1EAB0BB80049831B /* OpenSceneViewController.swift in Sources */,
 				E45D98BB1E75DC2F00CD3CE7 /* AppDelegate.swift in Sources */,
 				E45D992D1E8DD41700CD3CE7 /* PaddedLabel.swift in Sources */,

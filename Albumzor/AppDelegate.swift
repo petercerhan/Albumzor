@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //initial/default settings
     var userSettings = UserSettings(instructionsSeen: false, isSeeded: false, autoplay: true)
     
+    var mainContainerViewController: MainContainerViewController?
     
     var window: UIWindow?
 
@@ -25,6 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         let vc = MainContainerViewController()
+        mainContainerViewController = vc
         
         self.window?.rootViewController = vc
         self.window?.makeKeyAndVisible()
@@ -43,6 +45,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        } catch {
 //            print("Could not reset data model")
 //        }
+//        userSettings = UserSettings(instructionsSeen: false, isSeeded: false, autoplay: false)
+//        saveUserSettings()
         
         return true
     }
