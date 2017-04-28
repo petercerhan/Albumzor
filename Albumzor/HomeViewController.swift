@@ -11,6 +11,8 @@ import CoreData
 
 class HomeViewController: UIViewController {
 
+    var imageBuffer = [String : UIImage]()
+    
     @IBOutlet var tableView: UITableView!
     @IBOutlet var findAlbumsButton: AnimatedButton!
     @IBOutlet var editButton: UIBarButtonItem!
@@ -166,49 +168,36 @@ extension HomeViewController: UITableViewDataSource {
         cell.nameLabel.text = album.name!.cleanAlbumName()
         cell.artistLabel.text = album.artist!.name!
 
-        if let imageData = album.imageData, let image = UIImage(data: imageData as Data) {
+        let albumID = album.objectID
+        let spotifyID = album.id!
+        let backgroundContext = stack.networkingContext
+        
+        if let image = imageBuffer[spotifyID] {
             cell.albumImageView.image = image
         } else {
-            cell.albumImageView.image = nil
+            backgroundContext.perform {
+                var bgAlbum: Album!
+                
+                do {
+                    bgAlbum = try self.stack.networkingContext.existingObject(with: albumID) as! Album
+                } catch {
+                    print("Core data error")
+                }
+                
+                if let imageData = bgAlbum.imageData {
+                    DispatchQueue.main.async {
+                        let image = UIImage(data: imageData as Data)
+                        cell.albumImageView.image = image
+                        self.imageBuffer[spotifyID] = image
+                    }
+                }
+            }
         }
         
         cell.selectionStyle = .none
         
-//        downloadImage(imagePath: album.largeImage!) { data, error in
-//            
-//            if let error = error {
-//                print("error: \(error)")
-//            } else {
-//                DispatchQueue.main.async {
-//                    cell.albumImageView.image = UIImage(data: data!)
-//                }
-//            }
-//        
-//        }
-        
         return cell
     }
-    
-    //trying out suggested code from Udacity
-    
-    func downloadImage(imagePath: String, completionHandler: @escaping (_ imageData: Data?, _ errorString: String?) -> Void) {
-        let session = URLSession.shared
-        let imgURL = NSURL(string: imagePath)
-        let request: NSURLRequest = NSURLRequest(url: imgURL! as URL)
-        
-        let task = session.dataTask(with: request as URLRequest) {data, response, downloadError in
-            
-            if downloadError != nil {
-                completionHandler(nil, "Could not download image \(imagePath)")
-            } else {
-                
-                completionHandler(data, nil)
-            }
-        }
-    
-        task.resume()
-    }
-    
 }
 
 
