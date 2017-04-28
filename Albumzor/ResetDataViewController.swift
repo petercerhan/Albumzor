@@ -33,7 +33,6 @@ class ResetDataViewController: UIViewController {
             reseedData()
         }
         
-        // Do any additional setup after loading the view.
     }
     
     func resetData() {

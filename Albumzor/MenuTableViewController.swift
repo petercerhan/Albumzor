@@ -96,7 +96,9 @@ class MenuTableViewController: UITableViewController {
         let alert = UIAlertController(title: nil, message: "Are you sure you would like to reset LPSwipe?\n\nAll data will be erased.", preferredStyle: .alert)
         
         let resetAction = UIAlertAction(title: "Reset", style: .default) { action in
-            self.appDelegate.mainContainerViewController!.resetData(action: .reset)
+            let vc = self.storyboard!.instantiateViewController(withIdentifier: "ConfirmResetViewController") as! ConfirmResetViewController
+            vc.delegate = self
+            self.present(vc, animated: true, completion: nil)
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .default)
@@ -108,7 +110,11 @@ class MenuTableViewController: UITableViewController {
     }
 }
 
-
+extension MenuTableViewController: ConfirmResetViewControllerDelegate {
+    func dismiss() {
+        dismiss(animated: true, completion: nil)
+    }
+}
 
 
 

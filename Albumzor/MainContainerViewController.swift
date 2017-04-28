@@ -154,6 +154,7 @@ extension MainContainerViewController: AlbumsContainerViewControllerDelegate {
 
 extension MainContainerViewController: MenuTableViewControllerDelegate {
     func resetData(action: ResetDataAction) {
+        print("main container called")
         let vc = appStoryboard.instantiateViewController(withIdentifier: "ResetDataViewController") as! ResetDataViewController
         vc.delegate = self
         vc.action = action
@@ -183,8 +184,6 @@ extension MainContainerViewController: ResetDataViewControllerDelegate {
         update(contentViewController: vc)
     }
 }
-
-
 
 
 

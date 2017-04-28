@@ -49,6 +49,7 @@
 		E467C4CB1EAED4B400B0A62B /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467C4CA1EAED4B400B0A62B /* UserSettings.swift */; };
 		E467C4CD1EB174A800B0A62B /* ResetDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467C4CC1EB174A800B0A62B /* ResetDataViewController.swift */; };
 		E467C4CF1EB2B5B400B0A62B /* UIViewControllerAlerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467C4CE1EB2B5B300B0A62B /* UIViewControllerAlerts.swift */; };
+		E467C4D11EB2CFAC00B0A62B /* ConfirmResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467C4D01EB2CFAC00B0A62B /* ConfirmResetViewController.swift */; };
 		E4B5077C1EAB0BB80049831B /* OpenSceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B5077B1EAB0BB80049831B /* OpenSceneViewController.swift */; };
 		E4B5077E1EAD70450049831B /* MainContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B5077D1EAD70450049831B /* MainContainerViewController.swift */; };
 		E4B507801EAD763D0049831B /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B5077F1EAD763D0049831B /* WelcomeViewController.swift */; };
@@ -121,6 +122,7 @@
 		E467C4CA1EAED4B400B0A62B /* UserSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		E467C4CC1EB174A800B0A62B /* ResetDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetDataViewController.swift; sourceTree = "<group>"; };
 		E467C4CE1EB2B5B300B0A62B /* UIViewControllerAlerts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerAlerts.swift; sourceTree = "<group>"; };
+		E467C4D01EB2CFAC00B0A62B /* ConfirmResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmResetViewController.swift; sourceTree = "<group>"; };
 		E4B5077B1EAB0BB80049831B /* OpenSceneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenSceneViewController.swift; sourceTree = "<group>"; };
 		E4B5077D1EAD70450049831B /* MainContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainContainerViewController.swift; sourceTree = "<group>"; };
 		E4B5077F1EAD763D0049831B /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 				E4B507811EAD98070049831B /* InstructionsViewController.swift */,
 				E45D98BC1E75DC2F00CD3CE7 /* HomeViewController.swift */,
 				E467C4C81EAECD3800B0A62B /* MenuTableViewController.swift */,
+				E467C4D01EB2CFAC00B0A62B /* ConfirmResetViewController.swift */,
 				E467C4CC1EB174A800B0A62B /* ResetDataViewController.swift */,
 				E45D99221E8B4FEF00CD3CE7 /* ChooseArtistViewController.swift */,
 				E45D99281E8D398100CD3CE7 /* ConfirmArtistViewController.swift */,
@@ -449,6 +452,7 @@
 				E45D99211E8A9BAF00CD3CE7 /* Track.swift in Sources */,
 				E45D99BB1EA843D900CD3CE7 /* AlbumTableViewCell.swift in Sources */,
 				E45D98FD1E78D7A800CD3CE7 /* Model.xcdatamodeld in Sources */,
+				E467C4D11EB2CFAC00B0A62B /* ConfirmResetViewController.swift in Sources */,
 				E45D99131E7B5F7F00CD3CE7 /* PrepareAlbumsViewController.swift in Sources */,
 				E45D99291E8D398100CD3CE7 /* ConfirmArtistViewController.swift in Sources */,
 				E45D99101E7A23E700CD3CE7 /* CollectionViewCell.swift in Sources */,
