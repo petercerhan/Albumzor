@@ -152,7 +152,7 @@ extension AlbumDetailsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.item == 0 {
-            dismiss(animated: true, completion: nil)
+            delegate?.dismiss()
         } else {
             if let trackPlaying = trackPlaying, let priorCell = tableView.cellForRow(at: IndexPath(item: trackPlaying + 1, section: 0)) as? TrackTableViewCell {
                 priorCell.titleLabel.font = UIFont.systemFont(ofSize: priorCell.titleLabel.font.pointSize)
@@ -178,7 +178,7 @@ extension AlbumDetailsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         if indexPath.item == 0 {
-            dismiss(animated: true, completion: nil)
+            delegate?.dismiss()
             return false
         } else {
             return true

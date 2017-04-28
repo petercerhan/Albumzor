@@ -194,6 +194,9 @@ extension HomeViewController: UITableViewDataSource {
             }
         }
         
+        cell.albumImageView.layer.borderColor = UIColor.lightGray.cgColor
+        cell.albumImageView.layer.borderWidth = 0.5
+        
         cell.selectionStyle = .none
         
         return cell
@@ -280,6 +283,7 @@ extension HomeViewController: AlbumDetailsViewControllerDelegate {
     }
     
     func dismiss() {
+        print("dismiss")
         stopAudio()
         dismiss(animated: true, completion: nil)
     }
