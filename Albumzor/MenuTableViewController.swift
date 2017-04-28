@@ -14,13 +14,16 @@ protocol MenuTableViewControllerDelegate {
 
 class MenuTableViewController: UITableViewController {
     
+    @IBOutlet var autoPlaySwitch: UISwitch!
     
     var delegate = (UIApplication.shared.delegate as! AppDelegate).mainContainerViewController!
+    var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = "Menu"
+        autoPlaySwitch.isOn = appDelegate.userSettings.autoplay
     }
     
     @IBAction func reseedInfo() {
@@ -31,6 +34,13 @@ class MenuTableViewController: UITableViewController {
         alert(title: "Reset Data", message: "All data will be erased.\n\nThis includes your saved albums.", buttonTitle: "Done")
     }
 
+    @IBAction func updateAutoplay(_ sender: UISwitch) {
+        let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+        appDelegate.userSettings.autoplay = sender.isOn
+        appDelegate.saveUserSettings()
+        print("Set autoplay \(sender.isOn)")
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -71,7 +81,7 @@ class MenuTableViewController: UITableViewController {
         let alert = UIAlertController(title: nil, message: "Are you sure you would like to re-seed LPSwipe?\n\nYour saved albums will not be erased. You will need to choose new seed artists.", preferredStyle: .alert)
         
         let reseedAction = UIAlertAction(title: "Re-Seed", style: .default) { action in
-            (UIApplication.shared.delegate as! AppDelegate).mainContainerViewController!.resetData(action: .reseed)
+            self.appDelegate.mainContainerViewController!.resetData(action: .reseed)
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .default)
@@ -86,7 +96,7 @@ class MenuTableViewController: UITableViewController {
         let alert = UIAlertController(title: nil, message: "Are you sure you would like to reset LPSwipe?\n\nAll data will be erased.", preferredStyle: .alert)
         
         let resetAction = UIAlertAction(title: "Reset", style: .default) { action in
-            (UIApplication.shared.delegate as! AppDelegate).mainContainerViewController!.resetData(action: .reset)
+            self.appDelegate.mainContainerViewController!.resetData(action: .reset)
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .default)

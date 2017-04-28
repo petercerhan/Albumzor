@@ -37,6 +37,7 @@ class SuggestAlbumsViewController: UIViewController {
     var nextAlbumView: CGDraggableView!
     
     var delegate: SuggestAlbumsViewControllerDelegate!
+    var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
     
     var albumArt: [UIImage]!
     var albums: [Album]!
@@ -72,8 +73,6 @@ class SuggestAlbumsViewController: UIViewController {
             currentAlbumView.delegate = self
             currentAlbumView.addShadow()
             view.addSubview(currentAlbumView)
-            
-            dataManager.seen(album: albums[0].objectID)
             
             nextAlbumView = CGDraggableView(frame: defaultView.frame)
             nextAlbumView.imageView.image = albumArt[1]
@@ -180,7 +179,7 @@ class SuggestAlbumsViewController: UIViewController {
         case .paused:
             resumeAudio()
         case .noTrack:
-            autoPlay()
+            playTopTrack()
         default:
             break
         }
@@ -192,7 +191,6 @@ class SuggestAlbumsViewController: UIViewController {
     func album(liked: Bool) {
         audioPlayer.stop()
         
-        //potentially move "seen" code to here
         dataManager.seen(album: albums[currentIndex].objectID)
         
         if liked {
@@ -325,6 +323,15 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
     
     //Automatically play the sample of the most popular track on the album
     func autoPlay() {
+        if !(appDelegate.userSettings.autoplay) {
+            audioButton.setImage(UIImage(named: "Play"), for: .normal)
+            audioState = .noTrack
+            return
+        }
+        playTopTrack()
+    }
+    
+    func playTopTrack() {
         //get most popular track ..
         var mostPopularTrackIndex = 0
         var maxPopularity = 0
