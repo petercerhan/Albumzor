@@ -43,7 +43,7 @@ class HomeViewController: UIViewController {
     func configureFetchedResultsController() {
         let request = NSFetchRequest<Album>(entityName: "Album")
         let predicate = NSPredicate(format: "(liked = true)")
-        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: false)]
+        request.sortDescriptors = [NSSortDescriptor(key: "likedDateTime", ascending: false)]
         request.predicate = predicate
         
         let frc = NSFetchedResultsController(fetchRequest: request, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)

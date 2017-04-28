@@ -65,6 +65,7 @@ class DataManager {
                 let album = try backgroundContext.existingObject(with: albumID) as! Album
                 artist = album.artist
                 album.liked = true
+                album.likedDateTime = NSDate()
                 if let imageData = imageData {
                     album.imageData = imageData as NSData?
                 }

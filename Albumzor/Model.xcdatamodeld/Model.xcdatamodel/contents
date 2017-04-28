@@ -5,6 +5,7 @@
         <attribute name="imageData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="largeImage" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="liked" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="likedDateTime" attributeType="Date" defaultDateTimeInterval="515077380" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="popularity" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="priorSeed" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
@@ -34,7 +35,7 @@
         <relationship name="album" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Album" inverseName="track" inverseEntity="Album" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Album" positionX="-54" positionY="9" width="128" height="210"/>
+        <element name="Album" positionX="-54" positionY="9" width="128" height="225"/>
         <element name="Artist" positionX="-36" positionY="63" width="128" height="180"/>
         <element name="Track" positionX="-18" positionY="135" width="128" height="150"/>
     </elements>
