@@ -35,6 +35,8 @@ class AlbumDetailsViewController: UIViewController {
     
     var delegate: AlbumDetailsViewControllerDelegate?
     
+    //MARK: - Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -211,6 +213,7 @@ extension AlbumDetailsViewController: UITableViewDataSource {
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TrackCell") as! TrackTableViewCell
+            
             
             cell.titleLabel.font = UIFont.systemFont(ofSize: cell.titleLabel.font.pointSize)
             cell.titleLabel.text = tracks?[indexPath.row - 1].name

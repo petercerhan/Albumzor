@@ -12,5 +12,5 @@ class TrackTableViewCell: UITableViewCell {
 
     @IBOutlet var numberLabel: UILabel!
     @IBOutlet var titleLabel: UILabel!
-
+    
 }
