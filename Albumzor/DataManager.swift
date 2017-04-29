@@ -23,6 +23,8 @@ class DataManager {
         setPriorAlbumIDs()
     }
     
+    //MARK: - Album review actions
+    
     func seen(album albumID: NSManagedObjectID) {
         let backgroundContext = stack.networkingContext
         
@@ -33,13 +35,11 @@ class DataManager {
                 let album = try backgroundContext.existingObject(with: albumID) as! Album
                 artist = album.artist
                 album.seen = true
-                
             } catch {
-                print("Core data error")
+                
             }
             
             guard artist != nil else {
-                print("no artist")
                 return
             }
             
@@ -49,7 +49,7 @@ class DataManager {
             do {
                 try backgroundContext.save()
             } catch {
-                print("Could not save context")
+                //save error
             }
             self.stack.save()
         }        
@@ -69,13 +69,11 @@ class DataManager {
                 if let imageData = imageData {
                     album.imageData = imageData as NSData?
                 }
-                
             } catch {
-                print("Core data error")
+                
             }
             
             guard artist != nil else {
-                print("no artist")
                 return
             }
             
@@ -85,7 +83,7 @@ class DataManager {
             if addRelatedArtists, !(artist!.relatedAdded) {
                 self.getRelatedArtists(artistID: artist!.id!) { error in
                     if let error = error {
-                        print("error \(error)")
+                        //No action needed here (networking error is possible, but since this action operates in the background while the user is viewing suggested albums, no need to notify them. If internet connection is out they will be notified by the track loading errors)
                     }
                 }
                 artist!.relatedAdded = true
@@ -94,11 +92,13 @@ class DataManager {
             do {
                 try backgroundContext.save()
             } catch {
-                print("Could not save context")
+                
             }
             self.stack.save()
         }
     }
+    
+    //MARK: - Retrieve objects for display
 
     //get albums to display. These albums are in the main context.
     func getAlbums() -> [Album] {
@@ -107,7 +107,7 @@ class DataManager {
         //Choose artists based on score (references - seen); 13 gives some cusion in case album art can't be downloaded for a few.
         let scoreArtistRequest = NSFetchRequest<Artist>(entityName: "Artist")
         let scoreArtistPredicate = NSPredicate(format: "totalAlbums - seenAlbums > 0 && priorSeed = false")
-        scoreArtistRequest.sortDescriptors = [NSSortDescriptor(key: "score", ascending: false)]
+        scoreArtistRequest.sortDescriptors = [NSSortDescriptor(key: "seenAlbums", ascending: true), NSSortDescriptor(key: "score", ascending: false)]
         scoreArtistRequest.predicate = scoreArtistPredicate
         scoreArtistRequest.fetchLimit = 13
         

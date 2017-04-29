@@ -23,10 +23,12 @@ struct CoreDataStack {
     
     init?(modelName: String) {
         
-        guard let modelURL = Bundle.main.url(forResource: modelName, withExtension: "momd"), let model = NSManagedObjectModel(contentsOf: modelURL) else {
-            print("Error building managed object model")
-            return nil
+        guard let modelURL = Bundle.main.url(forResource: modelName, withExtension: "momd"),
+            let model = NSManagedObjectModel(contentsOf: modelURL) else {
+
+                return nil
         }
+        
         self.modelURL = modelURL
         self.model = model
         
@@ -43,7 +45,6 @@ struct CoreDataStack {
         
         let fm = FileManager.default
         guard let docUrl = fm.urls(for: .documentDirectory, in: .userDomainMask).first else {
-            print("Error finding documents directory")
             return nil
         }
         
@@ -55,7 +56,7 @@ struct CoreDataStack {
         do {
             try addStoreCoordinator(NSSQLiteStoreType, configuration: nil, storeURL: dbURL, options: options as [NSObject : AnyObject]?)
         } catch {
-            print("unable to add store at \(dbURL)")
+            fatalError("Error while configuring core data stack")
         }
     }
     
