@@ -14,7 +14,6 @@ class SpotifyClient {
     
     var session = URLSession.shared
     
-    
     func task(getMethod method: String, parameters: [String : String], completionHandler: @escaping SpotifyCompletionHandler) -> URLSessionDataTask {
         
         let request = NSMutableURLRequest(url: url(fromParameters: parameters, method: method))
@@ -22,11 +21,9 @@ class SpotifyClient {
         return(task(request: request as URLRequest, completionHandler: completionHandler))
     }
     
-    
-    
-    func task(request: URLRequest, completionHandler: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) -> URLSessionDataTask {
+    func task(request: URLRequest, completionHandler: @escaping SpotifyCompletionHandler) -> URLSessionDataTask {
         
-        let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
+        let task = session.dataTask(with: request) { (data, response, error) in
             
             func sendError(_ error: String) {
                 let userInfo = [NSLocalizedDescriptionKey : error]
@@ -50,10 +47,7 @@ class SpotifyClient {
                 sendError("No data was returned by the request!")
                 return
             }
-//            
-//            let a = String(data: data, encoding: String.Encoding.utf8)
-//            print("returned: \(a)")
-//            
+          
             self.parseJSONData(data, completionHandler: completionHandler)
         }
         
@@ -62,7 +56,7 @@ class SpotifyClient {
         return task
     }
     
-    private func parseJSONData(_ data: Data, completionHandler: (_ result: AnyObject?, _ error: NSError?) -> Void) {
+    private func parseJSONData(_ data: Data, completionHandler: SpotifyCompletionHandler) {
         var parsedResult: AnyObject! = nil
         do {
             parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as AnyObject

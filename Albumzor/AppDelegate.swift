@@ -33,14 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         dataManager = DataManager()
         
-        if let data = UserDefaults.standard.object(forKey: "userSettings") as? Data,
-            let userSettings = NSKeyedUnarchiver.unarchiveObject(with: data) as? UserSettings {
-                print("user settings")
-                print("user settings isSeeded: \(userSettings.isSeeded), instructionsSeen:\(userSettings.instructionsSeen)")
-             self.userSettings = userSettings
-        } else {
-            print("Could not retrieve user settings")
-        }
+
         
 //        do {
 //            try coreDataStack.dropAllData()
@@ -80,6 +73,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //MARK: - Manage user settings
 
 extension AppDelegate {
+    //Loading user settings from application didFinishLaunchingWithOptions doesn't always work. Possible that this is called before UserDefaults is available?
+    //Call this function from the intro animation view controller once it loads.
+    func loadUserSettings() {
+        if let data = UserDefaults.standard.object(forKey: "userSettings") as? Data,
+            let userSettings = NSKeyedUnarchiver.unarchiveObject(with: data) as? UserSettings {
+            print("user settings")
+            print("user settings isSeeded: \(userSettings.isSeeded), instructionsSeen:\(userSettings.instructionsSeen)")
+            self.userSettings = userSettings
+        } else {
+            print("Could not retrieve user settings")
+        }
+    }
+    
     func saveUserSettings() {
         let data = NSKeyedArchiver.archivedData(withRootObject: userSettings)
         UserDefaults.standard.set(data, forKey: "userSettings")

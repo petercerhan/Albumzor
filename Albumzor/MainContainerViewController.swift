@@ -82,7 +82,10 @@ class MainContainerViewController: UIViewController {
 
 extension MainContainerViewController: OpenSceneViewControllerDelegate {
     func nextScene() {
-        let userSettings = (UIApplication.shared.delegate as! AppDelegate).userSettings
+        let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+        //load user settings from UserDefaults - at this point the app should be connect (accessing UserDefaults from application didFinishLaunching in the app delegate did not always work
+        appDelegate.loadUserSettings()
+        let userSettings = appDelegate.userSettings
 //        let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
 //        
 //        print("Is seeded \(userSettings.isSeeded) instructions seen \(userSettings.instructionsSeen)")

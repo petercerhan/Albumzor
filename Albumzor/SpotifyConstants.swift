@@ -14,7 +14,6 @@ extension SpotifyClient {
         static let apiScheme = "https"
         static let apiHost = "api.spotify.com"
         static let apiPath = "/v1"
-        
     }
     
     struct Methods {
