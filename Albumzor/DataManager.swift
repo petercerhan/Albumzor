@@ -595,6 +595,7 @@ class DataManager {
     
     //Re-seed albums
     func reseed(completion: @escaping DataManagerCompletionHandler) {
+        print("Reseed initiated")
         let backgroundContext = stack.networkingContext
         
         backgroundContext.perform {
@@ -687,6 +688,7 @@ class DataManager {
     }
     
     func reset(completion: @escaping DataManagerCompletionHandler) {
+        print("reset initiated")
         let backgroundContext = stack.networkingContext
         
         backgroundContext.perform {

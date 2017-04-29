@@ -38,6 +38,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print("user settings")
                 print("user settings isSeeded: \(userSettings.isSeeded), instructionsSeen:\(userSettings.instructionsSeen)")
              self.userSettings = userSettings
+        } else {
+            print("Could not retrieve user settings")
         }
         
 //        do {

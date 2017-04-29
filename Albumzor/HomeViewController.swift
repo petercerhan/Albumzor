@@ -16,6 +16,7 @@ class HomeViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     @IBOutlet var findAlbumsButton: AnimatedButton!
     @IBOutlet var editButton: UIBarButtonItem!
+    @IBOutlet var menuButton: UIBarButtonItem!
     
     let stack = (UIApplication.shared.delegate as! AppDelegate).coreDataStack
     var audioPlayer = (UIApplication.shared.delegate as! AppDelegate).audioPlayer
@@ -38,6 +39,8 @@ class HomeViewController: UIViewController {
         configureFetchedResultsController()
         
         findAlbumsButton.backgroundColor = Styles.themeBlue
+        //menuButton.imageInsets = UIEdgeInsetsMake(3.0, 3.0, 6.0, 6.0)
+        menuButton.imageInsets = UIEdgeInsetsMake(7.0, 2.0, 7.0, 2.0)
     }
     
     func configureFetchedResultsController() {
@@ -68,12 +71,11 @@ class HomeViewController: UIViewController {
     
     @IBAction func edit() {
         if tableView.isEditing {
-            editButton.title = "Edit"
             tableView.setEditing(false, animated: true)
-            
+            editButton.title = "Edit"
         } else {
-            editButton.title = "Done"
             tableView.setEditing(true, animated: true)
+            editButton.title = "Done"
         }
     }
     
@@ -132,6 +134,16 @@ extension HomeViewController: UITableViewDelegate {
         present(vc, animated: true, completion: nil)
     }
     
+    func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath) {
+        editButton.title = "Done"
+    }
+    
+    func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
+        if editButton.title != "Edit" {
+            editButton.title = "Edit"
+        }
+    }
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let album = fetchedResultsController!.object(at: indexPath)
@@ -146,7 +158,6 @@ extension HomeViewController: UITableViewDelegate {
             stack.save()
         }
     }
-    
 }
 
 //MARK:- UITableViewDataSource
@@ -243,7 +254,7 @@ extension HomeViewController: NSFetchedResultsControllerDelegate {
     }
 }
 
-//MARK: - AlbumsContainerViewController
+//MARK: - AlbumsContainerViewControllerDelegate
 
 extension HomeViewController: AlbumsContainerViewControllerDelegate {
     func findAlbumsHome() {
@@ -283,7 +294,6 @@ extension HomeViewController: AlbumDetailsViewControllerDelegate {
     }
     
     func dismiss() {
-        print("dismiss")
         stopAudio()
         dismiss(animated: true, completion: nil)
     }

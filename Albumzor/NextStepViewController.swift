@@ -16,6 +16,7 @@ protocol NextStepViewControllerDelegate {
 class NextStepViewController: UIViewController {
 
     var delegate: NextStepViewControllerDelegate!
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     @IBOutlet var messageLabel: UILabel!
     @IBOutlet var countLabel: UILabel!
@@ -26,6 +27,7 @@ class NextStepViewController: UIViewController {
     @IBOutlet var moreAlbumsButton: UIButton!
     @IBOutlet var viewAlbumsButton: UIButton!
     @IBOutlet var homeButton: UIButton!
+    @IBOutlet var infoButton: UIButton!
     
     var likedAlbums = 0
     
@@ -42,6 +44,7 @@ class NextStepViewController: UIViewController {
         moreAlbumsButton.alpha = 0.0
         viewAlbumsButton.alpha = 0.0
         homeButton.alpha = 0.0
+        infoButton.alpha = 0.0
         
         if likedAlbums == 1 {
             countLabel.text = "\(likedAlbums) new album"
@@ -57,6 +60,28 @@ class NextStepViewController: UIViewController {
     
     @IBAction func home() {
         delegate.quit()
+    }
+    
+    @IBAction func reseed() {
+        let alert = UIAlertController(title: nil, message: "Are you sure you would like to re-seed LPSwipe?\n\nYour saved albums will not be erased. You will need to choose new seed artists.", preferredStyle: .alert)
+        
+        let reseedAction = UIAlertAction(title: "Re-Seed", style: .default) { action in
+            //self.appDelegate.mainContainerViewController!.resetData(action: .reseed)
+            self.dismiss(animated: false, completion: nil)
+            self.appDelegate.mainContainerViewController!.resetData(action: .reseed)
+            //something different
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default)
+        
+        alert.addAction(reseedAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    @IBAction func reseedInfo() {
+        alert(title: "Re-Seed", message: "Choose new seed artists. \n\nThe current data used for suggesting albums will be erased, and you can choose a new set of seed artists.\n\nYour liked ablums will not be erased.", buttonTitle: "Done")
     }
     
     @IBAction func continueBrowsing() {
@@ -107,6 +132,7 @@ class NextStepViewController: UIViewController {
                        options: .curveLinear,
                        animations: {
                         self.viewAlbumsButton.alpha = 1.0
+                        self.infoButton.alpha = 1.0
         },
                        completion: nil)
         

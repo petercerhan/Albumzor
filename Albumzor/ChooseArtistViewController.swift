@@ -115,6 +115,8 @@ class ChooseArtistViewController: UIViewController {
     }
     
     @IBAction func done() {
+        appDelegate.userSettings.isSeeded = true
+        appDelegate.saveUserSettings()
         delegate?.chooseArtistSceneComplete()
     }
     

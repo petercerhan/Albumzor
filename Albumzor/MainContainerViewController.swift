@@ -83,6 +83,11 @@ class MainContainerViewController: UIViewController {
 extension MainContainerViewController: OpenSceneViewControllerDelegate {
     func nextScene() {
         let userSettings = (UIApplication.shared.delegate as! AppDelegate).userSettings
+//        let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
+//        
+//        print("Is seeded \(userSettings.isSeeded) instructions seen \(userSettings.instructionsSeen)")
+//        print("albums \(dataManager.getAlbumsCount())")
+//        print("artists \(dataManager.getArtistsCount())")
         
         //determine whether the app is currently seeded here
         if userSettings.instructionsSeen && userSettings.isSeeded {
