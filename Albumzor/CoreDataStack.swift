@@ -60,7 +60,7 @@ struct CoreDataStack {
         }
     }
     
-    // MARK: Utils
+    // MARK: Utilities
     
     func addStoreCoordinator(_ storeType: String, configuration: String?, storeURL: URL, options : [NSObject:AnyObject]?) throws {
         try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: dbURL, options: options)
@@ -98,7 +98,7 @@ extension CoreDataStack  {
     
 }
 
-//MARK:- Networking
+//MARK: - Networking
 
 extension CoreDataStack {
     

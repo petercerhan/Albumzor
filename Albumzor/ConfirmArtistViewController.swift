@@ -32,9 +32,6 @@ class ConfirmArtistViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getArtist()
-        
-        print("search string \(searchString)")
-        // Do any additional setup after loading the view.
     }
 
     func getArtist() {

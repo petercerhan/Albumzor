@@ -52,9 +52,7 @@ class ResetDataViewController: UIViewController {
     func reseedData() {
         dataManager.reseed() { error in
             if let error = error {
-                print("error \(error)")
                 //Unexpected error state. This method should always succeed
-                //alert load error / please try again
             } else {
                 DispatchQueue.main.async {
                     self.appDelegate.userSettings.isSeeded = false

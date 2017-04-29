@@ -82,7 +82,7 @@ class DataManager {
             
             if addRelatedArtists, !(artist!.relatedAdded) {
                 self.getRelatedArtists(artistID: artist!.id!) { error in
-                    if let error = error {
+                    if let _ = error {
                         //No action needed here (networking error is possible, but since this action operates in the background while the user is viewing suggested albums, no need to notify them. If internet connection is out they will be notified by the track loading errors)
                     }
                 }
@@ -104,55 +104,28 @@ class DataManager {
     func getAlbums() -> [Album] {
         let context = stack.context
         
-        //Choose artists based on score (references - seen); 13 gives some cusion in case album art can't be downloaded for a few.
-        let scoreArtistRequest = NSFetchRequest<Artist>(entityName: "Artist")
-        let scoreArtistPredicate = NSPredicate(format: "totalAlbums - seenAlbums > 0 && priorSeed = false")
-        scoreArtistRequest.sortDescriptors = [NSSortDescriptor(key: "seenAlbums", ascending: true), NSSortDescriptor(key: "score", ascending: false)]
-        scoreArtistRequest.predicate = scoreArtistPredicate
-        scoreArtistRequest.fetchLimit = 13
+        //Choose artists based on score (references - seen); 13 gives some fall-back in case album art can't be downloaded for a few.
+        let request = NSFetchRequest<Artist>(entityName: "Artist")
+        let predicate = NSPredicate(format: "totalAlbums - seenAlbums > 0 && priorSeed = false")
+        request.sortDescriptors = [NSSortDescriptor(key: "seenAlbums", ascending: true), NSSortDescriptor(key: "score", ascending: false)]
+        request.predicate = predicate
+        request.fetchLimit = 13
         
-        var scoreArtists: [Artist]?
+        var artists: [Artist]?
         
         do {
-            scoreArtists = try context.fetch(scoreArtistRequest)
+            artists = try context.fetch(request)
         } catch {
-            print("could not get artists")
+            
         }
         
         var albums = [Album]()
         
-        for artist in scoreArtists! {
+        for artist in artists! {
             albums.append(chooseAlbum(artist: artist))
         }
         
         return albums
-    }
-    
-    //get tracks to display. These tracks are in the main context
-    func getTracks(forAlbum albumID: NSManagedObjectID) -> [Track] {
-        let context = stack.context
-        var album: Album?
-        
-        do {
-            album = try context.existingObject(with: albumID) as! Album
-        } catch {
-            print("core data error")
-        }
-        
-        let request = NSFetchRequest<Track>(entityName: "Track")
-        let predicate = NSPredicate(format: "album = %@", album!)
-        request.predicate = predicate
-        request.sortDescriptors = [NSSortDescriptor(key: "disc", ascending: true), NSSortDescriptor(key: "track", ascending: true)]
-        
-        var tracks: [Track]?
-        
-        do {
-            tracks = try context.fetch(request)
-        } catch {
-            print("could not get tracks")
-        }
-        
-        return tracks!
     }
     
     private func chooseAlbum(artist: Artist) -> Album {
@@ -160,6 +133,7 @@ class DataManager {
         let predicate = NSPredicate(format: "(seen = false) AND (artist = %@)", artist)
         request.sortDescriptors = [NSSortDescriptor(key: "popularity", ascending: false)]
         request.predicate = predicate
+        //limit to top two most popular albums remaining. This seems to be where most of the best suggestions come from for most artists.
         request.fetchLimit = 2
         
         var albums: [Album]?
@@ -167,7 +141,7 @@ class DataManager {
         do {
             albums = try stack.context.fetch(request)
         } catch {
-            print("could not get artists")
+            
         }
         
         return albums![randomAlbumIndex(albumCount: albums!.count)]
@@ -207,171 +181,123 @@ class DataManager {
         return index
     }
     
-    //MUST BE CALLED IN A BACKGROUND QUEUE
-    func getAlbumsCount() -> Int {
-        
-        let request = NSFetchRequest<Album>(entityName: "Album")
-        request.includesSubentities = false
-        
-        var count = 0
-        
-        do {
-            count = try stack.context.count(for: request)
-        } catch {
-            print("could not get artists")
-        }
-        
-        return count
-    }
-    
-    func getArtistsCount() -> Int {
-        let request = NSFetchRequest<Artist>(entityName: "Artist")
-        request.includesSubentities = false
-        
-        var count = 0
-        
-        do {
-            count = try stack.context.count(for: request)
-        } catch {
-            print("could not get artists")
-        }
-        
-        return count
-    }
-    
-    func artistList() {
+    //get tracks to display. These tracks are in the main context
+    func getTracks(forAlbum albumID: NSManagedObjectID) -> [Track] {
         let context = stack.context
-        
-        let scoreArtistRequest = NSFetchRequest<Artist>(entityName: "Artist")
-        scoreArtistRequest.sortDescriptors = [NSSortDescriptor(key: "priorSeed", ascending: false)]
-        
-        var artists = [Artist]()
+        var album: Album?
         
         do {
-            artists = try context.fetch(scoreArtistRequest)
+            album = try context.existingObject(with: albumID) as! Album
         } catch {
-            print("could not get artists")
+            
         }
         
-        for artist in artists {
-            print("artist: \(artist.name!) priorSeed: \(artist.priorSeed)")
-        }
-    }
-    
-    //Completion handler will be invoked after the last album data request has been processed. However, when multiple album requests are made asynchronously, it is possible that some will not have finished by the time the completionHandler is called, and the code invoking this method should not depend on that.
-    func addArtist(searchString: String, completionHandler: @escaping DataManagerCompletionHandler) {
+        let request = NSFetchRequest<Track>(entityName: "Track")
+        let predicate = NSPredicate(format: "album = %@", album!)
+        request.predicate = predicate
+        request.sortDescriptors = [NSSortDescriptor(key: "disc", ascending: true), NSSortDescriptor(key: "track", ascending: true)]
         
-        //start with artist search
-        client.searchArtist(searchString: searchString) { result, error in
+        var tracks: [Track]?
+        
+        do {
+            tracks = try context.fetch(request)
+        } catch {
             
-            if let error = error {
-                print("Networking Error \(error)")
-                return
-            }
-            
-            guard let artistData = result as? [String : AnyObject] else {
-                print("Networking Error \(error)")
-                return
-            }
-            
-            //Check that artist data is correct/exists; create and store artist object in core data
-            //add artist
-            
-            self.getRelatedArtists(artistID: artistData["id"] as! String) { error in
-                if let error = error {
-                    completionHandler(error)
-                } else {
-                    completionHandler(nil)
-                }
-            }
         }
+        
+        return tracks!
     }
     
+    //MARK: - Fetching and storing artists, albums, and tracks
+    
+    /*
+     getRelatedArtists kicks off the following process:
+     1) Fetch related artists from Spotify
+     2) For each related artists,
+        a) Fetch albums for artist (fetches simplified album objects)
+        b) Fetch full album objects for each album
+     
+     Completion handler will be invoked after the last album data request has been processed. However, because multiple album requests are made asynchronously, it is possible that some will not have finished by the time the completionHandler is called, and the code invoking this method should not count on that.
+     */
     func getRelatedArtists(artistID: String, completionHandler: @escaping DataManagerCompletionHandler) {
         
         client.getRelatedArtists(forArtist: artistID) { result, error in
             
             if let error = error {
-                print("error: \(error)")
                 return
             }
             
             guard let artistsData = result as? [[String : AnyObject]] else {
-                print("Data not formatted correctly")
                 return
             }
-
-            //
             
             let backgroundContext = self.stack.networkingContext
             
             backgroundContext.perform {
-                
-            for (index, artist) in artistsData.enumerated() {
-                guard let _ = artist["name"] as? String, let id = artist["id"] as? String else {
-                    continue
-                }
-                
-                //If the artist is already saved, increment references. Some of this maybe should go in a helper function?
-                let request = NSFetchRequest<Artist>(entityName: "Artist")
-                request.predicate = NSPredicate(format: "id == %@", id)
-                
-                var testArtist: Artist?
-                
-                do {
-                    let testArtists = try backgroundContext.fetch(request)
-                    if testArtists.count > 0 { testArtist = testArtists[0] }
-                } catch {
-                    print("fetch request failed")
-                }
-                
-                if let testArtist = testArtist {
-                    testArtist.references += 1
-                    testArtist.score += 1
+                for (index, artist) in artistsData.enumerated() {
+                    guard let _ = artist["name"] as? String, let id = artist["id"] as? String else {
+                        continue
+                    }
+
+                    //Check if the artist is already in our data. If so, increment score and references and continue to next artist
+                    let request = NSFetchRequest<Artist>(entityName: "Artist")
+                    request.predicate = NSPredicate(format: "id == %@", id)
+                    
+                    var testArtist: Artist?
                     
                     do {
-                        try backgroundContext.save()
+                        let testArtists = try backgroundContext.fetch(request)
+                        if testArtists.count > 0 { testArtist = testArtists[0] }
                     } catch {
-                        print("Could not save context")
+                        
                     }
-                    self.stack.save()
-                    continue
-                }
-                
-                //
-                
-                
-                if index == artistsData.count - 1 {
-                    self.getAlbums(forArtist: artist){ error in
-                        if let error = error {
-                            completionHandler(error)
-                        } else {
-                            completionHandler(nil)
+                    
+                    if let testArtist = testArtist {
+                        testArtist.references += 1
+                        testArtist.score += 1
+                        
+                        do {
+                            try backgroundContext.save()
+                        } catch {
+                            
                         }
+                        self.stack.save()
+                        continue
                     }
-                } else {
-                    self.getAlbums(forArtist: artist, completionHandler: nil)
+                    
+                    //If the artist is not already in our data, add the artist and the artist's albums
+                    //If the last artist, call the completion handler
+                    if index == artistsData.count - 1 {
+                        self.getAlbums(forArtist: artist) { error in
+                            if let error = error {
+                                completionHandler(error)
+                            } else {
+                                completionHandler(nil)
+                            }
+                        }
+                    } else {
+                        self.getAlbums(forArtist: artist, completionHandler: nil)
+                    }
                 }
             }
-                
-            }
-            //
             
         }
     }
     
-    //Optional closures are treated as escaping(?) SR-2444
+    //Optional closures are treated as escaping by default(?) SR-2444
     private func getAlbums(forArtist artistData: [String : AnyObject], completionHandler: DataManagerCompletionHandler?) {
         
         client.getAlbums(forArtist: artistData["id"] as! String) { result, error in
             
             if let error = error {
-                print("error: \(error)")
+                if let completionHandler = completionHandler {
+                    completionHandler(error)
+                }
                 return
             }
             
             guard let albumsData = result as? [[String : AnyObject]] else {
-                print("Bad return data")
+                //should not happen as SpotifyClient checks this also
                 return
             }
 
@@ -379,7 +305,6 @@ class DataManager {
             
             for album in albumsData {
                 guard let id = album["id"] as? String, let name = album["name"] as? String else {
-                    print("missing value")
                     continue
                 }
                 
@@ -397,17 +322,19 @@ class DataManager {
             }
             
             self.getAlbums(searchString: albumSearchString, artist: artistData, completionHandler: completionHandler)
-            
         }
-        
     }
     
     private func getAlbums(searchString: String, artist artistData: [String : AnyObject], completionHandler: DataManagerCompletionHandler?) {
         
         client.getAlbums(ids: searchString) { result, error in
             
+            if let error = error, let completionHandler = completionHandler {
+                completionHandler(error)
+            }
+            
             guard let albumsData = result as? [[String : AnyObject]] else {
-                print("bad data structure")
+                //should not happen as SpotifyClient checks this also
                 return
             }
             
@@ -416,7 +343,7 @@ class DataManager {
             backgroundContext.perform {
                 let artist = Artist(id: artistData["id"] as! String, name: artistData["name"] as! String, context: backgroundContext)
                 print("Add artist \(artist.name!)")
-                //unpack albums
+                
                 var albumsArray = [Album]()
                 for album in albumsData {
                     guard let id = album["id"] as? String,
@@ -427,7 +354,6 @@ class DataManager {
                           let largeImage = images[0]["url"] as? String,
                           let smallImage = images[2]["url"]  as? String else {
 
-                        print("incomplete album data for album \(album["name"] as? String ?? "")")
                         continue
                     }
                     
@@ -467,7 +393,7 @@ class DataManager {
                 do {
                     try backgroundContext.save()
                 } catch {
-                    print("Could not save context")
+                    
                 }
                 self.stack.save()
             }
@@ -482,39 +408,18 @@ class DataManager {
             }
             
         }
-        
-    }
-    
-    //prepare array of SpotifyIDs of all albums held from a prior seeding
-    private func setPriorAlbumIDs() {
-        
-        let request = NSFetchRequest<Album>(entityName: "Album")
-        let predicate = NSPredicate(format: "priorSeed = true")
-        request.predicate = predicate
-        var albums = [Album]()
-        
-        do {
-            albums = try stack.context.fetch(request)
-        } catch {
-            print("could not get tracks")
-        }
-
-        var ids = [String]()
-        
-        for album in albums {
-            ids.append(album.id!)
-        }
-        
-        priorAlbumIDs = ids
     }
 
-    ///
+    /*
+     Add tracks kicks off the following process:
+     1) Download tracks for the requested album from Spotify. Spotify returns simplified track objects
+     2) Download the full track objects
+     */
     func addTracks(forAlbumID: String, albumManagedObjectID: NSManagedObjectID) {
         
         client.getTracks(albumID: forAlbumID) { result, error in
                 
                 guard let tracksData = result as? [[String : AnyObject]] else {
-                    print("bad data structure")
                     return
                 }
             
@@ -541,6 +446,11 @@ class DataManager {
     private func addTracks(searchString: String, albumManagedObjectID: NSManagedObjectID) {
         
         client.getTracks(ids: searchString) { result, error in
+            
+            if let _ = error {
+                return
+            }
+            
             let backgroundContext = self.stack.networkingContext
             
             backgroundContext.perform {
@@ -548,11 +458,10 @@ class DataManager {
                 do {
                     album = try backgroundContext.existingObject(with: albumManagedObjectID) as? Album
                 } catch {
-                    print("Core data error")
+                    
                 }
                 
                 guard album != nil else {
-                    print("no album")
                     return
                 }
                 
@@ -562,7 +471,6 @@ class DataManager {
                 }
                 
                 guard let tracksData = result as? [[String : AnyObject]] else {
-                    print("bad data structure")
                     return
                 }
 
@@ -572,7 +480,6 @@ class DataManager {
                         let trackNo = trackData["track_number"] as? Int,
                         let discNo = trackData["disc_number"] as? Int else {
                             
-                            print("Incomplete data for album \(album!.name!)")
                             continue
                     }
                     
@@ -586,36 +493,36 @@ class DataManager {
                 do {
                     try backgroundContext.save()
                 } catch {
-                    print("Could not save context")
+
                 }
                 self.stack.save()
             }
         }
     }
     
+    //MARK: - Dataset manipulation
+    
     //Re-seed albums
     func reseed(completion: @escaping DataManagerCompletionHandler) {
-        print("Reseed initiated")
         let backgroundContext = stack.networkingContext
         
         backgroundContext.perform {
         
             //get liked albums
             let request_likedAlbums = NSFetchRequest<Album>(entityName: "Album")
-            let predicate_likeAlbums = NSPredicate(format: "(liked = true)")
-            request_likedAlbums.predicate = predicate_likeAlbums
+            let predicate_likedAlbums = NSPredicate(format: "(liked = true)")
+            request_likedAlbums.predicate = predicate_likedAlbums
             var likedAlbums = [Album]()
             
             do {
                 likedAlbums = try backgroundContext.fetch(request_likedAlbums)
             } catch {
-                print("could not get tracks")
+                
             }
             
             //set liked albums priorSeed = true
-            //for each, get artist. If artist has priorSeed = true, next. Else, if a priorSeed artist already exists with same spotify ID, assign that one to the album. Else, artist prior = true
+            //for each, get artist. If artist has priorSeed = true, next. Else, if a priorSeed artist already exists with the same spotify ID, assign it to the album. Else, set artist priorSeed = true
             for album in likedAlbums {
-                print("liked album: \(album.name!)")
                 album.priorSeed = true
                 
                 let artist = album.artist!
@@ -630,7 +537,7 @@ class DataManager {
                     do {
                         existingPriorArtists = try backgroundContext.fetch(request)
                     } catch {
-                        print("could not get tracks")
+                        
                     }
                     
                     if let existingPriorArtists = existingPriorArtists, existingPriorArtists.count > 0 {
@@ -650,14 +557,14 @@ class DataManager {
             do {
                 notPriorArtists = try backgroundContext.fetch(request_notPriorArtists)
             } catch {
-                print("could not get tracks")
+                
             }
             
             for artist in notPriorArtists {
                 backgroundContext.delete(artist)
             }
             
-            //get not prior albums delete (albums assigned to an artist that was turned prior)
+            //get not prior albums, delete (albums assigned to an artist that was turned prior)
             let request_notPriorAlbums = NSFetchRequest<Album>(entityName: "Album")
             let predicate_notPriorAlbums = NSPredicate(format: "priorSeed = false")
             request_notPriorAlbums.predicate = predicate_notPriorAlbums
@@ -666,7 +573,7 @@ class DataManager {
             do {
                 notPriorAlbums = try backgroundContext.fetch(request_notPriorAlbums)
             } catch {
-                print("could not get tracks")
+                
             }
             
             for album in notPriorAlbums {
@@ -677,18 +584,17 @@ class DataManager {
             do {
                 try backgroundContext.save()
             } catch {
-                print("Could not save context")
+                
             }
             self.stack.save()
             
+            self.setPriorAlbumIDs()
+            
             completion(nil)
-        
         }
-        
     }
     
     func reset(completion: @escaping DataManagerCompletionHandler) {
-        print("reset initiated")
         let backgroundContext = stack.networkingContext
         
         backgroundContext.perform {
@@ -698,7 +604,7 @@ class DataManager {
             do {
                 artists = try backgroundContext.fetch(request)
             } catch {
-                print("could not get tracks")
+                
             }
             
             for artist in artists {
@@ -709,16 +615,92 @@ class DataManager {
             do {
                 try backgroundContext.save()
             } catch {
-                print("Could not save context")
+                
             }
             self.stack.save()
+            
+            self.setPriorAlbumIDs()
             
             completion(nil)
         }
     }
+    
+    private func setPriorAlbumIDs() {
+        
+        let request = NSFetchRequest<Album>(entityName: "Album")
+        let predicate = NSPredicate(format: "priorSeed = true")
+        request.predicate = predicate
+        var albums = [Album]()
+        
+        do {
+            albums = try stack.context.fetch(request)
+        } catch {
+            
+        }
+        
+        var ids = [String]()
+        
+        for album in albums {
+            ids.append(album.id!)
+        }
+        
+        priorAlbumIDs = ids
+    }
+    
+    //MARK: - Utilities
+    
+    func getAlbumsCount() -> Int {
+        
+        let request = NSFetchRequest<Album>(entityName: "Album")
+        request.includesSubentities = false
+        
+        var count = 0
+        
+        do {
+            count = try stack.context.count(for: request)
+        } catch {
+            
+        }
+        
+        return count
+    }
+    
+    func getArtistsCount() -> Int {
+        let request = NSFetchRequest<Artist>(entityName: "Artist")
+        request.includesSubentities = false
+        
+        var count = 0
+        
+        do {
+            count = try stack.context.count(for: request)
+        } catch {
+            
+        }
+        
+        return count
+    }
+    
+    func artistList() {
+        let context = stack.context
+        
+        let artistRequest = NSFetchRequest<Artist>(entityName: "Artist")
+        artistRequest.sortDescriptors = [NSSortDescriptor(key: "priorSeed", ascending: false)]
+        
+        var artists = [Artist]()
+        
+        do {
+            artists = try context.fetch(artistRequest)
+        } catch {
+            
+        }
+        
+        for artist in artists {
+            print("artist: \(artist.name!) priorSeed: \(artist.priorSeed)")
+        }
+    }
 }
 
-//MARK:- Album filtering
+//MARK: - Album filtering
 
 extension DataManager {
     
