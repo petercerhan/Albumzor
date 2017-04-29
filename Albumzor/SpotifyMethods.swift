@@ -59,6 +59,7 @@ extension SpotifyClient {
     }
     
     //The albums data sent to the completion handler is a [[String : AnyObject]] (sent as AnyObject?)
+    //Spotify returns simplified album objects for the artist requested
     func getAlbums(forArtist artistID: String, completion: @escaping SpotifyCompletionHandler) {
         let parameters = ["album_type" : "album",
                           "market" : "US"]
@@ -82,6 +83,7 @@ extension SpotifyClient {
     }
     
     //The albums data sent to the completion handler is a [[String : AnyObject]] (sent as AnyObject?)
+    //Spotify returns full album objects for each album ID requested
     func getAlbums(ids: String, completion: @escaping SpotifyCompletionHandler) {
         let parameters = ["ids" : ids]
         
@@ -102,26 +104,7 @@ extension SpotifyClient {
     }
     
     //The tracks data sent to the completion handler is a [[String : AnyObject]] (sent as AnyObject?)
-    func getTracks(ids: String, completion: @escaping SpotifyCompletionHandler) {
-        let parameters = ["ids" : ids]
-        
-        _ = task(getMethod: Methods.getTracks, parameters: parameters) { result, error in
-        
-            if let error = error {
-                completion(nil, error)
-                return
-            }
-            
-            guard let result = result as? [String : AnyObject], let tracks = result["tracks"] as? [[String : AnyObject]] else {
-                print("bad data structure")
-                return
-            }
-        
-            completion(tracks as AnyObject, nil)
-        }
-    }
-    
-    //Sends the tracks data as [[String : AnyObject]] to the completion handler
+    //Spotify returns the simplified track objects for the ablum requested
     func getTracks(albumID: String, completion: @escaping SpotifyCompletionHandler) {
         let parameters = ["limit" : "50"]
         
@@ -140,6 +123,27 @@ extension SpotifyClient {
             }
         
             completion(tracksData as AnyObject?, nil)
+        }
+    }
+    
+    //The tracks data sent to the completion handler is a [[String : AnyObject]] (sent as AnyObject?)
+    //Spotify returns the full track object for each track ID requested
+    func getTracks(ids: String, completion: @escaping SpotifyCompletionHandler) {
+        let parameters = ["ids" : ids]
+        
+        _ = task(getMethod: Methods.getTracks, parameters: parameters) { result, error in
+            
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+            
+            guard let result = result as? [String : AnyObject], let tracks = result["tracks"] as? [[String : AnyObject]] else {
+                print("bad data structure")
+                return
+            }
+            
+            completion(tracks as AnyObject, nil)
         }
     }
 }
