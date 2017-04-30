@@ -654,7 +654,6 @@ class DataManager {
     //MARK: - Utilities
     
     func getAlbumsCount() -> Int {
-        
         let request = NSFetchRequest<Album>(entityName: "Album")
         request.includesSubentities = false
         

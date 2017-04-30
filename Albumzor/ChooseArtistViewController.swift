@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import MediaPlayer
-import GameplayKit
 
 enum ArtistSearchOrigin {
     case icon(IndexPath)

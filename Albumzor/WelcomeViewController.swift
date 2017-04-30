@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MediaPlayer
 
 protocol WelcomeViewControllerDelegate {
     func chooseArtists()
@@ -23,6 +24,9 @@ class WelcomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //Prompt app to ask for permission to use iTunes library
+        _ = MPMediaQuery.artists()
     }
 
     @IBAction func chooseArtists() {
