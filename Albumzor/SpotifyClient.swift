@@ -27,7 +27,7 @@ class SpotifyClient {
             
             func sendError(_ error: String) {
                 let userInfo = [NSLocalizedDescriptionKey : error]
-                completionHandler(nil, NSError(domain: "Parse Client", code: 1, userInfo: userInfo))
+                completionHandler(nil, NSError(domain: "Spotify Client", code: 1, userInfo: userInfo))
             }
             
             /* GUARD: Was there an error? */

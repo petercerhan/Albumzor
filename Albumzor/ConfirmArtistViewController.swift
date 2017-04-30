@@ -37,9 +37,13 @@ class ConfirmArtistViewController: UIViewController {
     func getArtist() {
         
         client.searchArtist(searchString: searchString) { result, error in
-            
+            print("searchArtist returned")
             if let error = error {
-                print("error \(error)")
+                
+                //check networking error vs could not find
+                
+                self.activityIndicator.stopAnimating()
+                self.artistNotFound()
                 return
             }
             
@@ -79,9 +83,7 @@ class ConfirmArtistViewController: UIViewController {
                     }
                 }
             }
-            
         }
-        
     }
     
     @IBAction func selectArtist() {

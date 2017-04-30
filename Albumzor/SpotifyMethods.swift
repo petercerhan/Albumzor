@@ -23,12 +23,13 @@ extension SpotifyClient {
                 return
             }
             
-            //check against empty array? -- return nil if empty
             guard let result = result as? [String : AnyObject],
                 let artists = result["artists"] as? [String : AnyObject],
-                let items = artists["items"] as? [[String : AnyObject]] else {
+                let items = artists["items"] as? [[String : AnyObject]],
+                items.count > 0 else {
                     
-                    print("Data not formatted correctly")
+                    let userInfo = [NSLocalizedDescriptionKey : "Could not parse artist"]
+                    completion(nil, NSError(domain: "Spotify Client", code: 1, userInfo: userInfo))
                     return
             }
             

@@ -11,9 +11,5 @@ import UIKit
 class ChooseArtistCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet var label: UILabel!
-    
-//    
-//    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-//        return layoutAttributes
-//    }
+
 }
