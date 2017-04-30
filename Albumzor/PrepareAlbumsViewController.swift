@@ -70,11 +70,30 @@ class PrepareAlbumsViewController: UIViewController {
                 }
                 
             }
+            
+            guard albumArt.count > 5 else {
+                DispatchQueue.main.async {
+                    self.couldNotLoadAlbums()
+                }
+                return
+            }
 
             DispatchQueue.main.async {
                 self.delegate.launchAlbumView(albums: outputAlbums, albumArt: albumArt)
             }
         }
+    }
+    
+    func couldNotLoadAlbums() {
+        let alert = UIAlertController(title: "Download Error", message: "Could not download albums. Make sure you are connected to the internet.", preferredStyle: .alert)
+        
+        let dismissAction = UIAlertAction(title: "Dismiss", style: .default) { action in
+            self.delegate.cancelPrepareAlbums()
+        }
+        
+        alert.addAction(dismissAction)
+        
+        present(alert, animated: true, completion: nil)
     }
 }
 
