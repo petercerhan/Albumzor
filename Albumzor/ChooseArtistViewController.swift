@@ -38,12 +38,6 @@ class ChooseArtistViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //temporary
-        dataManager.artistList()
-        
-        
-        
-        
         searchButton.imageEdgeInsets = UIEdgeInsetsMake(8.0, 8.0, 8.0, 8.0)
         overlayView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.cancelSearch)))
         
@@ -56,13 +50,14 @@ class ChooseArtistViewController: UIViewController {
     
     @IBAction func search() {
         if searchActive {
-            return
+            cancelSearch()
+        } else {
+            animateInSearch()
         }
-        
-        animateInSearch()
     }
     
     func animateInSearch() {
+        searchButton.isUserInteractionEnabled = false
         searchActive = true
         textField.center.x += view.frame.width
         overlayView.alpha = 0
@@ -77,10 +72,13 @@ class ChooseArtistViewController: UIViewController {
         },
                        completion: {
                         _ in
+                        self.searchButton.isUserInteractionEnabled = true
         })
     }
     
     func animateOutSearch() {
+        searchButton.isUserInteractionEnabled = false
+        textField.text = ""
         
         UIView.animate(withDuration: 0.3,
                        animations: {
@@ -93,6 +91,7 @@ class ChooseArtistViewController: UIViewController {
                         self.textField.isHidden = true
                         self.overlayView.isHidden = true
                         self.searchActive = false
+                        self.searchButton.isUserInteractionEnabled = true
         })
     }
     
@@ -235,7 +234,6 @@ extension ChooseArtistViewController: UITextFieldDelegate {
         
         return true
     }
-    
     
 }
 

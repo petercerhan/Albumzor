@@ -81,18 +81,12 @@ class MainContainerViewController: UIViewController {
 }
 
 extension MainContainerViewController: OpenSceneViewControllerDelegate {
-    func nextScene() {
+    func openingSceneComplete() {
         let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
         //load user settings from UserDefaults - at this point the app should be connect (accessing UserDefaults from application didFinishLaunching in the app delegate did not always work
         appDelegate.loadUserSettings()
         let userSettings = appDelegate.userSettings
-//        let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
-//        
-//        print("Is seeded \(userSettings.isSeeded) instructions seen \(userSettings.instructionsSeen)")
-//        print("albums \(dataManager.getAlbumsCount())")
-//        print("artists \(dataManager.getArtistsCount())")
         
-        //determine whether the app is currently seeded here
         if userSettings.instructionsSeen && userSettings.isSeeded {
             //standard situation - go straight to home screen
             let vc = appStoryboard.instantiateViewController(withIdentifier: "HomeNavController")
@@ -109,7 +103,6 @@ extension MainContainerViewController: OpenSceneViewControllerDelegate {
             let vc = appStoryboard.instantiateViewController(withIdentifier: "ChooseArtistViewController") as! ChooseArtistViewController
             vc.delegate = self
             update(contentViewController: vc)
-            print("3")
             
         } else if !userSettings.instructionsSeen && userSettings.isSeeded {
             //user seeded artists but didn't navigate to final instructions pane
@@ -191,9 +184,6 @@ extension MainContainerViewController: ResetDataViewControllerDelegate {
         update(contentViewController: vc)
     }
 }
-
-
-
 
 
 

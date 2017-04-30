@@ -437,10 +437,18 @@
                                     <outlet property="delegate" destination="CIP-Kg-Qf9" id="yLn-zQ-lMt"/>
                                 </connections>
                             </textField>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RIe-EK-h5m" userLabel="DivideView">
+                                <rect key="frame" x="0.0" y="610" width="375" height="3"/>
+                                <color key="backgroundColor" red="1" green="0.44705882349999998" blue="0.043137254899999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="3" id="Z9b-R4-cRz"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="fM3-Ks-IkP" firstAttribute="centerY" secondItem="1Gd-ec-JM4" secondAttribute="centerY" id="0Tv-Qn-Rsc"/>
+                            <constraint firstItem="RIe-EK-h5m" firstAttribute="top" secondItem="mvN-CD-Vn9" secondAttribute="bottom" id="2CW-XY-7SY"/>
                             <constraint firstItem="mvN-CD-Vn9" firstAttribute="centerX" secondItem="PuU-K6-39w" secondAttribute="centerX" id="2pj-vW-ZZ7"/>
                             <constraint firstItem="eqk-db-gr4" firstAttribute="top" secondItem="1Gd-ec-JM4" secondAttribute="bottom" constant="125" id="2qR-nb-hoa"/>
                             <constraint firstItem="eqk-db-gr4" firstAttribute="leading" secondItem="fRG-p8-Tph" secondAttribute="leadingMargin" constant="15" id="Awa-Cc-3OP"/>
@@ -449,6 +457,8 @@
                             <constraint firstItem="PuU-K6-39w" firstAttribute="leading" secondItem="fRG-p8-Tph" secondAttribute="leading" id="HBg-WN-ueb"/>
                             <constraint firstItem="mvN-CD-Vn9" firstAttribute="height" secondItem="PuU-K6-39w" secondAttribute="height" id="KI6-gt-1dd"/>
                             <constraint firstItem="mvN-CD-Vn9" firstAttribute="width" secondItem="PuU-K6-39w" secondAttribute="width" id="McF-jw-huR"/>
+                            <constraint firstAttribute="trailing" secondItem="RIe-EK-h5m" secondAttribute="trailing" id="T14-Tb-6VL"/>
+                            <constraint firstItem="RIe-EK-h5m" firstAttribute="leading" secondItem="fRG-p8-Tph" secondAttribute="leading" id="YdW-8Y-4Ri"/>
                             <constraint firstItem="mvN-CD-Vn9" firstAttribute="centerY" secondItem="PuU-K6-39w" secondAttribute="centerY" id="dHn-vb-DS5"/>
                             <constraint firstAttribute="trailingMargin" secondItem="eqk-db-gr4" secondAttribute="trailing" constant="15" id="m5d-dk-ZO7"/>
                             <constraint firstItem="yGX-gv-7ru" firstAttribute="top" secondItem="Wsc-9h-Z5s" secondAttribute="bottom" constant="10" id="mFh-Pv-Noz"/>
@@ -469,7 +479,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tWw-1i-aV4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-609" y="-727"/>
+            <point key="canvasLocation" x="-610.39999999999998" y="-727.28635682158927"/>
         </scene>
         <!--Instructions View Controller-->
         <scene sceneID="Ach-Ce-Umz">

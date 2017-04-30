@@ -588,7 +588,9 @@ class DataManager {
             }
             self.stack.save()
             
-            self.setPriorAlbumIDs()
+            DispatchQueue.main.async {
+                self.setPriorAlbumIDs()
+            }
             
             completion(nil)
         }
@@ -619,7 +621,9 @@ class DataManager {
             }
             self.stack.save()
             
-            self.setPriorAlbumIDs()
+            DispatchQueue.main.async {
+                self.setPriorAlbumIDs()
+            }
             
             completion(nil)
         }
