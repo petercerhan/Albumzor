@@ -82,6 +82,8 @@ class MainContainerViewController: UIViewController {
     }
 }
 
+//MARK: - OpenScenViewControllerDelegate
+
 extension MainContainerViewController: OpenSceneViewControllerDelegate {
     func openingSceneComplete() {
         let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
@@ -102,9 +104,7 @@ extension MainContainerViewController: OpenSceneViewControllerDelegate {
             
         } else if userSettings.instructionsSeen && !userSettings.isSeeded {
             //needs reseeding; go to choose artist screen
-            let vc = appStoryboard.instantiateViewController(withIdentifier: "ChooseArtistViewController") as! ChooseArtistViewController
-            vc.delegate = self
-            update(contentViewController: vc)
+            getSeedArtists(animateTransition: false)
             
         } else if !userSettings.instructionsSeen && userSettings.isSeeded {
             //user seeded artists but didn't navigate to final instructions pane
@@ -116,12 +116,14 @@ extension MainContainerViewController: OpenSceneViewControllerDelegate {
     }
 }
 
+//MARK: - WelcomeViewControllerDelegate
+
 extension MainContainerViewController: WelcomeViewControllerDelegate {
     func chooseArtists() {
-        getSeedArtists()
+        getSeedArtists(animateTransition: true)
     }
     
-    func getSeedArtists() {
+    func getSeedArtists(animateTransition: Bool) {
         DispatchQueue.global(qos: .userInitiated).async {
             var artists = [String]()
             
@@ -137,7 +139,12 @@ extension MainContainerViewController: WelcomeViewControllerDelegate {
                 let vc = self.appStoryboard.instantiateViewController(withIdentifier: "ChooseArtistViewController") as! ChooseArtistViewController
                 vc.artists = artists
                 vc.delegate = self
-                self.updateAnimated(contentViewController: vc)
+                
+                if animateTransition {
+                    self.updateAnimated(contentViewController: vc)
+                } else {
+                    self.update(contentViewController: vc)
+                }
             }
         }
     }
@@ -170,6 +177,8 @@ extension MainContainerViewController: WelcomeViewControllerDelegate {
     }
 }
 
+//MARK: - ChooseArtistViewControllerDelegate
+
 extension MainContainerViewController: ChooseArtistViewControllerDelegate {
     func chooseArtistSceneComplete() {
         let userSettings = (UIApplication.shared.delegate as! AppDelegate).userSettings
@@ -186,6 +195,8 @@ extension MainContainerViewController: ChooseArtistViewControllerDelegate {
     }
 }
 
+//MARK: - InstructionsViewControllerDelegate
+
 extension MainContainerViewController: InstructionsViewControllerDelegate {
     func instructionsSceneComplete() {
         let vc = AlbumsContainerViewController()
@@ -194,12 +205,16 @@ extension MainContainerViewController: InstructionsViewControllerDelegate {
     }
 }
 
+//MARK: - AlbumsContainerViewControllerDelegate
+
 extension MainContainerViewController: AlbumsContainerViewControllerDelegate {
     func findAlbumsHome() {
         let vc = appStoryboard.instantiateViewController(withIdentifier: "HomeNavController")
         update(contentViewController: vc)
     }
 }
+
+//MARK: - MenuTableViewControllerDelegate
 
 extension MainContainerViewController: MenuTableViewControllerDelegate {
     func resetData(action: ResetDataAction) {
@@ -210,15 +225,15 @@ extension MainContainerViewController: MenuTableViewControllerDelegate {
     }
 }
 
+//MARK: - ResetDataViewControllerDelegate
+
 extension MainContainerViewController: ResetDataViewControllerDelegate {
     
     func resetSucceeded() {
         let userSettings = (UIApplication.shared.delegate as! AppDelegate).userSettings
         
         if userSettings.instructionsSeen {
-            let vc = appStoryboard.instantiateViewController(withIdentifier: "ChooseArtistViewController") as! ChooseArtistViewController
-            vc.delegate = self
-            update(contentViewController: vc)
+            getSeedArtists(animateTransition: false)
         } else {
             let vc = appStoryboard.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
             vc.delegate = self
