@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 protocol OpenSceneViewControllerDelegate {
     func openingSceneComplete()
 }
@@ -22,7 +23,7 @@ class OpenSceneViewController: UIViewController {
         super.viewDidLoad()
         recordImage.translatesAutoresizingMaskIntoConstraints = true
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         UIView.animate(withDuration: 0.4,
                        delay: 0.5,

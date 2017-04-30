@@ -23,5 +23,22 @@ extension String {
         }
     }
     
+    func cleanArtistName() -> String {
+        if let index = index(of: "(") {
+            return substring(to: index).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        } else if let index = index(of: ", composer") {
+            return substring(to: index).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        } else if let index = index(of: "Feat") {
+            return substring(to: index).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        }  else {
+            return self
+        }
+    }
+    
+    func truncated(maxLength: Int) -> String {
+        let length = self.distance(from: self.startIndex, to: self.endIndex)
+        return self.substring(to: self.index(self.startIndex, offsetBy: min(maxLength,length)))
+    }
+    
 }
 
