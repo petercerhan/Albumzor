@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import MediaPlayer
+import GameplayKit
 
 class MainContainerViewController: UIViewController {
     
@@ -116,9 +118,55 @@ extension MainContainerViewController: OpenSceneViewControllerDelegate {
 
 extension MainContainerViewController: WelcomeViewControllerDelegate {
     func chooseArtists() {
-        let vc = appStoryboard.instantiateViewController(withIdentifier: "ChooseArtistViewController") as! ChooseArtistViewController
-        vc.delegate = self
-        updateAnimated(contentViewController: vc)
+        getSeedArtists()
+    }
+    
+    func getSeedArtists() {
+        DispatchQueue.global(qos: .userInitiated).async {
+            var artists = [String]()
+            
+            if let itunesArtists = self.getArtistsFromItunes() {
+                artists = itunesArtists
+            } else {
+                artists = ChooseArtistViewController.defaultArtists
+            }
+        
+            artists = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: artists) as! Array<String>
+            
+            DispatchQueue.main.async {
+                let vc = self.appStoryboard.instantiateViewController(withIdentifier: "ChooseArtistViewController") as! ChooseArtistViewController
+                vc.artists = artists
+                vc.delegate = self
+                self.updateAnimated(contentViewController: vc)
+            }
+        }
+    }
+    
+    func getArtistsFromItunes() -> [String]? {
+        let artistQuery = MPMediaQuery.artists()
+        
+        guard let mediaItemsArray = artistQuery.items else {
+            return nil
+        }
+        
+        let rawArtistNames = mediaItemsArray.map { mediaItem in return mediaItem.albumArtist ?? "" }
+        var artistSet = Set(rawArtistNames)
+        let emptyStringSet: Set = ["", " "]
+        artistSet = artistSet.subtracting(emptyStringSet)
+        
+        var namesArray = Array(artistSet)
+        namesArray = namesArray.map { artistName in return artistName.cleanArtistName() }
+        namesArray = namesArray.map { artistName in return artistName.truncated(maxLength: 30) }
+        
+        //Remove any new duplicates after cleaning up artist names
+        namesArray = Array(Set(namesArray))
+        namesArray = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: namesArray) as! Array<String>
+        
+        if namesArray.count < 15 {
+            return nil
+        } else {
+            return namesArray
+        }
     }
 }
 

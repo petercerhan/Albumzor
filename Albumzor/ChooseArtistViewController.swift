@@ -39,13 +39,6 @@ class ChooseArtistViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let userArtists = getArtistsFromItunes() {
-            artists = userArtists
-        } else {
-            artists = ChooseArtistViewController.defaultArtists
-        }
-        
-        artists = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: artists) as! Array<String>
         
         searchButton.imageEdgeInsets = UIEdgeInsetsMake(8.0, 8.0, 8.0, 8.0)
         overlayView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.cancelSearch)))
@@ -54,33 +47,6 @@ class ChooseArtistViewController: UIViewController {
         
         if let layout = collectionView.collectionViewLayout as? ArtistCollectionViewLayout {
             layout.delegate = self
-        }
-    }
-    
-    func getArtistsFromItunes() -> [String]? {
-        let artistQuery = MPMediaQuery.artists()
-        
-        guard let mediaItemsArray = artistQuery.items else {
-            return nil
-        }
-        
-        let rawArtistNames = mediaItemsArray.map { mediaItem in return mediaItem.albumArtist ?? "" }
-        var artistSet = Set(rawArtistNames)
-        let emptyStringSet: Set = ["", " "]
-        artistSet = artistSet.subtracting(emptyStringSet)
-        
-        var namesArray = Array(artistSet)
-        namesArray = namesArray.map { artistName in return artistName.cleanArtistName() }
-        namesArray = namesArray.map { artistName in return artistName.truncated(maxLength: 30) }
-        
-        //Remove any new duplicates after cleaning up artist names
-        namesArray = Array(Set(namesArray))
-        namesArray = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: namesArray) as! Array<String>
-        
-        if namesArray.count < 15 {
-            return nil
-        } else {
-            return namesArray
         }
     }
     

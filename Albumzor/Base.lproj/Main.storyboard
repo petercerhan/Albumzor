@@ -1181,18 +1181,29 @@
                                     <action selector="chooseArtists" destination="GK6-HB-2pa" eventType="touchUpInside" id="4FI-gc-Bpu"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="FVU-FT-7dy">
+                                <rect key="frame" x="177" y="323" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="wIF-wl-Ds4" firstAttribute="centerX" secondItem="ATk-Lg-Dqr" secondAttribute="centerX" id="7uJ-7Z-gUO"/>
+                            <constraint firstItem="FVU-FT-7dy" firstAttribute="centerX" secondItem="ATk-Lg-Dqr" secondAttribute="centerX" id="N7O-mt-X1F"/>
                             <constraint firstItem="9TS-Mx-4aS" firstAttribute="top" secondItem="1QW-97-XxF" secondAttribute="bottom" constant="15" id="RY0-w0-QOI"/>
                             <constraint firstItem="gEF-qW-uxC" firstAttribute="width" secondItem="ATk-Lg-Dqr" secondAttribute="width" multiplier="0.75" id="ahK-Bh-YRA"/>
                             <constraint firstItem="gEF-qW-uxC" firstAttribute="centerY" secondItem="ATk-Lg-Dqr" secondAttribute="centerY" constant="-100" id="aq7-w6-Lv4"/>
                             <constraint firstItem="2ps-bG-mX8" firstAttribute="top" secondItem="wIF-wl-Ds4" secondAttribute="bottom" constant="20" id="dvb-oV-DlY"/>
                             <constraint firstItem="gEF-qW-uxC" firstAttribute="centerX" secondItem="ATk-Lg-Dqr" secondAttribute="centerX" id="kjS-PC-8yJ"/>
+                            <constraint firstItem="FVU-FT-7dy" firstAttribute="centerY" secondItem="ATk-Lg-Dqr" secondAttribute="centerY" id="oQh-NZ-fMo"/>
                             <constraint firstItem="9TS-Mx-4aS" firstAttribute="centerX" secondItem="ATk-Lg-Dqr" secondAttribute="centerX" id="rs6-H7-xgG"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="FVU-FT-7dy" id="XwE-iM-TeB"/>
+                        <outlet property="doneButton" destination="wIF-wl-Ds4" id="N4K-hP-V7S"/>
+                        <outlet property="messageLabel" destination="gEF-qW-uxC" id="1qN-9f-54P"/>
+                        <outlet property="titleLabel" destination="9TS-Mx-4aS" id="V2O-66-iaE"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vcg-EB-Uc3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
