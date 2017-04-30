@@ -22,7 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         let vc = MainContainerViewController()
@@ -32,16 +31,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.makeKeyAndVisible()
         
         dataManager = DataManager()
-        
-
-        
-//        do {
-//            try coreDataStack.dropAllData()
-//        } catch {
-//            print("Could not reset data model")
-//        }
-//        userSettings = UserSettings(instructionsSeen: false, isSeeded: false, autoplay: false)
-//        saveUserSettings()
         
         return true
     }
@@ -78,11 +67,11 @@ extension AppDelegate {
     func loadUserSettings() {
         if let data = UserDefaults.standard.object(forKey: "userSettings") as? Data,
             let userSettings = NSKeyedUnarchiver.unarchiveObject(with: data) as? UserSettings {
-            print("user settings")
-            print("user settings isSeeded: \(userSettings.isSeeded), instructionsSeen:\(userSettings.instructionsSeen)")
+//            print("user settings")
+//            print("user settings isSeeded: \(userSettings.isSeeded), instructionsSeen:\(userSettings.instructionsSeen)")
             self.userSettings = userSettings
         } else {
-            print("Could not retrieve user settings")
+//            print("Could not retrieve user settings")
         }
     }
     
@@ -91,4 +80,5 @@ extension AppDelegate {
         UserDefaults.standard.set(data, forKey: "userSettings")
     }
 }
+
 
