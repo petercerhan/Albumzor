@@ -10,8 +10,6 @@ import UIKit
 import CoreData
 
 class HomeViewController: UIViewController {
-
-    var imageBuffer = [String : UIImage]()
     
     @IBOutlet var tableView: UITableView!
     @IBOutlet var findAlbumsButton: AnimatedButton!
@@ -19,7 +17,7 @@ class HomeViewController: UIViewController {
     @IBOutlet var menuButton: UIBarButtonItem!
     
     let stack = (UIApplication.shared.delegate as! AppDelegate).coreDataStack
-    var audioPlayer = (UIApplication.shared.delegate as! AppDelegate).audioPlayer
+    let audioPlayer = (UIApplication.shared.delegate as! AppDelegate).audioPlayer
     
     var currentAlbumTracks: [Track]?
     
@@ -31,6 +29,8 @@ class HomeViewController: UIViewController {
         }
     }
     
+    var imageBuffer = [String : UIImage]()
+    
     //MARK:- Life Cycle
     
     override func viewDidLoad() {
@@ -39,7 +39,6 @@ class HomeViewController: UIViewController {
         configureFetchedResultsController()
         
         findAlbumsButton.backgroundColor = Styles.themeBlue
-        //menuButton.imageInsets = UIEdgeInsetsMake(3.0, 3.0, 6.0, 6.0)
         menuButton.imageInsets = UIEdgeInsetsMake(7.0, 2.0, 7.0, 2.0)
     }
     
@@ -59,8 +58,8 @@ class HomeViewController: UIViewController {
         if let fc = fetchedResultsController {
             do {
                 try fc.performFetch()
-            } catch let e as NSError {
-                print("Error while trying to perform a search: \n\(e)\n\(fetchedResultsController)")
+            } catch _ as NSError {
+                
             }
         }
     }
@@ -79,7 +78,7 @@ class HomeViewController: UIViewController {
         }
     }
     
-    @IBAction func discoverAlbums() {
+    @IBAction func findAlbums() {
         let vc = AlbumsContainerViewController()
         vc.delegate = self
         present(vc, animated: true, completion: nil)
@@ -89,26 +88,7 @@ class HomeViewController: UIViewController {
         let vc = storyboard!.instantiateViewController(withIdentifier: "MenuTableViewController")
         navigationController?.pushViewController(vc, animated: true)
     }
-    
-    
 
-    
-    func getSpotifyAPIKey() -> String? {
-        
-        let filePath = Bundle.main.path(forResource: "SpotifyApiKey", ofType: "txt")
-
-        print("file path: \(filePath)")
-        
-        do {
-            let textString = try String(contentsOfFile: filePath!)
-            return textString
-        } catch {
-            print("error reading file to string")
-        }
-        
-        return nil
-    }
-    
 }
 
 //MARK:- UITableViewDelegate
@@ -183,6 +163,7 @@ extension HomeViewController: UITableViewDataSource {
         let spotifyID = album.id!
         let backgroundContext = stack.networkingContext
         
+        //get UIImage from the image buffer if it's there, else get the data from core data and build the UIImage
         if let image = imageBuffer[spotifyID] {
             cell.albumImageView.image = image
         } else {
@@ -192,7 +173,7 @@ extension HomeViewController: UITableViewDataSource {
                 do {
                     bgAlbum = try self.stack.networkingContext.existingObject(with: albumID) as! Album
                 } catch {
-                    print("Core data error")
+                    
                 }
                 
                 if let imageData = bgAlbum.imageData {
@@ -214,8 +195,7 @@ extension HomeViewController: UITableViewDataSource {
     }
 }
 
-
-// MARK: - CoreDataTableViewController: NSFetchedResultsControllerDelegate
+// MARK: - NSFetchedResultsControllerDelegate
 
 extension HomeViewController: NSFetchedResultsControllerDelegate {
     
@@ -268,12 +248,7 @@ extension HomeViewController: AlbumDetailsViewControllerDelegate {
     
     func playTrack(atIndex index: Int) {
         
-        guard let urlString = currentAlbumTracks?[index].previewURL else {
-            couldNotPlay()
-            return
-        }
-        
-        guard let url = URL(string: urlString) else {
+        guard let urlString = currentAlbumTracks?[index].previewURL, let url = URL(string: urlString) else {
             couldNotPlay()
             return
         }

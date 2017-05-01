@@ -33,7 +33,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Find More Albums"/>
                                 <connections>
-                                    <action selector="discoverAlbums" destination="BYZ-38-t0r" eventType="touchUpInside" id="bLS-ga-0QF"/>
+                                    <action selector="findAlbums" destination="BYZ-38-t0r" eventType="touchUpInside" id="stE-zW-DAz"/>
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="114" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="h7O-eb-Y2Z">

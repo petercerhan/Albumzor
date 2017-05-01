@@ -72,6 +72,10 @@ class PrepareAlbumsViewController: UIViewController {
             }
             
             guard albumArt.count > 5 else {
+                
+                //try to get more albums
+                
+                
                 DispatchQueue.main.async {
                     self.couldNotLoadAlbums()
                 }
