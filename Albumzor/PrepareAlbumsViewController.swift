@@ -21,14 +21,20 @@ class PrepareAlbumsViewController: UIViewController {
     
     var delegate: PrepareAlbumsViewControllerDelegate!
     
+    var albumDownloadInitiated = false
+    
     //MARK:- Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("albums: \(dataManager.countUnseenAlbums() ?? 999)")
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        prepareAlbums()
+        if !albumDownloadInitiated {
+            albumDownloadInitiated = true
+            prepareAlbums()
+        }
     }
     
     //MARK:- User Actions
@@ -38,7 +44,6 @@ class PrepareAlbumsViewController: UIViewController {
     }
     
     func prepareAlbums() {
-        
         let albums = dataManager.getAlbums()
         
         var outputAlbums = [Album]()
@@ -55,7 +60,7 @@ class PrepareAlbumsViewController: UIViewController {
             for (index, imageLink) in imageLinks.enumerated() {
                 
                 //stop adding albums after 10 images successfully downloaded
-                guard outputAlbums.count < 11 else {
+                guard outputAlbums.count < 10 else {
                     continue
                 }
                 
@@ -68,14 +73,9 @@ class PrepareAlbumsViewController: UIViewController {
                     outputAlbums.append(albums[index])
                     self.dataManager.addTracks(forAlbumID: albumIDs[index].spotifyID, albumManagedObjectID: albumIDs[index].managedObjectID)
                 }
-                
             }
             
             guard albumArt.count > 5 else {
-                
-                //try to get more albums
-                
-                
                 DispatchQueue.main.async {
                     self.couldNotLoadAlbums()
                 }

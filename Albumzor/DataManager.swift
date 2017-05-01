@@ -104,6 +104,13 @@ class DataManager {
     func getAlbums() -> [Album] {
         let context = stack.context
         
+        //potentially fetch new albums if running low starting here
+        //check if albums have started running low and download some more
+        //supplementAlbums()
+        if let unseenCount = countUnseenAlbums(), unseenCount < 100 {
+            supplementAlbums()
+        }
+        
         //Choose artists based on score (references - seen); 13 gives some fall-back in case album art can't be downloaded for a few.
         let request = NSFetchRequest<Artist>(entityName: "Artist")
         let predicate = NSPredicate(format: "totalAlbums - seenAlbums > 0 && priorSeed = false")
@@ -116,19 +123,23 @@ class DataManager {
         do {
             artists = try context.fetch(request)
         } catch {
-            
+            //Unexpected error state - core data queries should succeed
+            return [Album]()
         }
         
         var albums = [Album]()
         
         for artist in artists! {
-            albums.append(chooseAlbum(artist: artist))
+            guard let album = chooseAlbum(artist: artist) else {
+                continue
+            }
+            albums.append(album)
         }
         
         return albums
     }
     
-    private func chooseAlbum(artist: Artist) -> Album {
+    private func chooseAlbum(artist: Artist) -> Album? {
         let request = NSFetchRequest<Album>(entityName: "Album")
         let predicate = NSPredicate(format: "(seen = false) AND (artist = %@)", artist)
         request.sortDescriptors = [NSSortDescriptor(key: "popularity", ascending: false)]
@@ -141,7 +152,8 @@ class DataManager {
         do {
             albums = try stack.context.fetch(request)
         } catch {
-            
+            //Unexpected error state - core data queries should succeed
+            return nil
         }
         
         return albums![randomAlbumIndex(albumCount: albums!.count)]
@@ -179,6 +191,51 @@ class DataManager {
         }
         
         return index
+    }
+    
+    func countUnseenAlbums() -> Int? {
+        let request = NSFetchRequest<Album>(entityName: "Album")
+        let predicate = NSPredicate(format: "seen = false")
+        request.predicate = predicate
+        request.includesSubentities = false
+        
+        var count: Int?
+        
+        do {
+            count = try stack.context.count(for: request)
+        } catch {
+            return nil
+        }
+        
+        return count
+    }
+    
+    private func supplementAlbums() {
+        print("supplement albums")
+        let backgroundContext = stack.networkingContext
+        
+        backgroundContext.perform {
+            //Add albums for artist with highest score whose relateds have not been added
+            let request = NSFetchRequest<Artist>(entityName: "Artist")
+            let predicate = NSPredicate(format: "relatedAdded = false && priorSeed = false")
+            request.sortDescriptors = [NSSortDescriptor(key: "score", ascending: false)]
+            request.predicate = predicate
+            request.fetchLimit = 1
+            
+            var artist: Artist?
+            
+            do {
+                let artists = try backgroundContext.fetch(request)
+                guard artists.count > 0 else {
+                    return
+                }
+                artist = artists[0]
+            } catch {
+                return
+            }
+         
+            self.getRelatedArtists(artistID: artist!.id!) { _ in }
+        }
     }
     
     //get tracks to display. These tracks are in the main context

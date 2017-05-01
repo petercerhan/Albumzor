@@ -14,9 +14,9 @@ protocol AlbumsContainerViewControllerDelegate {
 
 class AlbumsContainerViewController: UIViewController {
 
-    var shouldLaunchAlbumView = true
-    
     var delegate: AlbumsContainerViewControllerDelegate?
+    
+    var shouldLaunchAlbumView = true
     
     private var contentViewController: UIViewController
     let appStoryboard = UIStoryboard(name: "Main", bundle: nil)
