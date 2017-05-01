@@ -22,7 +22,7 @@ class MenuTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Menu"
+        title = "Options"
         autoPlaySwitch.isOn = appDelegate.userSettings.autoplay
     }
     
@@ -38,7 +38,6 @@ class MenuTableViewController: UITableViewController {
         let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
         appDelegate.userSettings.autoplay = sender.isOn
         appDelegate.saveUserSettings()
-        print("Set autoplay \(sender.isOn)")
     }
     
     // MARK: - Table view data source

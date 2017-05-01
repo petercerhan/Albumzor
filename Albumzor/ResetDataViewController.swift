@@ -37,8 +37,9 @@ class ResetDataViewController: UIViewController {
     
     func resetData() {
         dataManager.reset() { error in
-            if let error = error {
-                print("error \(error)")
+            if let _ = error {
+                //unexpected error state - core data updates should succeed
+                self.delegate?.resetFailed()
             } else {
                 DispatchQueue.main.async {
                     self.appDelegate.userSettings = UserSettings(instructionsSeen: false, isSeeded: false, autoplay: true)
@@ -51,8 +52,9 @@ class ResetDataViewController: UIViewController {
     
     func reseedData() {
         dataManager.reseed() { error in
-            if let error = error {
-                //Unexpected error state. This method should always succeed
+            if let _ = error {
+                //unexpected error state - core data updates should succeed
+                self.delegate?.resetFailed()
             } else {
                 DispatchQueue.main.async {
                     self.appDelegate.userSettings.isSeeded = false
@@ -64,3 +66,4 @@ class ResetDataViewController: UIViewController {
     }
     
 }
+
