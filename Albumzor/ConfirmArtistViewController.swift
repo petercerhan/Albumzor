@@ -37,13 +37,16 @@ class ConfirmArtistViewController: UIViewController {
     func getArtist() {
         
         client.searchArtist(searchString: searchString) { result, error in
-            print("searchArtist returned")
             if let error = error {
                 
-                //check networking error vs could not find
-                
                 self.activityIndicator.stopAnimating()
-                self.artistNotFound()
+                
+                if error.code == -1009 {
+                    self.artistNotFound(networkError: true)
+                } else {
+                    self.artistNotFound(networkError: false)
+                }
+                
                 return
             }
             
@@ -57,7 +60,7 @@ class ConfirmArtistViewController: UIViewController {
                     //could not get artist
                     DispatchQueue.main.async {
                         self.activityIndicator.stopAnimating()
-                        self.artistNotFound()
+                        self.artistNotFound(networkError: false)
                     }
                     
                     return
@@ -94,10 +97,20 @@ class ConfirmArtistViewController: UIViewController {
         delegate.artistCanceled()
     }
     
-    func artistNotFound() {
+    func artistNotFound(networkError: Bool) {
+        var title = ""
+        var message = ""
         
-        let alert = UIAlertController(title: "Could not find \(searchString!)!", message: "Note: some artists may be unavailable.", preferredStyle: .alert)
-        let dismissAction = UIAlertAction(title: "Done", style: .default) {
+        if networkError {
+            title = "Network Error"
+            message = "Please check you internet connection"
+        } else {
+            title = "Could not find \(searchString!)!"
+            message = "Note: some artists may be unavailable."
+        }
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let dismissAction = UIAlertAction(title: "Dismiss", style: .default) {
             action in
             self.delegate.artistCanceled()
         }

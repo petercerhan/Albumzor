@@ -19,7 +19,7 @@ extension SpotifyClient {
         _ = task(getMethod: SpotifyClient.Methods.search, parameters: parameters) { result, error in
             
             if let error = error {
-                print("error: \(error)")
+                completion(nil, error)
                 return
             }
             
