@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-//error - tried and failed to retrieve sample audio; noTrack - autoplay presumably disabled, no track has been retrieved
+//error - tried and failed to retrieve sample audio; noTrack - no track has been retrieved
 enum AudioState {
     case loading, playing, paused, error, noTrack
 }
@@ -39,6 +39,9 @@ class SuggestAlbumsViewController: UIViewController {
     var delegate: SuggestAlbumsViewControllerDelegate!
     var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
     
+    let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
+    var audioPlayer = (UIApplication.shared.delegate as! AppDelegate).audioPlayer
+    
     var albumArt: [UIImage]!
     var albums: [Album]!
     var likedAlbums = 0
@@ -48,15 +51,13 @@ class SuggestAlbumsViewController: UIViewController {
     
     var currentIndex: Int = 0
     
-    var trackPlaying: Int?
-    
     var audioState: AudioState = .noTrack
+    
+    var trackPlaying: Int?
     
     var initialLayoutCongifured = false
     
-    let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
-    
-    var audioPlayer = (UIApplication.shared.delegate as! AppDelegate).audioPlayer
+    var buttonsEnabled = true
     
     //MARK:- Life Cycle
     
@@ -67,7 +68,7 @@ class SuggestAlbumsViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         if !initialLayoutCongifured {
-            //ConfigureAlbumViews
+            //Configure album draggable views
             currentAlbumView = CGDraggableView(frame: defaultView.frame)
             currentAlbumView.imageView.image = albumArt[0]
             currentAlbumView.delegate = self
@@ -79,6 +80,8 @@ class SuggestAlbumsViewController: UIViewController {
             nextAlbumView.delegate = self
             nextAlbumView.addShadow()
             view.insertSubview(nextAlbumView, belowSubview: currentAlbumView)
+            nextAlbumView.isUserInteractionEnabled = false
+            //disable user interaction
             
             currentAlbumTracks = dataManager.getTracks(forAlbum: albums[0].objectID)
             nextAlbumTracks = dataManager.getTracks(forAlbum: albums[1].objectID)
@@ -95,6 +98,8 @@ class SuggestAlbumsViewController: UIViewController {
     }
     
     func animateOut() {
+        setButtons(enabled: false)
+        currentAlbumView.isUserInteractionEnabled = false
         
         titleLabel.alpha = 0.0
         artistLabel.alpha = 0.0
@@ -111,12 +116,19 @@ class SuggestAlbumsViewController: UIViewController {
                         _ in
                         self.delegate.batteryComplete(liked: self.likedAlbums)
                     })
-        
     }
     
     //MARK:- User Actions
     
     @IBAction func like() {
+        
+        //setting .isEnabled or .isUserInteractionEnabled does not seem to apply quickly enough; buttons can be hit multiple times quickly, leading to unpredictable results
+        if !buttonsEnabled {
+            return
+        }
+        buttonsEnabled = false
+        currentAlbumView.isUserInteractionEnabled = false
+        
         currentAlbumView.overlayView.imageView.image = UIImage(named: "Check_white")
         currentAlbumView.overlayView.backgroundColor = Styles.likeGreen
         currentAlbumView.overlayView.alpha = 0.4
@@ -137,12 +149,20 @@ class SuggestAlbumsViewController: UIViewController {
                        completion: {
                         _ in
                         self.currentAlbumView.removeFromSuperview()
+                        self.buttonsEnabled = true
                         self.album(liked: true)
                     })
         
     }
     
     @IBAction func dislike() {
+        
+        if !buttonsEnabled {
+            return
+        }
+        buttonsEnabled = false
+        currentAlbumView.isUserInteractionEnabled = false
+        
         currentAlbumView.overlayView.imageView.image = UIImage(named: "X_white")
         currentAlbumView.overlayView.backgroundColor = Styles.xRed
         currentAlbumView.overlayView.alpha = 0.4
@@ -159,11 +179,12 @@ class SuggestAlbumsViewController: UIViewController {
                         self.currentAlbumView.center.y -= 20
                         self.currentAlbumView.transform = finalTransform
                         
-        },
+                    },
                        completion: { _ in
                         self.currentAlbumView.removeFromSuperview()
+                        self.buttonsEnabled = true
                         self.album(liked: false)
-        })
+                    })
     }
 
     @IBAction func quit() {
@@ -171,7 +192,7 @@ class SuggestAlbumsViewController: UIViewController {
         delegate.quit()
     }
     
-    @IBAction func togglePause() {
+    @IBAction func audioControl() {
         
         switch audioState {
         case .playing:
@@ -185,6 +206,12 @@ class SuggestAlbumsViewController: UIViewController {
         }
         
     }
+    
+    func setButtons(enabled: Bool) {
+        quitButton.isEnabled = enabled
+        likeButton.isUserInteractionEnabled = enabled
+        dislikeButton.isUserInteractionEnabled = enabled
+    }
 
     //MARK:- Manage likes
     
@@ -195,8 +222,7 @@ class SuggestAlbumsViewController: UIViewController {
         
         if liked {
             likedAlbums += 1
-            dataManager.like(album: albums[currentIndex].objectID, addRelatedArtists: true, imageData: UIImagePNGRepresentation(albumArt[currentIndex]))
-        } else {
+            dataManager.like(album: albums[currentIndex].objectID, imageData: UIImagePNGRepresentation(albumArt[currentIndex]))
         }
         
         //if last album has been reviewed, go to next steps view
@@ -217,6 +243,7 @@ class SuggestAlbumsViewController: UIViewController {
         }
         
         currentAlbumView = nextAlbumView
+        currentAlbumView.isUserInteractionEnabled = true
         
         //add bottom album unless we are on the final album of the battery
         if currentIndex < albums.count - 1 {
@@ -225,11 +252,9 @@ class SuggestAlbumsViewController: UIViewController {
             nextAlbumView.addShadow()
             nextAlbumView.delegate = self
             view.insertSubview(nextAlbumView, belowSubview: currentAlbumView)
-            
-            titleLabel.text = albums[currentIndex].name!.cleanAlbumName()
-            artistLabel.text = albums[currentIndex].artist!.name!
-            titleLabel.alpha = 1.0
-            artistLabel.alpha = 1.0
+            nextAlbumView.isUserInteractionEnabled = false
+        } else {
+            nextAlbumView = nil
         }
         
         //get tracks
@@ -241,10 +266,7 @@ class SuggestAlbumsViewController: UIViewController {
         } else {
             nextAlbumTracks = dataManager.getTracks(forAlbum: albums[currentIndex + 1].objectID)
         }
-        
-        
     }
-    
     
 }
 
@@ -252,13 +274,12 @@ class SuggestAlbumsViewController: UIViewController {
 
 extension SuggestAlbumsViewController: CGDraggableViewDelegate {
     func swipeComplete(direction: SwipeDirection) {
-
+        setButtons(enabled: true)
         if direction == .right {
             album(liked: true)
         } else {
             album(liked: false)
         }
-        
     }
 
     func tapped() {
@@ -275,11 +296,13 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
     }
     
     func swipeBegan() {
+        setButtons(enabled: false)
         titleLabel.alpha = 0.4
         artistLabel.alpha = 0.4
     }
     
     func swipeCanceled() {
+        setButtons(enabled: true)
         titleLabel.alpha = 1.0
         artistLabel.alpha = 1.0
     }
@@ -291,29 +314,11 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
 extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
     
     func playTrack(atIndex index: Int) {
-        //update button
-        trackPlaying = index
-        audioState = .loading
-        audioButton.isHidden = true
-        activityIndicator.startAnimating()
+        set(audioState: .loading, controlEnabled: false)
         
-        guard let urlString = currentAlbumTracks?[index].previewURL else {
+        guard let urlString = currentAlbumTracks?[index].previewURL, let url = URL(string: urlString) else {
             //could not play track
-            activityIndicator.stopAnimating()
-            audioButton.isHidden = false
-            audioButton.setTitle("!", for: .normal)
-            audioButton.setImage(nil, for: .normal)
-            audioState = .error
-            couldNotPlay()
-            return
-        }
-        
-        guard let url = URL(string: urlString) else {
-            activityIndicator.stopAnimating()
-            audioButton.isHidden = false
-            audioButton.setTitle("!", for: .normal)
-            audioButton.setImage(nil, for: .normal)
-            audioState = .error
+            set(audioState: .error, controlEnabled: false)
             couldNotPlay()
             return
         }
@@ -324,8 +329,7 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
     //Automatically play the sample of the most popular track on the album
     func autoPlay() {
         if !(appDelegate.userSettings.autoplay) {
-            audioButton.setImage(UIImage(named: "Play"), for: .normal)
-            audioState = .noTrack
+            set(audioState: .noTrack, controlEnabled: true)
             return
         }
         playTopTrack()
@@ -353,20 +357,12 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
     }
     
     func pauseAudio() {
-        audioButton.setTitle("", for: .normal)
-        audioButton.setImage(UIImage(named: "Play"), for: .normal)
-        audioButton.isHidden = false
-        audioButton.isUserInteractionEnabled = false
-        audioState = .paused
+        set(audioState: .paused, controlEnabled: false)
         audioPlayer.pause()
     }
     
     func resumeAudio() {
-        audioButton.setTitle("", for: .normal)
-        audioButton.setImage(UIImage(named: "Pause"), for: .normal)
-        audioButton.isHidden = false
-        audioButton.isUserInteractionEnabled = false
-        audioState = .playing
+        set(audioState: .playing, controlEnabled: false)
         audioPlayer.play()
     }
     
@@ -377,6 +373,36 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
     func dismiss() {
         dismiss(animated: true, completion: nil)
     }
+    
+    func set(audioState: AudioState, controlEnabled: Bool) {
+        self.audioState = audioState
+        audioButton.isUserInteractionEnabled = controlEnabled
+        
+        activityIndicator.stopAnimating()
+        
+        switch audioState {
+        case .noTrack:
+            audioButton.setTitle("", for: .normal)
+            audioButton.setImage(UIImage(named: "Play"), for: .normal)
+            audioButton.isHidden = false
+        case .loading:
+            activityIndicator.startAnimating()
+            audioButton.isHidden = true
+        case .playing:
+            audioButton.setTitle("", for: .normal)
+            audioButton.setImage(UIImage(named: "Pause"), for: .normal)
+            audioButton.isHidden = false
+        case .paused:
+            audioButton.setTitle("", for: .normal)
+            audioButton.setImage(UIImage(named: "Play"), for: .normal)
+            audioButton.isHidden = false
+        case .error:
+            audioButton.isHidden = false
+            audioButton.setTitle("!", for: .normal)
+            audioButton.setImage(nil, for: .normal)
+        }
+    }
+
 }
 
 //MARK:- AudioPlayerDelegate
@@ -391,12 +417,7 @@ extension SuggestAlbumsViewController: AudioPlayerDelegate {
     }
     
     func beganPlaying() {
-        activityIndicator.stopAnimating()
-        audioButton.setTitle("", for: .normal)
-        audioButton.setImage(UIImage(named: "Pause"), for: .normal)
-        audioState = .playing
-        audioButton.isHidden = false
-        audioButton.isUserInteractionEnabled = true
+        set(audioState: .playing, controlEnabled: true)
         
         if let vc = presentedViewController as? AlbumDetailsViewController {
             vc.audioBeganPlaying()
@@ -404,11 +425,7 @@ extension SuggestAlbumsViewController: AudioPlayerDelegate {
     }
     
     func paused() {
-        audioButton.isHidden = false
-        audioButton.isUserInteractionEnabled = true
-        audioButton.setTitle("", for: .normal)
-        audioButton.setImage(UIImage(named: "Play"), for: .normal)
-        audioState = .paused
+        set(audioState: .paused, controlEnabled: true)
         
         if let vc = presentedViewController as? AlbumDetailsViewController {
             vc.audioPaused()
@@ -423,11 +440,7 @@ extension SuggestAlbumsViewController: AudioPlayerDelegate {
     }
     
     func couldNotPlay() {
-        activityIndicator.stopAnimating()
-        audioButton.isHidden = false
-        audioButton.setTitle("!", for: .normal)
-        audioButton.setImage(nil, for: .normal)
-        audioState = .error
+        set(audioState: .error, controlEnabled: false)
         
         if let vc = presentedViewController as? AlbumDetailsViewController {
             vc.audioCouldNotPlay()
@@ -435,11 +448,5 @@ extension SuggestAlbumsViewController: AudioPlayerDelegate {
     }
 
 }
-
-
-
-
-
-
 
 

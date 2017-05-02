@@ -623,7 +623,7 @@
                                     <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="togglePause" destination="X8r-tE-8de" eventType="touchUpInside" id="T6Y-yx-eAw"/>
+                                    <action selector="audioControl" destination="X8r-tE-8de" eventType="touchUpInside" id="snI-Cr-n6L"/>
                                 </connections>
                             </button>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="O9R-OS-4Xq">

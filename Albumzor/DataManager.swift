@@ -55,7 +55,7 @@ class DataManager {
         }        
     }
     
-    func like(album albumID: NSManagedObjectID, addRelatedArtists: Bool, imageData: Data?) {
+    func like(album albumID: NSManagedObjectID, imageData: Data?) {
         let backgroundContext = stack.networkingContext
         
         backgroundContext.perform {
@@ -80,7 +80,7 @@ class DataManager {
             artist!.references += 1
             artist!.score += 1
             
-            if addRelatedArtists, !(artist!.relatedAdded) {
+            if !(artist!.relatedAdded) {
                 self.getRelatedArtists(artistID: artist!.id!) { error in
                     if let _ = error {
                         //No action needed here (networking error is possible, but since this action operates in the background while the user is viewing suggested albums, no need to notify them. If internet connection is out they will be notified by the track loading errors)
