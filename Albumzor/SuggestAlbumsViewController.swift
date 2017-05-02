@@ -71,13 +71,6 @@ class SuggestAlbumsViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(appWillResignActive), name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
     }
     
-    func appWillResignActive() {
-        if let currentAlbumView = currentAlbumView {
-            currentAlbumView.resetViewPositionAndTransformations()
-        }
-    }
-    
-    
     override func viewDidLayoutSubviews() {
         if !initialLayoutCongifured {
             //Configure album draggable views
@@ -106,6 +99,12 @@ class SuggestAlbumsViewController: UIViewController {
             audioButton.contentMode = .center
             
             initialLayoutCongifured = true
+        }
+    }
+    
+    func appWillResignActive() {
+        if let currentAlbumView = currentAlbumView {
+            currentAlbumView.resetViewPositionAndTransformations()
         }
     }
     
@@ -141,10 +140,6 @@ class SuggestAlbumsViewController: UIViewController {
         buttonsEnabled = false
         currentAlbumView.isUserInteractionEnabled = false
         
-        currentAlbumView.overlayView.imageView.image = UIImage(named: "Check_white")
-        currentAlbumView.overlayView.backgroundColor = Styles.likeGreen
-        currentAlbumView.overlayView.alpha = 0.4
-        
         let rotationAngle = 2 * CGFloat(M_PI) / 16.0
         let transform = CGAffineTransform(rotationAngle: rotationAngle)
         let finalTransform = transform.scaledBy(x: 0.93, y: 0.93)
@@ -174,10 +169,6 @@ class SuggestAlbumsViewController: UIViewController {
         }
         buttonsEnabled = false
         currentAlbumView.isUserInteractionEnabled = false
-        
-        currentAlbumView.overlayView.imageView.image = UIImage(named: "X_white")
-        currentAlbumView.overlayView.backgroundColor = Styles.xRed
-        currentAlbumView.overlayView.alpha = 0.4
         
         let rotationAngle = -2 * CGFloat(M_PI) / 16.0
         let transform = CGAffineTransform(rotationAngle: rotationAngle)

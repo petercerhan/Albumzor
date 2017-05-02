@@ -112,8 +112,9 @@ class CGDraggableView: UIView {
             self.overlayView.mode = .left
         }
         
-        let overlayStrength = CGFloat(min(fabsf(Float(distance)) / 175, 0.4))
+        let overlayStrength = CGFloat(min(fabsf(Float(distance)) / 70, 1.0))
         overlayView.alpha = overlayStrength
+//        overlayView.alpha = 1.0
     }
     
     func completeSwipe() {
