@@ -326,6 +326,7 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
             return
         }
 
+        trackPlaying = index
         self.audioPlayer.playTrack(url: url)
     }
     
