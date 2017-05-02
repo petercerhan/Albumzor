@@ -64,7 +64,19 @@ class SuggestAlbumsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         audioPlayer.delegate = self
+        subscribeToNotifications()
     }
+    
+    func subscribeToNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(appWillResignActive), name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
+    }
+    
+    func appWillResignActive() {
+        if let currentAlbumView = currentAlbumView {
+            currentAlbumView.resetViewPositionAndTransformations()
+        }
+    }
+    
     
     override func viewDidLayoutSubviews() {
         if !initialLayoutCongifured {
