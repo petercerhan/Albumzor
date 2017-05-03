@@ -211,7 +211,6 @@ class DataManager {
     }
     
     private func supplementAlbums() {
-        print("supplement albums")
         let backgroundContext = stack.networkingContext
         
         backgroundContext.perform {
@@ -234,6 +233,14 @@ class DataManager {
                 return
             }
          
+            artist!.relatedAdded = true
+            do {
+                try backgroundContext.save()
+            } catch {
+                return
+            }
+            self.stack.save()
+            
             self.getRelatedArtists(artistID: artist!.id!) { _ in }
         }
     }

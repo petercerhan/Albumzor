@@ -114,7 +114,6 @@ class CGDraggableView: UIView {
         
         let overlayStrength = CGFloat(min(fabsf(Float(distance)) / 70, 1.0))
         overlayView.alpha = overlayStrength
-//        overlayView.alpha = 1.0
     }
     
     func completeSwipe() {
@@ -136,12 +135,17 @@ class CGDraggableView: UIView {
     
     func resetViewPositionAndTransformations() {
         
+        if direction == .none {
+            return
+        }
+        self.direction = .none
+        
         UIView.animate(withDuration: 0.2, animations: {
                             self.center = self.originalPoint
                             self.transform = CGAffineTransform(rotationAngle: 0)
                             self.overlayView.alpha = 0
                         },
-                       completion: { _ in self.direction = .none})
+                       completion: nil)
     }
     
 }

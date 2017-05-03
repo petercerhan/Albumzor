@@ -7,9 +7,8 @@
 //
 
 import UIKit
-import AVFoundation
 
-//error - tried and failed to retrieve sample audio; noTrack - no track has been retrieved
+//error - tried and failed to retrieve sample audio; noTrack - no attempt has been made to retrieve a track
 enum AudioState {
     case loading, playing, paused, error, noTrack
 }
@@ -55,7 +54,7 @@ class SuggestAlbumsViewController: UIViewController {
     
     var trackPlaying: Int?
     
-    var initialLayoutCongifured = false
+    var initialLayoutConfigured = false
     
     var buttonsEnabled = true
     
@@ -72,8 +71,7 @@ class SuggestAlbumsViewController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        if !initialLayoutCongifured {
-            //Configure album draggable views
+        if !initialLayoutConfigured {
             currentAlbumView = CGDraggableView(frame: defaultView.frame)
             currentAlbumView.imageView.image = albumArt[0]
             currentAlbumView.delegate = self
@@ -86,7 +84,6 @@ class SuggestAlbumsViewController: UIViewController {
             nextAlbumView.addShadow()
             view.insertSubview(nextAlbumView, belowSubview: currentAlbumView)
             nextAlbumView.isUserInteractionEnabled = false
-            //disable user interaction
             
             currentAlbumTracks = dataManager.getTracks(forAlbum: albums[0].objectID)
             nextAlbumTracks = dataManager.getTracks(forAlbum: albums[1].objectID)
@@ -98,7 +95,7 @@ class SuggestAlbumsViewController: UIViewController {
             audioButton.imageEdgeInsets = UIEdgeInsetsMake(11.0, 11.0, 11.0, 11.0)
             audioButton.contentMode = .center
             
-            initialLayoutCongifured = true
+            initialLayoutConfigured = true
         }
     }
     
