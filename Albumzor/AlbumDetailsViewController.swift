@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import AVFoundation
 
 protocol AlbumDetailsViewControllerDelegate {
     func playTrack(atIndex index: Int)
@@ -52,59 +51,65 @@ class AlbumDetailsViewController: UIViewController {
         
         switch audioState {
         case .loading:
-            activityIndicator.startAnimating()
-            audioButton.isHidden = true
+            set(audioState: .loading, controlEnabled: false)
         case .playing:
-            activityIndicator.stopAnimating()
-            audioButton.isHidden = false
-            audioButton.setTitle("", for: .normal)
-            audioButton.setImage(UIImage(named: "Pause"), for: .normal)
+            set(audioState: .playing, controlEnabled: true)
         case .paused:
-            activityIndicator.stopAnimating()
-            audioButton.isHidden = false
-            audioButton.setTitle("", for: .normal)
-            audioButton.setImage(UIImage(named: "Play"), for: .normal)
+            set(audioState: .paused, controlEnabled: true)
         case .error:
-            activityIndicator.stopAnimating()
-            audioButton.isHidden = false
-            audioButton.setTitle("!", for: .normal)
-            audioButton.setImage(nil, for: .normal)
+            set(audioState: .error, controlEnabled: false)
         case .noTrack:
-            activityIndicator.stopAnimating()
-            audioButton.isHidden = false
-            audioButton.setTitle("", for: .normal)
-            audioButton.setImage(UIImage(named: "Play"), for: .normal)
-            audioButton.isUserInteractionEnabled = false
+            set(audioState: .noTrack, controlEnabled: false)
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    func set(audioState: AudioState, controlEnabled: Bool) {
+        self.audioState = audioState
+        audioButton.isUserInteractionEnabled = controlEnabled
+        
+        activityIndicator.stopAnimating()
+        
+        switch audioState {
+        case .noTrack:
+            audioButton.setTitle("", for: .normal)
+            audioButton.setImage(UIImage(named: "Play"), for: .normal)
+            audioButton.isHidden = false
+        case .loading:
+            activityIndicator.startAnimating()
+            audioButton.isHidden = true
+        case .playing:
+            audioButton.setTitle("", for: .normal)
+            audioButton.setImage(UIImage(named: "Pause"), for: .normal)
+            audioButton.isHidden = false
+        case .paused:
+            audioButton.setTitle("", for: .normal)
+            audioButton.setImage(UIImage(named: "Play"), for: .normal)
+            audioButton.isHidden = false
+        case .error:
+            audioButton.isHidden = false
+            audioButton.setTitle("!", for: .normal)
+            audioButton.setImage(nil, for: .normal)
+        }
     }
+    
+    //MARK: - User Actions
     
     @IBAction func back() {
         delegate?.dismiss()
     }
     
-    @IBAction func togglePause() {
+    @IBAction func audioControl() {
         switch audioState {
         case .playing:
-            audioButton.setTitle("", for: .normal)
-            audioButton.setImage(UIImage(named: "Play"), for: .normal)
-            audioButton.isUserInteractionEnabled = false
-            audioState = .paused
+            set(audioState: .paused, controlEnabled: false)
             delegate?.pauseAudio()
         case .paused:
-            audioButton.setTitle("", for: .normal)
-            audioButton.setImage(UIImage(named: "Pause"), for: .normal)
-            audioButton.isUserInteractionEnabled = false
-            audioState = .playing
+            set(audioState: .playing, controlEnabled: false)
             delegate?.resumeAudio()
         default:
             break
         }
     }
-    
 }
 
 //MARK:- Audio messages forwarded from parent
@@ -116,19 +121,11 @@ extension AlbumDetailsViewController {
     }
     
     func audioBeganPlaying() {
-        activityIndicator.stopAnimating()
-        audioButton.setTitle("", for: .normal)
-        audioButton.setImage(UIImage(named: "Pause"), for: .normal)
-        audioButton.isUserInteractionEnabled = true
-        audioButton.isHidden = false
-        audioState = .playing
+        set(audioState: .playing, controlEnabled: true)
     }
     
     func audioPaused() {
-        audioButton.setTitle("", for: .normal)
-        audioButton.setImage(UIImage(named: "Play"), for: .normal)
-        audioButton.isUserInteractionEnabled = true
-        audioState = .paused
+        set(audioState: .paused, controlEnabled: true)
     }
     
     func audioStopped() {
@@ -136,11 +133,7 @@ extension AlbumDetailsViewController {
     }
     
     func audioCouldNotPlay() {
-        activityIndicator.stopAnimating()
-        audioButton.setTitle("!", for: .normal)
-        audioButton.setImage(nil, for: .normal)
-        audioButton.isUserInteractionEnabled = false
-        audioState = .error
+        set(audioState: .error, controlEnabled: false)
     }
     
     
@@ -163,12 +156,7 @@ extension AlbumDetailsViewController: UITableViewDelegate {
             let cell = tableView.cellForRow(at: indexPath) as! TrackTableViewCell
             cell.titleLabel.font = UIFont.boldSystemFont(ofSize: cell.titleLabel.font.pointSize)
             
-            audioButton.setTitle("", for: .normal)
-            audioButton.setImage(UIImage(named: "Pause"), for: .normal)
-            audioButton.isUserInteractionEnabled = false
-            audioButton.isHidden = true
-            audioState = .playing
-            activityIndicator.startAnimating()
+            set(audioState: .playing, controlEnabled: false)
             
             delegate?.stopAudio()
             delegate?.playTrack(atIndex: indexPath.item - 1)
