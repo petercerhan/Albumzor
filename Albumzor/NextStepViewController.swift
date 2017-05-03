@@ -18,14 +18,14 @@ class NextStepViewController: UIViewController {
     var delegate: NextStepViewControllerDelegate!
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
-    @IBOutlet var messageLabel: UILabel!
+    @IBOutlet var titleLabel: UILabel!
     @IBOutlet var countLabel: UILabel!
-    @IBOutlet var label3: UILabel!
+    @IBOutlet var questionLabel: UILabel!
     @IBOutlet var symbolLabel1: UILabel!
     @IBOutlet var symbolLabel2: UILabel!
     
     @IBOutlet var moreAlbumsButton: UIButton!
-    @IBOutlet var viewAlbumsButton: UIButton!
+    @IBOutlet var reseedButton: UIButton!
     @IBOutlet var homeButton: UIButton!
     @IBOutlet var infoButton: UIButton!
     
@@ -38,11 +38,11 @@ class NextStepViewController: UIViewController {
         symbolLabel2.text = "\u{1F3B5}"
         
         countLabel.alpha = 0.0
-        label3.alpha = 0.0
+        questionLabel.alpha = 0.0
         symbolLabel1.alpha = 0.0
         symbolLabel2.alpha = 0.0
         moreAlbumsButton.alpha = 0.0
-        viewAlbumsButton.alpha = 0.0
+        reseedButton.alpha = 0.0
         homeButton.alpha = 0.0
         infoButton.alpha = 0.0
         
@@ -109,7 +109,7 @@ class NextStepViewController: UIViewController {
                        delay: delay,
                        options: .curveLinear,
                        animations: {
-                        self.label3.alpha = 1.0
+                        self.questionLabel.alpha = 1.0
         },
                        completion: nil)
         
@@ -131,10 +131,10 @@ class NextStepViewController: UIViewController {
                        delay: delay,
                        options: .curveLinear,
                        animations: {
-                        self.viewAlbumsButton.alpha = 1.0
+                        self.reseedButton.alpha = 1.0
                         self.infoButton.alpha = 1.0
         },
-                       completion: nil)
+                       completion: ni   l)
         
         delay += 0.1
         //2) 3rd Button

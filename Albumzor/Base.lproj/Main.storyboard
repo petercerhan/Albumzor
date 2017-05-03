@@ -1101,12 +1101,12 @@
                         <outlet property="countLabel" destination="Tlm-Xf-SXP" id="Pcd-gg-wND"/>
                         <outlet property="homeButton" destination="DhE-v0-QUF" id="blD-xj-7sd"/>
                         <outlet property="infoButton" destination="IT3-bs-4UQ" id="erl-di-Hg6"/>
-                        <outlet property="label3" destination="xJb-ZO-2XV" id="aV6-iY-uEH"/>
-                        <outlet property="messageLabel" destination="W6g-8V-BYd" id="joc-Di-wvN"/>
                         <outlet property="moreAlbumsButton" destination="zLJ-ZK-Bba" id="HuI-iZ-W5M"/>
+                        <outlet property="questionLabel" destination="xJb-ZO-2XV" id="dBc-qe-TCW"/>
+                        <outlet property="reseedButton" destination="1Mg-bj-b4P" id="5Io-SX-DhJ"/>
                         <outlet property="symbolLabel1" destination="AeC-f9-072" id="3tr-E0-haP"/>
                         <outlet property="symbolLabel2" destination="RJt-4q-T6E" id="ZfP-xR-X8m"/>
-                        <outlet property="viewAlbumsButton" destination="1Mg-bj-b4P" id="JFs-j8-DfH"/>
+                        <outlet property="titleLabel" destination="W6g-8V-BYd" id="HaM-rb-bQD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wdu-Db-wkE" userLabel="First Responder" sceneMemberID="firstResponder"/>
