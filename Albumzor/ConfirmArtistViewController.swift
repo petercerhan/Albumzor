@@ -20,6 +20,7 @@ class ConfirmArtistViewController: UIViewController {
     @IBOutlet var dislikeButton: UIButton!
     @IBOutlet var likeButton: UIButton!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet var quitButton: UIButton!
     
     weak var delegate: ConfirmArtistViewControllerDelegate!
     var client = SpotifyClient.sharedInstance()
@@ -82,11 +83,16 @@ class ConfirmArtistViewController: UIViewController {
                     DispatchQueue.main.async {
                         self.activityIndicator.stopAnimating()
                         self.imageView.image = image
+                        self.quitButton.isHidden = true
                         self.imageView.backgroundColor = UIColor(colorLiteralRed: 1.0, green: 1.0, blue: 1.0, alpha: 0.0)
                     }
                 }
             }
         }
+    }
+    
+    @IBAction func quit() {
+        delegate.artistCanceled()
     }
     
     @IBAction func selectArtist() {
