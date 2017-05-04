@@ -64,8 +64,10 @@ class HomeViewController: UIViewController {
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         audioPlayer.delegate = self
+        tableView.reloadData()
     }
     
     @IBAction func edit() {
@@ -158,29 +160,53 @@ extension HomeViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AlbumTableViewCell") as! AlbumTableViewCell
         cell.nameLabel.text = album.name!.cleanAlbumName()
         cell.artistLabel.text = album.artist!.name!
+        cell.albumImageView.image = nil
 
         let albumID = album.objectID
         let spotifyID = album.id!
         let backgroundContext = stack.networkingContext
         
-        //get UIImage from the image buffer if it's there, else get the data from core data and build the UIImage
+        //get UIImage from the image buffer if it's there, else get the data from core data and build the UIImage if there, else try to fetch over network
         if let image = imageBuffer[spotifyID] {
             cell.albumImageView.image = image
         } else {
             backgroundContext.perform {
+                //Get an album in the background context. Cannot use "album" which is in the main context!
                 var bgAlbum: Album!
-                
                 do {
                     bgAlbum = try self.stack.networkingContext.existingObject(with: albumID) as! Album
                 } catch {
                     
                 }
-                
-                if let imageData = bgAlbum.imageData {
+                //get image from core data
+                if let imageData = bgAlbum.smallImageData {
                     DispatchQueue.main.async {
                         let image = UIImage(data: imageData as Data)
                         cell.albumImageView.image = image
                         self.imageBuffer[spotifyID] = image
+                    }
+                    //get image over network
+                } else {
+                    self.downloadImage(imagePath: bgAlbum.smallImage!) { imageData, error in
+                        if let imageData = imageData {
+                           
+                            backgroundContext.perform {
+                                bgAlbum.smallImageData = imageData as NSData?
+                                do {
+                                    try backgroundContext.save()
+                                } catch {
+                                    
+                                }
+                                self.stack.save()
+                            }
+                            
+                            DispatchQueue.main.async {
+                                let image = UIImage(data: imageData as Data)
+                                cell.albumImageView.image = image
+                                self.imageBuffer[spotifyID] = image
+                            }
+                            
+                        }
                     }
                 }
             }
@@ -193,6 +219,24 @@ extension HomeViewController: UITableViewDataSource {
         
         return cell
     }
+    
+    func downloadImage(imagePath: String, completionHandler: @escaping (_ imageData: Data?, _ errorString: String?) -> Void) {
+        let session = URLSession.shared
+        let imgURL = NSURL(string: imagePath)
+        let request: NSURLRequest = NSURLRequest(url: imgURL! as URL)
+        
+        let task = session.dataTask(with: request as URLRequest) {data, response, downloadError in
+            
+            if downloadError != nil {
+                completionHandler(nil, "Could not download image \(imagePath)")
+            } else {
+                completionHandler(data, nil)
+            }
+        }
+        
+        task.resume()
+    }
+    
 }
 
 // MARK: - NSFetchedResultsControllerDelegate

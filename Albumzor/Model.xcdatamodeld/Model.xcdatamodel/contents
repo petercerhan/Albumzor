@@ -11,6 +11,7 @@
         <attribute name="priorSeed" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="seen" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="smallImage" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="smallImageData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <relationship name="artist" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Artist" inverseName="album" inverseEntity="Artist" syncable="YES"/>
         <relationship name="track" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Track" inverseName="album" inverseEntity="Track" syncable="YES"/>
     </entity>
@@ -35,7 +36,7 @@
         <relationship name="album" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Album" inverseName="track" inverseEntity="Album" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Album" positionX="-54" positionY="9" width="128" height="225"/>
+        <element name="Album" positionX="-54" positionY="9" width="128" height="240"/>
         <element name="Artist" positionX="-36" positionY="63" width="128" height="180"/>
         <element name="Track" positionX="-18" positionY="135" width="128" height="150"/>
     </elements>

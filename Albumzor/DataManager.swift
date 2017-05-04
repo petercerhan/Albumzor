@@ -69,6 +69,8 @@ class DataManager {
                 if let imageData = imageData {
                     album.imageData = imageData as NSData?
                 }
+                //small image data
+                self.getSmallImageData(album: album, context: backgroundContext)
             } catch {
                 
             }
@@ -95,6 +97,35 @@ class DataManager {
                 
             }
             self.stack.save()
+        }
+    }
+    
+    private func getSmallImageData(album: Album, context: NSManagedObjectContext) {
+        context.perform {
+            guard let smallImageURLString = album.smallImage, let url = URL(string: smallImageURLString) else {
+                return
+            }
+            
+            let session = URLSession.shared
+            let request: NSURLRequest = NSURLRequest(url: url)
+            
+            let task = session.dataTask(with: request as URLRequest) { data, response, error in
+                
+                context.perform {
+                    if let _ = error {
+                        return
+                    } else {
+                        album.smallImageData = data as NSData?
+                    }
+                    do {
+                        try context.save()
+                    } catch {
+                        
+                    }
+                    self.stack.save()
+                }
+            }
+            task.resume()
         }
     }
     
@@ -415,8 +446,8 @@ class DataManager {
                           let popularity = album["popularity"] as? Int,
                           let images = album["images"] as? [[String : AnyObject]],
                           images.count >= 3,
-                           let largeImage = images[1]["url"] as? String,
-                          let smallImage = images[2]["url"]  as? String else {
+                           let largeImage = images[0]["url"] as? String,
+                          let smallImage = images[1]["url"]  as? String else {
 
                         continue
                     }
