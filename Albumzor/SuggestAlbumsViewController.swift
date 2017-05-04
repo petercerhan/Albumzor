@@ -13,7 +13,7 @@ enum AudioState {
     case loading, playing, paused, error, noTrack
 }
 
-protocol SuggestAlbumsViewControllerDelegate {
+protocol SuggestAlbumsViewControllerDelegate : NSObjectProtocol {
     func quit()
     func batteryComplete(liked: Int)
 }
@@ -35,7 +35,7 @@ class SuggestAlbumsViewController: UIViewController {
     var currentAlbumView: CGDraggableView!
     var nextAlbumView: CGDraggableView!
     
-    var delegate: SuggestAlbumsViewControllerDelegate!
+    weak var delegate: SuggestAlbumsViewControllerDelegate!
     var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
     
     let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!

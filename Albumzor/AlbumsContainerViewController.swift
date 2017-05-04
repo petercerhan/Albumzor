@@ -8,18 +8,18 @@
 
 import UIKit
 
-protocol AlbumsContainerViewControllerDelegate {
+protocol AlbumsContainerViewControllerDelegate: NSObjectProtocol {
     func findAlbumsHome()
 }
 
 class AlbumsContainerViewController: UIViewController {
 
-    var delegate: AlbumsContainerViewControllerDelegate?
+    weak var delegate: AlbumsContainerViewControllerDelegate?
     
     var shouldLaunchAlbumView = true
     
-    private var contentViewController: UIViewController
-    let appStoryboard = UIStoryboard(name: "Main", bundle: nil)
+    var contentViewController: UIViewController
+    var appStoryboard: UIStoryboard! = UIStoryboard(name: "Main", bundle: nil)
     
     init() {
         let vc = appStoryboard.instantiateViewController(withIdentifier: "PrepareAlbumsViewController") as! PrepareAlbumsViewController
@@ -72,7 +72,6 @@ extension AlbumsContainerViewController: PrepareAlbumsViewControllerDelegate {
     }
     
     func cancelPrepareAlbums() {
-        (UIApplication.shared.delegate as! AppDelegate).audioPlayer.stop()
         shouldLaunchAlbumView = false
         delegate?.findAlbumsHome()
     }

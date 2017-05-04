@@ -8,13 +8,13 @@
 
 import UIKit
 
-protocol ArtistCollectionViewLayoutDelegate {
+protocol ArtistCollectionViewLayoutDelegate: NSObjectProtocol {
     func collectionView(_ collectionView: UICollectionView, sizeForLabelAtIndexPath path: IndexPath) -> CGSize
 }
 
 class ArtistCollectionViewLayout: UICollectionViewLayout {
 
-    var delegate: ArtistCollectionViewLayoutDelegate!
+    weak var delegate: ArtistCollectionViewLayoutDelegate!
 
     private var cache = [UICollectionViewLayoutAttributes]()
 

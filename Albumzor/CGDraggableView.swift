@@ -14,7 +14,7 @@ enum SwipeDirection: Int {
     case right
 }
 
-protocol CGDraggableViewDelegate {
+protocol CGDraggableViewDelegate: NSObjectProtocol {
     func swipeBegan()
     func swipeCanceled()
     func swipeComplete(direction: SwipeDirection)
@@ -30,7 +30,7 @@ class CGDraggableView: UIView {
     var imageView: UIImageView!
     var direction = SwipeDirection.none
     
-    var delegate: CGDraggableViewDelegate?
+    weak var delegate: CGDraggableViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)

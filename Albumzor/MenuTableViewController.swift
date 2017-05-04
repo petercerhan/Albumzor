@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol MenuTableViewControllerDelegate {
+protocol MenuTableViewControllerDelegate: NSObjectProtocol {
     func resetData(action: ResetDataAction)
 }
 
@@ -16,9 +16,9 @@ class MenuTableViewController: UITableViewController {
     
     @IBOutlet var autoPlaySwitch: UISwitch!
     
-    var delegate = (UIApplication.shared.delegate as! AppDelegate).mainContainerViewController!
+    weak var delegate = (UIApplication.shared.delegate as! AppDelegate).mainContainerViewController!
     var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 

@@ -9,19 +9,19 @@
 import UIKit
 import MediaPlayer
 
-protocol WelcomeViewControllerDelegate {
+protocol WelcomeViewControllerDelegate: NSObjectProtocol {
     func chooseArtists()
 }
 
 class WelcomeViewController: UIViewController {
 
-    var delegate: WelcomeViewControllerDelegate?
+    weak var delegate: WelcomeViewControllerDelegate?
     
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var messageLabel: UILabel!
     @IBOutlet var doneButton: UIButton!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         

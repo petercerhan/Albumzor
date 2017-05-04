@@ -13,7 +13,7 @@ enum ArtistSearchOrigin {
     case search
 }
 
-protocol ChooseArtistViewControllerDelegate {
+protocol ChooseArtistViewControllerDelegate: NSObjectProtocol {
     func chooseArtistSceneComplete()
 }
 
@@ -26,7 +26,7 @@ class ChooseArtistViewController: UIViewController {
     @IBOutlet var doneButton: UIButton!
     
     var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
-    var delegate: ChooseArtistViewControllerDelegate?
+    weak var delegate: ChooseArtistViewControllerDelegate?
     
     var searchActive = false
     
@@ -34,7 +34,7 @@ class ChooseArtistViewController: UIViewController {
     
     var selectedCellPath: IndexPath?
     var artists = [String]()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         

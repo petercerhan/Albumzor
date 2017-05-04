@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol AlbumDetailsViewControllerDelegate {
+protocol AlbumDetailsViewControllerDelegate: NSObjectProtocol {
     func playTrack(atIndex index: Int)
     func pauseAudio()
     func resumeAudio()
@@ -22,7 +22,7 @@ class AlbumDetailsViewController: UIViewController {
     @IBOutlet var audioButton: UIButton!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
-    var album: Album!
+    weak var album: Album!
     var tracks: [Track]?
     
     var albumImage: UIImage!

@@ -1128,14 +1128,14 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LargeRecord" translatesAutoresizingMaskIntoConstraints="NO" id="duF-AO-N6T">
                                 <rect key="frame" x="65" y="211.5" width="244" height="244"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="duF-AO-N6T" secondAttribute="height" multiplier="1:1" id="Whq-dr-WVx"/>
+                                    <constraint firstAttribute="width" secondItem="duF-AO-N6T" secondAttribute="height" multiplier="1:1" priority="999" id="Whq-dr-WVx"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="duF-AO-N6T" firstAttribute="centerX" secondItem="tpm-wH-iRV" secondAttribute="centerX" id="K4F-ex-o3b"/>
-                            <constraint firstItem="duF-AO-N6T" firstAttribute="width" secondItem="tpm-wH-iRV" secondAttribute="width" multiplier="0.65" id="NBL-Q0-1eP"/>
+                            <constraint firstItem="duF-AO-N6T" firstAttribute="width" secondItem="tpm-wH-iRV" secondAttribute="width" multiplier="0.65" priority="999" id="NBL-Q0-1eP"/>
                             <constraint firstItem="duF-AO-N6T" firstAttribute="centerY" secondItem="tpm-wH-iRV" secondAttribute="centerY" id="wv0-kF-KvB"/>
                         </constraints>
                     </view>

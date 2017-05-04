@@ -8,13 +8,13 @@
 
 import UIKit
 
-protocol ConfirmResetViewControllerDelegate {
+protocol ConfirmResetViewControllerDelegate: NSObjectProtocol {
     func dismiss()
 }
 
 class ConfirmResetViewController: UIViewController {
 
-    var delegate: ConfirmResetViewControllerDelegate?
+    weak var delegate: ConfirmResetViewControllerDelegate?
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func viewDidLoad() {

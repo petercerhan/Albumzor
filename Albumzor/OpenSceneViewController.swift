@@ -8,8 +8,7 @@
 
 import UIKit
 
-
-protocol OpenSceneViewControllerDelegate {
+protocol OpenSceneViewControllerDelegate: NSObjectProtocol {
     func openingSceneComplete()
 }
 
@@ -17,7 +16,7 @@ class OpenSceneViewController: UIViewController {
 
     @IBOutlet var recordImage: UIImageView!
     
-    var delegate: OpenSceneViewControllerDelegate?
+    weak var delegate: OpenSceneViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +24,11 @@ class OpenSceneViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+    
+        for constraint in recordImage.constraints {
+            print("constraint \(constraint)")
+        }
+        
         UIView.animate(withDuration: 0.4,
                        delay: 0.5,
                        options: .curveEaseOut,

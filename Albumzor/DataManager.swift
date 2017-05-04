@@ -415,7 +415,7 @@ class DataManager {
                           let popularity = album["popularity"] as? Int,
                           let images = album["images"] as? [[String : AnyObject]],
                           images.count >= 3,
-                          let largeImage = images[0]["url"] as? String,
+                           let largeImage = images[1]["url"] as? String,
                           let smallImage = images[2]["url"]  as? String else {
 
                         continue

@@ -8,14 +8,14 @@
 
 import UIKit
 
-protocol NextStepViewControllerDelegate {
+protocol NextStepViewControllerDelegate: NSObjectProtocol {
     func quit()
     func nextBattery()
 }
 
 class NextStepViewController: UIViewController {
 
-    var delegate: NextStepViewControllerDelegate!
+    weak var delegate: NextStepViewControllerDelegate!
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     @IBOutlet var titleLabel: UILabel!
@@ -134,7 +134,7 @@ class NextStepViewController: UIViewController {
                         self.reseedButton.alpha = 1.0
                         self.infoButton.alpha = 1.0
         },
-                       completion: ni   l)
+                       completion: nil)
         
         delay += 0.1
         //2) 3rd Button

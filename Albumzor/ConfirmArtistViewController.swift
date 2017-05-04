@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ConfirmArtistViewControllerDelegate {
+protocol ConfirmArtistViewControllerDelegate: NSObjectProtocol {
     func artistChosen(spotifyID: String, searchOrigin: ArtistSearchOrigin)
     func artistCanceled()
 }
@@ -21,14 +21,14 @@ class ConfirmArtistViewController: UIViewController {
     @IBOutlet var likeButton: UIButton!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
-    var delegate: ConfirmArtistViewControllerDelegate!
+    weak var delegate: ConfirmArtistViewControllerDelegate!
     var client = SpotifyClient.sharedInstance()
     
     var searchString: String!
     var searchOrigin: ArtistSearchOrigin!
     
     var spotifyID: String?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         getArtist()

@@ -12,7 +12,7 @@ enum ResetDataAction {
     case reset, reseed
 }
 
-protocol ResetDataViewControllerDelegate {
+protocol ResetDataViewControllerDelegate: NSObjectProtocol {
     func resetSucceeded()
     func resetFailed()
 }
@@ -21,9 +21,9 @@ class ResetDataViewController: UIViewController {
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
-    var delegate: ResetDataViewControllerDelegate?
+    weak var delegate: ResetDataViewControllerDelegate?
     var action: ResetDataAction!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 

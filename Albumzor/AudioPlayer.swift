@@ -9,7 +9,7 @@
 import Foundation
 import AVFoundation
 
-protocol AudioPlayerDelegate {
+protocol AudioPlayerDelegate: NSObjectProtocol {
     func beganLoading()
     func beganPlaying()
     func paused()
@@ -23,7 +23,7 @@ class AudioPlayer {
     
     var currentLoadSignature = 0
     
-    var delegate: AudioPlayerDelegate?
+    weak var delegate: AudioPlayerDelegate?
     
     func playTrack(url: URL) {
         audioPlayer?.stop()

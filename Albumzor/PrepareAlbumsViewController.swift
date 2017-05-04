@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-protocol PrepareAlbumsViewControllerDelegate {
+protocol PrepareAlbumsViewControllerDelegate: NSObjectProtocol {
     func launchAlbumView(albums: [Album], albumArt: [UIImage])
     func cancelPrepareAlbums()
 }
@@ -19,7 +19,7 @@ class PrepareAlbumsViewController: UIViewController {
     let stack = (UIApplication.shared.delegate as! AppDelegate).coreDataStack
     let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
     
-    var delegate: PrepareAlbumsViewControllerDelegate!
+    weak var delegate: PrepareAlbumsViewControllerDelegate!
     
     var albumDownloadInitiated = false
     
@@ -27,7 +27,6 @@ class PrepareAlbumsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("albums: \(dataManager.countUnseenAlbums() ?? 999)")
     }
     
     override func viewDidAppear(_ animated: Bool) {

@@ -8,15 +8,15 @@
 
 import UIKit
 
-protocol InstructionsViewControllerDelegate {
+protocol InstructionsViewControllerDelegate: NSObjectProtocol {
     func instructionsSceneComplete()
 }
 
 class InstructionsViewController: UIViewController {
     
     var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
-    var delegate: InstructionsViewControllerDelegate?
-    
+    weak var delegate: InstructionsViewControllerDelegate?
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }

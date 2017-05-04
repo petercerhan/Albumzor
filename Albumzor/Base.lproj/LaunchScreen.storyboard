@@ -26,13 +26,13 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LargeRecord" translatesAutoresizingMaskIntoConstraints="NO" id="nhf-Jy-KfS">
                                 <rect key="frame" x="65" y="211" width="244" height="244"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="nhf-Jy-KfS" secondAttribute="height" multiplier="1:1" id="oKC-HE-qL5"/>
+                                    <constraint firstAttribute="width" secondItem="nhf-Jy-KfS" secondAttribute="height" multiplier="1:1" priority="999" id="oKC-HE-qL5"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="nhf-Jy-KfS" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="0.65" id="9bh-J8-DSb"/>
+                            <constraint firstItem="nhf-Jy-KfS" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="0.65" priority="999" id="9bh-J8-DSb"/>
                             <constraint firstItem="nhf-Jy-KfS" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="ec6-Ke-mUk"/>
                             <constraint firstItem="nhf-Jy-KfS" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="fyM-kz-t8y"/>
                         </constraints>
