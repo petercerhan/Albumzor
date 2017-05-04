@@ -28,7 +28,7 @@ class ConfirmArtistViewController: UIViewController {
     var searchOrigin: ArtistSearchOrigin!
     
     var spotifyID: String?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         getArtist()

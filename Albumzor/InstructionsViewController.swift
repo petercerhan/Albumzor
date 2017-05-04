@@ -16,7 +16,7 @@ class InstructionsViewController: UIViewController {
     
     var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
     weak var delegate: InstructionsViewControllerDelegate?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }

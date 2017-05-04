@@ -34,7 +34,7 @@ class ChooseArtistViewController: UIViewController {
     
     var selectedCellPath: IndexPath?
     var artists = [String]()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

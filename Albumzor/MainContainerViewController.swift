@@ -15,6 +15,11 @@ class MainContainerViewController: UIViewController {
     private var contentViewController: UIViewController
     let appStoryboard = UIStoryboard(name: "Main", bundle: nil)
     
+    var hideStatusBar = true
+    override var prefersStatusBarHidden: Bool {
+        return hideStatusBar
+    }
+    
     init() {
         let vc = appStoryboard.instantiateViewController(withIdentifier: "OpenSceneViewController") as! OpenSceneViewController
         contentViewController = vc
@@ -90,6 +95,9 @@ extension MainContainerViewController: OpenSceneViewControllerDelegate {
         //load user settings from UserDefaults - at this point the app should be connect (accessing UserDefaults from application didFinishLaunching in the app delegate did not always work
         appDelegate.loadUserSettings()
         let userSettings = appDelegate.userSettings
+
+        hideStatusBar = false
+        setNeedsStatusBarAppearanceUpdate()
         
         if userSettings.instructionsSeen && userSettings.isSeeded {
             //standard situation - go straight to home screen

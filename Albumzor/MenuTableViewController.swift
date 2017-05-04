@@ -18,7 +18,7 @@ class MenuTableViewController: UITableViewController {
     
     weak var delegate = (UIApplication.shared.delegate as! AppDelegate).mainContainerViewController!
     var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

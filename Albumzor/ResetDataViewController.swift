@@ -23,7 +23,7 @@ class ResetDataViewController: UIViewController {
     let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
     weak var delegate: ResetDataViewControllerDelegate?
     var action: ResetDataAction!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

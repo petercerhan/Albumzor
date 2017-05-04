@@ -30,7 +30,7 @@ class HomeViewController: UIViewController {
     }
     
     var imageBuffer = [String : UIImage]()
-    
+
     //MARK:- Life Cycle
     
     override func viewDidLoad() {

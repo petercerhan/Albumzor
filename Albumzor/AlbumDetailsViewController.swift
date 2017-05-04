@@ -33,7 +33,7 @@ class AlbumDetailsViewController: UIViewController {
     var audioState: AudioState = .noTrack
     
     var delegate: AlbumDetailsViewControllerDelegate?
-    
+
     //MARK: - Life Cycle
     
     override func viewDidLoad() {
