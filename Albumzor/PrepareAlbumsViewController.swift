@@ -45,7 +45,6 @@ class PrepareAlbumsViewController: UIViewController {
     func prepareAlbums() {
         let albums = dataManager.getAlbums()
         
-        var outputAlbums = [Album]()
         var imageLinks = [String]()
         var albumIDs = [(spotifyID: String, managedObjectID: NSManagedObjectID)]()
         
@@ -55,6 +54,7 @@ class PrepareAlbumsViewController: UIViewController {
         }
         
         DispatchQueue.global(qos: .userInitiated).async {
+            var outputAlbums = [Album]()
             var albumArt = [UIImage]()
             for (index, imageLink) in imageLinks.enumerated() {
                 

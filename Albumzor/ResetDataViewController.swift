@@ -39,7 +39,9 @@ class ResetDataViewController: UIViewController {
         dataManager.reset() { error in
             if let _ = error {
                 //unexpected error state - core data updates should succeed
-                self.delegate?.resetFailed()
+                DispatchQueue.main.async {
+                    self.delegate?.resetFailed()
+                }
             } else {
                 DispatchQueue.main.async {
                     self.appDelegate.userSettings = UserSettings(instructionsSeen: false, isSeeded: false, autoplay: true, albumSortType: 0)
@@ -54,7 +56,9 @@ class ResetDataViewController: UIViewController {
         dataManager.reseed() { error in
             if let _ = error {
                 //unexpected error state - core data updates should succeed
-                self.delegate?.resetFailed()
+                DispatchQueue.main.async {
+                    self.delegate?.resetFailed()
+                }
             } else {
                 DispatchQueue.main.async {
                     self.appDelegate.userSettings.isSeeded = false

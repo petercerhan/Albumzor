@@ -43,9 +43,13 @@ class ConfirmArtistViewController: UIViewController {
                 self.activityIndicator.stopAnimating()
                 
                 if error.code == -1009 {
-                    self.artistNotFound(networkError: true)
+                    DispatchQueue.main.async {
+                        self.artistNotFound(networkError: true)
+                    }
                 } else {
-                    self.artistNotFound(networkError: false)
+                    DispatchQueue.main.async {
+                        self.artistNotFound(networkError: false)
+                    }
                 }
                 
                 return
