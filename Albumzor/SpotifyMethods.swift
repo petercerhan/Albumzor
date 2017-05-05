@@ -51,7 +51,7 @@ extension SpotifyClient {
             }
             
             guard let result = result as? [String : AnyObject], let artistsData = result["artists"] as? [[String : AnyObject]] else {
-                print("Data not formatted correctly")
+                //print("Data not formatted correctly")
                 return
             }
             
@@ -75,7 +75,7 @@ extension SpotifyClient {
             }
             
             guard let result = result as? [String : AnyObject], let albumsData = result["items"] as? [[String : AnyObject]] else {
-                print("Data not formatted correctly")
+                //print("Data not formatted correctly")
                 return
             }
             
@@ -96,7 +96,7 @@ extension SpotifyClient {
             }
             
             guard let result = result as? [String : AnyObject], let albums = result["albums"] as? [[String : AnyObject]] else {
-                print("bad data structure")
+                //print("bad data structure")
                 return
             }
             
@@ -119,7 +119,7 @@ extension SpotifyClient {
             }
             
             guard let result = result as? [String : AnyObject], let tracksData = result["items"] as? [[String : AnyObject]] else {
-                print("bad data structure")
+                //print("bad data structure")
                 return
             }
         
@@ -140,7 +140,7 @@ extension SpotifyClient {
             }
             
             guard let result = result as? [String : AnyObject], let tracks = result["tracks"] as? [[String : AnyObject]] else {
-                print("bad data structure")
+                //print("bad data structure")
                 return
             }
             

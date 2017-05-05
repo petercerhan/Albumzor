@@ -40,14 +40,14 @@ class SpotifyClient {
             
             /* GUARD: Did we get a successful 2XX response? */
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
-                print("Your request returned a status code other than 2xx!")
+                //print("Your request returned a status code other than 2xx!")
                 sendError("Your request returned a status code other than 2xx!")
                 return
             }
             
             /* GUARD: Was there any data returned? */
             guard let data = data else {
-                print("No data was returned by the request!")
+                //print("No data was returned by the request!")
                 sendError("No data was returned by the request!")
                 return
             }

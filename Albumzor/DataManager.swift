@@ -808,7 +808,7 @@ extension DataManager {
                                  "Anthology",
                                  "Greatest Hits",
                                  "20th Century Masters",
-                                 "In Concert",
+                                 "Concert",
                                  "Spotify",
                                  "Best of",
                                  "Essential"]
