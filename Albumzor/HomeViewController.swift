@@ -16,6 +16,7 @@ class HomeViewController: UIViewController {
     @IBOutlet var editButton: UIBarButtonItem!
     @IBOutlet var menuButton: UIBarButtonItem!
     
+    let userSettings = (UIApplication.shared.delegate as! AppDelegate).userSettings
     let stack = (UIApplication.shared.delegate as! AppDelegate).coreDataStack
     let audioPlayer = (UIApplication.shared.delegate as! AppDelegate).audioPlayer
     
@@ -36,17 +37,29 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureFetchedResultsController()
-        
         findAlbumsButton.backgroundColor = Styles.themeBlue
         menuButton.imageInsets = UIEdgeInsetsMake(7.0, 2.0, 7.0, 2.0)
+        
+        configureFetchedResultsController()
     }
     
     func configureFetchedResultsController() {
+        guard let albumSortType = AlbumSortType(rawValue: userSettings.albumSortType) else {
+            return
+        }
+        
         let request = NSFetchRequest<Album>(entityName: "Album")
         let predicate = NSPredicate(format: "(liked = true)")
-        request.sortDescriptors = [NSSortDescriptor(key: "likedDateTime", ascending: false)]
         request.predicate = predicate
+        
+        switch albumSortType {
+        case .dateAdded:
+            request.sortDescriptors = [NSSortDescriptor(key: "likedDateTime", ascending: false)]
+        case .albumName:
+            request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        case .artist:
+            request.sortDescriptors = [NSSortDescriptor(key: "artist.name", ascending: true)]
+        }
         
         let frc = NSFetchedResultsController(fetchRequest: request, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
         frc.delegate = self
@@ -87,7 +100,8 @@ class HomeViewController: UIViewController {
     }
 
     @IBAction func menu() {
-        let vc = storyboard!.instantiateViewController(withIdentifier: "MenuTableViewController")
+        let vc = storyboard!.instantiateViewController(withIdentifier: "MenuTableViewController") as! MenuTableViewController
+        vc.menuDelegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
 
@@ -318,7 +332,7 @@ extension HomeViewController: AlbumDetailsViewControllerDelegate {
     }
 }
 
-//MARK:- AudioPlayerDelegate
+//MARK: - AudioPlayerDelegate
 
 extension HomeViewController: AudioPlayerDelegate {
     
@@ -355,6 +369,13 @@ extension HomeViewController: AudioPlayerDelegate {
     
 }
 
+//MARK: - Menu Delegate
+
+extension HomeViewController: MenuDelegate {
+    func refreshAlbumDisplay() {
+        configureFetchedResultsController()
+    }
+}
 
 
 

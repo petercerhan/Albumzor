@@ -42,7 +42,7 @@ class ResetDataViewController: UIViewController {
                 self.delegate?.resetFailed()
             } else {
                 DispatchQueue.main.async {
-                    self.appDelegate.userSettings = UserSettings(instructionsSeen: false, isSeeded: false, autoplay: true)
+                    self.appDelegate.userSettings = UserSettings(instructionsSeen: false, isSeeded: false, autoplay: true, albumSortType: 0)
                     self.appDelegate.saveUserSettings()
                     self.delegate?.resetSucceeded()
                 }

@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var dataManager: DataManager!
     var audioPlayer = AudioPlayer()
     //initial/default settings
-    var userSettings = UserSettings(instructionsSeen: false, isSeeded: false, autoplay: true)
+    var userSettings = UserSettings(instructionsSeen: false, isSeeded: false, autoplay: true, albumSortType: 0)
     
     var mainContainerViewController: MainContainerViewController?
     

@@ -12,12 +12,22 @@ protocol MenuTableViewControllerDelegate: NSObjectProtocol {
     func resetData(action: ResetDataAction)
 }
 
+protocol MenuDelegate: NSObjectProtocol {
+    func refreshAlbumDisplay()
+}
+
 class MenuTableViewController: UITableViewController {
     
     @IBOutlet var autoPlaySwitch: UISwitch!
+    @IBOutlet var sortAlbumsLabel: UILabel!
     
     weak var delegate = (UIApplication.shared.delegate as! AppDelegate).mainContainerViewController!
+    weak var menuDelegate: MenuDelegate?
     var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+    
+    var shouldReloadAlbums = false
+    
+    //MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +35,29 @@ class MenuTableViewController: UITableViewController {
         title = "Options"
         autoPlaySwitch.isOn = appDelegate.userSettings.autoplay
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        guard let albumSortType = AlbumSortType(rawValue: appDelegate.userSettings.albumSortType) else {
+            return
+        }
+        
+        switch albumSortType {
+        case .dateAdded:
+            sortAlbumsLabel.text = "Date Added"
+        case .albumName:
+            sortAlbumsLabel.text = "Album Name"
+        case .artist:
+            sortAlbumsLabel.text = "Artist"
+        }
+     
+        if shouldReloadAlbums {
+            menuDelegate?.refreshAlbumDisplay()
+        }
+    }
+    
+    //MARK: - User Actions
     
     @IBAction func reseedInfo() {
         alert(title: "Re-Seed", message: "Choose new seed artists. \n\nThe current data used for suggesting albums will be erased, and you can choose a new set of seed artists.\n\nYour liked ablums will not be erased.", buttonTitle: "Done")
@@ -51,7 +84,7 @@ class MenuTableViewController: UITableViewController {
         case 0:
             return 2
         case 1:
-            return 1
+            return 2
         default:
             return 0
         }
@@ -62,13 +95,17 @@ class MenuTableViewController: UITableViewController {
             reseedDataAlert()
         } else if indexPath.section == 0 && indexPath.row == 1 {
             resetDataAlert()
+        } else if indexPath.section == 1 && indexPath.row == 1 {
+            shouldReloadAlbums = true
+            let vc = storyboard!.instantiateViewController(withIdentifier: "SortOptionsTableViewController")
+            navigationController?.pushViewController(vc, animated: true)
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        if indexPath.section == 1 {
+        if indexPath.section == 1 && indexPath.row == 0 {
             return false
         }
         return true
