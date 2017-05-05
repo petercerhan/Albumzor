@@ -5,6 +5,7 @@
 //  Created by Peter Cerhan on 4/1/17.
 //  Copyright © 2017 Peter Cerhan. All rights reserved.
 //
+// Based on this tutorial: http://guti.in/articles/creating-tinder-like-animations
 
 import UIKit
 
