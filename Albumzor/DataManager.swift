@@ -437,7 +437,6 @@ class DataManager {
             
             backgroundContext.perform {
                 let artist = Artist(id: artistData["id"] as! String, name: artistData["name"] as! String, context: backgroundContext)
-                print("Add artist \(artist.name!)")
                 
                 var albumsArray = [Album]()
                 for album in albumsData {
