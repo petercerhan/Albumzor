@@ -62,8 +62,7 @@ extension SpotifyClient {
     //The albums data sent to the completion handler is a [[String : AnyObject]] (sent as AnyObject?)
     //Spotify returns simplified album objects for the artist requested
     func getAlbums(forArtist artistID: String, completion: @escaping SpotifyCompletionHandler) {
-        let parameters = ["album_type" : "album",
-                          "market" : "US"]
+        let parameters = ["album_type" : "album"]
         
         let method = replace(placeholder: "id", inMethod: Methods.getArtistAlbums, value: artistID)
         

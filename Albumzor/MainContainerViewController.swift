@@ -91,36 +91,43 @@ class MainContainerViewController: UIViewController {
 
 extension MainContainerViewController: OpenSceneViewControllerDelegate {
     func openingSceneComplete() {
-        let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
-        //load user settings from UserDefaults - at this point the app should be connect (accessing UserDefaults from application didFinishLaunching in the app delegate did not always work
-        appDelegate.loadUserSettings()
-        let userSettings = appDelegate.userSettings
-
-        hideStatusBar = false
-        setNeedsStatusBarAppearanceUpdate()
         
-        if userSettings.instructionsSeen && userSettings.isSeeded {
-            //standard situation - go straight to home screen
-            let vc = appStoryboard.instantiateViewController(withIdentifier: "HomeNavController")
-            update(contentViewController: vc)
-            
-        } else if !(userSettings.instructionsSeen) && !(userSettings.isSeeded) {
-            //first time sequence
-            let vc = appStoryboard.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
-            vc.delegate = self
-            update(contentViewController: vc)
-            
-        } else if userSettings.instructionsSeen && !userSettings.isSeeded {
-            //needs reseeding; go to choose artist screen
-            getSeedArtists(animateTransition: false)
-            
-        } else if !userSettings.instructionsSeen && userSettings.isSeeded {
-            //user seeded artists but didn't navigate to final instructions pane
-            //show last instruction screen
-            let vc = appStoryboard.instantiateViewController(withIdentifier: "InstructionsViewController") as! InstructionsViewController
-            vc.delegate = self
-            update(contentViewController: vc)
-        }
+        
+        hideStatusBar = false
+        let vc = appStoryboard.instantiateViewController(withIdentifier: "SpotifyLoginViewController")
+        update(contentViewController: vc)
+        
+        
+//        let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+//        //load user settings from UserDefaults - at this point the app should be connect (accessing UserDefaults from application didFinishLaunching in the app delegate did not always work
+//        appDelegate.loadUserSettings()
+//        let userSettings = appDelegate.userSettings
+//
+//        hideStatusBar = false
+//        setNeedsStatusBarAppearanceUpdate()
+//        
+//        if userSettings.instructionsSeen && userSettings.isSeeded {
+//            //standard situation - go straight to home screen
+//            let vc = appStoryboard.instantiateViewController(withIdentifier: "HomeNavController")
+//            update(contentViewController: vc)
+//            
+//        } else if !(userSettings.instructionsSeen) && !(userSettings.isSeeded) {
+//            //first time sequence
+//            let vc = appStoryboard.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
+//            vc.delegate = self
+//            update(contentViewController: vc)
+//            
+//        } else if userSettings.instructionsSeen && !userSettings.isSeeded {
+//            //needs reseeding; go to choose artist screen
+//            getSeedArtists(animateTransition: false)
+//            
+//        } else if !userSettings.instructionsSeen && userSettings.isSeeded {
+//            //user seeded artists but didn't navigate to final instructions pane
+//            //show last instruction screen
+//            let vc = appStoryboard.instantiateViewController(withIdentifier: "InstructionsViewController") as! InstructionsViewController
+//            vc.delegate = self
+//            update(contentViewController: vc)
+//        }
     }
 }
 
