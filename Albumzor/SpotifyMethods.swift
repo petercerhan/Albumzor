@@ -146,4 +146,27 @@ extension SpotifyClient {
             completion(tracks as AnyObject, nil)
         }
     }
+    
+    //The user data sent to the completion handler is a [String : AnyObject] (sent as AnyObject?)
+    func getUserInfo(completion: @escaping SpotifyCompletionHandler) {
+        
+        let parameters = [String : String]()
+        
+        _ = task(getMethod: Methods.getUserInfo, parameters: parameters) { result, error in
+            
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+            
+            guard let result = result as? [String : AnyObject] else {
+                //print("bad data structure")
+                completion(nil, NSError(domain: "Spotify Client", code: 5, userInfo: [NSLocalizedDescriptionKey : "Bad data structure"]))
+                return
+            }
+            
+            completion(result as AnyObject, nil)
+        }
+        
+    }
 }

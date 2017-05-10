@@ -17,6 +17,10 @@ class SpotifyClient {
     func task(getMethod method: String, parameters: [String : String], completionHandler: @escaping SpotifyCompletionHandler) -> URLSessionDataTask {
         
         let request = NSMutableURLRequest(url: url(fromParameters: parameters, method: method))
+
+        if let token = (SpotifyAuthManager().getToken()) {
+            request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
         
         return(task(request: request as URLRequest, completionHandler: completionHandler))
     }

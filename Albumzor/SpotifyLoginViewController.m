@@ -25,32 +25,20 @@
     [super viewDidLoad];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionUpdatedNotification:) name:@"sessionUpdated" object:nil];
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionUpdatedNotification:) name:@"spotifyAuthFailed" object:nil];
-    self.firstLoad = YES;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)openLoginPage
 {
-    [super viewWillAppear:animated];
-    
     SPTAuth *auth = [SPTAuth defaultInstance];
     
-    //move these checks to main container
-    
-    // Check if we have a token at all
-    if (auth.session == nil) {
-        return;
+    if ([SPTAuth supportsApplicationAuthentication]) {
+        [[UIApplication sharedApplication] openURL:[auth spotifyAppAuthenticationURL] options:@{} completionHandler:nil];
+    } else {
+        self.authViewController = [self authViewControllerWithURL:[[SPTAuth defaultInstance] spotifyWebAuthenticationURL]];
+        self.definesPresentationContext = YES;
+        [self presentViewController:self.authViewController animated:YES completion:nil];
     }
-    
-    // Check if it's still valid
-    if ([auth.session isValid] && self.firstLoad) {
-        // It's still valid, show the player.
-        [self loginSucceeded];
-        return;
-    }
-    
 }
-
 
 - (UIViewController *)authViewControllerWithURL:(NSURL *)url
 {
@@ -73,35 +61,29 @@
     if (auth.session && [auth.session isValid]) {
         [self loginSucceeded];
     } else {
-        NSLog(@"*** Failed to log in");
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Could not Log In!"
+                                                                       message:@"Unable to authenticate your Spotify account"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+
+        UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:@"Dismiss"
+                                                                style:UIAlertActionStyleDefault
+                                                              handler:nil];
+        
+        [alert addAction:dismissAction];
+        [self presentViewController:alert animated:YES completion:nil];
     }
 }
 
 - (void)loginSucceeded
 {
-    NSLog(@"Login complete");
     [_controllerDelegate loginSucceeded];
 }
-
-- (void)openLoginPage
-{
-    SPTAuth *auth = [SPTAuth defaultInstance];
-    
-    if ([SPTAuth supportsApplicationAuthentication]) {
-        [[UIApplication sharedApplication] openURL:[auth spotifyAppAuthenticationURL] options:@{} completionHandler:nil];
-    } else {
-        self.authViewController = [self authViewControllerWithURL:[[SPTAuth defaultInstance] spotifyWebAuthenticationURL]];
-        self.definesPresentationContext = YES;
-        [self presentViewController:self.authViewController animated:YES completion:nil];
-    }
-}
-
 
 #pragma mark SFSafariViewControllerDelegate
 
 - (void)safariViewControllerDidFinish:(SFSafariViewController *)controller
 {
-    NSLog(@"User canceled safari login dialogue");
+    //Do nothing
 }
 
 #pragma mark - IBActions

@@ -16,6 +16,7 @@ protocol WelcomeViewControllerDelegate: NSObjectProtocol {
 class WelcomeViewController: UIViewController {
 
     weak var delegate: WelcomeViewControllerDelegate?
+    var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
     
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var titleLabel: UILabel!
@@ -30,16 +31,68 @@ class WelcomeViewController: UIViewController {
     }
 
     @IBAction func chooseArtists() {
-        animateOut()
+        ui(setLoading: true)
+        
+        let userProfile = appDelegate.userProfile
+        
+        if userProfile.userMarket == "None" {
+            getUserMarket()
+        } else {
+            launchChooseArtists()
+        }
+    }
+    
+    func getUserMarket() {
+        let client = SpotifyClient.sharedInstance()
+        
+        client.getUserInfo() { result, error in
+            
+            if let _ = error {
+                DispatchQueue.main.async {
+                    self.ui(setLoading: false)
+                    self.networkingError()
+                }
+            } else {
+                guard let result = result as? [String : AnyObject], let market = result["country"] as? String else {
+                    DispatchQueue.main.async {
+                        self.ui(setLoading: false)
+                        self.networkingError()
+                    }
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.appDelegate.userProfile.userMarket = market
+                    self.appDelegate.saveUserProfile()
+                    self.launchChooseArtists()
+                }
+            }
+            
+        }
+    }
+    
+    func launchChooseArtists() {
         delegate?.chooseArtists()
     }
     
-    func animateOut() {
-        activityIndicator.startAnimating()
-        titleLabel.alpha = 0.6
-        messageLabel.alpha = 0.6
-        doneButton.alpha = 0.6
-        doneButton.isEnabled = false
+    func networkingError() {
+        alert(title: "Network Error", message: "Please check your internet connection", buttonTitle: "Dismiss")
+    }
+    
+    func ui(setLoading isLoading: Bool) {
+        if isLoading {
+            titleLabel.alpha = 0.6
+            messageLabel.alpha = 0.6
+            doneButton.alpha = 0.6
+            doneButton.isEnabled = false
+            activityIndicator.startAnimating()
+        } else {
+            titleLabel.alpha = 1.0
+            messageLabel.alpha = 1.0
+            doneButton.alpha = 1.0
+            doneButton.isEnabled = true
+            activityIndicator.stopAnimating()
+        }
     }
     
 }

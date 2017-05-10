@@ -129,14 +129,23 @@ extension MainContainerViewController: SpotifyLoginViewControllerDelegate {
 
 extension MainContainerViewController: OpenSceneViewControllerDelegate {
     func openingSceneComplete() {
-        
-        //skip if we have a valid session
-        
         hideStatusBar = false
         setNeedsStatusBarAppearanceUpdate()
-        let vc = appStoryboard.instantiateViewController(withIdentifier: "SpotifyLoginViewController") as! SpotifyLoginViewController
-        update(contentViewController: vc)
-        vc.controllerDelegate = self
+        
+        //skip if we have a valid session
+        if SpotifyAuthManager().sessionIsValid() {
+            loginSucceeded()
+        
+        } else {
+            let vc = appStoryboard.instantiateViewController(withIdentifier: "SpotifyLoginViewController") as! SpotifyLoginViewController
+            update(contentViewController: vc)
+            vc.controllerDelegate = self
+        }
+
+        //dev
+//        let vc = appStoryboard.instantiateViewController(withIdentifier: "SpotifyLoginViewController") as! SpotifyLoginViewController
+//        update(contentViewController: vc)
+//        vc.controllerDelegate = self
     }
 }
 

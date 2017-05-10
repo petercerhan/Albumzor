@@ -23,6 +23,7 @@ extension SpotifyClient {
         static let getAlbums = "/albums"
         static let getAlbumTracks = "/albums/{id}/tracks"
         static let getTracks = "/tracks"
+        static let getUserInfo = "/me"
     }
   
     struct ParameterKeys {

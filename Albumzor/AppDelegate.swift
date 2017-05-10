@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var audioPlayer = AudioPlayer()
     //initial/default settings
     var userSettings = UserSettings(instructionsSeen: false, isSeeded: false, autoplay: true, albumSortType: 0)
+    var userProfile = UserProfile(userMarket: "None", spotifyConnected: false)
     
     var mainContainerViewController: MainContainerViewController?
     
@@ -30,7 +31,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = vc
         window?.makeKeyAndVisible()
         
+        removeObject()
         SpotifyAuthManager().configureSpotifyAuth()
+        loadUserProfile()
         
         dataManager = DataManager()
         
@@ -68,16 +71,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //MARK: - Manage user settings
 
 extension AppDelegate {
-    //Loading user settings from application didFinishLaunchingWithOptions doesn't always work. Possible that this is called before UserDefaults is available?
-    //Call this function from the intro animation view controller once it loads.
+    
+    func removeObject() {
+        UserDefaults.standard.removeObject(forKey: "userProfile")
+    }
+    
     func loadUserSettings() {
         if let data = UserDefaults.standard.object(forKey: "userSettings") as? Data,
             let userSettings = NSKeyedUnarchiver.unarchiveObject(with: data) as? UserSettings {
-//            print("user settings")
-//            print("user settings isSeeded: \(userSettings.isSeeded), instructionsSeen:\(userSettings.instructionsSeen)")
+            
             self.userSettings = userSettings
         } else {
-//            print("Could not retrieve user settings")
+            
         }
     }
     
@@ -85,6 +90,24 @@ extension AppDelegate {
         let data = NSKeyedArchiver.archivedData(withRootObject: userSettings)
         UserDefaults.standard.set(data, forKey: "userSettings")
     }
+    
+    func loadUserProfile() {
+        if let data = UserDefaults.standard.object(forKey: "userProfile") as? Data,
+            let userProfile = NSKeyedUnarchiver.unarchiveObject(with: data) as? UserProfile {
+            
+            print("found user profile market: \(userProfile.userMarket)")
+            self.userProfile = userProfile
+        } else {
+            print("did not find user profile")
+        }
+    }
+    
+    func saveUserProfile() {
+        let data = NSKeyedArchiver.archivedData(withRootObject: userProfile)
+        UserDefaults.standard.set(data, forKey: "userProfile")
+    }
 }
+
+
 
 

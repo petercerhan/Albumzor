@@ -53,5 +53,25 @@
     return NO;
 }
 
+-(bool)sessionIsValid {
+    SPTAuth *auth = [SPTAuth defaultInstance];
+    
+    // Check if we have a token at all
+    if (auth.session == nil) {
+        return NO;
+    }
+    
+    // Check if it's still valid
+    if ([auth.session isValid]) {
+        return YES;
+    }
+    return NO;
+}
+
+-(NSString *)getToken {
+    SPTAuth *auth = [SPTAuth defaultInstance];
+    return auth.session.accessToken;
+}
+
 @end
 

@@ -12,5 +12,7 @@
 
 -(void)configureSpotifyAuth;
 -(bool)openURL: (NSURL *)url;
+-(bool)sessionIsValid;
+-(NSString *)getToken;
 
 @end
