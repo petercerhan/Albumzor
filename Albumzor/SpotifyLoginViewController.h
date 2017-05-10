@@ -12,10 +12,13 @@
 
 @protocol SpotifyLoginViewControllerDelegate
 
--(void)loginComplete: (bool)success;
+-(void)loginSucceeded;
+-(void)cancelLogin;
 
 @end
 
 @interface SpotifyLoginViewController : UIViewController
+
+@property (weak) id <SpotifyLoginViewControllerDelegate> controllerDelegate;
 
 @end

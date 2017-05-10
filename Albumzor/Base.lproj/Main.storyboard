@@ -1207,18 +1207,18 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uRC-OL-j4q">
-                                <rect key="frame" x="157" y="602" width="60" height="36"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <rect key="frame" x="145" y="600" width="85" height="47"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
-                                    <action selector="loginClicked:" destination="ugn-o1-WSI" eventType="touchUpInside" id="WXF-FD-OQc"/>
+                                    <action selector="login" destination="ugn-o1-WSI" eventType="touchUpInside" id="HcY-ml-Mvg"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="uRC-OL-j4q" firstAttribute="centerX" secondItem="1d8-Mx-obC" secondAttribute="centerX" id="jPT-k4-Woc"/>
-                            <constraint firstItem="NJ7-A2-Dyi" firstAttribute="top" secondItem="uRC-OL-j4q" secondAttribute="bottom" constant="29" id="m7x-VL-Lh4"/>
+                            <constraint firstItem="uRC-OL-j4q" firstAttribute="centerX" secondItem="1d8-Mx-obC" secondAttribute="centerX" id="Dd2-gR-oLU"/>
+                            <constraint firstItem="NJ7-A2-Dyi" firstAttribute="top" secondItem="uRC-OL-j4q" secondAttribute="bottom" constant="20" id="WJo-LG-5V8"/>
                         </constraints>
                     </view>
                 </viewController>

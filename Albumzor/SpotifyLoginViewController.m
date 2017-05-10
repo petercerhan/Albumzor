@@ -12,7 +12,6 @@
 
 @property (atomic, readwrite) UIViewController *authViewController;
 @property (atomic, readwrite) BOOL firstLoad;
-@property (weak) id <SpotifyLoginViewControllerDelegate> delegate;
 
 @end
 
@@ -36,6 +35,8 @@
     
     SPTAuth *auth = [SPTAuth defaultInstance];
     
+    //move these checks to main container
+    
     // Check if we have a token at all
     if (auth.session == nil) {
         return;
@@ -44,16 +45,12 @@
     // Check if it's still valid
     if ([auth.session isValid] && self.firstLoad) {
         // It's still valid, show the player.
-        [self showPlayer];
+        [self loginSucceeded];
         return;
     }
     
 }
 
-- (BOOL)prefersStatusBarHidden
-{
-    return YES;
-}
 
 - (UIViewController *)authViewControllerWithURL:(NSURL *)url
 {
@@ -74,21 +71,20 @@
     [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
     
     if (auth.session && [auth.session isValid]) {
-        [self showPlayer];
+        [self loginSucceeded];
     } else {
         NSLog(@"*** Failed to log in");
     }
 }
 
-- (void)showPlayer
+- (void)loginSucceeded
 {
     NSLog(@"Login complete");
-    //[_delegate loginComplete:YES];
+    [_controllerDelegate loginSucceeded];
 }
 
 - (void)openLoginPage
 {
-    NSLog(@"Logging in...");
     SPTAuth *auth = [SPTAuth defaultInstance];
     
     if ([SPTAuth supportsApplicationAuthentication]) {
@@ -110,14 +106,9 @@
 
 #pragma mark - IBActions
 
-- (IBAction)loginClicked:(id)sender
-{
+- (IBAction)login {
     [self openLoginPage];
 }
 
-- (IBAction)button2:(id)sender
-{
-
-}
 
 @end
