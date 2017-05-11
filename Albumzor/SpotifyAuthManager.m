@@ -32,10 +32,9 @@
         // This is the callback that'll be triggered when auth is completed (or fails).
         
         if (error) {
-            NSLog(@"*** Auth error: %@", error);
+//            NSLog(@"*** Auth error: %@", error);
         } else {
             auth.session = session;
-            NSLog(@"token: %@", auth.session.accessToken);
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:@"sessionUpdated" object:self];
     };

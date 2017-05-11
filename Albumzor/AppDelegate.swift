@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = vc
         window?.makeKeyAndVisible()
         
-        removeObject()
+        deleteSession()
         SpotifyAuthManager().configureSpotifyAuth()
         loadUserProfile()
         
@@ -72,8 +72,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate {
     
-    func removeObject() {
+    func deleteSession() {
+        UserDefaults.standard.removeObject(forKey: "SpotifySession")
+    }
+    
+    func deleteUserProfile() {
         UserDefaults.standard.removeObject(forKey: "userProfile")
+    }
+    
+    func testForObject() {
+        if UserDefaults.standard.object(forKey: "SpotifySession") == nil {
+            print("did not find")
+        } else {
+            print("found")
+        }
     }
     
     func loadUserSettings() {

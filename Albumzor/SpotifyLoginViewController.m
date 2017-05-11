@@ -25,6 +25,12 @@
     [super viewDidLoad];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionUpdatedNotification:) name:@"sessionUpdated" object:nil];
+    
+    if(_spotifyConnected) {
+        [_messageLabel setText:@"Please refresh your Spotify authentication"];
+    }
+    
+    [[_spotifyButton layer] setCornerRadius:25.0];
 }
 
 - (void)openLoginPage

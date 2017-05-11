@@ -92,10 +92,15 @@ class MainContainerViewController: UIViewController {
 extension MainContainerViewController: SpotifyLoginViewControllerDelegate {
     func loginSucceeded() {
         let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+
+        let userProfile = appDelegate.userProfile
+        userProfile.spotifyConnected = true
+        appDelegate.saveUserProfile()
+        
         //load user settings from UserDefaults
         appDelegate.loadUserSettings()
         let userSettings = appDelegate.userSettings
-
+        
         if userSettings.instructionsSeen && userSettings.isSeeded {
             //standard situation - go straight to home screen
             let vc = appStoryboard.instantiateViewController(withIdentifier: "HomeNavController")
@@ -137,15 +142,13 @@ extension MainContainerViewController: OpenSceneViewControllerDelegate {
             loginSucceeded()
         
         } else {
+            let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+            
             let vc = appStoryboard.instantiateViewController(withIdentifier: "SpotifyLoginViewController") as! SpotifyLoginViewController
+            vc.spotifyConnected = appDelegate.userProfile.spotifyConnected
             update(contentViewController: vc)
             vc.controllerDelegate = self
         }
-
-        //dev
-//        let vc = appStoryboard.instantiateViewController(withIdentifier: "SpotifyLoginViewController") as! SpotifyLoginViewController
-//        update(contentViewController: vc)
-//        vc.controllerDelegate = self
     }
 }
 

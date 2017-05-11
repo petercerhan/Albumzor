@@ -20,5 +20,8 @@
 @interface SpotifyLoginViewController : UIViewController
 
 @property (weak) id <SpotifyLoginViewControllerDelegate> controllerDelegate;
+@property BOOL spotifyConnected;
+@property IBOutlet UILabel *messageLabel;
+@property IBOutlet UIButton *spotifyButton;
 
 @end

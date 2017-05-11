@@ -62,7 +62,9 @@ extension SpotifyClient {
     //The albums data sent to the completion handler is a [[String : AnyObject]] (sent as AnyObject?)
     //Spotify returns simplified album objects for the artist requested
     func getAlbums(forArtist artistID: String, completion: @escaping SpotifyCompletionHandler) {
-        let parameters = ["album_type" : "album"]
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let parameters = ["album_type" : "album", "market" : appDelegate.userProfile.userMarket]
         
         let method = replace(placeholder: "id", inMethod: Methods.getArtistAlbums, value: artistID)
         
@@ -85,7 +87,9 @@ extension SpotifyClient {
     //The albums data sent to the completion handler is a [[String : AnyObject]] (sent as AnyObject?)
     //Spotify returns full album objects for each album ID requested
     func getAlbums(ids: String, completion: @escaping SpotifyCompletionHandler) {
-        let parameters = ["ids" : ids]
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let parameters = ["ids" : ids, "market" : appDelegate.userProfile.userMarket]
         
         _ = task(getMethod: Methods.getAlbums, parameters: parameters) { result, error in
             
@@ -106,7 +110,9 @@ extension SpotifyClient {
     //The tracks data sent to the completion handler is a [[String : AnyObject]] (sent as AnyObject?)
     //Spotify returns the simplified track objects for the ablum requested
     func getTracks(albumID: String, completion: @escaping SpotifyCompletionHandler) {
-        let parameters = ["limit" : "50"]
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let parameters = ["limit" : "50", "market" : appDelegate.userProfile.userMarket]
         
         let method = replace(placeholder: "id", inMethod: Methods.getAlbumTracks, value: albumID)
         
@@ -129,7 +135,9 @@ extension SpotifyClient {
     //The tracks data sent to the completion handler is a [[String : AnyObject]] (sent as AnyObject?)
     //Spotify returns the full track object for each track ID requested
     func getTracks(ids: String, completion: @escaping SpotifyCompletionHandler) {
-        let parameters = ["ids" : ids]
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let parameters = ["ids" : ids, "market" : appDelegate.userProfile.userMarket]
         
         _ = task(getMethod: Methods.getTracks, parameters: parameters) { result, error in
             
