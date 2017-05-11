@@ -1192,7 +1192,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OhP-9S-LdE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2076" y="-727"/>
+            <point key="canvasLocation" x="-2732" y="-727"/>
         </scene>
         <!--Spotify Login View Controller-->
         <scene sceneID="sVU-ND-Hdu">
@@ -1219,10 +1219,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RzA-fW-P6s" customClass="UIButton">
-                                <rect key="frame" x="37" y="587" width="300" height="50"/>
+                                <rect key="frame" x="37" y="560" width="300" height="50"/>
                                 <subviews>
                                     <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oaF-7K-qSd">
-                                        <rect key="frame" x="93" y="10" width="114" height="30"/>
+                                        <rect key="frame" x="95" y="10" width="110" height="30"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Spotify_white" translatesAutoresizingMaskIntoConstraints="NO" id="W5b-aM-kLt">
                                                 <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
@@ -1232,7 +1232,7 @@
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign In" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WGE-C0-tQ0">
-                                                <rect key="frame" x="47" y="2.5" width="67" height="26.5"/>
+                                                <rect key="frame" x="43" y="2.5" width="67" height="26.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
@@ -1241,7 +1241,7 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="W5b-aM-kLt" firstAttribute="leading" secondItem="oaF-7K-qSd" secondAttribute="leading" id="5Xl-XE-v6b"/>
-                                            <constraint firstItem="WGE-C0-tQ0" firstAttribute="leading" secondItem="W5b-aM-kLt" secondAttribute="trailing" constant="17" id="IaF-nY-Cd7"/>
+                                            <constraint firstItem="WGE-C0-tQ0" firstAttribute="leading" secondItem="W5b-aM-kLt" secondAttribute="trailing" constant="13" id="IaF-nY-Cd7"/>
                                             <constraint firstAttribute="trailing" secondItem="WGE-C0-tQ0" secondAttribute="trailing" id="Waa-qh-yna"/>
                                             <constraint firstItem="WGE-C0-tQ0" firstAttribute="centerY" secondItem="oaF-7K-qSd" secondAttribute="centerY" id="bnI-3p-KrQ"/>
                                             <constraint firstAttribute="bottom" secondItem="W5b-aM-kLt" secondAttribute="bottom" id="g6G-ob-Khr"/>
@@ -1260,26 +1260,39 @@
                                     <action selector="login" destination="ugn-o1-WSI" eventType="touchUpInside" id="omO-v4-WD6"/>
                                 </connections>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kTd-Bo-ZRV">
+                                <rect key="frame" x="159" y="625" width="56" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="cancel" destination="ugn-o1-WSI" eventType="touchUpInside" id="Xc1-ti-qwP"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="0lx-OT-icp" firstAttribute="width" secondItem="1d8-Mx-obC" secondAttribute="width" multiplier="0.75" id="3Ur-MA-fqC"/>
                             <constraint firstItem="ugb-5r-a4P" firstAttribute="top" secondItem="lBE-zF-f1c" secondAttribute="bottom" constant="15" id="BZg-4v-EY9"/>
-                            <constraint firstItem="NJ7-A2-Dyi" firstAttribute="top" secondItem="RzA-fW-P6s" secondAttribute="bottom" constant="30" id="DhW-fF-2Nc"/>
+                            <constraint firstItem="kTd-Bo-ZRV" firstAttribute="centerX" secondItem="1d8-Mx-obC" secondAttribute="centerX" id="IjP-cG-USe"/>
                             <constraint firstItem="0lx-OT-icp" firstAttribute="centerX" secondItem="1d8-Mx-obC" secondAttribute="centerX" id="Kie-U4-bFF"/>
+                            <constraint firstItem="NJ7-A2-Dyi" firstAttribute="top" secondItem="kTd-Bo-ZRV" secondAttribute="bottom" constant="8" id="LJK-nu-q4z"/>
+                            <constraint firstItem="kTd-Bo-ZRV" firstAttribute="top" secondItem="RzA-fW-P6s" secondAttribute="bottom" constant="15" id="LPC-fA-71t"/>
                             <constraint firstItem="ugb-5r-a4P" firstAttribute="centerX" secondItem="1d8-Mx-obC" secondAttribute="centerX" id="dJL-dM-oPA"/>
                             <constraint firstItem="RzA-fW-P6s" firstAttribute="centerX" secondItem="1d8-Mx-obC" secondAttribute="centerX" id="eA1-wf-s0b"/>
                             <constraint firstItem="0lx-OT-icp" firstAttribute="centerY" secondItem="1d8-Mx-obC" secondAttribute="centerY" constant="-100" id="uax-5P-Moc"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="cancelButton" destination="kTd-Bo-ZRV" id="fi0-FM-cpe"/>
                         <outlet property="messageLabel" destination="0lx-OT-icp" id="PV5-nr-Ory"/>
                         <outlet property="spotifyButton" destination="RzA-fW-P6s" id="NiD-7A-28I"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="epM-tc-OLr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2076" y="-63.418290854572717"/>
+            <point key="canvasLocation" x="-2036" y="-727"/>
         </scene>
         <!--Welcome View Controller-->
         <scene sceneID="5P5-AL-7E1">
@@ -1490,7 +1503,7 @@
         <image name="Menu" width="30" height="25"/>
         <image name="Play" width="27" height="32"/>
         <image name="Search" width="48" height="48"/>
-        <image name="Spotify_white" width="354" height="354"/>
+        <image name="Spotify_white" width="35" height="35"/>
         <image name="X" width="104" height="104"/>
     </resources>
 </document>

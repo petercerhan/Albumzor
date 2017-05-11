@@ -99,6 +99,7 @@ extension AppDelegate {
     }
     
     func saveUserSettings() {
+        print("Save user settings \(userSettings.isSeeded) \(userSettings.instructionsSeen) \(userSettings.autoplay)")
         let data = NSKeyedArchiver.archivedData(withRootObject: userSettings)
         UserDefaults.standard.set(data, forKey: "userSettings")
     }
@@ -107,10 +108,9 @@ extension AppDelegate {
         if let data = UserDefaults.standard.object(forKey: "userProfile") as? Data,
             let userProfile = NSKeyedUnarchiver.unarchiveObject(with: data) as? UserProfile {
             
-            print("found user profile market: \(userProfile.userMarket)")
             self.userProfile = userProfile
         } else {
-            print("did not find user profile")
+            
         }
     }
     

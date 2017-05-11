@@ -85,6 +85,11 @@
     [_controllerDelegate loginSucceeded];
 }
 
+-(void)cancelLogin
+{
+    [_controllerDelegate cancelLogin];
+}
+
 #pragma mark SFSafariViewControllerDelegate
 
 - (void)safariViewControllerDidFinish:(SFSafariViewController *)controller
@@ -98,5 +103,8 @@
     [self openLoginPage];
 }
 
+- (IBAction)cancel {
+    [[self controllerDelegate] cancelLogin];
+}
 
 @end

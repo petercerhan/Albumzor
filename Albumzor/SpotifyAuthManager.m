@@ -27,6 +27,7 @@
 
 -(bool)openURL: (NSURL *)url {
     SPTAuth *auth = [SPTAuth defaultInstance];
+    auth.sessionUserDefaultsKey = @"SpotifySession";
     
     SPTAuthCallback authCallback = ^(NSError *error, SPTSession *session) {
         // This is the callback that'll be triggered when auth is completed (or fails).
@@ -54,6 +55,7 @@
 
 -(bool)sessionIsValid {
     SPTAuth *auth = [SPTAuth defaultInstance];
+    auth.sessionUserDefaultsKey = @"SpotifySession";
     
     // Check if we have a token at all
     if (auth.session == nil) {
@@ -69,6 +71,7 @@
 
 -(NSString *)getToken {
     SPTAuth *auth = [SPTAuth defaultInstance];
+    auth.sessionUserDefaultsKey = @"SpotifySession";
     return auth.session.accessToken;
 }
 

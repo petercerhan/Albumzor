@@ -25,6 +25,8 @@ class ConfirmArtistViewController: UIViewController {
     weak var delegate: ConfirmArtistViewControllerDelegate!
     var client = SpotifyClient.sharedInstance()
     
+    var confirmSessionComplete = false
+    
     var searchString: String!
     var searchOrigin: ArtistSearchOrigin!
     
@@ -32,9 +34,33 @@ class ConfirmArtistViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getArtist()
+        
+
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if !confirmSessionComplete {
+            confirmSessionComplete = true
+            confirmSession()
+        }
+    }
+    
+    func confirmSession() {
+        if SpotifyAuthManager().sessionIsValid() {
+            getArtist()
+        } else {
+            let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+            let appStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            
+            let vc = appStoryboard.instantiateViewController(withIdentifier: "SpotifyLoginViewController") as! SpotifyLoginViewController
+            vc.spotifyConnected = appDelegate.userProfile.spotifyConnected
+            self.present(vc, animated: false, completion: nil)
+            vc.controllerDelegate = self
+        }
+    }
+    
     func getArtist() {
         
         client.searchArtist(searchString: searchString) { result, error in
@@ -130,4 +156,24 @@ class ConfirmArtistViewController: UIViewController {
     }
 
 }
+
+//MARK: - SpotifyLoginViewControllerDelegate
+
+extension ConfirmArtistViewController: SpotifyLoginViewControllerDelegate {
+    
+    func loginSucceeded() {
+        getArtist()
+        dismiss(animated: false, completion: nil)
+    }
+    
+    func cancelLogin() {
+        dismiss(animated: false, completion: nil)
+        delegate.artistCanceled()
+    }
+    
+}
+
+
+
+
 

@@ -96,6 +96,7 @@ class ChooseArtistViewController: UIViewController {
     }
     
     func launchConfirmArtistScene(searchString: String, searchOrigin: ArtistSearchOrigin) {
+        
         let vc = storyboard!.instantiateViewController(withIdentifier: "ConfirmArtistViewController") as! ConfirmArtistViewController
         vc.delegate = self
         vc.searchString = searchString

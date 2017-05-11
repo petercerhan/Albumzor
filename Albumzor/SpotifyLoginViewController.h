@@ -21,7 +21,9 @@
 
 @property (weak) id <SpotifyLoginViewControllerDelegate> controllerDelegate;
 @property BOOL spotifyConnected;
+
 @property IBOutlet UILabel *messageLabel;
 @property IBOutlet UIButton *spotifyButton;
+@property IBOutlet UIButton *cancelButton;
 
 @end

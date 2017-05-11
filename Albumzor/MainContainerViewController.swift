@@ -100,6 +100,8 @@ extension MainContainerViewController: SpotifyLoginViewControllerDelegate {
         //load user settings from UserDefaults
         appDelegate.loadUserSettings()
         let userSettings = appDelegate.userSettings
+        print("User settings \(userSettings.isSeeded) \(userSettings.instructionsSeen) \(userSettings.autoplay)")
+        
         
         if userSettings.instructionsSeen && userSettings.isSeeded {
             //standard situation - go straight to home screen
@@ -137,7 +139,6 @@ extension MainContainerViewController: OpenSceneViewControllerDelegate {
         hideStatusBar = false
         setNeedsStatusBarAppearanceUpdate()
         
-        //skip if we have a valid session
         if SpotifyAuthManager().sessionIsValid() {
             loginSucceeded()
         
@@ -147,8 +148,10 @@ extension MainContainerViewController: OpenSceneViewControllerDelegate {
             let vc = appStoryboard.instantiateViewController(withIdentifier: "SpotifyLoginViewController") as! SpotifyLoginViewController
             vc.spotifyConnected = appDelegate.userProfile.spotifyConnected
             update(contentViewController: vc)
+            vc.cancelButton.isHidden = true
             vc.controllerDelegate = self
         }
+        
     }
 }
 
