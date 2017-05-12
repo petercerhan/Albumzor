@@ -7,8 +7,9 @@
 //
 
 #import "SpotifyLoginViewController.h"
+#import "WebViewController.h"
 
-@interface SpotifyLoginViewController () <SFSafariViewControllerDelegate>
+@interface SpotifyLoginViewController () <SFSafariViewControllerDelegate, WebViewControllerDelegate>
 
 @property (atomic, readwrite) UIViewController *authViewController;
 @property (atomic, readwrite) BOOL firstLoad;
@@ -37,6 +38,8 @@
 {
     SPTAuth *auth = [SPTAuth defaultInstance];
     
+    NSLog(@"Web URL %@", auth.spotifyWebAuthenticationURL);
+    
     if ([SPTAuth supportsApplicationAuthentication]) {
         [[UIApplication sharedApplication] openURL:[auth spotifyAppAuthenticationURL] options:@{} completionHandler:nil];
     } else {
@@ -49,11 +52,10 @@
 - (UIViewController *)authViewControllerWithURL:(NSURL *)url
 {
     UIViewController *viewController;
-    if ([SFSafariViewController class]) {
-        SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:url];
-        safari.delegate = self;
-        viewController = safari;
-    }
+    
+    WebViewController *webView = [[WebViewController alloc] initWithURL:url];
+    webView.delegate = self;
+    viewController = [[UINavigationController alloc] initWithRootViewController:webView];
 
     viewController.modalPresentationStyle = UIModalPresentationPageSheet;
     return viewController;
@@ -94,7 +96,14 @@
 
 - (void)safariViewControllerDidFinish:(SFSafariViewController *)controller
 {
-    //Do nothing
+    // Do nothing
+}
+
+#pragma mark WebViewControllerDelegate
+
+- (void)webViewControllerDidFinish:(WebViewController *)controller
+{
+    // Do nothing
 }
 
 #pragma mark - IBActions

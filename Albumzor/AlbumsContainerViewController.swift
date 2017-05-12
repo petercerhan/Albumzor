@@ -22,10 +22,22 @@ class AlbumsContainerViewController: UIViewController {
     var appStoryboard: UIStoryboard! = UIStoryboard(name: "Main", bundle: nil)
     
     init() {
-        let vc = appStoryboard.instantiateViewController(withIdentifier: "PrepareAlbumsViewController") as! PrepareAlbumsViewController
-        contentViewController = vc
-        super.init(nibName: nil, bundle: nil)
-        vc.delegate = self
+        
+        //check whether we need to refresh session
+        if SpotifyAuthManager().sessionIsValid() {
+            let vc = appStoryboard.instantiateViewController(withIdentifier: "PrepareAlbumsViewController") as! PrepareAlbumsViewController
+            contentViewController = vc
+            super.init(nibName: nil, bundle: nil)
+            vc.delegate = self
+        } else {
+            let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+            
+            let vc = appStoryboard.instantiateViewController(withIdentifier: "SpotifyLoginViewController") as! SpotifyLoginViewController
+            vc.spotifyConnected = appDelegate.userProfile.spotifyConnected
+            contentViewController = vc
+            super.init(nibName: nil, bundle: nil)
+            vc.controllerDelegate = self
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -96,8 +108,40 @@ extension AlbumsContainerViewController: SuggestAlbumsViewControllerDelegate {
 
 extension AlbumsContainerViewController: NextStepViewControllerDelegate {
     func nextBattery() {
+        //check if need new session
+        
+        if SpotifyAuthManager().sessionIsValid() {
+            let vc = appStoryboard.instantiateViewController(withIdentifier: "PrepareAlbumsViewController") as! PrepareAlbumsViewController
+            vc.delegate = self
+            update(contentViewController: vc)
+        } else {
+            let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+            
+            let vc = appStoryboard.instantiateViewController(withIdentifier: "SpotifyLoginViewController") as! SpotifyLoginViewController
+            vc.spotifyConnected = appDelegate.userProfile.spotifyConnected
+            update(contentViewController: vc)
+            vc.controllerDelegate = self
+        }
+
+    }
+    
+    func launchNextBattery() {
         let vc = appStoryboard.instantiateViewController(withIdentifier: "PrepareAlbumsViewController") as! PrepareAlbumsViewController
         vc.delegate = self
         update(contentViewController: vc)
     }
+}
+
+//MARK: - SpotifyLoginViewControllerDelegate
+
+extension AlbumsContainerViewController: SpotifyLoginViewControllerDelegate {
+    
+    func loginSucceeded() {
+        launchNextBattery()
+    }
+    
+    func cancelLogin() {
+        delegate?.findAlbumsHome()
+    }
+    
 }

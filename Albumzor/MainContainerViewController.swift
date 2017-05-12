@@ -151,7 +151,6 @@ extension MainContainerViewController: OpenSceneViewControllerDelegate {
             vc.cancelButton.isHidden = true
             vc.controllerDelegate = self
         }
-        
     }
 }
 
