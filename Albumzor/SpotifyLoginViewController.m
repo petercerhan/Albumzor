@@ -38,8 +38,6 @@
 {
     SPTAuth *auth = [SPTAuth defaultInstance];
     
-    NSLog(@"Web URL %@", auth.spotifyWebAuthenticationURL);
-    
     if ([SPTAuth supportsApplicationAuthentication]) {
         [[UIApplication sharedApplication] openURL:[auth spotifyAppAuthenticationURL] options:@{} completionHandler:nil];
     } else {

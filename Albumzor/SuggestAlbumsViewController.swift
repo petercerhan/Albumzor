@@ -128,6 +128,10 @@ class SuggestAlbumsViewController: UIViewController {
     
     //MARK:- User Actions
     
+    @IBAction func openInSpotify() {
+        UIApplication.shared.open(URL(string:"https://open.spotify.com/album/\(albums[currentIndex].id!)")!, options: [:], completionHandler: nil)
+    }
+    
     @IBAction func like() {
         
         //setting .isEnabled or .isUserInteractionEnabled does not seem to apply quickly enough; buttons can be hit multiple times quickly, leading to unpredictable results
@@ -137,7 +141,7 @@ class SuggestAlbumsViewController: UIViewController {
         buttonsEnabled = false
         currentAlbumView.isUserInteractionEnabled = false
         
-        let rotationAngle = 2 * CGFloat(M_PI) / 16.0
+        let rotationAngle = 2 * CGFloat(Double.pi) / 16.0
         let transform = CGAffineTransform(rotationAngle: rotationAngle)
         let finalTransform = transform.scaledBy(x: 0.93, y: 0.93)
         
@@ -167,7 +171,7 @@ class SuggestAlbumsViewController: UIViewController {
         buttonsEnabled = false
         currentAlbumView.isUserInteractionEnabled = false
         
-        let rotationAngle = -2 * CGFloat(M_PI) / 16.0
+        let rotationAngle = -2 * CGFloat(Double.pi) / 16.0
         let transform = CGAffineTransform(rotationAngle: rotationAngle)
         let finalTransform = transform.scaledBy(x: 0.93, y: 0.93)
         

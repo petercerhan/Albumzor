@@ -58,7 +58,6 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    NSLog(@"WebView did finish load");
     if (!self.loadComplete) {
         if ([self.delegate respondsToSelector:@selector(webViewController:didCompleteInitialLoad:)]) {
             [self.delegate webViewController:self didCompleteInitialLoad:YES];
