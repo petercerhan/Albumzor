@@ -99,7 +99,6 @@ extension AppDelegate {
     }
     
     func saveUserSettings() {
-        print("Save user settings \(userSettings.isSeeded) \(userSettings.instructionsSeen) \(userSettings.autoplay)")
         let data = NSKeyedArchiver.archivedData(withRootObject: userSettings)
         UserDefaults.standard.set(data, forKey: "userSettings")
     }
@@ -117,6 +116,11 @@ extension AppDelegate {
     func saveUserProfile() {
         let data = NSKeyedArchiver.archivedData(withRootObject: userProfile)
         UserDefaults.standard.set(data, forKey: "userProfile")
+    }
+    
+    func resetUserProfile() {
+        userProfile = UserProfile(userMarket: "None", spotifyConnected: false)
+        saveUserProfile()
     }
 }
 

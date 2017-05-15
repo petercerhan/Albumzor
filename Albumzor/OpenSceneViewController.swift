@@ -24,10 +24,6 @@ class OpenSceneViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-    
-        for constraint in recordImage.constraints {
-            print("constraint \(constraint)")
-        }
         
         UIView.animate(withDuration: 0.4,
                        delay: 0.5,
