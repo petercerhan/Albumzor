@@ -21,6 +21,7 @@ class ConfirmArtistViewController: UIViewController {
     @IBOutlet var likeButton: UIButton!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var quitButton: UIButton!
+    @IBOutlet var spotifyButtonContainer: UIView!
     
     weak var delegate: ConfirmArtistViewControllerDelegate!
     var client = SpotifyClient.sharedInstance()
@@ -102,6 +103,8 @@ class ConfirmArtistViewController: UIViewController {
                 self.artistLabel.text = name
                 self.dislikeButton.isEnabled = true
                 self.likeButton.isEnabled = true
+                self.spotifyButtonContainer.isUserInteractionEnabled = true
+                self.spotifyButtonContainer.alpha = 1.0
             }
             
             DispatchQueue.global(qos: .userInitiated).async {
@@ -118,6 +121,14 @@ class ConfirmArtistViewController: UIViewController {
                     }
                 }
             }
+        }
+    }
+    
+    //MARK: - User Actions
+    
+    @IBAction func openInSpotify() {
+        if let spotifyID = spotifyID {
+            UIApplication.shared.open(URL(string:"https://open.spotify.com/artist/\(spotifyID)")!, options: [:], completionHandler: nil)
         }
     }
     

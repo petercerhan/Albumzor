@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = vc
         window?.makeKeyAndVisible()
         
-        deleteSession()
+        //deleteSession()
         SpotifyAuthManager().configureSpotifyAuth()
         loadUserProfile()
         

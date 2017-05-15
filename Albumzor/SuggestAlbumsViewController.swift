@@ -29,6 +29,7 @@ class SuggestAlbumsViewController: UIViewController {
     @IBOutlet var dislikeButton: UIButton!
     @IBOutlet var likeButton: UIButton!
     @IBOutlet var audioButton: UIButton!
+    @IBOutlet var spotifyButtonContainer: UIView!
     
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
 
@@ -111,6 +112,7 @@ class SuggestAlbumsViewController: UIViewController {
         
         titleLabel.alpha = 0.0
         artistLabel.alpha = 0.0
+        spotifyButtonContainer.alpha = 0.0
         activityIndicator.stopAnimating()
         
         UIView.animate(withDuration: 0.5,
@@ -129,6 +131,9 @@ class SuggestAlbumsViewController: UIViewController {
     //MARK:- User Actions
     
     @IBAction func openInSpotify() {
+        if !buttonsEnabled {
+            return
+        }
         UIApplication.shared.open(URL(string:"https://open.spotify.com/album/\(albums[currentIndex].id!)")!, options: [:], completionHandler: nil)
     }
     
@@ -215,6 +220,7 @@ class SuggestAlbumsViewController: UIViewController {
         quitButton.isEnabled = enabled
         likeButton.isUserInteractionEnabled = enabled
         dislikeButton.isUserInteractionEnabled = enabled
+        spotifyButtonContainer.isUserInteractionEnabled = enabled
     }
 
     //MARK:- Manage likes

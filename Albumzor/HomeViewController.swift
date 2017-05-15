@@ -40,6 +40,9 @@ class HomeViewController: UIViewController {
         findAlbumsButton.backgroundColor = Styles.themeBlue
         menuButton.imageInsets = UIEdgeInsetsMake(7.0, 2.0, 7.0, 2.0)
         
+        findAlbumsButton.baseColor = Styles.themeBlue
+        findAlbumsButton.highlightedColor = Styles.shadedThemeBlue
+        
         configureFetchedResultsController()
     }
     

@@ -94,6 +94,10 @@ class AlbumDetailsViewController: UIViewController {
     
     //MARK: - User Actions
     
+    @IBAction func openInSpotify() {
+        UIApplication.shared.open(URL(string:"https://open.spotify.com/album/\(album.id!)")!, options: [:], completionHandler: nil)
+    }
+    
     @IBAction func back() {
         delegate?.dismiss()
     }
