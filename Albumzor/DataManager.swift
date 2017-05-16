@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import GameplayKit
 
 typealias DataManagerCompletionHandler = (_ error: NSError?) -> Void
 
@@ -135,21 +136,19 @@ class DataManager {
     func getAlbums() -> [Album] {
         let context = stack.context
         
-        //potentially fetch new albums if running low starting here
         //check if albums have started running low and download some more
-        //supplementAlbums()
         if let unseenCount = countUnseenAlbums(), unseenCount < 100 {
             supplementAlbums()
         }
         
-        //Choose artists based on score (references - seen); 13 gives some fall-back in case album art can't be downloaded for a few.
+        //Choose artists, prioritizing unseen first
         let request = NSFetchRequest<Artist>(entityName: "Artist")
         let predicate = NSPredicate(format: "totalAlbums - seenAlbums > 0 && priorSeed = false")
         request.sortDescriptors = [NSSortDescriptor(key: "seenAlbums", ascending: true), NSSortDescriptor(key: "score", ascending: false)]
         request.predicate = predicate
-        request.fetchLimit = 13
+        request.fetchLimit = max(13, countUnseenArtists())
         
-        var artists: [Artist]?
+        var artists: [Artist]!
         
         do {
             artists = try context.fetch(request)
@@ -158,10 +157,14 @@ class DataManager {
             return [Album]()
         }
         
+        artists = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: artists!) as! Array<Artist>
+        
         var albums = [Album]()
         
-        for artist in artists! {
-            guard let album = chooseAlbum(artist: artist) else {
+        let totalToFetch = min(13, artists.count)
+    
+        for i in 0..<totalToFetch {
+            guard let album = chooseAlbum(artist: artists[i]) else {
                 continue
             }
             albums.append(album)
@@ -239,6 +242,23 @@ class DataManager {
         }
         
         return count
+    }
+    
+    func countUnseenArtists() -> Int {
+        let request = NSFetchRequest<Artist>(entityName: "Artist")
+        let predicate = NSPredicate(format: "seenAlbums = 0 && priorSeed = false")
+        request.predicate = predicate
+        request.includesSubentities = false
+        
+        var count: Int?
+        
+        do {
+            count = try stack.context.count(for: request)
+        } catch {
+            return 0
+        }
+        
+        return count!
     }
     
     private func supplementAlbums() {
