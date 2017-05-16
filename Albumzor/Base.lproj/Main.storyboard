@@ -636,14 +636,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MXn-7G-w2S">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MXn-7G-w2S">
                                 <rect key="frame" x="16" y="32" width="39" height="39"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="39" id="3ZH-tg-9YB"/>
                                     <constraint firstAttribute="width" constant="39" id="Qac-MY-EuX"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                <state key="normal" title="X">
+                                <state key="normal" image="Home_icon">
                                     <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -819,7 +818,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="450"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ShE-Ov-0ck" id="BBy-sK-0gS">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="449.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="450"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hjD-3B-Fee">
@@ -900,7 +899,7 @@
                                         <rect key="frame" x="0.0" y="478" width="375" height="43"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Tfv-B9-efP" id="aBy-gK-ToT">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="42.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="999" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nfJ-Bj-3SX">
@@ -1624,6 +1623,7 @@
     </scenes>
     <resources>
         <image name="Check" width="104" height="104"/>
+        <image name="Home_icon" width="37" height="33"/>
         <image name="LargeRecord" width="251" height="250"/>
         <image name="Menu" width="30" height="25"/>
         <image name="Play" width="27" height="32"/>

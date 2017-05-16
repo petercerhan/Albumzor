@@ -96,6 +96,9 @@ class SuggestAlbumsViewController: UIViewController {
             audioButton.imageEdgeInsets = UIEdgeInsetsMake(11.0, 11.0, 11.0, 11.0)
             audioButton.contentMode = .center
             
+            quitButton.imageEdgeInsets = UIEdgeInsetsMake(8.0, 8.0, 8.0, 8.0)
+            quitButton.contentMode = .center
+            
             initialLayoutConfigured = true
         }
     }
