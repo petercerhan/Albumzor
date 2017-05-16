@@ -76,13 +76,16 @@ class PrepareAlbumsViewController: UIViewController {
             
             guard albumArt.count > 5 else {
                 DispatchQueue.main.async {
-                    self.couldNotLoadAlbums()
+                    //hacky check if load was cancelled (container will be deinitialized in that case)
+                    if let _ = self.delegate {
+                        self.couldNotLoadAlbums()
+                    }
                 }
                 return
             }
 
             DispatchQueue.main.async {
-                self.delegate.launchAlbumView(albums: outputAlbums, albumArt: albumArt)
+                self.delegate?.launchAlbumView(albums: outputAlbums, albumArt: albumArt)
             }
         }
     }
