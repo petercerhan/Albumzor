@@ -696,6 +696,13 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Spotify_black" translatesAutoresizingMaskIntoConstraints="NO" id="f5j-LO-qvE">
+                                <rect key="frame" x="298" y="40.5" width="22" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="22" id="bfx-t1-YTk"/>
+                                    <constraint firstAttribute="height" constant="22" id="ls1-a4-yhl"/>
+                                </constraints>
+                            </imageView>
                             <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ggX-MA-VPX">
                                 <rect key="frame" x="320" y="32" width="39" height="39"/>
                                 <constraints>
@@ -750,6 +757,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="RVp-es-UfG" secondAttribute="trailing" constant="30" id="6T2-cg-hbL"/>
                             <constraint firstItem="iHu-pE-Phv" firstAttribute="top" secondItem="TwY-sF-SYZ" secondAttribute="bottom" constant="13" id="9pH-7b-jGk"/>
                             <constraint firstItem="ggX-MA-VPX" firstAttribute="trailing" secondItem="KEZ-zS-ewq" secondAttribute="trailingMargin" id="CcO-8z-MmD"/>
+                            <constraint firstItem="f5j-LO-qvE" firstAttribute="centerY" secondItem="ggX-MA-VPX" secondAttribute="centerY" id="Crx-vX-vL6"/>
                             <constraint firstItem="IOi-8T-ica" firstAttribute="top" secondItem="ySh-9V-TfZ" secondAttribute="bottom" priority="250" constant="35" id="Fuf-hm-Zi2"/>
                             <constraint firstItem="RVp-es-UfG" firstAttribute="leading" secondItem="KEZ-zS-ewq" secondAttribute="leadingMargin" constant="30" id="HjX-bs-CDy"/>
                             <constraint firstItem="RVp-es-UfG" firstAttribute="top" secondItem="H9X-f8-ZjG" secondAttribute="bottom" constant="35" id="Iyt-s2-ZPH"/>
@@ -764,6 +772,7 @@
                             <constraint firstItem="TwY-sF-SYZ" firstAttribute="width" secondItem="FoF-1Y-GXe" secondAttribute="width" id="etk-Js-snV"/>
                             <constraint firstItem="FoF-1Y-GXe" firstAttribute="top" secondItem="RVp-es-UfG" secondAttribute="bottom" constant="22" id="ex4-Uu-Rt5"/>
                             <constraint firstItem="iHu-pE-Phv" firstAttribute="centerX" secondItem="KEZ-zS-ewq" secondAttribute="centerX" id="fcF-u9-kv1"/>
+                            <constraint firstItem="ggX-MA-VPX" firstAttribute="leading" secondItem="f5j-LO-qvE" secondAttribute="trailing" id="gji-xJ-VmV"/>
                             <constraint firstItem="H9X-f8-ZjG" firstAttribute="top" secondItem="PgD-Xw-Dk3" secondAttribute="bottom" constant="15" id="mc1-7t-rpz"/>
                             <constraint firstItem="b03-O6-eNL" firstAttribute="centerX" secondItem="KEZ-zS-ewq" secondAttribute="centerX" constant="75" id="mym-9k-UrA"/>
                             <constraint firstItem="b03-O6-eNL" firstAttribute="top" relation="greaterThanOrEqual" secondItem="iHu-pE-Phv" secondAttribute="bottom" constant="10" id="ouK-3z-mpB"/>
@@ -810,7 +819,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="450"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ShE-Ov-0ck" id="BBy-sK-0gS">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="450"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="449.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hjD-3B-Fee">
@@ -891,7 +900,7 @@
                                         <rect key="frame" x="0.0" y="478" width="375" height="43"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Tfv-B9-efP" id="aBy-gK-ToT">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="42.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="999" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nfJ-Bj-3SX">
@@ -950,6 +959,13 @@
                                     <constraint firstAttribute="height" constant="3" id="NUY-NS-QCR"/>
                                 </constraints>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Spotify_black" translatesAutoresizingMaskIntoConstraints="NO" id="81e-Cc-tqN">
+                                <rect key="frame" x="305" y="629.5" width="22" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="22" id="23o-GM-AeJ"/>
+                                    <constraint firstAttribute="width" constant="22" id="uWX-6H-VBl"/>
+                                </constraints>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2JD-9A-zOL">
                                 <rect key="frame" x="327" y="624.5" width="32" height="32"/>
                                 <constraints>
@@ -969,10 +985,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="2JD-9A-zOL" firstAttribute="leading" secondItem="81e-Cc-tqN" secondAttribute="trailing" id="Bhc-yh-ZOz"/>
                             <constraint firstAttribute="trailing" secondItem="gF5-G5-8Uj" secondAttribute="trailing" id="Bs8-Sy-tdx"/>
                             <constraint firstItem="hBC-lM-7WT" firstAttribute="top" secondItem="Bou-CD-Eec" secondAttribute="bottom" id="F4i-fA-GGR"/>
                             <constraint firstItem="p85-e2-E58" firstAttribute="top" secondItem="Nla-wx-Wjf" secondAttribute="bottom" id="Gg9-pB-cx4"/>
                             <constraint firstItem="hBC-lM-7WT" firstAttribute="leading" secondItem="xtX-Yl-hrn" secondAttribute="leading" id="M9e-yE-H09"/>
+                            <constraint firstItem="81e-Cc-tqN" firstAttribute="centerY" secondItem="2JD-9A-zOL" secondAttribute="centerY" id="NVp-Qr-vQT"/>
                             <constraint firstItem="UP5-Vb-zCI" firstAttribute="top" secondItem="hBC-lM-7WT" secondAttribute="bottom" constant="8" id="UCq-2g-Usr"/>
                             <constraint firstItem="Nla-wx-Wjf" firstAttribute="leading" secondItem="xtX-Yl-hrn" secondAttribute="leading" id="Uvi-yz-IP6"/>
                             <constraint firstItem="2JD-9A-zOL" firstAttribute="centerY" secondItem="UP5-Vb-zCI" secondAttribute="centerY" id="V0r-1A-b4H"/>
@@ -1610,6 +1628,7 @@
         <image name="Menu" width="30" height="25"/>
         <image name="Play" width="27" height="32"/>
         <image name="Search" width="48" height="48"/>
+        <image name="Spotify_black" width="35" height="35"/>
         <image name="Spotify_green" width="35" height="35"/>
         <image name="Spotify_white" width="35" height="35"/>
         <image name="X" width="104" height="104"/>
