@@ -66,6 +66,7 @@
     if ([auth.session isValid]) {
         return YES;
     }
+    
     return NO;
 }
 

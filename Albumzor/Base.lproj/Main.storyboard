@@ -822,6 +822,7 @@
                         <outlet property="likeButton" destination="b03-O6-eNL" id="c5x-F1-4Ev"/>
                         <outlet property="quitButton" destination="MXn-7G-w2S" id="Tcb-9x-bgZ"/>
                         <outlet property="spotifyButtonContainer" destination="iHu-pE-Phv" id="0sm-ae-EJf"/>
+                        <outlet property="spotifyIndicator" destination="f5j-LO-qvE" id="2fJ-3g-hhV"/>
                         <outlet property="titleLabel" destination="FoF-1Y-GXe" id="S86-PI-W3w"/>
                         <outlet property="topLabel" destination="H9X-f8-ZjG" id="yxJ-Zt-xwP"/>
                     </connections>

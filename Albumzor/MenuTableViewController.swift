@@ -159,7 +159,7 @@ class MenuTableViewController: UITableViewController {
             self.appDelegate.disconnectSpotify()
             self.delegate?.spotifyDisconnected()
         }
-        
+         
         let cancelAction = UIAlertAction(title: "Cancel", style: .default)
         
         alert.addAction(disconnectAction)

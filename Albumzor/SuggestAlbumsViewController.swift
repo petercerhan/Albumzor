@@ -30,6 +30,7 @@ class SuggestAlbumsViewController: UIViewController {
     @IBOutlet var likeButton: UIButton!
     @IBOutlet var audioButton: UIButton!
     @IBOutlet var spotifyButtonContainer: UIView!
+    @IBOutlet var spotifyIndicator: UIImageView!
     
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
 
@@ -96,7 +97,7 @@ class SuggestAlbumsViewController: UIViewController {
             audioButton.imageEdgeInsets = UIEdgeInsetsMake(11.0, 11.0, 11.0, 11.0)
             audioButton.contentMode = .center
             
-            quitButton.imageEdgeInsets = UIEdgeInsetsMake(8.0, 8.0, 8.0, 8.0)
+            quitButton.imageEdgeInsets = UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0)
             quitButton.contentMode = .center
             
             initialLayoutConfigured = true
@@ -124,6 +125,7 @@ class SuggestAlbumsViewController: UIViewController {
                         self.dislikeButton.alpha = 0.0
                         self.likeButton.alpha = 0.0
                         self.audioButton.alpha = 0.0
+                        self.spotifyIndicator.alpha = 0.0
                     },
                        completion: {
                         _ in
