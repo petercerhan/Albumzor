@@ -72,7 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate {
     
-    func deleteSession() {
+    func disconnectSpotify() {
         UserDefaults.standard.removeObject(forKey: "SpotifySession")
     }
     

@@ -261,6 +261,16 @@ extension MainContainerViewController: MenuTableViewControllerDelegate {
         vc.action = action
         update(contentViewController: vc)
     }
+    
+    func spotifyDisconnected() {
+        let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+        
+        let vc = appStoryboard.instantiateViewController(withIdentifier: "SpotifyLoginViewController") as! SpotifyLoginViewController
+        vc.spotifyConnected = appDelegate.userProfile.spotifyConnected
+        update(contentViewController: vc)
+        vc.cancelButton.isHidden = true
+        vc.controllerDelegate = self
+    }
 }
 
 //MARK: - ResetDataViewControllerDelegate

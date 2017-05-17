@@ -10,6 +10,7 @@ import UIKit
 
 protocol MenuTableViewControllerDelegate: NSObjectProtocol {
     func resetData(action: ResetDataAction)
+    func spotifyDisconnected()
 }
 
 protocol MenuDelegate: NSObjectProtocol {
@@ -60,11 +61,15 @@ class MenuTableViewController: UITableViewController {
     //MARK: - User Actions
     
     @IBAction func reseedInfo() {
-        alert(title: "Re-Seed", message: "Choose new seed artists. \n\nThe current data used for suggesting albums will be erased, and you can choose a new set of seed artists.\n\nYour liked ablums will not be erased.", buttonTitle: "Done")
+        alert(title: "Re-Seed", message: "Choose new seed artists. \n\nThe current data used for suggesting albums will be erased, and you can choose a new set of seed artists.\n\nYour liked albums will not be erased.", buttonTitle: "Done")
     }
     
     @IBAction func resetInfo() {
         alert(title: "Reset Data", message: "All data will be erased.\n\nThis includes your saved albums.", buttonTitle: "Done")
+    }
+    
+    @IBAction func disconnectSpotifyInfo() {
+        alert(title: "Disconnect Spotify", message: "Disconnect your Spotify account from LPSwipe", buttonTitle: "Done")
     }
 
     @IBAction func updateAutoplay(_ sender: UISwitch) {
@@ -82,7 +87,7 @@ class MenuTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return 2
+            return 3
         case 1:
             return 2
         default:
@@ -95,6 +100,8 @@ class MenuTableViewController: UITableViewController {
             reseedDataAlert()
         } else if indexPath.section == 0 && indexPath.row == 1 {
             resetDataAlert()
+        } else if indexPath.section == 0 && indexPath.row == 2 {
+            disconnectSpotifyAlert()
         } else if indexPath.section == 1 && indexPath.row == 1 {
             shouldReloadAlbums = true
             let vc = storyboard!.instantiateViewController(withIdentifier: "SortOptionsTableViewController")
@@ -143,6 +150,23 @@ class MenuTableViewController: UITableViewController {
         alert.addAction(cancelAction)
         
         present(alert, animated: true, completion: nil)
+    }
+    
+    func disconnectSpotifyAlert() {
+        let alert = UIAlertController(title: nil, message: "Are you sure you would like to disconnect Spotify? You will need to connect another account to use LPSwipe.", preferredStyle: .alert)
+        
+        let disconnectAction = UIAlertAction(title: "Disconnect", style: .default) { action in
+            self.appDelegate.disconnectSpotify()
+            self.delegate?.spotifyDisconnected()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default)
+        
+        alert.addAction(disconnectAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true, completion: nil)
+        
     }
 }
 

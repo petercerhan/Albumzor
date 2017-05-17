@@ -212,12 +212,44 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="46" id="mNe-tB-Iws">
+                                        <rect key="frame" x="0.0" y="148" width="375" height="46"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mNe-tB-Iws" id="MTh-AM-11k">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="45"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Disconnect Spotify" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QNM-b2-mC3">
+                                                    <rect key="frame" x="16" y="12" width="145.5" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LGr-K8-4Tf">
+                                                    <rect key="frame" x="318" y="-1" width="46" height="46"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="LGr-K8-4Tf" secondAttribute="height" multiplier="1:1" id="Ve0-MD-Gbt"/>
+                                                    </constraints>
+                                                    <connections>
+                                                        <action selector="disconnectSpotifyInfo" destination="jrd-Zq-LG1" eventType="touchUpInside" id="Bm8-ps-er4"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="QNM-b2-mC3" firstAttribute="centerY" secondItem="MTh-AM-11k" secondAttribute="centerY" id="2zu-O3-CgV"/>
+                                                <constraint firstItem="LGr-K8-4Tf" firstAttribute="height" secondItem="MTh-AM-11k" secondAttribute="height" id="AfW-ad-SX3"/>
+                                                <constraint firstItem="QNM-b2-mC3" firstAttribute="leading" secondItem="MTh-AM-11k" secondAttribute="leadingMargin" constant="8" id="GlE-jB-GUm"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="LGr-K8-4Tf" secondAttribute="trailing" constant="3" id="LyE-Je-LCR"/>
+                                                <constraint firstItem="LGr-K8-4Tf" firstAttribute="centerY" secondItem="MTh-AM-11k" secondAttribute="centerY" id="xPm-jw-309"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Settings" id="4Lr-Ci-cgC">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="jFq-L2-lN4">
-                                        <rect key="frame" x="0.0" y="204" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="250" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jFq-L2-lN4" id="nlS-ox-eeS">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -245,7 +277,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="QEV-5Z-ttY">
-                                        <rect key="frame" x="0.0" y="248" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="294" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QEV-5Z-ttY" id="W1c-as-aWq">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
