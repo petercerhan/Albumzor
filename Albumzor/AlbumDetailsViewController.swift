@@ -160,7 +160,7 @@ extension AlbumDetailsViewController: UITableViewDelegate {
             let cell = tableView.cellForRow(at: indexPath) as! TrackTableViewCell
             cell.titleLabel.font = UIFont.boldSystemFont(ofSize: cell.titleLabel.font.pointSize)
             
-            set(audioState: .playing, controlEnabled: false)
+            set(audioState: .loading, controlEnabled: false)
             
             delegate?.stopAudio()
             delegate?.playTrack(atIndex: indexPath.item - 1)
