@@ -100,8 +100,6 @@ extension MainContainerViewController: SpotifyLoginViewControllerDelegate {
         //load user settings from UserDefaults
         appDelegate.loadUserSettings()
         let userSettings = appDelegate.userSettings
-        print("User settings \(userSettings.isSeeded) \(userSettings.instructionsSeen) \(userSettings.autoplay)")
-        
         
         if userSettings.instructionsSeen && userSettings.isSeeded {
             //standard situation - go straight to home screen

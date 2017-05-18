@@ -76,5 +76,10 @@
     return auth.session.accessToken;
 }
 
+-(void)deleteSession {
+    SPTAuth *auth = [SPTAuth defaultInstance];
+    auth.session = nil;
+}
+
 @end
 

@@ -14,5 +14,6 @@
 -(bool)openURL: (NSURL *)url;
 -(bool)sessionIsValid;
 -(NSString *)getToken;
+-(void)deleteSession;
 
 @end

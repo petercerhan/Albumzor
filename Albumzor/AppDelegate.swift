@@ -73,6 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate {
     
     func disconnectSpotify() {
+        SpotifyAuthManager().deleteSession();
         UserDefaults.standard.removeObject(forKey: "SpotifySession")
     }
     
