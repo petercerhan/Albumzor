@@ -12,7 +12,7 @@ class MainContainerCoordinator {
     
     //MARK: - Dependencies
     
-    let mainContainerViewController: MainContainerViewController
+    let mainContainerViewController: ContainerViewController
     let compositionRoot: CompositionRootProtocol
     
     //MARK: - Children
@@ -21,13 +21,23 @@ class MainContainerCoordinator {
     
     //MARK: - Initialization
     
-    init(containerViewController: MainContainerViewController, compositionRoot: CompositionRootProtocol) {
+    init(containerViewController: ContainerViewController, compositionRoot: CompositionRootProtocol) {
         mainContainerViewController = containerViewController
         self.compositionRoot = compositionRoot
     }
     
     func start() {
-        
+        //Fix this next
+        let appStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = appStoryboard.instantiateViewController(withIdentifier: "OpenSceneViewController") as! OpenSceneViewController
+        vc.delegate = self
+        mainContainerViewController.show(viewController: vc, animation: .none)
     }
     
+}
+
+extension MainContainerCoordinator: OpenSceneViewControllerDelegate {
+    func openingSceneComplete() {
+        print("Open Scene Complete")
+    }
 }

@@ -13,6 +13,7 @@ import UIKit
 
 protocol CompositionRootProtocol {
     func composeWindow() -> UIWindow
+    func composeMainCoordinator() -> MainContainerCoordinator
 }
 
 class CompositionRoot: CompositionRootProtocol {
@@ -21,5 +22,8 @@ class CompositionRoot: CompositionRootProtocol {
         return UIWindow(frame: UIScreen.main.bounds)
     }
     
+    func composeMainCoordinator() -> MainContainerCoordinator {
+        return MainContainerCoordinator(containerViewController: ContainerViewController(), compositionRoot: self)
+    }
 }
 

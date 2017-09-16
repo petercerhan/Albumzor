@@ -23,20 +23,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     var compositionRoot: CompositionRootProtocol!
+    var mainContainerCoordinator: MainContainerCoordinator!
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         compositionRoot = CompositionRoot()
         
+        mainContainerCoordinator = compositionRoot.composeMainCoordinator()
+        mainContainerCoordinator.start()
+        //mainContainerViewController = mainContainerCoordinator.mainContainerViewController
+        
         window = compositionRoot.composeWindow()
         
-        
-        let vc = MainContainerViewController()
-        mainContainerViewController = vc
-        
-        window?.rootViewController = vc
+        window?.rootViewController = mainContainerCoordinator.mainContainerViewController
         window?.makeKeyAndVisible()
+        
+//        let vc = MainContainerViewController()
+//        mainContainerViewController = vc
+        
         
         //disconnectSpotify()
         SpotifyAuthManager().configureSpotifyAuth()
