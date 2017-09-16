@@ -22,9 +22,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
 
+    var compositionRoot: CompositionRootProtocol!
+    
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        window = UIWindow(frame: UIScreen.main.bounds)
+        compositionRoot = CompositionRoot()
+        
+        window = compositionRoot.composeWindow()
+        
+        
         let vc = MainContainerViewController()
         mainContainerViewController = vc
         

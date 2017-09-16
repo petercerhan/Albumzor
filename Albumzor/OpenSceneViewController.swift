@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol OpenSceneViewControllerDelegate: NSObjectProtocol {
+protocol OpenSceneViewControllerDelegate: class {
     func openingSceneComplete()
 }
 
