@@ -303,6 +303,7 @@
 				E44B02AB1F6DD95800B1A0D3 /* Coordinators */,
 				E44B02AE1F6DDEC600B1A0D3 /* ContainerViewControllers */,
 				E44B02A71F6DC9C400B1A0D3 /* OpenScene */,
+				E44B02B71F6F07BB00B1A0D3 /* SpotifyLoginScene */,
 				E45D99111E7B5F6600CD3CE7 /* Controller */,
 				E45D990E1E7A23D300CD3CE7 /* View */,
 				E44B02A81F6DCAF200B1A0D3 /* SupportingFiles */,
@@ -389,7 +390,6 @@
 		E45D99111E7B5F6600CD3CE7 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				E44B02B71F6F07BB00B1A0D3 /* SpotifyLoginScene */,
 				E4B5077F1EAD763D0049831B /* WelcomeViewController.swift */,
 				E45D99221E8B4FEF00CD3CE7 /* ChooseArtistViewController.swift */,
 				E45D99281E8D398100CD3CE7 /* ConfirmArtistViewController.swift */,

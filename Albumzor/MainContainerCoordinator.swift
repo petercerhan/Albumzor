@@ -48,7 +48,7 @@ class MainContainerCoordinator {
 
 extension MainContainerCoordinator: OpenSceneViewModelDelegate {
     func sceneComplete(_ openSceneViewModel: OpenSceneViewModel) {
-        print("Authenticated: \(authStateController.sessionIsValid)")
+        //print("Authenticated: \(authStateController.sessionIsValid)")
         
         if authStateController.sessionIsValid {
             launchPostAuthenticationScene()
@@ -67,13 +67,19 @@ extension MainContainerCoordinator: OpenSceneViewModelDelegate {
     //Enter main application once a valid session has been obtained
     func launchPostAuthenticationScene() {
         
-        if userSettings.instructionsSeen() && userSettings.isSeeded() {
+//        print("\n\nInstructionsSeen: \(userSettingsStateController.instructionsSeen()) \nIsSeeded: \(userSettingsStateController.isSeeded()) \nAutoplay: \(userSettingsStateController.isAutoplayEnabled()) \nAlbumSortType: \(userSettingsStateController.getAlbumSortType())")
+        
+        if userSettingsStateController.instructionsSeen() && userSettingsStateController.isSeeded() {
             //Launch Home Scene
-        } else if !(userSettings.instructionsSeen) && !(userSettings.isSeeded) {
+        } else if !(userSettingsStateController.instructionsSeen()) && !(userSettingsStateController.isSeeded()) {
             //Launch welcome scene
-        } else if userSettings.instructionsSeen && !userSettings.isSeeded {
+            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
+            vc.delegate = self
+            mainContainerViewController.show(viewController: vc, animation: .none)
+            
+        } else if userSettingsStateController.instructionsSeen() && !userSettingsStateController.isSeeded() {
             //launch Seed Artists scene
-        } else if !userSettings.instructionsSeen && userSettings.isSeeded {
+        } else if !userSettingsStateController.instructionsSeen() && userSettingsStateController.isSeeded() {
             //launch Instructions Scene
         }
         
@@ -93,6 +99,16 @@ extension MainContainerCoordinator: SpotifyLoginViewControllerDelegate {
     
     func cancelLogin() {
         //remain on login page
+    }
+    
+}
+
+//MARK: - WelcomeViewControllerDelegate
+
+extension MainContainerCoordinator: WelcomeViewControllerDelegate {
+    
+    func chooseArtists() {
+        //launch choose seed artists scene
     }
     
 }

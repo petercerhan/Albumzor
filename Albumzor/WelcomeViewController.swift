@@ -9,7 +9,7 @@
 import UIKit
 import MediaPlayer
 
-protocol WelcomeViewControllerDelegate: NSObjectProtocol {
+protocol WelcomeViewControllerDelegate: class {
     func chooseArtists()
 }
 
