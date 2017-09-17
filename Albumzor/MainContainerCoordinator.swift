@@ -15,6 +15,7 @@ class MainContainerCoordinator {
     let mainContainerViewController: ContainerViewController
     let authStateController: AuthStateController
     let userProfileStateController: UserProfileStateController
+    let userSettingsStateController: UserSettingsStateController
     let compositionRoot: CompositionRootProtocol
     
     //MARK: - Children
@@ -23,11 +24,17 @@ class MainContainerCoordinator {
     
     //MARK: - Initialization
     
-    init(mainContainerViewController: ContainerViewController, authStateController: AuthStateController, userProfileStateController: UserProfileStateController, compositionRoot: CompositionRootProtocol) {
-        self.mainContainerViewController = mainContainerViewController
-        self.authStateController = authStateController
-        self.userProfileStateController = userProfileStateController
-        self.compositionRoot = compositionRoot
+    init(mainContainerViewController: ContainerViewController,
+         authStateController: AuthStateController,
+         userProfileStateController: UserProfileStateController,
+         userSettingsStateController: UserSettingsStateController,
+         compositionRoot: CompositionRootProtocol)
+    {
+            self.mainContainerViewController = mainContainerViewController
+            self.authStateController = authStateController
+            self.userProfileStateController = userProfileStateController
+            self.userSettingsStateController = userSettingsStateController
+            self.compositionRoot = compositionRoot
     }
     
     func start() {

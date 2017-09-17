@@ -33,7 +33,11 @@ class CompositionRoot: CompositionRootProtocol {
     //MARK: - Coordinators
     
     func composeMainCoordinator(authStateController: AuthStateController) -> MainContainerCoordinator {
-        return MainContainerCoordinator(mainContainerViewController: ContainerViewController(), authStateController: authStateController, userProfileStateController: UserProfileStateController(), compositionRoot: self)
+        return MainContainerCoordinator(mainContainerViewController: ContainerViewController(),
+                                        authStateController: authStateController,
+                                        userProfileStateController: UserProfileStateController(),
+                                        userSettingsStateController: UserSettingsStateController(),
+                                        compositionRoot: self)
     }
     
     //MARK: - Main Coordinator Scenes

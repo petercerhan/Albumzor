@@ -46,9 +46,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = mainContainerCoordinator.mainContainerViewController
         window?.makeKeyAndVisible()
         
-        let userSettingsStateController = UserSettingsStateController()
-        print("A user setting: \(userSettingsStateController.userSettings.instructionsSeen)")
-        
         //This will go away
         loadUserProfile()
         //
