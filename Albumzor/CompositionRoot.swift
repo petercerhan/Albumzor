@@ -32,12 +32,25 @@ class CompositionRoot: CompositionRootProtocol {
     //MARK: - Coordinators
     
     func composeMainCoordinator(authStateController: AuthStateController) -> MainContainerCoordinator {
-        return MainContainerCoordinator(mainContainerViewController: ContainerViewController(), authStateController: authStateController, compositionRoot: self)
+        return MainContainerCoordinator(mainContainerViewController: ContainerViewController(), authStateController: authStateController, userProfileStateController: UserProfileStateController(), compositionRoot: self)
     }
+    
+    //MARK: - Main Coordinator Scenes
     
     func composeOpenScene(mainContainerCoordinator: MainContainerCoordinator) -> OpenSceneViewController {
         let viewModel = OpenSceneViewModel(delegate: mainContainerCoordinator)
         return OpenSceneViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
     }
+    
+//    func composeSpotifyLoginScene(mainContainerCoordinator: MainContainerCoordinator) -> SpotifyLoginViewController {
+//        //Compose SpotifyLoginViewController
+//        let appStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//        
+//        let vc = appStoryboard.instantiateViewController(withIdentifier: "SpotifyLoginViewController") as! SpotifyLoginViewController
+//        vc.spotifyConnected = appDelegate.userProfile.spotifyConnected
+//
+//        return vc
+//    }
+    
 }
 

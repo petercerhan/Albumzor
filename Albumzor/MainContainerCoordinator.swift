@@ -14,6 +14,7 @@ class MainContainerCoordinator {
     
     let mainContainerViewController: ContainerViewController
     let authStateController: AuthStateController
+    let userProfileStateController: UserProfileStateController
     let compositionRoot: CompositionRootProtocol
     
     //MARK: - Children
@@ -22,10 +23,14 @@ class MainContainerCoordinator {
     
     //MARK: - Initialization
     
-    init(mainContainerViewController: ContainerViewController, authStateController: AuthStateController, compositionRoot: CompositionRootProtocol) {
+    init(mainContainerViewController: ContainerViewController, authStateController: AuthStateController, userProfileStateController: UserProfileStateController, compositionRoot: CompositionRootProtocol) {
         self.mainContainerViewController = mainContainerViewController
         self.authStateController = authStateController
+        self.userProfileStateController = userProfileStateController
         self.compositionRoot = compositionRoot
+        
+        
+        print("User market: \(userProfileStateController.userProfile.userMarket)")
     }
     
     func start() {
@@ -63,10 +68,11 @@ extension MainContainerCoordinator: SpotifyLoginViewControllerDelegate {
     
     func loginSucceeded() {
         print("Delegate recognizes login succeeded")
+        print("Authenticated: \(authStateController.sessionIsValid)")
     }
     
     func cancelLogin() {
-        print("Login failed")
+        //remain on login page
     }
     
     

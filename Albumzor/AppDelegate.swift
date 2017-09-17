@@ -24,9 +24,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var compositionRoot: CompositionRootProtocol!
     var mainContainerCoordinator: MainContainerCoordinator!
+    
     var authStateController: AuthStateController!
+    var userProfileStateController: UserProfileStateController!
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        
+        //This will go away
+        disconnectSpotify()
+        //SpotifyAuthManager().configureSpotifyAuth()
+        //
         
         compositionRoot = CompositionRoot()
         
@@ -40,11 +48,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = mainContainerCoordinator.mainContainerViewController
         window?.makeKeyAndVisible()
         
-        
-        //This will go away
-        //disconnectSpotify()
-        SpotifyAuthManager().configureSpotifyAuth()
-        //
         
         loadUserProfile()
         

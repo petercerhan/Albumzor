@@ -23,6 +23,7 @@
 		E44B02B21F6DF73800B1A0D3 /* OpenSceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44B02B11F6DF73800B1A0D3 /* OpenSceneViewModel.swift */; };
 		E44B02B41F6E065100B1A0D3 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44B02B31F6E065100B1A0D3 /* Action.swift */; };
 		E44B02B61F6EECD500B1A0D3 /* AuthStateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44B02B51F6EECD500B1A0D3 /* AuthStateController.swift */; };
+		E44B02B91F6F0E7C00B1A0D3 /* UserProfileStateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44B02B81F6F0E7C00B1A0D3 /* UserProfileStateController.swift */; };
 		E45D98BB1E75DC2F00CD3CE7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D98BA1E75DC2F00CD3CE7 /* AppDelegate.swift */; };
 		E45D98BD1E75DC2F00CD3CE7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D98BC1E75DC2F00CD3CE7 /* HomeViewController.swift */; };
 		E45D98C01E75DC2F00CD3CE7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E45D98BE1E75DC2F00CD3CE7 /* Main.storyboard */; };
@@ -111,6 +112,7 @@
 		E44B02B11F6DF73800B1A0D3 /* OpenSceneViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenSceneViewModel.swift; sourceTree = "<group>"; };
 		E44B02B31F6E065100B1A0D3 /* Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		E44B02B51F6EECD500B1A0D3 /* AuthStateController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthStateController.swift; sourceTree = "<group>"; };
+		E44B02B81F6F0E7C00B1A0D3 /* UserProfileStateController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileStateController.swift; sourceTree = "<group>"; };
 		E45D98B71E75DC2F00CD3CE7 /* Albumzor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Albumzor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E45D98BA1E75DC2F00CD3CE7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E45D98BC1E75DC2F00CD3CE7 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -255,6 +257,17 @@
 			name = ContainerViewControllers;
 			sourceTree = "<group>";
 		};
+		E44B02B71F6F07BB00B1A0D3 /* SpotifyLoginScene */ = {
+			isa = PBXGroup;
+			children = (
+				E425AF5A1EC166F4004BB657 /* SpotifyLoginViewController.h */,
+				E425AF581EC166E9004BB657 /* SpotifyLoginViewController.m */,
+				E425AF671EC53070004BB657 /* WebViewController.h */,
+				E425AF681EC53070004BB657 /* WebViewController.m */,
+			);
+			name = SpotifyLoginScene;
+			sourceTree = "<group>";
+		};
 		E45D98AE1E75DC2F00CD3CE7 = {
 			isa = PBXGroup;
 			children = (
@@ -282,6 +295,7 @@
 			children = (
 				E45D98BA1E75DC2F00CD3CE7 /* AppDelegate.swift */,
 				E44B02A91F6DCB0700B1A0D3 /* CompositionRoot.swift */,
+				E44B02B81F6F0E7C00B1A0D3 /* UserProfileStateController.swift */,
 				E44B02B51F6EECD500B1A0D3 /* AuthStateController.swift */,
 				E44B02AB1F6DD95800B1A0D3 /* Coordinators */,
 				E44B02AE1F6DDEC600B1A0D3 /* ContainerViewControllers */,
@@ -372,10 +386,7 @@
 		E45D99111E7B5F6600CD3CE7 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				E425AF5A1EC166F4004BB657 /* SpotifyLoginViewController.h */,
-				E425AF581EC166E9004BB657 /* SpotifyLoginViewController.m */,
-				E425AF671EC53070004BB657 /* WebViewController.h */,
-				E425AF681EC53070004BB657 /* WebViewController.m */,
+				E44B02B71F6F07BB00B1A0D3 /* SpotifyLoginScene */,
 				E4B5077F1EAD763D0049831B /* WelcomeViewController.swift */,
 				E45D99221E8B4FEF00CD3CE7 /* ChooseArtistViewController.swift */,
 				E45D99281E8D398100CD3CE7 /* ConfirmArtistViewController.swift */,
@@ -615,6 +626,7 @@
 				E425AF691EC53070004BB657 /* WebViewController.m in Sources */,
 				E45D99151E7B6DB100CD3CE7 /* AlbumsContainerViewController.swift in Sources */,
 				E44B02AD1F6DD96B00B1A0D3 /* MainContainerCoordinator.swift in Sources */,
+				E44B02B91F6F0E7C00B1A0D3 /* UserProfileStateController.swift in Sources */,
 				E467C4CD1EB174A800B0A62B /* ResetDataViewController.swift in Sources */,
 				E44B02AA1F6DCB0700B1A0D3 /* CompositionRoot.swift in Sources */,
 				E45D98F11E776BFE00CD3CE7 /* SpotifyMethods.swift in Sources */,
