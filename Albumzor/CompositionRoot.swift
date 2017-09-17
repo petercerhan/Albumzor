@@ -7,13 +7,12 @@
 //
 
 import Foundation
-
-import Foundation
 import UIKit
 
 protocol CompositionRootProtocol {
     func composeWindow() -> UIWindow
     func composeMainCoordinator() -> MainContainerCoordinator
+    func composeOpenScene(mainContainerCoordinator: MainContainerCoordinator) -> OpenSceneViewController
 }
 
 class CompositionRoot: CompositionRootProtocol {
@@ -23,7 +22,12 @@ class CompositionRoot: CompositionRootProtocol {
     }
     
     func composeMainCoordinator() -> MainContainerCoordinator {
-        return MainContainerCoordinator(containerViewController: ContainerViewController(), compositionRoot: self)
+        return MainContainerCoordinator(mainContainerViewController: ContainerViewController(), compositionRoot: self)
+    }
+    
+    func composeOpenScene(mainContainerCoordinator: MainContainerCoordinator) -> OpenSceneViewController {
+        let vc = OpenSceneViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: OpenSceneViewModel(), delegate: mainContainerCoordinator)
+        return vc
     }
 }
 

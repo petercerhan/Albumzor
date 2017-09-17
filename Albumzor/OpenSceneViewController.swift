@@ -14,9 +14,25 @@ protocol OpenSceneViewControllerDelegate: class {
 
 class OpenSceneViewController: UIViewController {
 
-    @IBOutlet var recordImage: UIImageView!
+    //MARK: - Dependencies
     
+    var viewModel: OpenSceneViewModel!
     weak var delegate: OpenSceneViewControllerDelegate?
+    
+    //MARK: - Interface Builder Components
+    
+    @IBOutlet var recordImage: UIImageView!
+
+    //MARK: - Initialization
+    
+    static func createWith(storyBoard: UIStoryboard, viewModel: OpenSceneViewModel, delegate: OpenSceneViewControllerDelegate) -> OpenSceneViewController {
+        let vc = storyBoard.instantiateViewController(withIdentifier: "OpenSceneViewController") as! OpenSceneViewController
+        vc.viewModel = viewModel
+        vc.delegate = delegate
+        return vc
+    }
+    
+    //MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()

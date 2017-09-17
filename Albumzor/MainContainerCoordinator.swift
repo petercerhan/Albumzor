@@ -21,16 +21,13 @@ class MainContainerCoordinator {
     
     //MARK: - Initialization
     
-    init(containerViewController: ContainerViewController, compositionRoot: CompositionRootProtocol) {
-        mainContainerViewController = containerViewController
+    init(mainContainerViewController: ContainerViewController, compositionRoot: CompositionRootProtocol) {
+        self.mainContainerViewController = mainContainerViewController
         self.compositionRoot = compositionRoot
     }
     
     func start() {
-        //Fix this next
-        let appStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = appStoryboard.instantiateViewController(withIdentifier: "OpenSceneViewController") as! OpenSceneViewController
-        vc.delegate = self
+        let vc = compositionRoot.composeOpenScene(mainContainerCoordinator: self)
         mainContainerViewController.show(viewController: vc, animation: .none)
     }
     

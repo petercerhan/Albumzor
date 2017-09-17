@@ -32,16 +32,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         mainContainerCoordinator = compositionRoot.composeMainCoordinator()
         mainContainerCoordinator.start()
-        //mainContainerViewController = mainContainerCoordinator.mainContainerViewController
         
         window = compositionRoot.composeWindow()
         
         window?.rootViewController = mainContainerCoordinator.mainContainerViewController
         window?.makeKeyAndVisible()
-        
-//        let vc = MainContainerViewController()
-//        mainContainerViewController = vc
-        
         
         //disconnectSpotify()
         SpotifyAuthManager().configureSpotifyAuth()
