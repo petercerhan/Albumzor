@@ -27,6 +27,17 @@ class AuthStateController {
         
         sessionIsValid = authService.sessionIsValid()
         token = authService.getToken()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(AuthStateController.sessionUpdated(_:)), name: Notification.Name("sessionUpdated"), object: nil)
+        
+    }
+    
+    @objc func sessionUpdated(_ notification: Notification) {
+        
+        sessionIsValid = authService.sessionIsValid()
+        token = authService.getToken()
+        
+        print("Session Updated recognized in auth state controller")
     }
     
 }

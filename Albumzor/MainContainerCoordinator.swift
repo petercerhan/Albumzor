@@ -62,7 +62,7 @@ extension MainContainerCoordinator: OpenSceneViewModelDelegate {
 extension MainContainerCoordinator: SpotifyLoginViewControllerDelegate {
     
     func loginSucceeded() {
-        print("Login succeeded")
+        print("Delegate recognizes login succeeded")
     }
     
     func cancelLogin() {
@@ -71,3 +71,4 @@ extension MainContainerCoordinator: SpotifyLoginViewControllerDelegate {
     
     
 }
+
