@@ -1,5 +1,5 @@
 //
-//  SpotifyAuthStateController.swift
+//  AuthStateController.swift
 //  Albumzor
 //
 //  Created by Peter Cerhan on 9/17/17.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SpotifyAuthStateController {
+class AuthStateController {
     
     //MARK: - Dependencies
     
@@ -30,3 +30,4 @@ class SpotifyAuthStateController {
     }
     
 }
+

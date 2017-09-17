@@ -24,18 +24,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var compositionRoot: CompositionRootProtocol!
     var mainContainerCoordinator: MainContainerCoordinator!
-    var spotifyAuthStateController: SpotifyAuthStateController!
+    var authStateController: AuthStateController!
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         compositionRoot = CompositionRoot()
         
-        spotifyAuthStateController = compositionRoot.composeSpotifyAuthStateController()
+        authStateController = compositionRoot.composeAuthStateController()
         
         mainContainerCoordinator = compositionRoot.composeMainCoordinator()
         mainContainerCoordinator.start()
-        
-        print("Spotify login state is \(spotifyAuthStateController.sessionIsValid)")
         
         window = compositionRoot.composeWindow()
         

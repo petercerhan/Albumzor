@@ -37,6 +37,10 @@ class MainContainerCoordinator {
 
 extension MainContainerCoordinator: OpenSceneViewModelDelegate {
     func sceneComplete(_ openSceneViewModel: OpenSceneViewModel) {
+        
+        
+        
+        
         print("Open scene complete")
     }
 }
