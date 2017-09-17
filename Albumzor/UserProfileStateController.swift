@@ -12,7 +12,7 @@ class UserProfileStateController {
     
     //MARK: - State
     
-    let userProfile: UserProfile
+    private let userProfile: UserProfile
     
     //MARK: - Initialization
     
@@ -23,6 +23,16 @@ class UserProfileStateController {
         } else {
             userProfile = UserProfile(userMarket: "None", spotifyConnected: false)
         }
+    }
+    
+    //MARK: - Get State
+    
+    func getUserMarket() -> String {
+        return userProfile.userMarket
+    }
+    
+    func spotifyIsConnected() -> Bool {
+        return userProfile.spotifyConnected
     }
     
 }

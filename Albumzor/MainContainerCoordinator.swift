@@ -28,9 +28,6 @@ class MainContainerCoordinator {
         self.authStateController = authStateController
         self.userProfileStateController = userProfileStateController
         self.compositionRoot = compositionRoot
-        
-        
-        print("User market: \(userProfileStateController.userProfile.userMarket)")
     }
     
     func start() {
@@ -44,17 +41,11 @@ class MainContainerCoordinator {
 
 extension MainContainerCoordinator: OpenSceneViewModelDelegate {
     func sceneComplete(_ openSceneViewModel: OpenSceneViewModel) {
-        
-        //Compose SpotifyLoginViewController
-        let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
-        let appStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        let vc = appStoryboard.instantiateViewController(withIdentifier: "SpotifyLoginViewController") as! SpotifyLoginViewController
-        vc.spotifyConnected = appDelegate.userProfile.spotifyConnected
+        let vc = compositionRoot.composeSpotifyLoginScene(mainContainerCoordinator: self)
+        vc.spotifyConnected = userProfileStateController.spotifyIsConnected()
 
         mainContainerViewController.show(viewController: vc, animation: .none)
 
-        //somehow put these inside spotify login view controller
         vc.cancelButton.isHidden = true
         vc.controllerDelegate = self
         
@@ -74,7 +65,6 @@ extension MainContainerCoordinator: SpotifyLoginViewControllerDelegate {
     func cancelLogin() {
         //remain on login page
     }
-    
     
 }
 

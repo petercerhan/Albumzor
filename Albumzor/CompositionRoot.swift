@@ -14,6 +14,7 @@ protocol CompositionRootProtocol {
     func composeMainCoordinator(authStateController: AuthStateController) -> MainContainerCoordinator
     func composeOpenScene(mainContainerCoordinator: MainContainerCoordinator) -> OpenSceneViewController
     func composeAuthStateController() -> AuthStateController
+    func composeSpotifyLoginScene(mainContainerCoordinator: MainContainerCoordinator) -> SpotifyLoginViewController
 }
 
 class CompositionRoot: CompositionRootProtocol {
@@ -42,15 +43,14 @@ class CompositionRoot: CompositionRootProtocol {
         return OpenSceneViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
     }
     
-//    func composeSpotifyLoginScene(mainContainerCoordinator: MainContainerCoordinator) -> SpotifyLoginViewController {
-//        //Compose SpotifyLoginViewController
-//        let appStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//        
-//        let vc = appStoryboard.instantiateViewController(withIdentifier: "SpotifyLoginViewController") as! SpotifyLoginViewController
-//        vc.spotifyConnected = appDelegate.userProfile.spotifyConnected
-//
-//        return vc
-//    }
+    func composeSpotifyLoginScene(mainContainerCoordinator: MainContainerCoordinator) -> SpotifyLoginViewController {
+        
+        let appStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let vc = appStoryboard.instantiateViewController(withIdentifier: "SpotifyLoginViewController") as! SpotifyLoginViewController
+
+        return vc
+    }
     
 }
 
