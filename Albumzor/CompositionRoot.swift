@@ -44,12 +44,7 @@ class CompositionRoot: CompositionRootProtocol {
     }
     
     func composeSpotifyLoginScene(mainContainerCoordinator: MainContainerCoordinator) -> SpotifyLoginViewController {
-        
-        let appStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        let vc = appStoryboard.instantiateViewController(withIdentifier: "SpotifyLoginViewController") as! SpotifyLoginViewController
-
-        return vc
+        return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SpotifyLoginViewController") as! SpotifyLoginViewController
     }
     
 }

@@ -26,10 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var mainContainerCoordinator: MainContainerCoordinator!
     
     var authStateController: AuthStateController!
-    var userProfileStateController: UserProfileStateController!
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
         
         //This will go away
         disconnectSpotify()
