@@ -51,7 +51,7 @@ extension MainContainerCoordinator: OpenSceneViewModelDelegate {
         print("Authenticated: \(authStateController.sessionIsValid)")
         
         if authStateController.sessionIsValid {
-            print("Launch primary code path")
+            launchPostAuthenticationScene()
         } else {
             let vc = compositionRoot.composeSpotifyLoginScene(mainContainerCoordinator: self)
             vc.spotifyConnected = userProfileStateController.spotifyIsConnected()
@@ -63,6 +63,23 @@ extension MainContainerCoordinator: OpenSceneViewModelDelegate {
             vc.controllerDelegate = self
         }
     }
+    
+    //Enter main application once a valid session has been obtained
+    func launchPostAuthenticationScene() {
+        
+        if userSettings.instructionsSeen() && userSettings.isSeeded() {
+            //Launch Home Scene
+        } else if !(userSettings.instructionsSeen) && !(userSettings.isSeeded) {
+            //Launch welcome scene
+        } else if userSettings.instructionsSeen && !userSettings.isSeeded {
+            //launch Seed Artists scene
+        } else if !userSettings.instructionsSeen && userSettings.isSeeded {
+            //launch Instructions Scene
+        }
+        
+    }
+    
+    
 }
 
 //MARK: - SpotifyViewControllerDelegate
@@ -70,8 +87,8 @@ extension MainContainerCoordinator: OpenSceneViewModelDelegate {
 extension MainContainerCoordinator: SpotifyLoginViewControllerDelegate {
     
     func loginSucceeded() {
-        print("Delegate recognizes login succeeded")
-        print("Authenticated: \(authStateController.sessionIsValid)")
+        //Code path in OpenSceneViewModelDelegate section
+        launchPostAuthenticationScene()
     }
     
     func cancelLogin() {
