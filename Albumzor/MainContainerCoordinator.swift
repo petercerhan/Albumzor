@@ -13,6 +13,7 @@ class MainContainerCoordinator {
     //MARK: - Dependencies
     
     let mainContainerViewController: ContainerViewController
+    let authStateController: AuthStateController
     let compositionRoot: CompositionRootProtocol
     
     //MARK: - Children
@@ -21,8 +22,9 @@ class MainContainerCoordinator {
     
     //MARK: - Initialization
     
-    init(mainContainerViewController: ContainerViewController, compositionRoot: CompositionRootProtocol) {
+    init(mainContainerViewController: ContainerViewController, authStateController: AuthStateController, compositionRoot: CompositionRootProtocol) {
         self.mainContainerViewController = mainContainerViewController
+        self.authStateController = authStateController
         self.compositionRoot = compositionRoot
     }
     
@@ -40,7 +42,6 @@ extension MainContainerCoordinator: OpenSceneViewModelDelegate {
         
         
         
-        
-        print("Open scene complete")
+        print("Authenticated: \(authStateController.sessionIsValid)")
     }
 }

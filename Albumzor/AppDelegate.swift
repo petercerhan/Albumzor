@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         authStateController = compositionRoot.composeAuthStateController()
         
-        mainContainerCoordinator = compositionRoot.composeMainCoordinator()
+        mainContainerCoordinator = compositionRoot.composeMainCoordinator(authStateController: authStateController)
         mainContainerCoordinator.start()
         
         window = compositionRoot.composeWindow()

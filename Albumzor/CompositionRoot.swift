@@ -11,12 +11,15 @@ import UIKit
 
 protocol CompositionRootProtocol {
     func composeWindow() -> UIWindow
-    func composeMainCoordinator() -> MainContainerCoordinator
+    func composeMainCoordinator(authStateController: AuthStateController) -> MainContainerCoordinator
     func composeOpenScene(mainContainerCoordinator: MainContainerCoordinator) -> OpenSceneViewController
     func composeAuthStateController() -> AuthStateController
 }
 
 class CompositionRoot: CompositionRootProtocol {
+    
+    //MARK: - AppDelegate Dependencies
+    //(Non-coordinators)
     
     func composeWindow() -> UIWindow {
         return UIWindow(frame: UIScreen.main.bounds)
@@ -25,9 +28,11 @@ class CompositionRoot: CompositionRootProtocol {
     func composeAuthStateController() -> AuthStateController {
         return AuthStateController(authService: SpotifyAuthManager())
     }
+
+    //MARK: - Coordinators
     
-    func composeMainCoordinator() -> MainContainerCoordinator {
-        return MainContainerCoordinator(mainContainerViewController: ContainerViewController(), compositionRoot: self)
+    func composeMainCoordinator(authStateController: AuthStateController) -> MainContainerCoordinator {
+        return MainContainerCoordinator(mainContainerViewController: ContainerViewController(), authStateController: authStateController, compositionRoot: self)
     }
     
     func composeOpenScene(mainContainerCoordinator: MainContainerCoordinator) -> OpenSceneViewController {
