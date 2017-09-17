@@ -8,11 +8,28 @@
 
 import Foundation
 
+protocol OpenSceneViewModelDelegate: class {
+    func sceneComplete(_ openSceneViewModel: OpenSceneViewModel)
+}
+
 struct OpenSceneActions {
     struct SceneCompleteAction: Action {}
 }
 
 class OpenSceneViewModel {
+    
+    //MARK: - Dependencies
+    
+    weak var delegate: OpenSceneViewModelDelegate?
+    
+    //MARK: - Initialization
+    
+    init(delegate: OpenSceneViewModelDelegate) {
+        self.delegate = delegate
+    }
+    
+    
+    //MARK: - Actions
     
     func dispatch(action: Action) {
         switch action {
@@ -24,7 +41,7 @@ class OpenSceneViewModel {
     }
     
     func handleSceneCompleteAction(action: OpenSceneActions.SceneCompleteAction) {
-        print("Scene complete vm")
+        delegate?.sceneComplete(self)
     }
     
 }

@@ -8,16 +8,11 @@
 
 import UIKit
 
-protocol OpenSceneViewControllerDelegate: class {
-    func openingSceneComplete()
-}
-
 class OpenSceneViewController: UIViewController {
 
     //MARK: - Dependencies
     
     var viewModel: OpenSceneViewModel!
-    weak var delegate: OpenSceneViewControllerDelegate?
     
     //MARK: - Interface Builder Components
     
@@ -25,10 +20,9 @@ class OpenSceneViewController: UIViewController {
 
     //MARK: - Initialization
     
-    static func createWith(storyBoard: UIStoryboard, viewModel: OpenSceneViewModel, delegate: OpenSceneViewControllerDelegate) -> OpenSceneViewController {
+    static func createWith(storyBoard: UIStoryboard, viewModel: OpenSceneViewModel) -> OpenSceneViewController {
         let vc = storyBoard.instantiateViewController(withIdentifier: "OpenSceneViewController") as! OpenSceneViewController
         vc.viewModel = viewModel
-        vc.delegate = delegate
         return vc
     }
     

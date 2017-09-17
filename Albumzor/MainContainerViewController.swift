@@ -24,7 +24,6 @@ class MainContainerViewController: UIViewController {
         let vc = appStoryboard.instantiateViewController(withIdentifier: "OpenSceneViewController") as! OpenSceneViewController
         contentViewController = vc
         super.init(nibName: nil, bundle: nil)
-        vc.delegate = self
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -130,9 +129,9 @@ extension MainContainerViewController: SpotifyLoginViewControllerDelegate {
     }
 }
 
-//MARK: - OpenScenViewControllerDelegate
+//MARK: - OpenSceneViewControllerDelegate
 
-extension MainContainerViewController: OpenSceneViewControllerDelegate {
+extension MainContainerViewController {
     func openingSceneComplete() {
         hideStatusBar = false
         setNeedsStatusBarAppearanceUpdate()

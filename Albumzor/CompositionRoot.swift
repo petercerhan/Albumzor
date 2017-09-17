@@ -26,8 +26,8 @@ class CompositionRoot: CompositionRootProtocol {
     }
     
     func composeOpenScene(mainContainerCoordinator: MainContainerCoordinator) -> OpenSceneViewController {
-        let vc = OpenSceneViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: OpenSceneViewModel(), delegate: mainContainerCoordinator)
-        return vc
+        let viewModel = OpenSceneViewModel(delegate: mainContainerCoordinator)
+        return OpenSceneViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
     }
 }
 

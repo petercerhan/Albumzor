@@ -33,8 +33,10 @@ class MainContainerCoordinator {
     
 }
 
-extension MainContainerCoordinator: OpenSceneViewControllerDelegate {
-    func openingSceneComplete() {
-        print("Open Scene Complete")
+//MARK: - OpenSceneViewModelDelegate
+
+extension MainContainerCoordinator: OpenSceneViewModelDelegate {
+    func sceneComplete(_ openSceneViewModel: OpenSceneViewModel) {
+        print("Open scene complete")
     }
 }
