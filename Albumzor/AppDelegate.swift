@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         //This will go away
-        disconnectSpotify()
+        //disconnectSpotify()
         //SpotifyAuthManager().configureSpotifyAuth()
         //
         
@@ -46,8 +46,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = mainContainerCoordinator.mainContainerViewController
         window?.makeKeyAndVisible()
         
+        let userSettingsStateController = UserSettingsStateController()
+        print("A user setting: \(userSettingsStateController.userSettings.instructionsSeen)")
         
+        //This will go away
         loadUserProfile()
+        //
+        
         
         dataManager = DataManager()
         

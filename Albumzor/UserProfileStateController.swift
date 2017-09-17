@@ -25,7 +25,7 @@ class UserProfileStateController {
         }
     }
     
-    //MARK: - Get State
+    //MARK: - State getters
     
     func getUserMarket() -> String {
         return userProfile.userMarket

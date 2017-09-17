@@ -24,6 +24,7 @@
 		E44B02B41F6E065100B1A0D3 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44B02B31F6E065100B1A0D3 /* Action.swift */; };
 		E44B02B61F6EECD500B1A0D3 /* AuthStateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44B02B51F6EECD500B1A0D3 /* AuthStateController.swift */; };
 		E44B02B91F6F0E7C00B1A0D3 /* UserProfileStateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44B02B81F6F0E7C00B1A0D3 /* UserProfileStateController.swift */; };
+		E44B02BB1F6F307F00B1A0D3 /* UserSettingsStateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44B02BA1F6F307F00B1A0D3 /* UserSettingsStateController.swift */; };
 		E45D98BB1E75DC2F00CD3CE7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D98BA1E75DC2F00CD3CE7 /* AppDelegate.swift */; };
 		E45D98BD1E75DC2F00CD3CE7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D98BC1E75DC2F00CD3CE7 /* HomeViewController.swift */; };
 		E45D98C01E75DC2F00CD3CE7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E45D98BE1E75DC2F00CD3CE7 /* Main.storyboard */; };
@@ -113,6 +114,7 @@
 		E44B02B31F6E065100B1A0D3 /* Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		E44B02B51F6EECD500B1A0D3 /* AuthStateController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthStateController.swift; sourceTree = "<group>"; };
 		E44B02B81F6F0E7C00B1A0D3 /* UserProfileStateController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileStateController.swift; sourceTree = "<group>"; };
+		E44B02BA1F6F307F00B1A0D3 /* UserSettingsStateController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingsStateController.swift; sourceTree = "<group>"; };
 		E45D98B71E75DC2F00CD3CE7 /* Albumzor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Albumzor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E45D98BA1E75DC2F00CD3CE7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E45D98BC1E75DC2F00CD3CE7 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -295,6 +297,7 @@
 			children = (
 				E45D98BA1E75DC2F00CD3CE7 /* AppDelegate.swift */,
 				E44B02A91F6DCB0700B1A0D3 /* CompositionRoot.swift */,
+				E44B02BA1F6F307F00B1A0D3 /* UserSettingsStateController.swift */,
 				E44B02B81F6F0E7C00B1A0D3 /* UserProfileStateController.swift */,
 				E44B02B51F6EECD500B1A0D3 /* AuthStateController.swift */,
 				E44B02AB1F6DD95800B1A0D3 /* Coordinators */,
@@ -648,6 +651,7 @@
 				E45D99291E8D398100CD3CE7 /* ConfirmArtistViewController.swift in Sources */,
 				E45D99101E7A23E700CD3CE7 /* CollectionViewCell.swift in Sources */,
 				E45D99771E90927B00CD3CE7 /* Styles.swift in Sources */,
+				E44B02BB1F6F307F00B1A0D3 /* UserSettingsStateController.swift in Sources */,
 				E44B02B41F6E065100B1A0D3 /* Action.swift in Sources */,
 				E45D99231E8B4FEF00CD3CE7 /* ChooseArtistViewController.swift in Sources */,
 				E45D99731E903B0B00CD3CE7 /* SuggestAlbumsViewController.swift in Sources */,

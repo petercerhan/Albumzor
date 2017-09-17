@@ -41,15 +41,20 @@ class MainContainerCoordinator {
 
 extension MainContainerCoordinator: OpenSceneViewModelDelegate {
     func sceneComplete(_ openSceneViewModel: OpenSceneViewModel) {
-        let vc = compositionRoot.composeSpotifyLoginScene(mainContainerCoordinator: self)
-        vc.spotifyConnected = userProfileStateController.spotifyIsConnected()
-
-        mainContainerViewController.show(viewController: vc, animation: .none)
-
-        vc.cancelButton.isHidden = true
-        vc.controllerDelegate = self
-        
         print("Authenticated: \(authStateController.sessionIsValid)")
+        
+        if authStateController.sessionIsValid {
+            print("Launch primary code path")
+        } else {
+            let vc = compositionRoot.composeSpotifyLoginScene(mainContainerCoordinator: self)
+            vc.spotifyConnected = userProfileStateController.spotifyIsConnected()
+            
+            mainContainerViewController.show(viewController: vc, animation: .none)
+            
+            //Must be set after view controller is added to container. Fix at some point
+            vc.cancelButton.isHidden = true
+            vc.controllerDelegate = self
+        }
     }
 }
 
