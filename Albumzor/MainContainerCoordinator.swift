@@ -40,8 +40,34 @@ class MainContainerCoordinator {
 extension MainContainerCoordinator: OpenSceneViewModelDelegate {
     func sceneComplete(_ openSceneViewModel: OpenSceneViewModel) {
         
+        //Compose SpotifyLoginViewController
+        let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+        let appStoryboard = UIStoryboard(name: "Main", bundle: nil)
         
+        let vc = appStoryboard.instantiateViewController(withIdentifier: "SpotifyLoginViewController") as! SpotifyLoginViewController
+        vc.spotifyConnected = appDelegate.userProfile.spotifyConnected
+
+        mainContainerViewController.show(viewController: vc, animation: .none)
+
+        //somehow put these inside spotify login view controller
+        vc.cancelButton.isHidden = true
+        vc.controllerDelegate = self
         
         print("Authenticated: \(authStateController.sessionIsValid)")
     }
+}
+
+//MARK: - SpotifyViewControllerDelegate
+
+extension MainContainerCoordinator: SpotifyLoginViewControllerDelegate {
+    
+    func loginSucceeded() {
+        print("Login succeeded")
+    }
+    
+    func cancelLogin() {
+        print("Login failed")
+    }
+    
+    
 }
