@@ -34,6 +34,7 @@ class OpenSceneViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
         UIView.animate(withDuration: 0.4,
                        delay: 0.5,
@@ -43,6 +44,8 @@ class OpenSceneViewController: UIViewController {
         },
                        completion: {_ in self.nextScene()})
     }
+    
+    //MARK: - Actions
     
     func nextScene() {
         let action = OpenSceneActions.SceneCompleteAction()

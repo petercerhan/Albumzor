@@ -13,12 +13,17 @@ protocol CompositionRootProtocol {
     func composeWindow() -> UIWindow
     func composeMainCoordinator() -> MainContainerCoordinator
     func composeOpenScene(mainContainerCoordinator: MainContainerCoordinator) -> OpenSceneViewController
+    func composeSpotifyAuthStateController() -> SpotifyAuthStateController
 }
 
 class CompositionRoot: CompositionRootProtocol {
     
     func composeWindow() -> UIWindow {
         return UIWindow(frame: UIScreen.main.bounds)
+    }
+    
+    func composeSpotifyAuthStateController() -> SpotifyAuthStateController {
+        return SpotifyAuthStateController(authService: SpotifyAuthManager())
     }
     
     func composeMainCoordinator() -> MainContainerCoordinator {
