@@ -12,7 +12,7 @@ class UserSettingsStateController {
     
     //MARK: - State
     
-    let userSettings: UserSettings
+    private let userSettings: UserSettings
     
     //MARK: - Initialization
     
@@ -26,6 +26,21 @@ class UserSettingsStateController {
         }
     }
     
+    //MARK: - State getters
     
+    func instructionsSeen() -> Bool {
+        return userSettings.instructionsSeen
+    }
     
+    func isSeeded() -> Bool {
+        return userSettings.isSeeded
+    }
+    
+    func isAutoplayEnabled() -> Bool {
+        return userSettings.autoplay
+    }
+    
+    func getAlbumSortType() -> Int {
+        return userSettings.albumSortType
+    }
 }
