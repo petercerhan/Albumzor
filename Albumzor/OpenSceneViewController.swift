@@ -51,7 +51,8 @@ class OpenSceneViewController: UIViewController {
     }
     
     func nextScene() {
-        delegate?.openingSceneComplete()
+        let action = OpenSceneActions.SceneCompleteAction()
+        viewModel.dispatch(action: action)
     }
 
 }
