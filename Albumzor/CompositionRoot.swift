@@ -11,10 +11,13 @@ import UIKit
 
 protocol CompositionRootProtocol {
     func composeWindow() -> UIWindow
-    func composeMainCoordinator(authStateController: AuthStateController) -> MainContainerCoordinator
-    func composeOpenScene(mainContainerCoordinator: MainContainerCoordinator) -> OpenSceneViewController
     func composeAuthStateController() -> AuthStateController
+    
+    func composeMainCoordinator(authStateController: AuthStateController) -> MainContainerCoordinator
+    
+    func composeOpenScene(mainContainerCoordinator: MainContainerCoordinator) -> OpenSceneViewController
     func composeSpotifyLoginScene(mainContainerCoordinator: MainContainerCoordinator) -> SpotifyLoginViewController
+    func composeWelcomeScene(mainContainerCoordinator: MainContainerCoordinator) -> WelcomeViewController
 }
 
 class CompositionRoot: CompositionRootProtocol {
@@ -51,5 +54,17 @@ class CompositionRoot: CompositionRootProtocol {
         return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SpotifyLoginViewController") as! SpotifyLoginViewController
     }
     
+    func composeWelcomeScene(mainContainerCoordinator: MainContainerCoordinator) -> WelcomeViewController {
+        return WelcomeViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: WelcomeViewModel(delegate: mainContainerCoordinator))
+    }
+    
+    
 }
+
+
+
+
+
+
+
 

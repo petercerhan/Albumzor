@@ -9,13 +9,9 @@
 import UIKit
 import MediaPlayer
 
-protocol WelcomeViewControllerDelegate: class {
-    func chooseArtists()
-}
-
 class WelcomeViewController: UIViewController {
-
-    weak var delegate: WelcomeViewControllerDelegate?
+    
+    //Remove
     var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
     
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
@@ -23,10 +19,23 @@ class WelcomeViewController: UIViewController {
     @IBOutlet var messageLabel: UILabel!
     @IBOutlet var doneButton: UIButton!
     
+    //MARK: - Dependencies
+    
+    var viewModel: WelcomeViewModel!
+    
+    //MARK: - Initialization
+    
+    static func createWith(storyBoard: UIStoryboard, viewModel: WelcomeViewModel) -> WelcomeViewController {
+        let vc = storyBoard.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
+        vc.viewModel = viewModel
+        return vc
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //Prompt app to ask for permission to use iTunes library
+        //Extract this dependency
         _ = MPMediaQuery.artists()
     }
 
@@ -72,7 +81,7 @@ class WelcomeViewController: UIViewController {
     }
     
     func launchChooseArtists() {
-        delegate?.chooseArtists()
+        viewModel.dispatch(action: .requestChooseArtists)
     }
     
     func networkingError() {

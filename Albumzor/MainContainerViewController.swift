@@ -108,7 +108,7 @@ extension MainContainerViewController: SpotifyLoginViewControllerDelegate {
         } else if !(userSettings.instructionsSeen) && !(userSettings.isSeeded) {
             //first time sequence
             let vc = appStoryboard.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
-            vc.delegate = self
+//            vc.delegate = self
             update(contentViewController: vc)
 
         } else if userSettings.instructionsSeen && !userSettings.isSeeded {
@@ -153,7 +153,7 @@ extension MainContainerViewController {
 
 //MARK: - WelcomeViewControllerDelegate
 
-extension MainContainerViewController: WelcomeViewControllerDelegate {
+extension MainContainerViewController {
     func chooseArtists() {
         getSeedArtists(animateTransition: true)
     }
@@ -281,7 +281,7 @@ extension MainContainerViewController: ResetDataViewControllerDelegate {
             getSeedArtists(animateTransition: false)
         } else {
             let vc = appStoryboard.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
-            vc.delegate = self
+//            vc.delegate = self
             update(contentViewController: vc)
         }
     }

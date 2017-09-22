@@ -73,8 +73,8 @@ extension MainContainerCoordinator: OpenSceneViewModelDelegate {
             //Launch Home Scene
         } else if !(userSettingsStateController.instructionsSeen()) && !(userSettingsStateController.isSeeded()) {
             //Launch welcome scene
-            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
-            vc.delegate = self
+            let vc = compositionRoot.composeWelcomeScene(mainContainerCoordinator: self)
+            
             mainContainerViewController.show(viewController: vc, animation: .none)
             
         } else if userSettingsStateController.instructionsSeen() && !userSettingsStateController.isSeeded() {
@@ -105,11 +105,22 @@ extension MainContainerCoordinator: SpotifyLoginViewControllerDelegate {
 
 //MARK: - WelcomeViewControllerDelegate
 
-extension MainContainerCoordinator: WelcomeViewControllerDelegate {
+extension MainContainerCoordinator: WelcomeViewModelDelegate {
     
-    func chooseArtists() {
-        //launch choose seed artists scene
+    func requestToChooseArtists(from welcomeViewModel: WelcomeViewModel) {
+        print("Welcome Scene Complete")
     }
     
 }
+
+
+
+
+
+
+
+
+
+
+
 
