@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
 protocol RemoteDataServiceProtocol {
     func fetchUserInfo() -> Observable<UserInfo>
@@ -15,13 +16,45 @@ protocol RemoteDataServiceProtocol {
 
 class SpotifyRemoteDataService: RemoteDataServiceProtocol {
     
+    //MARK: - Dependencies
+    
+    //TODO: Inject
+    let session = URLSession.shared
+    let authService = SpotifyAuthManager()
+    
+    
     func fetchUserInfo() -> Observable<UserInfo> {
-        let endpoint = ""
+        let endpoint = "https://api.spotify.com/v1/me"
         
+        let response = Observable.from([endpoint])
+            .map { urlString -> URL in
+                return URL(string: urlString)!
+            }
+            .map { [weak self] url -> URLRequest in
+                var request = URLRequest(url: url)
+                if let token = (self?.authService.getToken()) {
+                    request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+                }
+                return request
+            }
+            .flatMap { [weak self] request -> Observable<(HTTPURLResponse, Data)> in
+                return self!.session.rx.response(request: request)
+            }
+            .filter { response, _ in
+                return 200..<300 ~= response.statusCode
+            }
+            .map { _, data -> [String: Any] in
+                guard let jsonObject = try? JSONSerialization.jsonObject(with: data, options: []),
+                    let result = jsonObject as? [String: AnyObject] else {
+                        return [:]
+                }
+                return result
+            }
+            .map { jsonDictionary -> UserInfo in
+                return UserInfo(dictionary: jsonDictionary)!
+            }
         
-        
-        
-        return Observable<UserInfo>.just(UserInfo(userMarket: "Test User Market"))
+        return response
     }
     
     

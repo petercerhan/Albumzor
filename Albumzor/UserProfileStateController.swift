@@ -13,13 +13,17 @@ class UserProfileStateController {
     
     //MARK: - Dependencies
     
+    //TODO: Remove
     let apiService: SpotifyClient
-    
+
     let remoteDataService: RemoteDataServiceProtocol
+    private let disposeBag = DisposeBag()
+
     
     //MARK: - State
     
     private let userProfile: UserProfile
+    
     
     //MARK: - Initialization
     
@@ -55,8 +59,9 @@ class UserProfileStateController {
         print("Get user market SC")
         
         let infoObservable = remoteDataService.fetchUserInfo()
-        infoObservable.subscribe(onNext: { print("result \($0)")})
-        
+        infoObservable
+            .subscribe(onNext: { print("result \($0)")})
+            .disposed(by: disposeBag)
     }
     
     func priorNetworkImplementation() {
