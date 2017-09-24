@@ -18,15 +18,22 @@ enum WelcomeSceneAction {
 
 class WelcomeViewModel {
     
+    //MARK: - Dependencies
+    
     weak var delegate: WelcomeViewModelDelegate?
+    let userProfileStateController: UserProfileStateController
     
-    init(delegate: WelcomeViewModelDelegate) {
+    //MARK: - Initialization
+    
+    init(delegate: WelcomeViewModelDelegate, userProfileStateController: UserProfileStateController) {
         self.delegate = delegate
+        self.userProfileStateController = userProfileStateController
+
+        //TODO:  (Dev) Reset Profile State Controller
+        userProfileStateController.reset()
     }
-    
-    func chooseArtists() {
-        delegate?.requestToChooseArtists(from: self)
-    }
+
+    //MARK: - Dispatch actions
     
     func dispatch(action: WelcomeSceneAction) {
         switch action {
@@ -35,7 +42,11 @@ class WelcomeViewModel {
         }
     }
     
-    func handleRequestChooseArtistsAction() {
-        delegate?.requestToChooseArtists(from: self)
+    private func handleRequestChooseArtistsAction() {
+        if userProfileStateController.getUserMarket() == "None" {
+            userProfileStateController.fetchUserMarketFromAPI()
+        } else {
+            delegate?.requestToChooseArtists(from: self)
+        }
     }
 }

@@ -11,8 +11,7 @@ import MediaPlayer
 
 class WelcomeViewController: UIViewController {
     
-    //Remove
-    var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+    //MARK: - IB Components
     
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var titleLabel: UILabel!
@@ -31,6 +30,8 @@ class WelcomeViewController: UIViewController {
         return vc
     }
     
+    //MARK: = Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,50 +39,45 @@ class WelcomeViewController: UIViewController {
         //Extract this dependency
         _ = MPMediaQuery.artists()
     }
-
+    
+    //MARK: - Received User Actions
+    
     @IBAction func chooseArtists() {
+        //move to observable
         ui(setLoading: true)
         
-        let userProfile = appDelegate.userProfile
-        
-        if userProfile.userMarket == "None" {
-            getUserMarket()
-        } else {
-            launchChooseArtists()
-        }
-    }
-    
-    func getUserMarket() {
-        let client = SpotifyClient.sharedInstance()
-        
-        client.getUserInfo() { result, error in
-            
-            if let _ = error {
-                DispatchQueue.main.async {
-                    self.ui(setLoading: false)
-                    self.networkingError()
-                }
-            } else {
-                guard let result = result as? [String : AnyObject], let market = result["country"] as? String else {
-                    DispatchQueue.main.async {
-                        self.ui(setLoading: false)
-                        self.networkingError()
-                    }
-                    return
-                }
-                
-                DispatchQueue.main.async {
-                    self.appDelegate.userProfile.userMarket = market
-                    self.appDelegate.saveUserProfile()
-                    self.launchChooseArtists()
-                }
-            }
-            
-        }
-    }
-    
-    func launchChooseArtists() {
         viewModel.dispatch(action: .requestChooseArtists)
+    }
+    
+    //move to user profile state controller
+    func getUserMarket() {
+        //inject into state controller
+//        let client = SpotifyClient.sharedInstance()
+        
+//        client.getUserInfo() { result, error in
+//            
+//            if let _ = error {
+//                DispatchQueue.main.async {
+//                    self.ui(setLoading: false)
+//                    self.networkingError()
+//                }
+//            } else {
+//                guard let result = result as? [String : AnyObject], let market = result["country"] as? String else {
+//                    DispatchQueue.main.async {
+//                        self.ui(setLoading: false)
+//                        self.networkingError()
+//                    }
+//                    return
+//                }
+//                
+//                DispatchQueue.main.async {
+//                    self.appDelegate.userProfile.userMarket = market
+//                    self.appDelegate.saveUserProfile()
+//                    self.viewModel.dispatch(action: .requestChooseArtists)
+//                }
+//            }
+//            
+//        }
     }
     
     func networkingError() {

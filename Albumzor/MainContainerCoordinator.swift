@@ -73,7 +73,7 @@ extension MainContainerCoordinator: OpenSceneViewModelDelegate {
             //Launch Home Scene
         } else if !(userSettingsStateController.instructionsSeen()) && !(userSettingsStateController.isSeeded()) {
             //Launch welcome scene
-            let vc = compositionRoot.composeWelcomeScene(mainContainerCoordinator: self)
+            let vc = compositionRoot.composeWelcomeScene(mainContainerCoordinator: self, userProfileStateController: userProfileStateController)
             
             mainContainerViewController.show(viewController: vc, animation: .none)
             

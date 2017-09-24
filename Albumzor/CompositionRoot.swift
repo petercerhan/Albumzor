@@ -17,7 +17,7 @@ protocol CompositionRootProtocol {
     
     func composeOpenScene(mainContainerCoordinator: MainContainerCoordinator) -> OpenSceneViewController
     func composeSpotifyLoginScene(mainContainerCoordinator: MainContainerCoordinator) -> SpotifyLoginViewController
-    func composeWelcomeScene(mainContainerCoordinator: MainContainerCoordinator) -> WelcomeViewController
+    func composeWelcomeScene(mainContainerCoordinator: MainContainerCoordinator, userProfileStateController: UserProfileStateController) -> WelcomeViewController
 }
 
 class CompositionRoot: CompositionRootProtocol {
@@ -36,9 +36,10 @@ class CompositionRoot: CompositionRootProtocol {
     //MARK: - Coordinators
     
     func composeMainCoordinator(authStateController: AuthStateController) -> MainContainerCoordinator {
+        let userProfileStateController = UserProfileStateController(apiService: SpotifyClient.sharedInstance(), remoteDataService: SpotifyRemoteDataService())
         return MainContainerCoordinator(mainContainerViewController: ContainerViewController(),
                                         authStateController: authStateController,
-                                        userProfileStateController: UserProfileStateController(),
+                                        userProfileStateController: userProfileStateController,
                                         userSettingsStateController: UserSettingsStateController(),
                                         compositionRoot: self)
     }
@@ -54,10 +55,10 @@ class CompositionRoot: CompositionRootProtocol {
         return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SpotifyLoginViewController") as! SpotifyLoginViewController
     }
     
-    func composeWelcomeScene(mainContainerCoordinator: MainContainerCoordinator) -> WelcomeViewController {
-        return WelcomeViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: WelcomeViewModel(delegate: mainContainerCoordinator))
+    func composeWelcomeScene(mainContainerCoordinator: MainContainerCoordinator, userProfileStateController: UserProfileStateController) -> WelcomeViewController {
+        let viewModel = WelcomeViewModel(delegate: mainContainerCoordinator, userProfileStateController: userProfileStateController)
+        return WelcomeViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
     }
-    
     
 }
 
