@@ -13,87 +13,51 @@ class UserProfileStateController {
     
     //MARK: - Dependencies
     
-    //TODO: Remove
-    let apiService: SpotifyClient
-
-    let remoteDataService: RemoteDataServiceProtocol
-    private let disposeBag = DisposeBag()
-
+    private let remoteDataService: RemoteDataServiceProtocol
     
     //MARK: - State
     
-    private let userProfile: UserProfile
+    let userMarket: Variable<String>!
+    let spotifyConnected: Variable<Bool>!
     
+    private let disposeBag = DisposeBag()
     
     //MARK: - Initialization
     
-    init(apiService: SpotifyClient, remoteDataService: RemoteDataServiceProtocol) {
-        self.apiService = apiService
+    init(remoteDataService: RemoteDataServiceProtocol) {
         self.remoteDataService = remoteDataService
         
+        let userProfile: UserProfile
+        
         if let data = UserDefaults.standard.object(forKey: "userProfile") as? Data,
-            let userProfile = NSKeyedUnarchiver.unarchiveObject(with: data) as? UserProfile {
-                self.userProfile = userProfile
+            let userProfileLocal = NSKeyedUnarchiver.unarchiveObject(with: data) as? UserProfile {
+                userProfile = userProfileLocal
         } else {
             userProfile = UserProfile(userMarket: "None", spotifyConnected: false)
         }
-    }
     
-    //MARK: - Observables..
-    
-    
-    
-    //MARK: - State getters
-    
-    func getUserMarket() -> String {
-        return userProfile.userMarket
-    }
-    
-    func spotifyIsConnected() -> Bool {
-        return userProfile.spotifyConnected
+        self.userMarket = Variable(userProfile.userMarket)
+        self.spotifyConnected = Variable(userProfile.spotifyConnected)
     }
     
     //MARK: - Interface
     
-    func fetchUserMarketFromAPI() {
-        print("Get user market SC")
-        
+    func fetchUserMarketFromAPI() -> Observable<UserInfo> {
         let infoObservable = remoteDataService.fetchUserInfo()
         infoObservable
-            .subscribe(onNext: { print("result \($0)")})
+            .subscribe(onNext: { [weak self] userInfo in
+                guard let userMarket = self?.userMarket else { return }
+                userMarket.value = userInfo.userMarket
+            })
             .disposed(by: disposeBag)
-    }
-    
-    func priorNetworkImplementation() {
         
-        apiService.getUserInfo() { result, error in
-            
-            if let _ = error {
-                DispatchQueue.main.async {
-                    print("Networking Error")
-                }
-            } else {
-                guard let result = result as? [String : AnyObject], let market = result["country"] as? String else {
-                    DispatchQueue.main.async {
-                        print("Bad data error")
-                    }
-                    return
-                }
-                
-                DispatchQueue.main.async {
-                    print("User info: \(result)")
-                    print("Market found: \(market)")
-                }
-            }
-            
-        }
+        return infoObservable
     }
     
     //MARK: - Utilities
     
     func reset() {
-        userProfile.userMarket = "None"
-        userProfile.spotifyConnected = false
+        
     }
 }
 

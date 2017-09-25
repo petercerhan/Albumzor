@@ -36,7 +36,7 @@ class CompositionRoot: CompositionRootProtocol {
     //MARK: - Coordinators
     
     func composeMainCoordinator(authStateController: AuthStateController) -> MainContainerCoordinator {
-        let userProfileStateController = UserProfileStateController(apiService: SpotifyClient.sharedInstance(), remoteDataService: SpotifyRemoteDataService())
+        let userProfileStateController = UserProfileStateController(remoteDataService: SpotifyRemoteDataService())
         return MainContainerCoordinator(mainContainerViewController: ContainerViewController(),
                                         authStateController: authStateController,
                                         userProfileStateController: userProfileStateController,

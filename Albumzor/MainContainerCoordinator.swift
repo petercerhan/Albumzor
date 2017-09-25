@@ -48,13 +48,13 @@ class MainContainerCoordinator {
 
 extension MainContainerCoordinator: OpenSceneViewModelDelegate {
     func sceneComplete(_ openSceneViewModel: OpenSceneViewModel) {
-        //print("Authenticated: \(authStateController.sessionIsValid)")
         
         if authStateController.sessionIsValid {
             launchPostAuthenticationScene()
         } else {
             let vc = compositionRoot.composeSpotifyLoginScene(mainContainerCoordinator: self)
-            vc.spotifyConnected = userProfileStateController.spotifyIsConnected()
+            
+            vc.spotifyConnected = userProfileStateController.spotifyConnected.value
             
             mainContainerViewController.show(viewController: vc, animation: .none)
             

@@ -53,12 +53,10 @@ class SpotifyRemoteDataService: RemoteDataServiceProtocol {
             .map { jsonDictionary -> UserInfo in
                 return UserInfo(dictionary: jsonDictionary)!
             }
+            .shareReplay(1)
         
         return response
     }
-    
-    
-    
     
     
     
