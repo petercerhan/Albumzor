@@ -15,6 +15,7 @@ protocol WelcomeViewModelDelegate: class {
 
 enum WelcomeSceneAction {
     case requestChooseArtists
+    case networkAlertsDismissed
 }
 
 class WelcomeViewModel {
@@ -25,6 +26,10 @@ class WelcomeViewModel {
     let userProfileStateController: UserProfileStateController
     
     private let disposeBag = DisposeBag()
+    
+    //MARK: - State
+    
+    let dataLoadStateSubject = BehaviorSubject<DataOperationState>(value: .none)
     
     //MARK: - Initialization
     
@@ -42,22 +47,27 @@ class WelcomeViewModel {
         switch action {
         case .requestChooseArtists:
             handleRequestChooseArtistsAction()
+        case .networkAlertsDismissed:
+            handleNetworkAlertsDismissedAction()
         }
     }
     
     private func handleRequestChooseArtistsAction() {
         if userProfileStateController.userMarket.value == "None" {
-            let infoObservable = userProfileStateController.fetchUserMarketFromAPI()
-            
-            infoObservable.subscribe(onError: { error in
-                print("An error has occurred")
-            }, onCompleted: {
-                print("Networking process completed")
-            })
-            .disposed(by: disposeBag)
-            
+            dataLoadStateSubject.onNext(.operationBegan)
+            userProfileStateController.fetchUserMarketFromAPI()
+                .subscribe(onError: { error in
+                    self.dataLoadStateSubject.onNext(.error)
+                }, onCompleted: {
+                    self.dataLoadStateSubject.onNext(.operationCompleted)
+                })
+                .disposed(by: disposeBag)
         } else {
             delegate?.requestToChooseArtists(from: self)
         }
+    }
+    
+    private func handleNetworkAlertsDismissedAction() {
+        dataLoadStateSubject.onNext(.none)
     }
 }

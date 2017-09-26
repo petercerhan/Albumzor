@@ -8,6 +8,7 @@
 
 import UIKit
 import MediaPlayer
+import RxSwift
 
 class WelcomeViewController: UIViewController {
     
@@ -22,12 +23,41 @@ class WelcomeViewController: UIViewController {
     
     var viewModel: WelcomeViewModel!
     
+    let disposeBag = DisposeBag()
+    
     //MARK: - Initialization
     
     static func createWith(storyBoard: UIStoryboard, viewModel: WelcomeViewModel) -> WelcomeViewController {
         let vc = storyBoard.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
         vc.viewModel = viewModel
+        vc.bindViewModel()
         return vc
+    }
+    
+    private func bindViewModel() {
+        viewModel.dataLoadStateSubject
+            .subscribe(onNext: { state in
+                switch state {
+                case .none:
+                    break
+                case .operationBegan:
+                    DispatchQueue.main.async {
+                        self.ui(setLoading: true)
+                    }
+                case .operationCompleted:
+                    DispatchQueue.main.async {
+                        self.ui(setLoading: false)
+                    }
+                case .error:
+                    DispatchQueue.main.async {
+                        self.ui(setLoading: false)
+                        self.networkingError()
+                    }
+                default:
+                    break
+                }
+            })
+            .disposed(by: disposeBag)
     }
     
     //MARK: = Life Cycle
@@ -49,39 +79,11 @@ class WelcomeViewController: UIViewController {
         viewModel.dispatch(action: .requestChooseArtists)
     }
     
-    //move to user profile state controller
-    func getUserMarket() {
-        //inject into state controller
-//        let client = SpotifyClient.sharedInstance()
-        
-//        client.getUserInfo() { result, error in
-//            
-//            if let _ = error {
-//                DispatchQueue.main.async {
-//                    self.ui(setLoading: false)
-//                    self.networkingError()
-//                }
-//            } else {
-//                guard let result = result as? [String : AnyObject], let market = result["country"] as? String else {
-//                    DispatchQueue.main.async {
-//                        self.ui(setLoading: false)
-//                        self.networkingError()
-//                    }
-//                    return
-//                }
-//                
-//                DispatchQueue.main.async {
-//                    self.appDelegate.userProfile.userMarket = market
-//                    self.appDelegate.saveUserProfile()
-//                    self.viewModel.dispatch(action: .requestChooseArtists)
-//                }
-//            }
-//            
-//        }
-    }
-    
     func networkingError() {
-        alert(title: "Network Error", message: "Please check your internet connection", buttonTitle: "Dismiss")
+        //TODO: make sure this isn't a retain cycle
+        alert(title: "Network Error", message: "Please check your internet connection", buttonTitle: "Dismiss") { action in
+            self.viewModel.dispatch(action: .networkAlertsDismissed)
+        }
     }
     
     func ui(setLoading isLoading: Bool) {

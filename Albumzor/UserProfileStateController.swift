@@ -42,7 +42,7 @@ class UserProfileStateController {
     
     //MARK: - Interface
     
-    func fetchUserMarketFromAPI() -> Observable<UserInfo> {
+    func fetchUserMarketFromAPI() -> Observable<Void> {
         let infoObservable = remoteDataService.fetchUserInfo()
         infoObservable
             .subscribe(onNext: { [weak self] userInfo in
@@ -51,7 +51,7 @@ class UserProfileStateController {
             })
             .disposed(by: disposeBag)
         
-        return infoObservable
+        return infoObservable.map { userInfo -> () in }
     }
     
     //MARK: - Utilities
@@ -60,4 +60,5 @@ class UserProfileStateController {
         
     }
 }
+
 
