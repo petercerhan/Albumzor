@@ -13,7 +13,7 @@ class UserProfile: NSObject, NSCoding {
     var userMarket: String
     var spotifyConnected: Bool
     
-    init(userMarket: String, spotifyConnected: Bool) {
+    init(userMarket: String = "None", spotifyConnected: Bool = false) {
         self.userMarket = userMarket
         self.spotifyConnected = spotifyConnected
     }

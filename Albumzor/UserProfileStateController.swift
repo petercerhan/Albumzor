@@ -14,6 +14,7 @@ class UserProfileStateController {
     //MARK: - Dependencies
     
     private let remoteDataService: RemoteDataServiceProtocol
+    private let archiveService: ArchivingServiceProtocol
     
     //MARK: - State
     
@@ -24,18 +25,14 @@ class UserProfileStateController {
     
     //MARK: - Initialization
     
-    init(remoteDataService: RemoteDataServiceProtocol) {
+    init(remoteDataService: RemoteDataServiceProtocol, archiveService: ArchivingServiceProtocol) {
         self.remoteDataService = remoteDataService
+        self.archiveService = archiveService
         
-        let userProfile: UserProfile
+        let userProfile = archiveService.unarchiveObject(forKey: "userProfile") as? UserProfile ?? UserProfile()
         
-        if let data = UserDefaults.standard.object(forKey: "userProfile") as? Data,
-            let userProfileLocal = NSKeyedUnarchiver.unarchiveObject(with: data) as? UserProfile {
-                userProfile = userProfileLocal
-        } else {
-            userProfile = UserProfile(userMarket: "None", spotifyConnected: false)
-        }
-    
+        print("user market: \(userProfile.userMarket)")
+        
         self.userMarket = Variable(userProfile.userMarket)
         self.spotifyConnected = Variable(userProfile.spotifyConnected)
     }
@@ -45,9 +42,11 @@ class UserProfileStateController {
     func fetchUserMarketFromAPI() -> Observable<Void> {
         let infoObservable = remoteDataService.fetchUserInfo()
         infoObservable
-            .subscribe(onNext: { [weak self] userInfo in
-                guard let userMarket = self?.userMarket else { return }
-                userMarket.value = userInfo.userMarket
+            .subscribe(onNext: { userInfo in
+                self.userMarket.value = userInfo.userMarket
+                
+                let userProfile = UserProfile(userMarket: self.userMarket.value, spotifyConnected: self.spotifyConnected.value)
+                self.archiveService.archive(object: userProfile, forKey: "userProfile")
             })
             .disposed(by: disposeBag)
         
@@ -57,7 +56,10 @@ class UserProfileStateController {
     //MARK: - Utilities
     
     func reset() {
-        
+        let userProfile = UserProfile()
+        userMarket.value = userProfile.userMarket
+        spotifyConnected.value = userProfile.spotifyConnected
+        archiveService.archive(object: userProfile, forKey: "userProfile")
     }
 }
 

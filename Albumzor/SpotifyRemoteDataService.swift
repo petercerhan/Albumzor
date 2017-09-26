@@ -22,7 +22,6 @@ class SpotifyRemoteDataService: RemoteDataServiceProtocol {
     let session = URLSession.shared
     let authService = SpotifyAuthManager()
     
-    
     func fetchUserInfo() -> Observable<UserInfo> {
         let endpoint = "https://api.spotify.com/v1/me"
         

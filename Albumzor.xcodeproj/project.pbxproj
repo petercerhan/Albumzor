@@ -69,6 +69,7 @@
 		E467C4CF1EB2B5B400B0A62B /* UIViewController+Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467C4CE1EB2B5B300B0A62B /* UIViewController+Alerts.swift */; };
 		E467C4D11EB2CFAC00B0A62B /* ConfirmResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467C4D01EB2CFAC00B0A62B /* ConfirmResetViewController.swift */; };
 		E47E09A51F793BFF004A5C9E /* DataOperationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47E09A41F793BFF004A5C9E /* DataOperationState.swift */; };
+		E47E09A81F79D955004A5C9E /* ArchivingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47E09A71F79D955004A5C9E /* ArchivingService.swift */; };
 		E4A7A5731F748A58009D117D /* WelcomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A7A5721F748A58009D117D /* WelcomeViewModel.swift */; };
 		E4A7A5761F76DA76009D117D /* SpotifyRemoteDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A7A5751F76DA76009D117D /* SpotifyRemoteDataService.swift */; };
 		E4B5077C1EAB0BB80049831B /* OpenSceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B5077B1EAB0BB80049831B /* OpenSceneViewController.swift */; };
@@ -169,6 +170,7 @@
 		E467C4CE1EB2B5B300B0A62B /* UIViewController+Alerts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alerts.swift"; sourceTree = "<group>"; };
 		E467C4D01EB2CFAC00B0A62B /* ConfirmResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmResetViewController.swift; sourceTree = "<group>"; };
 		E47E09A41F793BFF004A5C9E /* DataOperationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataOperationState.swift; sourceTree = "<group>"; };
+		E47E09A71F79D955004A5C9E /* ArchivingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivingService.swift; sourceTree = "<group>"; };
 		E4A7A5721F748A58009D117D /* WelcomeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewModel.swift; sourceTree = "<group>"; };
 		E4A7A5751F76DA76009D117D /* SpotifyRemoteDataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifyRemoteDataService.swift; sourceTree = "<group>"; };
 		E4B5077B1EAB0BB80049831B /* OpenSceneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenSceneViewController.swift; sourceTree = "<group>"; };
@@ -315,7 +317,8 @@
 			children = (
 				E45D98BA1E75DC2F00CD3CE7 /* AppDelegate.swift */,
 				E44B02A91F6DCB0700B1A0D3 /* CompositionRoot.swift */,
-				E4A7A5751F76DA76009D117D /* SpotifyRemoteDataService.swift */,
+				E47E09A71F79D955004A5C9E /* ArchivingService.swift */,
+				E47E09A61F79D943004A5C9E /* Services */,
 				E4A7A5741F749C9B009D117D /* StateControllers */,
 				E44B02AB1F6DD95800B1A0D3 /* Coordinators */,
 				E44B02AE1F6DDEC600B1A0D3 /* ContainerViewControllers */,
@@ -424,6 +427,14 @@
 				E45D991E1E89D69300CD3CE7 /* AlbumDetailsViewController.swift */,
 			);
 			name = Controller;
+			sourceTree = "<group>";
+		};
+		E47E09A61F79D943004A5C9E /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				E4A7A5751F76DA76009D117D /* SpotifyRemoteDataService.swift */,
+			);
+			name = Services;
 			sourceTree = "<group>";
 		};
 		E4A7A5741F749C9B009D117D /* StateControllers */ = {
@@ -638,6 +649,7 @@
 				E467C4C91EAECD3800B0A62B /* MenuTableViewController.swift in Sources */,
 				E45D99171E7DC59300CD3CE7 /* NextStepViewController.swift in Sources */,
 				E45D98F71E77826E00CD3CE7 /* DataManager.swift in Sources */,
+				E47E09A81F79D955004A5C9E /* ArchivingService.swift in Sources */,
 				E44B02B61F6EECD500B1A0D3 /* AuthStateController.swift in Sources */,
 				E425AF591EC166E9004BB657 /* SpotifyLoginViewController.m in Sources */,
 				E4A7A5731F748A58009D117D /* WelcomeViewModel.swift in Sources */,
