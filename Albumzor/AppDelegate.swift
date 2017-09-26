@@ -29,14 +29,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        //This will go away
-        //disconnectSpotify()
-        //SpotifyAuthManager().configureSpotifyAuth()
-        //
-        
         compositionRoot = CompositionRoot()
         
         authStateController = compositionRoot.composeAuthStateController()
+        //
+//        authStateController.disconnectAccount()
+        //
         
         mainContainerCoordinator = compositionRoot.composeMainCoordinator(authStateController: authStateController)
         mainContainerCoordinator.start()
@@ -45,11 +43,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window?.rootViewController = mainContainerCoordinator.mainContainerViewController
         window?.makeKeyAndVisible()
-        
-        //This will go away
-        loadUserProfile()
-        //
-        
         
         dataManager = DataManager()
         

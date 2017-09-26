@@ -92,7 +92,8 @@ extension MainContainerCoordinator: OpenSceneViewModelDelegate {
 extension MainContainerCoordinator: SpotifyLoginViewControllerDelegate {
     
     func loginSucceeded() {
-        //Code path in OpenSceneViewModelDelegate section
+        print("login succeeded")
+        userProfileStateController.setSpotifyConnected()
         launchPostAuthenticationScene()
     }
     

@@ -31,8 +31,6 @@ class UserProfileStateController {
         
         let userProfile = archiveService.unarchiveObject(forKey: "userProfile") as? UserProfile ?? UserProfile()
         
-        print("user market: \(userProfile.userMarket)")
-        
         self.userMarket = Variable(userProfile.userMarket)
         self.spotifyConnected = Variable(userProfile.spotifyConnected)
     }
@@ -53,6 +51,12 @@ class UserProfileStateController {
         return infoObservable.map { userInfo -> () in }
     }
     
+    func setSpotifyConnected() {
+        spotifyConnected.value = true
+        let userProfile = UserProfile(userMarket: userMarket.value, spotifyConnected: spotifyConnected.value)
+        self.archiveService.archive(object: userProfile, forKey: "userProfile")
+    }
+    
     //MARK: - Utilities
     
     func reset() {
@@ -62,5 +66,4 @@ class UserProfileStateController {
         archiveService.archive(object: userProfile, forKey: "userProfile")
     }
 }
-
 

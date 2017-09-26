@@ -31,9 +31,19 @@ class AuthStateController {
         NotificationCenter.default.addObserver(self, selector: #selector(AuthStateController.sessionUpdated(_:)), name: Notification.Name("sessionUpdated"), object: nil)
     }
     
+    //Receive notification center updates
+    
     @objc func sessionUpdated(_ notification: Notification) {
         sessionIsValid = authService.sessionIsValid()
         token = authService.getToken()
+    }
+    
+    //MARK: - Utils
+    
+    func disconnectAccount() {
+        print("disconnect account")
+        authService.deleteSession();
+        UserDefaults.standard.removeObject(forKey: "SpotifySession")
     }
     
 }

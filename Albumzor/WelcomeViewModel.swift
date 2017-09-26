@@ -38,7 +38,7 @@ class WelcomeViewModel {
         self.userProfileStateController = userProfileStateController
 
         //TODO:  (Dev) Reset Profile State Controller
-        userProfileStateController.reset()
+        //userProfileStateController.reset()
     }
 
     //MARK: - Dispatch actions
