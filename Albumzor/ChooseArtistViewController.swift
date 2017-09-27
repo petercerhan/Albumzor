@@ -13,7 +13,7 @@ enum ArtistSearchOrigin {
     case search
 }
 
-protocol ChooseArtistViewControllerDelegate: NSObjectProtocol {
+protocol ChooseArtistViewControllerDelegate: class {
     func chooseArtistSceneComplete()
 }
 
@@ -56,6 +56,8 @@ class ChooseArtistViewController: UIViewController {
         }
     }
 
+    
+    
     func animateInSearch() {
         searchButton.isUserInteractionEnabled = false
         searchActive = true
@@ -94,6 +96,8 @@ class ChooseArtistViewController: UIViewController {
                         self.searchButton.isUserInteractionEnabled = true
                     })
     }
+    
+    
     
     func launchConfirmArtistScene(searchString: String, searchOrigin: ArtistSearchOrigin) {
         

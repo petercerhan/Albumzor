@@ -42,6 +42,7 @@ class UserProfileStateController {
         infoObservable
             .subscribe(onNext: { userInfo in
                 self.userMarket.value = userInfo.userMarket
+                print("userMarket recieved \(userInfo.userMarket)")
                 
                 let userProfile = UserProfile(userMarket: self.userMarket.value, spotifyConnected: self.spotifyConnected.value)
                 self.archiveService.archive(object: userProfile, forKey: "userProfile")

@@ -35,24 +35,18 @@ class WelcomeViewController: UIViewController {
     }
     
     private func bindViewModel() {
-        viewModel.dataLoadStateSubject
+        viewModel.dataLoadStateSubject.observeOn(MainScheduler.instance)
             .subscribe(onNext: { state in
                 switch state {
                 case .none:
                     break
                 case .operationBegan:
-                    DispatchQueue.main.async {
-                        self.ui(setLoading: true)
-                    }
+                    self.ui(setLoading: true)
                 case .operationCompleted:
-                    DispatchQueue.main.async {
-                        self.ui(setLoading: false)
-                    }
+                    self.ui(setLoading: false)
                 case .error:
-                    DispatchQueue.main.async {
-                        self.ui(setLoading: false)
-                        self.networkingError()
-                    }
+                    self.ui(setLoading: false)
+                    self.networkingError()
                 default:
                     break
                 }
@@ -73,9 +67,6 @@ class WelcomeViewController: UIViewController {
     //MARK: - Received User Actions
     
     @IBAction func chooseArtists() {
-        //move to observable
-        ui(setLoading: true)
-        
         viewModel.dispatch(action: .requestChooseArtists)
     }
     

@@ -8,6 +8,10 @@
 
 import Foundation
 
+//Temporary
+import MediaPlayer
+import GameKit
+
 class MainContainerCoordinator {
     
     //MARK: - Dependencies
@@ -109,10 +113,79 @@ extension MainContainerCoordinator: WelcomeViewModelDelegate {
     
     func requestToChooseArtists(from welcomeViewModel: WelcomeViewModel) {
         print("Welcome Scene Complete")
+        
+        
+        getSeedArtists(animateTransition: true)
+        
     }
     
+    
+    
+    
+    //TEMPORARY
+    func getSeedArtists(animateTransition: Bool) {
+        DispatchQueue.global(qos: .userInitiated).async {
+            var artists = [String]()
+            
+            if let itunesArtists = self.getArtistsFromItunes() {
+                artists = itunesArtists
+            } else {
+                artists = ChooseArtistViewController.defaultArtists
+            }
+            
+            artists = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: artists) as! Array<String>
+            
+            DispatchQueue.main.async {
+                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ChooseArtistViewController") as! ChooseArtistViewController
+                vc.artists = artists
+                vc.delegate = self
+                
+                if animateTransition {
+                    self.mainContainerViewController.show(viewController: vc, animation: .slideFromRight)
+                } else {
+                    self.mainContainerViewController.show(viewController: vc, animation: .none)
+                }
+            }
+        }
+    }
+    
+    
+    func getArtistsFromItunes() -> [String]? {
+        let artistQuery = MPMediaQuery.artists()
+        
+        guard let mediaItemsArray = artistQuery.items else {
+            return nil
+        }
+        
+        let rawArtistNames = mediaItemsArray.map { mediaItem in return mediaItem.albumArtist ?? "" }
+        var artistSet = Set(rawArtistNames)
+        let emptyStringSet: Set = ["", " "]
+        artistSet = artistSet.subtracting(emptyStringSet)
+        
+        var namesArray = Array(artistSet)
+        namesArray = namesArray.map { artistName in return artistName.cleanArtistName() }
+        namesArray = namesArray.map { artistName in return artistName.truncated(maxLength: 30) }
+        
+        //Remove any new duplicates after cleaning up artist names
+        namesArray = Array(Set(namesArray))
+        namesArray = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: namesArray) as! Array<String>
+        
+        if namesArray.count < 15 {
+            return nil
+        } else {
+            return namesArray
+        }
+    }
 }
 
+
+//MARK: - ChooseArtistViewControllerDelegate
+
+extension MainContainerCoordinator: ChooseArtistViewControllerDelegate {
+    func chooseArtistSceneComplete() {
+        print("Choose artists scene complete")
+    }
+}
 
 
 

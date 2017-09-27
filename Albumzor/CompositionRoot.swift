@@ -56,6 +56,9 @@ class CompositionRoot: CompositionRootProtocol {
     }
     
     func composeWelcomeScene(mainContainerCoordinator: MainContainerCoordinator, userProfileStateController: UserProfileStateController) -> WelcomeViewController {
+        //
+        userProfileStateController.reset()
+        //
         let viewModel = WelcomeViewModel(delegate: mainContainerCoordinator, userProfileStateController: userProfileStateController)
         return WelcomeViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
     }

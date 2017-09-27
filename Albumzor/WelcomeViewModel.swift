@@ -71,3 +71,4 @@ class WelcomeViewModel {
         dataLoadStateSubject.onNext(.none)
     }
 }
+
