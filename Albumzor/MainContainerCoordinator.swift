@@ -132,7 +132,9 @@ extension MainContainerCoordinator: WelcomeViewModelDelegate {
             })
             .subscribe(onNext: { [unowned self] artists in
                 if artists.count > 0 {
-                    let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ChooseArtistViewController") as! ChooseArtistViewController
+                    let vc = self.compositionRoot.composeChooseArtistsScene(mainContainerCoordinator: self, seedArtistStateController: self.seedArtistStateController)
+                    
+                    //Remove once properly injected
                     vc.artists = artists
                     vc.delegate = self
                     

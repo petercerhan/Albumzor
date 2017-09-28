@@ -14,7 +14,7 @@ class OpenSceneViewController: UIViewController {
     
     var viewModel: OpenSceneViewModel!
     
-    //MARK: - Interface Builder Components
+    //MARK: - Interface Components
     
     @IBOutlet var recordImage: UIImageView!
 

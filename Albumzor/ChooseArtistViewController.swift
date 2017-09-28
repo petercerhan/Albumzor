@@ -19,23 +19,38 @@ protocol ChooseArtistViewControllerDelegate: class {
 
 class ChooseArtistViewController: UIViewController {
     
+    //REMOVE
+    var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+    weak var delegate: ChooseArtistViewControllerDelegate?
+    
+    //MARK: - Dependencies
+    
+    let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
+    var viewModel: ChooseArtistViewModel!
+    
+    //MARK: - Interface Components
+    
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var searchButton: UIButton!
     @IBOutlet var textField: UITextField!
     @IBOutlet var overlayView: UIView!
     @IBOutlet var doneButton: UIButton!
     
-    var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
-    weak var delegate: ChooseArtistViewControllerDelegate?
-    
-    var searchActive = false
-    
-    let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
-    
     //MARK: - State
     
+    var searchActive = false
     var selectedCellPath: IndexPath?
     var artists = [String]()
+
+    //MARK: - Initialization
+    
+    static func createWith(storyBoard: UIStoryboard, viewModel: ChooseArtistViewModel) -> ChooseArtistViewController {
+        let vc = storyBoard.instantiateViewController(withIdentifier: "ChooseArtistViewController") as! ChooseArtistViewController
+        vc.viewModel = viewModel
+        return vc
+    }
+    
+    //MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +64,8 @@ class ChooseArtistViewController: UIViewController {
             layout.delegate = self
         }
     }
+    
+    //MARK: - User Actions
     
     @IBAction func search() {
         if searchActive {
@@ -243,120 +260,4 @@ extension ChooseArtistViewController: UITextFieldDelegate {
     
 }
 
-//MARK:- Suggested Artist Data
 
-extension ChooseArtistViewController {
-   
-    static let defaultArtists = ["Radiohead",
-                          "Elliott Smith",
-                          "Nick Drake",
-                          "Pixies",
-                          "Faith No More",
-                          "The Smashing Pumpkins",
-                          "Weezer",
-                          "Pixies",
-                          "Alice in Chains",
-                          "Sufjan Stevens",
-                          "Bon Iver",
-                          "Wilco",
-                          "Yo La Tengo",
-                          "Pavement",
-                          "Red Hot Chili Peppers",
-                          "Nine Inch Nails",
-                          "Bjork",
-                          "Wu-Tang Clan",
-                          "Nas",
-                          "DJ Shadow",
-                          "Mobb Deep",
-                          "Public Enemy",
-                          "Beastie Boys",
-                          "Rage Against The Machine",
-                          "Kendrick Lamar",
-                          "OutKast",
-                          "Kanye West",
-                          "Jay-Z",
-                          "The Pharcyde",
-                          "Lauryn Hill",
-                          "Mos Def",
-                          "Nujabes",
-                          "Run the Jewels",
-                          "Public Enemy",
-                          "Miles Davis",
-                          "Charles Mingus",
-                          "John Coltrane",
-                          "Nina Simone",
-                          "Frank Sinatra",
-                          "A Tribe Called Quest",
-                          "Aretha Franklin",
-                          "Bob Marley",
-                          "Tom Waits",
-                          "Sade",
-                          "Norah Jones",
-                          "Duke Ellington",
-                          "Megadeth",
-                          "Black Sabbath",
-                          "Judas Priest",
-                          "Iron Maiden",
-                          "Metallica",
-                          "Megadeth",
-                          "The Beatles",
-                          "The Beach Boys",
-                          "Queen",
-                          "Prince",
-                          "Depeche Mode",
-                          "Fleetwood Mac",
-                          "No Doubt",
-                          "The Kinks",
-                          "Simon and Garfunkel",
-                          "Eminem",
-                          "Boston",
-                          "Elvis Presley",
-                          "U2",
-                          "Yes",
-                          "Megadeth",
-                          "David Bowie",
-                          "The Cure",
-                          "The Clash",
-                          "Talking Heads",
-                          "Dead Kennedys",
-                          "Streetlight Manifesto",
-                          "Pink Floyd",
-                          "The Jimi Hendrix Experience",
-                          "Led Zeppelin",
-                          "Bob Dylan",
-                          "The Doors",
-                          "Bruce Springsteen",
-                          "The Who",
-                          "The Velvet Underground",
-                          "Frank Zappa",
-                          "Lynyrd Skynyrd",
-                          "The Band",
-                          "Creedence Clearwater Revival",
-                          "Chuck Berry",
-                          "Frederic Chopin",
-                          "Beethoven",
-                          "Mozart",
-                          "Tchaikovsky",
-                          "Adele",
-                          "Lady Gaga",
-                          "Beyonce",
-                          "Shania Twain",
-                          "Megadeth",
-                          "Rihanna",
-                          "Taylor Swift",
-                          "Drake",
-                          "Lil Wayne",
-                          "Katy Perry",
-                          "Amy Winehouse",
-                          "Michael Jackson",
-                          "The Rolling Stones",
-                          "Guns n' Roses",
-                          "Stevie Wonder",
-                          "Drake",
-                          "Alicia Keys",
-                          "Patti Smith",
-                          "Grateful Dead",
-                          "AC/DC",
-                          "Fleetwood Mac",
-                          "P!nk"]
-}

@@ -12,6 +12,10 @@ import RxSwift
 
 class WelcomeViewController: UIViewController {
     
+    //MARK: - Dependencies
+    
+    var viewModel: WelcomeViewModel!
+    
     //MARK: - IB Components
     
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
@@ -19,9 +23,7 @@ class WelcomeViewController: UIViewController {
     @IBOutlet var messageLabel: UILabel!
     @IBOutlet var doneButton: UIButton!
     
-    //MARK: - Dependencies
-    
-    var viewModel: WelcomeViewModel!
+    //MARK: - Rx
     
     let disposeBag = DisposeBag()
     

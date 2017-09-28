@@ -165,7 +165,7 @@ extension MainContainerViewController {
             if let itunesArtists = self.getArtistsFromItunes() {
                 artists = itunesArtists
             } else {
-                artists = ChooseArtistViewController.defaultArtists
+                artists = ITunesLibraryService.defaultArtists
             }
         
             artists = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: artists) as! Array<String>

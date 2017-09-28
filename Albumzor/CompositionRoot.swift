@@ -18,6 +18,7 @@ protocol CompositionRootProtocol {
     func composeOpenScene(mainContainerCoordinator: MainContainerCoordinator) -> OpenSceneViewController
     func composeSpotifyLoginScene(mainContainerCoordinator: MainContainerCoordinator) -> SpotifyLoginViewController
     func composeWelcomeScene(mainContainerCoordinator: MainContainerCoordinator, userProfileStateController: UserProfileStateController) -> WelcomeViewController
+    func composeChooseArtistsScene(mainContainerCoordinator: MainContainerCoordinator, seedArtistStateController: SeedArtistStateController) -> ChooseArtistViewController
 }
 
 class CompositionRoot: CompositionRootProtocol {
@@ -59,6 +60,11 @@ class CompositionRoot: CompositionRootProtocol {
     func composeWelcomeScene(mainContainerCoordinator: MainContainerCoordinator, userProfileStateController: UserProfileStateController) -> WelcomeViewController {
         let viewModel = WelcomeViewModel(delegate: mainContainerCoordinator, userProfileStateController: userProfileStateController)
         return WelcomeViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
+    }
+    
+    func composeChooseArtistsScene(mainContainerCoordinator: MainContainerCoordinator, seedArtistStateController: SeedArtistStateController) -> ChooseArtistViewController {
+        let viewModel = ChooseArtistViewModel(seedArtistStateController: seedArtistStateController)
+        return ChooseArtistViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
     }
     
 }
