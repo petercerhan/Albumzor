@@ -136,7 +136,7 @@ extension MainContainerCoordinator: WelcomeViewModelDelegate {
                     
                     //Remove once properly injected
                     vc.artists = artists
-                    vc.delegate = self
+//                    vc.delegate = self
                     
                     self.mainContainerViewController.show(viewController: vc, animation: animated ? .slideFromRight : .none)
                 }
@@ -149,8 +149,12 @@ extension MainContainerCoordinator: WelcomeViewModelDelegate {
 
 //MARK: - ChooseArtistViewControllerDelegate
 
-extension MainContainerCoordinator: ChooseArtistViewControllerDelegate {
+extension MainContainerCoordinator: ChooseArtistViewControllerDelegate, ChooseArtistViewModelDelegate {
     func chooseArtistSceneComplete() {
+        print("Choose artists scene complete")
+    }
+    
+    func chooseArtistSceneComplete(_ chooseArtistViewModel: ChooseArtistViewModel) {
         print("Choose artists scene complete")
     }
 }

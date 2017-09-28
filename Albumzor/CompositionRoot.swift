@@ -63,7 +63,7 @@ class CompositionRoot: CompositionRootProtocol {
     }
     
     func composeChooseArtistsScene(mainContainerCoordinator: MainContainerCoordinator, seedArtistStateController: SeedArtistStateController) -> ChooseArtistViewController {
-        let viewModel = ChooseArtistViewModel(seedArtistStateController: seedArtistStateController)
+        let viewModel = ChooseArtistViewModel(delegate: mainContainerCoordinator, seedArtistStateController: seedArtistStateController)
         return ChooseArtistViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
     }
     

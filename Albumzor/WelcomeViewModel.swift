@@ -38,7 +38,7 @@ class WelcomeViewModel {
         self.userProfileStateController = userProfileStateController
     }
 
-    //MARK: - Dispatch actions
+    //MARK: - Dispatch Actions
     
     func dispatch(action: WelcomeSceneAction) {
         switch action {

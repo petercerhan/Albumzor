@@ -21,7 +21,6 @@ class ChooseArtistViewController: UIViewController {
     
     //REMOVE
     var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
-    weak var delegate: ChooseArtistViewControllerDelegate?
     
     //MARK: - Dependencies
     
@@ -139,7 +138,7 @@ class ChooseArtistViewController: UIViewController {
     
     @IBAction func done() {
         if appDelegate.userSettings.isSeeded {
-            delegate?.chooseArtistSceneComplete()
+            viewModel.dispatch(action: .requestNextScene)
         } else {
             alert(title: nil, message: "Try choosing a few more artists!", buttonTitle: "Done")
         }
