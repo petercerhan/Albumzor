@@ -32,6 +32,8 @@ class ChooseArtistViewController: UIViewController {
     
     let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
     
+    //MARK: - State
+    
     var selectedCellPath: IndexPath?
     var artists = [String]()
     

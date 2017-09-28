@@ -41,6 +41,7 @@ class CompositionRoot: CompositionRootProtocol {
                                         authStateController: authStateController,
                                         userProfileStateController: userProfileStateController,
                                         userSettingsStateController: UserSettingsStateController(),
+                                        seedArtistStateController: SeedArtistStateController(mediaLibraryService: ITunesLibraryService()),
                                         compositionRoot: self)
     }
     
@@ -56,9 +57,6 @@ class CompositionRoot: CompositionRootProtocol {
     }
     
     func composeWelcomeScene(mainContainerCoordinator: MainContainerCoordinator, userProfileStateController: UserProfileStateController) -> WelcomeViewController {
-        //
-        userProfileStateController.reset()
-        //
         let viewModel = WelcomeViewModel(delegate: mainContainerCoordinator, userProfileStateController: userProfileStateController)
         return WelcomeViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
     }

@@ -36,9 +36,6 @@ class WelcomeViewModel {
     init(delegate: WelcomeViewModelDelegate, userProfileStateController: UserProfileStateController) {
         self.delegate = delegate
         self.userProfileStateController = userProfileStateController
-
-        //TODO:  (Dev) Reset Profile State Controller
-        //userProfileStateController.reset()
     }
 
     //MARK: - Dispatch actions
@@ -53,8 +50,9 @@ class WelcomeViewModel {
     }
     
     private func handleRequestChooseArtistsAction() {
+        dataLoadStateSubject.onNext(.operationBegan)
+        
         if userProfileStateController.userMarket.value == "None" {
-            dataLoadStateSubject.onNext(.operationBegan)
             userProfileStateController.fetchUserMarketFromAPI()
                 .subscribe(onError: { error in
                     self.dataLoadStateSubject.onNext(.error)
