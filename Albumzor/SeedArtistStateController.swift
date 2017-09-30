@@ -18,6 +18,8 @@ class SeedArtistStateController {
     //MARK: - State
     
     let seedArtists = Variable<[String]>([])
+    let searchActive = Variable<Bool>(false)
+    let confirmationActive = Variable<Bool>(false)
     
     //MARK: - Rx
     
@@ -39,4 +41,7 @@ class SeedArtistStateController {
             .disposed(by: disposeBag)
     }
     
+    func customArtistSearch(showSearch: Bool) {
+        searchActive.value = showSearch
+    }
 }

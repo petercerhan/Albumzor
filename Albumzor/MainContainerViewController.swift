@@ -172,7 +172,7 @@ extension MainContainerViewController {
             
             DispatchQueue.main.async {
                 let vc = self.appStoryboard.instantiateViewController(withIdentifier: "ChooseArtistViewController") as! ChooseArtistViewController
-                vc.artists = artists
+//                vc.artists = artists
 //                vc.delegate = self
                 
                 if animateTransition {

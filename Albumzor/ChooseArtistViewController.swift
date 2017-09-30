@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 enum ArtistSearchOrigin {
     case icon(IndexPath)
@@ -36,23 +38,55 @@ class ChooseArtistViewController: UIViewController {
     @IBOutlet var doneButton: UIButton!
     
     //MARK: - State
-    
+
     var searchActive = false
     var selectedCellPath: IndexPath?
-    var artists = [String]()
 
+    //MARK: - Rx
+    
+    let disposeBag = DisposeBag()
+    
     //MARK: - Initialization
     
     static func createWith(storyBoard: UIStoryboard, viewModel: ChooseArtistViewModel) -> ChooseArtistViewController {
         let vc = storyBoard.instantiateViewController(withIdentifier: "ChooseArtistViewController") as! ChooseArtistViewController
         vc.viewModel = viewModel
+        vc.bindViewModel()
         return vc
+    }
+    
+    private func bindActions() {
+        searchButton.rx.tap
+            .withLatestFrom(viewModel.searchActive.asObservable()) { _, searchActive in
+                return searchActive
+            }
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] searchActive in
+                self.viewModel.dispatch(action: searchActive ? .cancelCustomSearch : .requestCustomSearch)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func bindViewModel() {
+        viewModel.searchActive.asObservable()
+            .observeOn(MainScheduler.instance)
+            .skip(1)
+            .subscribe(onNext: { [unowned self] active in
+                if active {
+                    self.animateInSearch()
+                } else {
+                    self.animateOutSearch()
+                }
+            })
+            .disposed(by: disposeBag)
     }
     
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        bindActions()
         
         searchButton.imageEdgeInsets = UIEdgeInsetsMake(8.0, 8.0, 8.0, 8.0)
         overlayView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.cancelSearch)))
@@ -66,15 +100,20 @@ class ChooseArtistViewController: UIViewController {
     
     //MARK: - User Actions
     
-    @IBAction func search() {
-        if searchActive {
-            cancelSearch()
+    func cancelSearch() {
+        dismissKeyboard()
+        animateOutSearch()
+    }
+    
+    @IBAction func done() {
+        if appDelegate.userSettings.isSeeded {
+            viewModel.dispatch(action: .requestNextScene)
         } else {
-            animateInSearch()
+            alert(title: nil, message: "Try choosing a few more artists!", buttonTitle: "Done")
         }
     }
 
-    
+    //MARK: - Animations
     
     func animateInSearch() {
         searchButton.isUserInteractionEnabled = false
@@ -89,11 +128,11 @@ class ChooseArtistViewController: UIViewController {
                        animations: {
                         self.textField.center.x -= self.view.frame.width
                         self.overlayView.alpha = 0.8
-        },
+                       },
                        completion: {
                         _ in
                         self.searchButton.isUserInteractionEnabled = true
-        })
+                       })
     }
     
     func animateOutSearch() {
@@ -131,19 +170,6 @@ class ChooseArtistViewController: UIViewController {
         }
     }
     
-    func cancelSearch() {
-        dismissKeyboard()
-        animateOutSearch()
-    }
-    
-    @IBAction func done() {
-        if appDelegate.userSettings.isSeeded {
-            viewModel.dispatch(action: .requestNextScene)
-        } else {
-            alert(title: nil, message: "Try choosing a few more artists!", buttonTitle: "Done")
-        }
-    }
-    
     func updateDoneButton() {
         //if enough albums, enable
         if dataManager.getAlbumsCount() >= 100 {
@@ -176,13 +202,13 @@ extension ChooseArtistViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return artists.count
+        return viewModel.seedArtists.value.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ChooseArtistCollectionViewCell", for: indexPath) as! ChooseArtistCollectionViewCell
         
-        cell.label.text = artists[indexPath.item]
+        cell.label.text = viewModel.seedArtists.value[indexPath.item]
         cell.label.textColor = UIColor.white
 
         cell.layer.borderColor = Styles.lightBlue.cgColor
@@ -197,7 +223,7 @@ extension ChooseArtistViewController: UICollectionViewDataSource {
 extension ChooseArtistViewController: ArtistCollectionViewLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, sizeForLabelAtIndexPath path: IndexPath) -> CGSize {
         let label = UILabel()
-        label.text = artists[path.item]
+        label.text = viewModel.seedArtists.value[path.item]
         label.font = UIFont.systemFont(ofSize: 19.0)
         label.frame = CGRect(x: 0, y: 0, width: 1, height: 1)
         label.sizeToFit()
@@ -216,8 +242,12 @@ extension ChooseArtistViewController: ConfirmArtistViewControllerDelegate {
         switch searchOrigin {
         case .icon(let path):
             (collectionView.collectionViewLayout as! ArtistCollectionViewLayout).clearCache()
-            artists.remove(at: path.item)
-            collectionView.deleteItems(at: [path])
+            
+            //replace with action dispatch//
+            var newArtists = viewModel.seedArtists.value
+            newArtists.remove(at: path.item)
+            viewModel.seedArtists.value = newArtists
+            
             collectionView.reloadData()
         case .search:
             break

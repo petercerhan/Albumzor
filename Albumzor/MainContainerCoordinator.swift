@@ -134,10 +134,6 @@ extension MainContainerCoordinator: WelcomeViewModelDelegate {
                 if artists.count > 0 {
                     let vc = self.compositionRoot.composeChooseArtistsScene(mainContainerCoordinator: self, seedArtistStateController: self.seedArtistStateController)
                     
-                    //Remove once properly injected
-                    vc.artists = artists
-//                    vc.delegate = self
-                    
                     self.mainContainerViewController.show(viewController: vc, animation: animated ? .slideFromRight : .none)
                 }
             })

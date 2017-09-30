@@ -5,7 +5,7 @@
 //  Created by Peter Cerhan on 3/29/17.
 //  Copyright © 2017 Peter Cerhan. All rights reserved.
 //
-// Based on this tutorial: https://www.raywenderlich.com/107439/uicollectionview-custom-layout-tutorial-pinterest
+// Reference this example: https://www.raywenderlich.com/107439/uicollectionview-custom-layout-tutorial-pinterest
 
 import UIKit
 
