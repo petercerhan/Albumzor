@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ConfirmArtistViewControllerDelegate: NSObjectProtocol {
+protocol ConfirmArtistViewControllerDelegate: class {
     func artistChosen(spotifyID: String, searchOrigin: ArtistSearchOrigin)
     func artistCanceled()
 }

@@ -133,7 +133,7 @@ extension MainContainerCoordinator: WelcomeViewModelDelegate {
             .subscribe(onNext: { [unowned self] artists in
                 if artists.count > 0 {
                     let vc = self.compositionRoot.composeChooseArtistsScene(mainContainerCoordinator: self, seedArtistStateController: self.seedArtistStateController)
-                    
+            
                     self.mainContainerViewController.show(viewController: vc, animation: animated ? .slideFromRight : .none)
                 }
             })
@@ -144,6 +144,7 @@ extension MainContainerCoordinator: WelcomeViewModelDelegate {
 
 
 //MARK: - ChooseArtistViewControllerDelegate
+//TODO: Deletes ChooseArtistViewControllerDelegate
 
 extension MainContainerCoordinator: ChooseArtistViewControllerDelegate, ChooseArtistViewModelDelegate {
     func chooseArtistSceneComplete() {
@@ -153,7 +154,34 @@ extension MainContainerCoordinator: ChooseArtistViewControllerDelegate, ChooseAr
     func chooseArtistSceneComplete(_ chooseArtistViewModel: ChooseArtistViewModel) {
         print("Choose artists scene complete")
     }
+    
+    func showConfirmArtistScene(_ chooseArtistViewModel: ChooseArtistViewModel, confirmationArtist: String) {
+        print("Launch confirm artist scene with \(confirmationArtist)")
+        
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ConfirmArtistViewController") as! ConfirmArtistViewController
+        vc.delegate = self
+        vc.searchString = confirmationArtist
+        vc.searchOrigin = .search
+        
+        mainContainerViewController.showModally(viewController: vc)
+    }
 }
+
+
+//MARK: - ConfirmArtistViewControllerDelegate
+
+extension MainContainerCoordinator: ConfirmArtistViewControllerDelegate {
+    
+    func artistChosen(spotifyID: String, searchOrigin: ArtistSearchOrigin) {
+        print("Artist chosen")
+    }
+    
+    func artistCanceled() {
+        print("Artist canceled")
+    }
+    
+}
+
 
 
 

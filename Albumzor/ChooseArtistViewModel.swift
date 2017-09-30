@@ -11,12 +11,14 @@ import RxSwift
 
 protocol ChooseArtistViewModelDelegate: class {
     func chooseArtistSceneComplete(_ chooseArtistViewModel: ChooseArtistViewModel)
+    func showConfirmArtistScene(_ chooseArtistViewModel: ChooseArtistViewModel, confirmationArtist: String)
 }
 
 enum ChooseArtistSceneAction {
     case requestNextScene
     case requestCustomSearch
     case cancelCustomSearch
+    case requestConfirmArtists(searchString: String)
 }
 
 class ChooseArtistViewModel {
@@ -32,6 +34,12 @@ class ChooseArtistViewModel {
     var searchActive: Variable<Bool> {
         return seedArtistStateController.searchActive
     }
+    var confirmationActive: Observable<Bool> {
+        return seedArtistStateController.confirmationActive.asObservable()
+    }
+    var confirmationArtistName: Observable<String?> {
+        return seedArtistStateController.confirmationArtistName.asObservable()
+    }
     
     //MARK: - Rx
     
@@ -40,9 +48,12 @@ class ChooseArtistViewModel {
     //MARK: - Initialization
     
     init(delegate: ChooseArtistViewModelDelegate, seedArtistStateController: SeedArtistStateController) {
+        self.delegate = delegate
         self.seedArtistStateController = seedArtistStateController
         bindSeedArtistStateController()
     }
+    
+    //MARK: - Bind StateControllers
     
     private func bindSeedArtistStateController() {
         seedArtistStateController.seedArtists.asObservable()
@@ -50,6 +61,19 @@ class ChooseArtistViewModel {
                 self.seedArtists.value = artists
             })
             .disposed(by: disposeBag)
+        
+        seedArtistStateController.confirmationActive.asObservable()
+            .filter( { $0 })
+            .withLatestFrom(seedArtistStateController.confirmationArtistName.asObservable()) { active, confirmationArtist in
+                return (active, confirmationArtist)
+            }
+            .filter({ $1 != nil })
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] _, confirmationArtist in
+                self.delegate?.showConfirmArtistScene(self, confirmationArtist: confirmationArtist!)
+            })
+            .disposed(by: disposeBag)
+            
     }
     
     //MARK: - Dispatch Actions
@@ -62,6 +86,8 @@ class ChooseArtistViewModel {
              handle_RequestCustomSearch()
         case .cancelCustomSearch:
             handle_CancelCustomSearch()
+        case .requestConfirmArtists(let artistString):
+            handle_RequestConfirmArtists(artistString: artistString)
         }
         
     }
@@ -76,6 +102,10 @@ class ChooseArtistViewModel {
     
     private func handle_CancelCustomSearch() {
         seedArtistStateController.customArtistSearch(showSearch: false)
+    }
+    
+    private func handle_RequestConfirmArtists(artistString: String) {
+        seedArtistStateController.searchArtistForConfirmation(artistString: artistString)
     }
 }
 

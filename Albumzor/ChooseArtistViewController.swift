@@ -79,6 +79,7 @@ class ChooseArtistViewController: UIViewController {
                 }
             })
             .disposed(by: disposeBag)
+        
     }
     
     //MARK: - Lifecycle
@@ -281,7 +282,7 @@ extension ChooseArtistViewController: UITextFieldDelegate {
         if textField.text == "" {
             cancelSearch()
         } else {
-            launchConfirmArtistScene(searchString: textField.text!, searchOrigin: .search)
+            viewModel.dispatch(action: .requestConfirmArtists(searchString: textField.text!))
         }
         
         return true

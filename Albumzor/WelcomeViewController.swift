@@ -38,7 +38,7 @@ class WelcomeViewController: UIViewController {
     
     private func bindViewModel() {
         viewModel.dataLoadStateSubject.observeOn(MainScheduler.instance)
-            .subscribe(onNext: { state in
+            .subscribe(onNext: { [unowned self] state in
                 switch state {
                 case .none:
                     break

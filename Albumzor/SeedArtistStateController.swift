@@ -20,6 +20,7 @@ class SeedArtistStateController {
     let seedArtists = Variable<[String]>([])
     let searchActive = Variable<Bool>(false)
     let confirmationActive = Variable<Bool>(false)
+    let confirmationArtistName = Variable<String?>(nil)
     
     //MARK: - Rx
     
@@ -44,4 +45,11 @@ class SeedArtistStateController {
     func customArtistSearch(showSearch: Bool) {
         searchActive.value = showSearch
     }
+    
+    func searchArtistForConfirmation(artistString: String) {
+        confirmationArtistName.value = artistString
+        confirmationActive.value = true
+    }
+
 }
+

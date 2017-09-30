@@ -13,6 +13,8 @@ class ContainerViewController: UIViewController {
     private var contentViewController = UIViewController()
     
     var hideStatusBar = false
+    var modallyPresentingViewController: UIViewController?
+    
     override var prefersStatusBarHidden: Bool {
         return hideStatusBar
     }
@@ -44,6 +46,26 @@ class ContainerViewController: UIViewController {
         
     }
     
+    func showModally(viewController newViewController: UIViewController, animation: ContainerAnimation = .modalPresentation) {
+        
+        let priorViewController = contentViewController
+        contentViewController = newViewController
+        
+        newViewController.view.frame = view.bounds
+        newViewController.view.alpha = 0
+        view.addSubview(newViewController.view)
+        
+        priorViewController.willMove(toParentViewController: nil)
+        newViewController.didMove(toParentViewController: self)
+        
+        animateTransition(newViewController: newViewController, priorViewController: priorViewController, animation: animation) {
+            priorViewController.view.removeFromSuperview()
+            priorViewController.removeFromParentViewController()
+        }
+        
+        modallyPresentingViewController = priorViewController
+    }
+    
     fileprivate func animateTransition(newViewController: UIViewController, priorViewController: UIViewController, animation: ContainerAnimation, completion: ( () -> Void )? ) {
         
         switch animation {
@@ -53,6 +75,8 @@ class ContainerViewController: UIViewController {
             slideFromRight(newViewController: newViewController, priorViewController: priorViewController, completion: completion)
         case .fadeIn:
             fadeIn(newViewController: newViewController, priorViewController: priorViewController, completion: completion)
+        case .modalPresentation:
+            presentModally(newViewController: newViewController, priorViewController: priorViewController, completion: completion)
         }
     }
     
@@ -87,9 +111,25 @@ extension ContainerViewController {
     }
     
     fileprivate func fadeIn(newViewController: UIViewController, priorViewController: UIViewController, completion: ( () -> Void )? ) {
+        UIView.animate(withDuration: 0.25,
+                       delay: 0.0,
+                       options: .curveEaseIn,
+                       animations: {
+                            _ in
+                            newViewController.view.alpha = 1
+                        }, completion:{
+                            _ in
+                            completion?()
+                        })
+    }
+    
+    fileprivate func presentModally(newViewController: UIViewController, priorViewController: UIViewController, completion: ( () -> Void )? ) {
+        newViewController.view.center.y += view.frame.height
+        newViewController.view.alpha = 1
+        
         UIView.animate(withDuration: 0.3, animations: {
             _ in
-            newViewController.view.alpha = 1
+            newViewController.view.center.y -= self.view.frame.height
         }, completion:{
             _ in
             completion?()
@@ -104,5 +144,6 @@ enum ContainerAnimation {
     case none
     case slideFromRight
     case fadeIn
+    case modalPresentation
 }
 
