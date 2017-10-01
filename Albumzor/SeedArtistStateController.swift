@@ -13,7 +13,8 @@ class SeedArtistStateController {
     
     //MARK: - Dependencies
     
-    let mediaLibraryService: MediaLibraryServiceProtocol
+    private let mediaLibraryService: MediaLibraryServiceProtocol
+    private let remoteDataService: RemoteDataServiceProtocol
     
     //MARK: - State
     
@@ -22,14 +23,22 @@ class SeedArtistStateController {
     let confirmationActive = Variable<Bool>(false)
     let confirmationArtistName = Variable<String?>(nil)
     
+    let loadConfirmArtistState = Variable<DataOperationState>(.none)
+    let confirmArtistData = Variable<ArtistData?>(nil)
+    
+    let loadConfirmArtistImageOperationState = Variable<DataOperationState>(.none)
+    let confirmArtistImage = Variable<UIImage?>(nil)
+    
+    
     //MARK: - Rx
     
     let disposeBag = DisposeBag()
 
     //MARK: - Initialization
     
-    init(mediaLibraryService: MediaLibraryServiceProtocol) {
+    init(mediaLibraryService: MediaLibraryServiceProtocol, remoteDataService: RemoteDataServiceProtocol) {
         self.mediaLibraryService = mediaLibraryService
+        self.remoteDataService = remoteDataService
     }
 
     //MARK: - Interface
@@ -47,9 +56,57 @@ class SeedArtistStateController {
     }
     
     func searchArtistForConfirmation(artistString: String) {
+        
+        loadConfirmArtistState.value = .operationBegan
         confirmationArtistName.value = artistString
         confirmationActive.value = true
+        
+        let artistObservable = remoteDataService.fetchArtistInfo(artistName: artistString)
+        
+        artistObservable
+            .subscribe(onNext: { [unowned self] artistData in
+                guard let imageURL = artistData?.imageURL else {
+                    print("Could not get artist data")
+                    self.loadConfirmArtistImageOperationState.value = .error
+                    return
+                }
+                print("Got some artist data")
+                self.confirmArtistData.value = artistData
+                self.fetchImageFrom(urlString: imageURL)
+            })
+            .disposed(by: disposeBag)
+        
+        artistObservable.map {_ -> Void in}
+            .subscribe(onError: { [unowned self] error in
+                self.loadConfirmArtistState.value = .error
+            }, onCompleted: { [unowned self] in
+                self.loadConfirmArtistState.value = .operationCompleted
+                self.loadConfirmArtistState.value = .none
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func fetchImageFrom(urlString: String) {
+        loadConfirmArtistImageOperationState.value = .operationBegan
+        
+        let imageObservable = remoteDataService.fetchImageFrom(urlString: urlString)
+        
+        imageObservable
+            .subscribe(onNext: { [unowned self] image in
+                self.confirmArtistImage.value = image
+            })
+            .disposed(by: disposeBag)
+        
+        imageObservable.map { _ -> Void in }
+            .subscribe(onError: { [unowned self] error in
+                self.loadConfirmArtistImageOperationState.value = .error
+            }, onCompleted: { [unowned self] in
+                self.loadConfirmArtistImageOperationState.value = .operationCompleted
+                self.loadConfirmArtistImageOperationState.value = .none
+            })
+            .disposed(by: disposeBag)
     }
 
 }
+
 

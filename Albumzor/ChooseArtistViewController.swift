@@ -139,6 +139,7 @@ class ChooseArtistViewController: UIViewController {
     func animateOutSearch() {
         searchButton.isUserInteractionEnabled = false
         textField.text = ""
+        dismissKeyboard()
         
         UIView.animate(withDuration: 0.3,
                        animations: {

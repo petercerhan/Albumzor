@@ -25,11 +25,13 @@ class WelcomeViewModel {
     weak var delegate: WelcomeViewModelDelegate?
     let userProfileStateController: UserProfileStateController
     
-    private let disposeBag = DisposeBag()
-    
     //MARK: - State
     
     let dataLoadStateSubject = BehaviorSubject<DataOperationState>(value: .none)
+    
+    //MARK: - Rx
+    
+    private let disposeBag = DisposeBag()
     
     //MARK: - Initialization
     
@@ -54,9 +56,9 @@ class WelcomeViewModel {
         
         if userProfileStateController.userMarket.value == "None" {
             userProfileStateController.fetchUserMarketFromAPI()
-                .subscribe(onError: { error in
+                .subscribe(onError: { [unowned self] error in
                     self.dataLoadStateSubject.onNext(.error)
-                }, onCompleted: {
+                }, onCompleted: { [unowned self] in
                     self.dataLoadStateSubject.onNext(.operationCompleted)
                 })
                 .disposed(by: disposeBag)

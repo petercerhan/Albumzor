@@ -158,10 +158,9 @@ extension MainContainerCoordinator: ChooseArtistViewControllerDelegate, ChooseAr
     func showConfirmArtistScene(_ chooseArtistViewModel: ChooseArtistViewModel, confirmationArtist: String) {
         print("Launch confirm artist scene with \(confirmationArtist)")
         
-        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ConfirmArtistViewController") as! ConfirmArtistViewController
+        let viewModel = ConfirmArtistViewModel(seedArtistStateController: seedArtistStateController)
+        let vc = ConfirmArtistViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel, searchString: confirmationArtist, searchOrigin: .search)
         vc.delegate = self
-        vc.searchString = confirmationArtist
-        vc.searchOrigin = .search
         
         mainContainerViewController.showModally(viewController: vc)
     }

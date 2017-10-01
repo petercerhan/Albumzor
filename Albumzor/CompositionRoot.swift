@@ -42,7 +42,7 @@ class CompositionRoot: CompositionRootProtocol {
                                         authStateController: authStateController,
                                         userProfileStateController: userProfileStateController,
                                         userSettingsStateController: UserSettingsStateController(),
-                                        seedArtistStateController: SeedArtistStateController(mediaLibraryService: ITunesLibraryService()),
+                                        seedArtistStateController: SeedArtistStateController(mediaLibraryService: ITunesLibraryService(), remoteDataService: SpotifyRemoteDataService()),
                                         compositionRoot: self)
     }
     

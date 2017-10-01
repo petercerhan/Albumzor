@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 protocol ConfirmArtistViewControllerDelegate: class {
     func artistChosen(spotifyID: String, searchOrigin: ArtistSearchOrigin)
@@ -15,6 +17,8 @@ protocol ConfirmArtistViewControllerDelegate: class {
 
 class ConfirmArtistViewController: UIViewController {
 
+    //MARK: - Interface Components
+    
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var artistLabel: UILabel!
     @IBOutlet var dislikeButton: UIButton!
@@ -23,8 +27,14 @@ class ConfirmArtistViewController: UIViewController {
     @IBOutlet var quitButton: UIButton!
     @IBOutlet var spotifyButtonContainer: UIView!
     
+    //MARK: - Dependencies
+    
+    var viewModel: ConfirmArtistViewModel!
+    
     weak var delegate: ConfirmArtistViewControllerDelegate!
     var client = SpotifyClient.sharedInstance()
+    
+    //MARK: - State
     
     var confirmSessionComplete = false
     
@@ -33,19 +43,44 @@ class ConfirmArtistViewController: UIViewController {
     
     var spotifyID: String?
     
+    //MARK: - Rx
+    
+    let disposeBag = DisposeBag()
+    
+    //MARK: - Initialization
+    
+    static func createWith(storyBoard: UIStoryboard, viewModel: ConfirmArtistViewModel, searchString: String, searchOrigin: ArtistSearchOrigin) -> ConfirmArtistViewController {
+        let vc = storyBoard.instantiateViewController(withIdentifier: "ConfirmArtistViewController") as! ConfirmArtistViewController
+        vc.viewModel = viewModel
+        vc.searchString = searchString
+        vc.searchOrigin = searchOrigin
+        return vc
+    }
+    
+    //MARK: - Bind UI
+    
+    func bindUI() {
+        viewModel.confirmationArtistName
+            .observeOn(MainScheduler.instance)
+            .bind(to: artistLabel.rx.text)
+            .disposed(by: disposeBag)
+    }
+    
+    //MARK: - Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-
+        bindUI()
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if !confirmSessionComplete {
-            confirmSessionComplete = true
-            confirmSession()
-        }
+//        if !confirmSessionComplete {
+//            confirmSessionComplete = true
+//            confirmSession()
+//        }
+
     }
     
     func confirmSession() {
@@ -100,7 +135,7 @@ class ConfirmArtistViewController: UIViewController {
             
             DispatchQueue.main.async {
                 self.spotifyID = id
-                self.artistLabel.text = name
+//                self.artistLabel.text = name
                 self.dislikeButton.isEnabled = true
                 self.likeButton.isEnabled = true
                 self.spotifyButtonContainer.isUserInteractionEnabled = true
