@@ -59,11 +59,70 @@ class ConfirmArtistViewController: UIViewController {
     
     //MARK: - Bind UI
     
-    func bindUI() {
+    private func bindUI() {
         viewModel.confirmationArtistName
             .observeOn(MainScheduler.instance)
             .bind(to: artistLabel.rx.text)
             .disposed(by: disposeBag)
+        
+        viewModel.confirmArtistImage
+            .observeOn(MainScheduler.instance)
+            .bind(to: imageView.rx.image)
+            .disposed(by: disposeBag)
+        
+        //artist loading state
+        let artistSearchActiveObservable = viewModel.loadConfirmArtistState
+            .observeOn(MainScheduler.instance)
+            .map { operationState -> Bool in
+                switch operationState {
+                case .none, .operationCompleted:
+                    return false
+                default:
+                    return true
+                }
+            }
+            .share()
+        
+        artistSearchActiveObservable
+            .map{ !($0) }
+            .bind(to: dislikeButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
+        artistSearchActiveObservable
+            .map{ !($0) }
+            .bind(to: likeButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
+        artistSearchActiveObservable
+            .map{ !($0) }
+            .bind(to: spotifyButtonContainer.rx.isUserInteractionEnabled)
+            .disposed(by: disposeBag)
+        
+        artistSearchActiveObservable
+            .map{ $0 ? 0.6 : 1.0}
+            .bind(to: spotifyButtonContainer.rx.alpha)
+            .disposed(by: disposeBag)
+        
+        //All loading state
+        _ = Observable.combineLatest(viewModel.loadConfirmArtistState, viewModel.loadConfirmArtistImageOperationState)
+            { (artistLoadState, imageLoadState) -> Bool in
+                let combinedState = (artistLoadState, imageLoadState)
+                
+                switch combinedState {
+                case (.none, .operationCompleted),
+                     (.none, .none),
+                     (.operationCompleted, .none),
+                     (.operationCompleted, .operationCompleted):
+                    
+                    return false
+                default:
+                    return true
+                }
+            }
+            .observeOn(MainScheduler.instance)
+            .bind(to: activityIndicator.rx.isAnimating)
+            .disposed(by: disposeBag)
+        
     }
     
     //MARK: - Life Cycle

@@ -66,11 +66,9 @@ class SeedArtistStateController {
         artistObservable
             .subscribe(onNext: { [unowned self] artistData in
                 guard let imageURL = artistData?.imageURL else {
-                    print("Could not get artist data")
                     self.loadConfirmArtistImageOperationState.value = .error
                     return
                 }
-                print("Got some artist data")
                 self.confirmArtistData.value = artistData
                 self.fetchImageFrom(urlString: imageURL)
             })

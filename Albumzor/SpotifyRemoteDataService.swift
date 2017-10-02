@@ -124,12 +124,14 @@ class SpotifyRemoteDataService: RemoteDataServiceProtocol {
                 if let imageData = try? Data(contentsOf: url),
                     let image = UIImage(data: imageData) {
                         observer.onNext(image)
+                        observer.onCompleted()
                 } else {
                     observer.onError(NetworkRequestError.connectionFailed)
                 }
             }
             return Disposables.create()
         }
+        .shareReplay(1)
         
         return observable
     }

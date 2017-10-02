@@ -26,9 +26,11 @@ class ConfirmArtistViewModel {
     var loadConfirmArtistState: Observable<DataOperationState> {
         return seedArtistStateController.loadConfirmArtistState.asObservable()
     }
-    
     var loadConfirmArtistImageOperationState: Observable<DataOperationState> {
         return seedArtistStateController.loadConfirmArtistImageOperationState.asObservable()
+    }
+    var confirmArtistImage: Observable<UIImage?> {
+        return seedArtistStateController.confirmArtistImage.asObservable()
     }
     
     
