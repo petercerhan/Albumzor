@@ -1,5 +1,5 @@
 //
-//  NetworkingError.swift
+//  NetworkRequestError.swift
 //  Albumzor
 //
 //  Created by Peter Cerhan on 10/1/17.
@@ -9,7 +9,9 @@
 import Foundation
 
 enum NetworkRequestError: Error {
+    case invalidURL
     case connectionFailed
     case invalidData
+    case notAuthenticated
 }
 

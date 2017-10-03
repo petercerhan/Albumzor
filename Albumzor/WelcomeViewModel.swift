@@ -60,6 +60,7 @@ class WelcomeViewModel {
                     self.dataLoadStateSubject.onNext(.error)
                 }, onCompleted: { [unowned self] in
                     self.dataLoadStateSubject.onNext(.operationCompleted)
+                    self.delegate?.requestToChooseArtists(from: self)
                 })
                 .disposed(by: disposeBag)
         } else {

@@ -65,12 +65,9 @@ class SeedArtistStateController {
         
         artistObservable
             .subscribe(onNext: { [unowned self] artistData in
-                guard let imageURL = artistData?.imageURL else {
-                    self.loadConfirmArtistImageOperationState.value = .error
-                    return
-                }
                 self.confirmArtistData.value = artistData
-                self.fetchImageFrom(urlString: imageURL)
+                //fetchArtistInfo method validates that an imageURL exists. It is conceivable that an artist could not have images; that artist would come up as unfound in the spotify service as currently written
+                self.fetchImageFrom(urlString: artistData.imageURL!)
             })
             .disposed(by: disposeBag)
         
