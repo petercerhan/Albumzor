@@ -1360,12 +1360,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LPSwipe" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ugb-5r-a4P">
-                                <rect key="frame" x="138" y="35" width="98.5" height="31.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please connect to your Spotify account" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0lx-OT-icp">
                                 <rect key="frame" x="46.5" y="218" width="281.5" height="31.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="26"/>
@@ -1424,15 +1418,21 @@
                                     <action selector="cancel" destination="ugn-o1-WSI" eventType="touchUpInside" id="Xc1-ti-qwP"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LPSwipe" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ugb-5r-a4P">
+                                <rect key="frame" x="138" y="35" width="98.5" height="31.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="0lx-OT-icp" firstAttribute="width" secondItem="1d8-Mx-obC" secondAttribute="width" multiplier="0.75" id="3Ur-MA-fqC"/>
-                            <constraint firstItem="ugb-5r-a4P" firstAttribute="top" secondItem="lBE-zF-f1c" secondAttribute="bottom" constant="15" id="BZg-4v-EY9"/>
                             <constraint firstItem="kTd-Bo-ZRV" firstAttribute="centerX" secondItem="1d8-Mx-obC" secondAttribute="centerX" id="IjP-cG-USe"/>
                             <constraint firstItem="0lx-OT-icp" firstAttribute="centerX" secondItem="1d8-Mx-obC" secondAttribute="centerX" id="Kie-U4-bFF"/>
                             <constraint firstItem="NJ7-A2-Dyi" firstAttribute="top" secondItem="kTd-Bo-ZRV" secondAttribute="bottom" constant="8" id="LJK-nu-q4z"/>
                             <constraint firstItem="kTd-Bo-ZRV" firstAttribute="top" secondItem="RzA-fW-P6s" secondAttribute="bottom" constant="15" id="LPC-fA-71t"/>
+                            <constraint firstItem="ugb-5r-a4P" firstAttribute="top" secondItem="1d8-Mx-obC" secondAttribute="top" constant="35" id="Q8P-kz-Trq"/>
                             <constraint firstItem="ugb-5r-a4P" firstAttribute="centerX" secondItem="1d8-Mx-obC" secondAttribute="centerX" id="dJL-dM-oPA"/>
                             <constraint firstItem="RzA-fW-P6s" firstAttribute="centerX" secondItem="1d8-Mx-obC" secondAttribute="centerX" id="eA1-wf-s0b"/>
                             <constraint firstItem="0lx-OT-icp" firstAttribute="centerY" secondItem="1d8-Mx-obC" secondAttribute="centerY" constant="-100" id="uax-5P-Moc"/>

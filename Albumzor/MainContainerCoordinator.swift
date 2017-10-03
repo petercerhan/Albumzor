@@ -27,6 +27,7 @@ class MainContainerCoordinator {
     //MARK: - Children
     
     var childCoordinators = [Any]()
+    var activeSceneDelegateProxy: AnyObject?
     
     //MARK: - Rx
     
@@ -123,6 +124,7 @@ extension MainContainerCoordinator: WelcomeViewModelDelegate {
     }
     
     func launchChooseArtistsScene(animated: Bool) {
+        
         seedArtistStateController.fetchSeedArtistsFromMediaLibrary()
         
         seedArtistStateController.seedArtists.asObservable()
@@ -144,7 +146,7 @@ extension MainContainerCoordinator: WelcomeViewModelDelegate {
 
 
 //MARK: - ChooseArtistViewControllerDelegate
-//TODO: Deletes ChooseArtistViewControllerDelegate
+//TODO: Delete ChooseArtistViewControllerDelegate
 
 extension MainContainerCoordinator: ChooseArtistViewControllerDelegate, ChooseArtistViewModelDelegate {
     func chooseArtistSceneComplete() {
@@ -158,11 +160,34 @@ extension MainContainerCoordinator: ChooseArtistViewControllerDelegate, ChooseAr
     func showConfirmArtistScene(_ chooseArtistViewModel: ChooseArtistViewModel, confirmationArtist: String) {
         print("Launch confirm artist scene with \(confirmationArtist)")
         
+        //get confirmation artist directly from the state controller
         let viewModel = ConfirmArtistViewModel(seedArtistStateController: seedArtistStateController)
-        let vc = ConfirmArtistViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel, searchString: confirmationArtist, searchOrigin: .search)
-        vc.delegate = self
+        let confirmArtistVC = ConfirmArtistViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel, searchString: confirmationArtist, searchOrigin: .search)
+        confirmArtistVC.delegate = self
         
-        mainContainerViewController.showModally(viewController: vc)
+        //launch spotify confirmation, if necessary
+        if /*!(authStateController.sessionIsValid)*/ true {
+            let vc = compositionRoot.composeSpotifyLoginScene(mainContainerCoordinator: self)
+            
+            mainContainerViewController.showModally(viewController: vc)
+            
+            //Inject somehow?
+            let spotifyLoginDelegateProxy = SpotifyLoginDelegateProxy()
+            spotifyLoginDelegateProxy.loginSucceededCallback = { [weak self] in
+                self?.mainContainerViewController.replaceModalVC(viewController: confirmArtistVC)
+            }
+            spotifyLoginDelegateProxy.cancelLoginCallback = { [weak self] in
+                self?.mainContainerViewController.dismissModalVC()
+            }
+            
+            activeSceneDelegateProxy = spotifyLoginDelegateProxy
+            
+            //Must be set after view controller is added to container. Fix at some point
+            vc.controllerDelegate = spotifyLoginDelegateProxy
+            vc.cancelButton.isHidden = false
+        } else {
+            mainContainerViewController.showModally(viewController: confirmArtistVC)
+        }
     }
 }
 

@@ -40,7 +40,7 @@ class AuthStateController {
     
     //MARK: - Utils
     
-    func disconnectAccount() {
+    func deleteSession() {
         authService.deleteSession();
         UserDefaults.standard.removeObject(forKey: "SpotifySession")
     }

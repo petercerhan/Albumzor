@@ -55,6 +55,47 @@ class ContainerViewController: UIViewController {
         newViewController.view.alpha = 0
         view.addSubview(newViewController.view)
         
+//        priorViewController.willMove(toParentViewController: nil)
+        newViewController.didMove(toParentViewController: self)
+        
+        animateTransition(newViewController: newViewController, priorViewController: priorViewController, animation: animation) {
+//            priorViewController.view.removeFromSuperview()
+//            priorViewController.removeFromParentViewController()
+        }
+        
+        modallyPresentingViewController = priorViewController
+    }
+    
+    func dismissModalVC(animation: ContainerAnimation = .none) {
+        
+        guard let newViewController = modallyPresentingViewController else { return }
+        
+        let priorViewController = contentViewController
+        contentViewController = newViewController
+        
+//        newViewController.view.frame = view.bounds
+//        view.addSubview(newViewController.view)
+        
+        priorViewController.willMove(toParentViewController: nil)
+//        newViewController.didMove(toParentViewController: self)
+        
+        dismissModalAnimation(presentingViewController: contentViewController, presentedViewController: priorViewController) {
+            priorViewController.view.removeFromSuperview()
+            priorViewController.removeFromParentViewController()
+        }
+    }
+    
+    func replaceModalVC(viewController newViewController: UIViewController, animation: ContainerAnimation = .none) {
+        
+        guard modallyPresentingViewController != nil else { return }
+        
+        let priorViewController = contentViewController
+        contentViewController = newViewController
+        
+        newViewController.view.frame = view.bounds
+        newViewController.view.alpha = 0
+        view.addSubview(newViewController.view)
+        
         priorViewController.willMove(toParentViewController: nil)
         newViewController.didMove(toParentViewController: self)
         
@@ -62,8 +103,6 @@ class ContainerViewController: UIViewController {
             priorViewController.view.removeFromSuperview()
             priorViewController.removeFromParentViewController()
         }
-        
-        modallyPresentingViewController = priorViewController
     }
     
     fileprivate func animateTransition(newViewController: UIViewController, priorViewController: UIViewController, animation: ContainerAnimation, completion: ( () -> Void )? ) {
@@ -130,6 +169,16 @@ extension ContainerViewController {
         UIView.animate(withDuration: 0.3, animations: {
             _ in
             newViewController.view.center.y -= self.view.frame.height
+        }, completion:{
+            _ in
+            completion?()
+        })
+    }
+    
+    fileprivate func dismissModalAnimation(presentingViewController: UIViewController, presentedViewController: UIViewController, completion: ( () -> Void )? ) {
+        UIView.animate(withDuration: 0.3, animations: {
+            _ in
+            presentedViewController.view.center.y += self.view.frame.height
         }, completion:{
             _ in
             completion?()

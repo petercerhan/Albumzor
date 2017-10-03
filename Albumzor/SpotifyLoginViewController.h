@@ -26,4 +26,6 @@
 @property IBOutlet UIButton *spotifyButton;
 @property IBOutlet UIButton *cancelButton;
 
+- (void)dealloc;
+
 @end

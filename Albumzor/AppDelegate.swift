@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         authStateController = compositionRoot.composeAuthStateController()
         //
-//        authStateController.disconnectAccount()
+//        authStateController.deleteSession()
         //
         
         mainContainerCoordinator = compositionRoot.composeMainCoordinator(authStateController: authStateController)

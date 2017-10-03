@@ -48,6 +48,10 @@ class ChooseArtistViewController: UIViewController {
     
     //MARK: - Initialization
     
+    deinit {
+        print("Choose artist deinit")
+    }
+    
     static func createWith(storyBoard: UIStoryboard, viewModel: ChooseArtistViewModel) -> ChooseArtistViewController {
         let vc = storyBoard.instantiateViewController(withIdentifier: "ChooseArtistViewController") as! ChooseArtistViewController
         vc.viewModel = viewModel
