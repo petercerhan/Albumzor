@@ -334,12 +334,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EUS-UG-8VE">
-                                <rect key="frame" x="16" y="35" width="343" height="343"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="EUS-UG-8VE" secondAttribute="height" multiplier="1:1" id="zfi-B0-fEa"/>
-                                </constraints>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="11" translatesAutoresizingMaskIntoConstraints="NO" id="QoJ-9M-Bvn">
                                 <rect key="frame" x="16" y="403" width="343" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
@@ -369,7 +363,7 @@
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="3l2-kq-gon">
-                                <rect key="frame" x="177" y="196" width="20" height="20"/>
+                                <rect key="frame" x="177" y="196.5" width="20" height="20"/>
                             </activityIndicatorView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vX6-n0-95Y">
                                 <rect key="frame" x="5" y="25" width="38" height="35"/>
@@ -418,6 +412,12 @@
                                     <constraint firstItem="YNV-vI-vUd" firstAttribute="centerY" secondItem="IJL-UO-4aH" secondAttribute="centerY" id="tgy-Vo-7yC"/>
                                 </constraints>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EUS-UG-8VE">
+                                <rect key="frame" x="16" y="35" width="343" height="343"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="EUS-UG-8VE" secondAttribute="height" multiplier="1:1" id="zfi-B0-fEa"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -434,7 +434,7 @@
                             <constraint firstItem="QoJ-9M-Bvn" firstAttribute="centerX" secondItem="EUS-UG-8VE" secondAttribute="centerX" id="iPu-nc-quQ"/>
                             <constraint firstItem="QJf-un-BEO" firstAttribute="top" secondItem="vT6-M6-QD0" secondAttribute="bottom" constant="35" id="iyx-DE-9OJ"/>
                             <constraint firstItem="EUS-UG-8VE" firstAttribute="trailing" secondItem="z0T-gX-ePp" secondAttribute="trailingMargin" id="ke2-Lb-yNs"/>
-                            <constraint firstItem="EUS-UG-8VE" firstAttribute="top" secondItem="xV2-Sb-PTT" secondAttribute="bottom" constant="15" id="qAT-go-7wG"/>
+                            <constraint firstItem="EUS-UG-8VE" firstAttribute="top" secondItem="z0T-gX-ePp" secondAttribute="top" constant="35" id="qaF-01-5su"/>
                             <constraint firstItem="vT6-M6-QD0" firstAttribute="centerX" secondItem="z0T-gX-ePp" secondAttribute="centerX" constant="75" id="w9V-J7-ggj"/>
                             <constraint firstItem="QoJ-9M-Bvn" firstAttribute="top" secondItem="EUS-UG-8VE" secondAttribute="bottom" constant="25" id="yEg-9Y-cML"/>
                         </constraints>

@@ -29,7 +29,6 @@ class SeedArtistStateController {
     let loadConfirmArtistImageOperationState = Variable<DataOperationState>(.none)
     let confirmArtistImage = Variable<UIImage?>(nil)
     
-    
     //MARK: - Rx
     
     let disposeBag = DisposeBag()

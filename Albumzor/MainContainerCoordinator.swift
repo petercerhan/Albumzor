@@ -161,12 +161,12 @@ extension MainContainerCoordinator: ChooseArtistViewControllerDelegate, ChooseAr
         print("Launch confirm artist scene with \(confirmationArtist)")
         
         //get confirmation artist directly from the state controller
-        let viewModel = ConfirmArtistViewModel(seedArtistStateController: seedArtistStateController)
+        let viewModel = ConfirmArtistViewModel(delegate: self, seedArtistStateController: seedArtistStateController)
         let confirmArtistVC = ConfirmArtistViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel, searchString: confirmationArtist, searchOrigin: .search)
         confirmArtistVC.delegate = self
         
         //launch spotify confirmation, if necessary
-        if /*!(authStateController.sessionIsValid)*/ true {
+        if !(authStateController.sessionIsValid) {
             let vc = compositionRoot.composeSpotifyLoginScene(mainContainerCoordinator: self)
             
             mainContainerViewController.showModally(viewController: vc)
@@ -201,11 +201,18 @@ extension MainContainerCoordinator: ConfirmArtistViewControllerDelegate {
     }
     
     func artistCanceled() {
-        print("Artist canceled")
+        
     }
     
 }
 
+extension MainContainerCoordinator: ConfirmArtistViewModelDelegate {
+    
+    func cancel(_ confirmArtistViewModel: ConfirmArtistViewModel) {
+        mainContainerViewController.dismissModalVC()
+    }
+    
+}
 
 
 

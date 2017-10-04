@@ -9,11 +9,22 @@
 import Foundation
 import RxSwift
 
+protocol ConfirmArtistViewModelDelegate: class {
+    func cancel(_ confirmArtistViewModel: ConfirmArtistViewModel)
+}
+
+enum ConfirmArtistSceneAction {
+    case confirmArtist
+    case cancel
+    case openInSpotify(url: String)
+}
+
 class ConfirmArtistViewModel {
     
     //MARK: - Dependencies
     
     let seedArtistStateController: SeedArtistStateController
+    weak var delegate: ConfirmArtistViewModelDelegate?
     
     //MARK: - State
     
@@ -33,12 +44,35 @@ class ConfirmArtistViewModel {
         return seedArtistStateController.confirmArtistImage.asObservable()
     }
     
-    
-    
     //MARK: - Initialization
     
-    init(seedArtistStateController: SeedArtistStateController) {
+    init(delegate: ConfirmArtistViewModelDelegate, seedArtistStateController: SeedArtistStateController) {
         self.seedArtistStateController = seedArtistStateController
+        self.delegate = delegate
+    }
+    
+    //MARK: - Dispatch Actions
+    
+    func dispatch(action: ConfirmArtistSceneAction) {
+        switch action {
+        case .confirmArtist:
+            print("Confirm artist")
+        case .cancel:
+            handle_ConfirmArtist()
+        case .openInSpotify(let url):
+            print("URL \(url)")
+        }
+    }
+    
+    private func handle_ConfirmArtist() {
+        delegate?.cancel(self)
     }
     
 }
+
+
+
+
+
+
+

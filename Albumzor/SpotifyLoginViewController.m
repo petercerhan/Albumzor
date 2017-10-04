@@ -18,10 +18,6 @@
 
 @implementation SpotifyLoginViewController
 
-- (void)dealloc {
-    NSLog(@"Spotify login controller dalloc");
-}
-
 #pragma mark - View Lifecycle
 
 - (void)viewDidLoad

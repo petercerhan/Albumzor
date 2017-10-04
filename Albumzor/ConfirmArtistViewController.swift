@@ -81,18 +81,21 @@ class ConfirmArtistViewController: UIViewController {
                     return true
                 }
             }
-            .share()
+            .shareReplay(1)
         
+        //dislike button
         artistSearchActiveObservable
             .map{ !($0) }
             .bind(to: dislikeButton.rx.isEnabled)
             .disposed(by: disposeBag)
         
+        //like button
         artistSearchActiveObservable
             .map{ !($0) }
             .bind(to: likeButton.rx.isEnabled)
             .disposed(by: disposeBag)
         
+        //spotify button
         artistSearchActiveObservable
             .map{ !($0) }
             .bind(to: spotifyButtonContainer.rx.isUserInteractionEnabled)
@@ -102,6 +105,13 @@ class ConfirmArtistViewController: UIViewController {
             .map{ $0 ? 0.6 : 1.0}
             .bind(to: spotifyButtonContainer.rx.alpha)
             .disposed(by: disposeBag)
+        
+        //cancel load button
+        artistSearchActiveObservable
+            .map{ !($0) }
+            .bind(to: quitButton.rx.isHidden)
+            .disposed(by: disposeBag)
+        
         
         //All loading state
         _ = Observable.combineLatest(viewModel.loadConfirmArtistState, viewModel.loadConfirmArtistImageOperationState)
@@ -227,15 +237,17 @@ class ConfirmArtistViewController: UIViewController {
     }
     
     @IBAction func quit() {
-        delegate.artistCanceled()
+        viewModel.dispatch(action: .cancel)
     }
     
     @IBAction func selectArtist() {
-        delegate.artistChosen(spotifyID: spotifyID!, searchOrigin: searchOrigin)
+        viewModel.dispatch(action: .confirmArtist)
+        
+//        delegate.artistChosen(spotifyID: spotifyID!, searchOrigin: searchOrigin)
     }
     
     @IBAction func rejectArtist() {
-        delegate.artistCanceled()
+        viewModel.dispatch(action: .cancel)
     }
     
     func artistNotFound(networkError: Bool) {

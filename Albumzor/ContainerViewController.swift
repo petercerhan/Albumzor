@@ -79,9 +79,10 @@ class ContainerViewController: UIViewController {
         priorViewController.willMove(toParentViewController: nil)
 //        newViewController.didMove(toParentViewController: self)
         
-        dismissModalAnimation(presentingViewController: contentViewController, presentedViewController: priorViewController) {
+        dismissModalAnimation(presentingViewController: contentViewController, presentedViewController: priorViewController) { [weak self] in
             priorViewController.view.removeFromSuperview()
             priorViewController.removeFromParentViewController()
+            self?.modallyPresentingViewController = nil
         }
     }
     
