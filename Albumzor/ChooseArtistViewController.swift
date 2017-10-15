@@ -55,9 +55,10 @@ class ChooseArtistViewController: UIViewController {
     static func createWith(storyBoard: UIStoryboard, viewModel: ChooseArtistViewModel) -> ChooseArtistViewController {
         let vc = storyBoard.instantiateViewController(withIdentifier: "ChooseArtistViewController") as! ChooseArtistViewController
         vc.viewModel = viewModel
-        vc.bindViewModel()
         return vc
     }
+    
+    //MARK: - Bind Actions
     
     private func bindActions() {
         searchButton.rx.tap
@@ -71,7 +72,10 @@ class ChooseArtistViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    private func bindViewModel() {
+    //MARK: - Bind UI
+    
+    private func bindUI() {
+        //Search bar
         viewModel.searchActive.asObservable()
             .observeOn(MainScheduler.instance)
             .skip(1)
@@ -84,6 +88,16 @@ class ChooseArtistViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        viewModel.seedArtists.asObservable()
+            .observeOn(MainScheduler.instance)
+            .skip(1)
+            .subscribe(onNext: { [unowned self] _ in
+                //inject or move to collection view...
+                (self.collectionView.collectionViewLayout as! ArtistCollectionViewLayout).clearCache()
+                self.collectionView.reloadData()
+            })
+            .disposed(by: disposeBag)
+        
     }
     
     //MARK: - Lifecycle
@@ -92,6 +106,7 @@ class ChooseArtistViewController: UIViewController {
         super.viewDidLoad()
         
         bindActions()
+        bindUI()
         
         searchButton.imageEdgeInsets = UIEdgeInsetsMake(8.0, 8.0, 8.0, 8.0)
         overlayView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.cancelSearch)))
@@ -194,10 +209,12 @@ extension ChooseArtistViewController: UICollectionViewDelegate {
         let cell = collectionView.cellForItem(at: indexPath) as! ChooseArtistCollectionViewCell
         selectedCellPath = indexPath
         
-        launchConfirmArtistScene(searchString: cell.label.text!, searchOrigin: .icon(indexPath))
+        viewModel.dispatch(action: .confirmArtistIndexActive(index: indexPath.row))
+        viewModel.dispatch(action: .requestConfirmArtists(searchString: cell.label.text!))
         
         return true
     }
+    
 }
 
 //MARK:- UICollectionViewDataSource
@@ -225,6 +242,8 @@ extension ChooseArtistViewController: UICollectionViewDataSource {
         return cell
     }
 }
+
+//MARK: - CollectionViewLayoutDelegate
 
 extension ChooseArtistViewController: ArtistCollectionViewLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, sizeForLabelAtIndexPath path: IndexPath) -> CGSize {

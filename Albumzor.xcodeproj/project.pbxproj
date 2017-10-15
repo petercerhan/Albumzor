@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A5560E17B38A8E8C3F7E993C /* Pods_Albumzor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94FB90085604F9BD04D4BEB3 /* Pods_Albumzor.framework */; };
+		E423E4FA1F92AEFA007531F5 /* AbbreviatedAlbumData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E423E4F91F92AEFA007531F5 /* AbbreviatedAlbumData.swift */; };
 		E425AF591EC166E9004BB657 /* SpotifyLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E425AF581EC166E9004BB657 /* SpotifyLoginViewController.m */; };
 		E425AF5C1EC1679C004BB657 /* SpotifyAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E425AF5B1EC1679C004BB657 /* SpotifyAuthentication.framework */; };
 		E425AF5F1EC167D0004BB657 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E425AF5E1EC167D0004BB657 /* SafariServices.framework */; };
@@ -77,6 +78,8 @@
 		E47E09B21F802CEA004A5C9E /* ConfirmArtistViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47E09B11F802CEA004A5C9E /* ConfirmArtistViewModel.swift */; };
 		E47E09B41F8041CA004A5C9E /* ArtistData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47E09B31F8041C9004A5C9E /* ArtistData.swift */; };
 		E4A70BFC1F832773000301D0 /* SpotifyDelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A70BFB1F832773000301D0 /* SpotifyDelegateProxy.swift */; };
+		E4A70C001F919198000301D0 /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A70BFF1F919198000301D0 /* CoreDataService.swift */; };
+		E4A70C021F923ABB000301D0 /* AlbumData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A70C011F923ABB000301D0 /* AlbumData.swift */; };
 		E4A7A5731F748A58009D117D /* WelcomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A7A5721F748A58009D117D /* WelcomeViewModel.swift */; };
 		E4A7A5761F76DA76009D117D /* SpotifyRemoteDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A7A5751F76DA76009D117D /* SpotifyRemoteDataService.swift */; };
 		E4B5077C1EAB0BB80049831B /* OpenSceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B5077B1EAB0BB80049831B /* OpenSceneViewController.swift */; };
@@ -106,6 +109,7 @@
 		39CB7133E3C2A4D47E38E0BA /* Pods-Albumzor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Albumzor.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Albumzor/Pods-Albumzor.debug.xcconfig"; sourceTree = "<group>"; };
 		6661D39B9E51CC748852D3FC /* Pods-Albumzor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Albumzor.release.xcconfig"; path = "Pods/Target Support Files/Pods-Albumzor/Pods-Albumzor.release.xcconfig"; sourceTree = "<group>"; };
 		94FB90085604F9BD04D4BEB3 /* Pods_Albumzor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Albumzor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E423E4F91F92AEFA007531F5 /* AbbreviatedAlbumData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbbreviatedAlbumData.swift; sourceTree = "<group>"; };
 		E425AF571EC166E9004BB657 /* Albumzor-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Albumzor-Bridging-Header.h"; sourceTree = "<group>"; };
 		E425AF581EC166E9004BB657 /* SpotifyLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpotifyLoginViewController.m; sourceTree = "<group>"; };
 		E425AF5A1EC166F4004BB657 /* SpotifyLoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpotifyLoginViewController.h; sourceTree = "<group>"; };
@@ -185,6 +189,8 @@
 		E47E09B11F802CEA004A5C9E /* ConfirmArtistViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmArtistViewModel.swift; sourceTree = "<group>"; };
 		E47E09B31F8041C9004A5C9E /* ArtistData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistData.swift; sourceTree = "<group>"; };
 		E4A70BFB1F832773000301D0 /* SpotifyDelegateProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyDelegateProxy.swift; sourceTree = "<group>"; };
+		E4A70BFF1F919198000301D0 /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
+		E4A70C011F923ABB000301D0 /* AlbumData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumData.swift; sourceTree = "<group>"; };
 		E4A7A5721F748A58009D117D /* WelcomeViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewModel.swift; sourceTree = "<group>"; };
 		E4A7A5751F76DA76009D117D /* SpotifyRemoteDataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifyRemoteDataService.swift; sourceTree = "<group>"; };
 		E4B5077B1EAB0BB80049831B /* OpenSceneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenSceneViewController.swift; sourceTree = "<group>"; };
@@ -334,12 +340,14 @@
 				E45D98BA1E75DC2F00CD3CE7 /* AppDelegate.swift */,
 				E44B02A91F6DCB0700B1A0D3 /* CompositionRoot.swift */,
 				E47E09AA1F7B3170004A5C9E /* SeedArtistStateController.swift */,
+				E423E4F91F92AEFA007531F5 /* AbbreviatedAlbumData.swift */,
+				E4A70C011F923ABB000301D0 /* AlbumData.swift */,
 				E47E09B31F8041C9004A5C9E /* ArtistData.swift */,
 				E47E09A61F79D943004A5C9E /* Services */,
 				E4A7A5741F749C9B009D117D /* StateControllers */,
 				E44B02AB1F6DD95800B1A0D3 /* Coordinators */,
 				E44B02AE1F6DDEC600B1A0D3 /* ContainerViewControllers */,
-				E47E09A91F7B2CAC004A5C9E /* ChooseArtistScene */,
+				E47E09A91F7B2CAC004A5C9E /* ChooseArtistsScene */,
 				E47E09B01F802A00004A5C9E /* ConfirmArtistsScene */,
 				E44B02A71F6DC9C400B1A0D3 /* OpenScene */,
 				E44B02B71F6F07BB00B1A0D3 /* SpotifyLoginScene */,
@@ -449,6 +457,7 @@
 		E47E09A61F79D943004A5C9E /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				E4A70BFF1F919198000301D0 /* CoreDataService.swift */,
 				E4A7A5751F76DA76009D117D /* SpotifyRemoteDataService.swift */,
 				E47E09A71F79D955004A5C9E /* ArchivingService.swift */,
 				E47E09AC1F7B3362004A5C9E /* ITunesLibraryService.swift */,
@@ -456,13 +465,13 @@
 			name = Services;
 			sourceTree = "<group>";
 		};
-		E47E09A91F7B2CAC004A5C9E /* ChooseArtistScene */ = {
+		E47E09A91F7B2CAC004A5C9E /* ChooseArtistsScene */ = {
 			isa = PBXGroup;
 			children = (
 				E45D99221E8B4FEF00CD3CE7 /* ChooseArtistViewController.swift */,
 				E47E09AE1F7C88C3004A5C9E /* ChooseArtistViewModel.swift */,
 			);
-			name = ChooseArtistScene;
+			name = ChooseArtistsScene;
 			sourceTree = "<group>";
 		};
 		E47E09B01F802A00004A5C9E /* ConfirmArtistsScene */ = {
@@ -696,6 +705,7 @@
 				E467C4CF1EB2B5B400B0A62B /* UIViewController+Alerts.swift in Sources */,
 				E45D98EF1E75EE8C00CD3CE7 /* SpotifyConstants.swift in Sources */,
 				E45D991F1E89D69300CD3CE7 /* AlbumDetailsViewController.swift in Sources */,
+				E423E4FA1F92AEFA007531F5 /* AbbreviatedAlbumData.swift in Sources */,
 				E45D99251E8B534000CD3CE7 /* ChooseArtistCollectionViewCell.swift in Sources */,
 				E45D99B51E93225C00CD3CE7 /* TrackTableViewCell.swift in Sources */,
 				E467C4CB1EAED4B400B0A62B /* UserSettings.swift in Sources */,
@@ -731,6 +741,7 @@
 				E45D992D1E8DD41700CD3CE7 /* PaddedLabel.swift in Sources */,
 				E45D99211E8A9BAF00CD3CE7 /* Track.swift in Sources */,
 				E45D99BB1EA843D900CD3CE7 /* AlbumTableViewCell.swift in Sources */,
+				E4A70C001F919198000301D0 /* CoreDataService.swift in Sources */,
 				E45D98FD1E78D7A800CD3CE7 /* Model.xcdatamodeld in Sources */,
 				E467C4D11EB2CFAC00B0A62B /* ConfirmResetViewController.swift in Sources */,
 				E45D99131E7B5F7F00CD3CE7 /* PrepareAlbumsViewController.swift in Sources */,
@@ -742,6 +753,7 @@
 				E45D99231E8B4FEF00CD3CE7 /* ChooseArtistViewController.swift in Sources */,
 				E45D99731E903B0B00CD3CE7 /* SuggestAlbumsViewController.swift in Sources */,
 				E45D990B1E7A0ED400CD3CE7 /* Album.swift in Sources */,
+				E4A70C021F923ABB000301D0 /* AlbumData.swift in Sources */,
 				E45D996D1E90369100CD3CE7 /* CGDraggableView.swift in Sources */,
 				E47E09AB1F7B3170004A5C9E /* SeedArtistStateController.swift in Sources */,
 				E45D99191E7F767400CD3CE7 /* String.swift in Sources */,

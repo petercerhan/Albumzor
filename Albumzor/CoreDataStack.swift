@@ -19,6 +19,10 @@ struct CoreDataStack {
     internal let networkingContext: NSManagedObjectContext
     let context: NSManagedObjectContext //main queue (UI) context
     
+    var backgroundContext: NSManagedObjectContext {
+        return persistingContext
+    }
+    
     // MARK:- setup (init)
     
     init?(modelName: String) {

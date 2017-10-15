@@ -39,11 +39,14 @@ class CompositionRoot: CompositionRootProtocol {
     func composeMainCoordinator(authStateController: AuthStateController) -> MainContainerCoordinator {
         let remoteDataService = SpotifyRemoteDataService(session: URLSession.shared, authService: SpotifyAuthManager())
         let userProfileStateController = UserProfileStateController(remoteDataService: remoteDataService, archiveService: UserDefaultsArchivingService())
+        let seedArtistStateController = SeedArtistStateController(mediaLibraryService: ITunesLibraryService(),
+                                                                  remoteDataService: remoteDataService,
+                                                                  localDatabaseService: CoreDataService(coreDataStack: CoreDataStack(modelName: "Model")!))
         return MainContainerCoordinator(mainContainerViewController: ContainerViewController(),
                                         authStateController: authStateController,
                                         userProfileStateController: userProfileStateController,
                                         userSettingsStateController: UserSettingsStateController(),
-                                        seedArtistStateController: SeedArtistStateController(mediaLibraryService: ITunesLibraryService(), remoteDataService: remoteDataService),
+                                        seedArtistStateController: seedArtistStateController,
                                         compositionRoot: self)
     }
     

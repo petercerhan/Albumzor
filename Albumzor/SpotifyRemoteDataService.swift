@@ -11,9 +11,13 @@ import RxSwift
 import RxCocoa
 
 protocol RemoteDataServiceProtocol {
+    func configureUserMarket(market: String)
     func fetchUserInfo() -> Observable<UserInfo>
     func fetchArtistInfo(artistName: String) -> Observable<ArtistData>
     func fetchImageFrom(urlString: String) -> Observable<UIImage>
+    func fetchRelatedArtists(id: String) -> Observable<[ArtistData]>
+    func fetchArtistAlbums(id: String) -> Observable<[AbbreviatedAlbumData]>
+    func fetchAlbumDetails(albums: [AbbreviatedAlbumData]) -> Observable<[AlbumData]>
 }
 
 class SpotifyRemoteDataService: RemoteDataServiceProtocol {
@@ -23,14 +27,24 @@ class SpotifyRemoteDataService: RemoteDataServiceProtocol {
     let session: URLSession
     let authService: SpotifyAuthManager
     
+    //MARK: - State
+    
+    var userMarket: String = "us"
+    
     //MARK: - Initialization
     
     init(session: URLSession, authService: SpotifyAuthManager) {
         self.session = session
         self.authService = authService
     }
+    
+    //MARK: - Other Interface Methods
+    
+    func configureUserMarket(market: String) {
+        userMarket = market
+    }
 
-    //MARK: - API Methods
+    //MARK: - Spotify API Methods
     
     func fetchUserInfo() -> Observable<UserInfo> {
         let endpoint = Endpoint.userProfile
@@ -76,6 +90,72 @@ class SpotifyRemoteDataService: RemoteDataServiceProtocol {
         return artistInfoStream
     }
     
+    func fetchRelatedArtists(id: String) -> Observable<[ArtistData]> {
+        let endpoint = Endpoint.relatedArtists
+        let relatedArtistsStream = assembleRequest(endpoint: endpoint, queryItems: nil, associatedID: id)
+            .map { jsonDictionary -> [[String: Any]] in
+                guard let result = jsonDictionary["artists"] as? [[String: Any]] else {
+                    throw NetworkRequestError.invalidData
+                }
+                return result
+            }
+            .map { jsonObjectArray -> [ArtistData] in
+                return jsonObjectArray.flatMap({ArtistData.init(dictionary: $0)})
+            }
+            .shareReplay(1)
+
+        return relatedArtistsStream
+    }
+    
+    func fetchArtistAlbums(id: String) -> Observable<[AbbreviatedAlbumData]> {
+        let endpoint = Endpoint.artistAlbums
+        let queryItems = [URLQueryItem(name: ParameterKeys.album_type, value: "album"),
+                          URLQueryItem(name: ParameterKeys.market, value: userMarket)]
+ 
+        let artistAlbumsStream = assembleRequest(endpoint: endpoint, queryItems: queryItems, associatedID: id)
+            .map { jsonDictionary -> [[String: Any]] in
+                guard let result = jsonDictionary["items"] as? [[String: Any]] else {
+                    throw NetworkRequestError.invalidData
+                }
+                return result
+            }
+            .map { jsonObjectArray -> [AbbreviatedAlbumData] in
+                return jsonObjectArray.flatMap({AbbreviatedAlbumData.init(jsonDictionary: $0)})
+            }
+            .shareReplay(1)
+        
+        return artistAlbumsStream
+    }
+    
+    func fetchAlbumDetails(albums: [AbbreviatedAlbumData]) -> Observable<[AlbumData]> {
+        //prepare string of album ids for Spotify query
+        var idString = albums.reduce("") { (currentString, album) in
+            return currentString + album.id + ","
+        }
+        if idString != "" {
+            idString.remove(at: idString.index(before: idString.endIndex))
+        }
+        
+        //build query
+        let endpoint = Endpoint.albumDetails
+        let queryItems = [URLQueryItem(name: "ids", value: idString),
+                          URLQueryItem(name: ParameterKeys.market, value: userMarket)]
+        
+        let albumDetailsStream = assembleRequest(endpoint: endpoint, queryItems: queryItems)
+            .map { jsonDictionary -> [[String: Any]] in
+                guard let result = jsonDictionary["albums"] as? [[String: Any]] else {
+                    throw NetworkRequestError.invalidData
+                }
+                return result
+            }
+            .map { jsonObjectArray -> [AlbumData] in
+                return jsonObjectArray.flatMap({AlbumData.init(jsonDictionary: $0)})
+            }
+            .shareReplay(1)
+        
+        return albumDetailsStream
+    }
+
     //MARK: - Generic Methods
     
     func fetchImageFrom(urlString: String) -> Observable<UIImage> {
@@ -103,8 +183,8 @@ class SpotifyRemoteDataService: RemoteDataServiceProtocol {
     
     //MARK: - Request Assembly
     
-    private func assembleRequest(endpoint: Endpoint, queryItems: [URLQueryItem]) -> Observable<[String: Any]> {
-        let response = Observable<URL?>.of(assembleURL(endpoint: endpoint, queryItems: queryItems))
+    private func assembleRequest(endpoint: Endpoint, queryItems: [URLQueryItem]?, associatedID: String? = nil) -> Observable<[String: Any]> {
+        let response = Observable<URL?>.of(assembleURL(endpoint: endpoint, queryItems: queryItems, id: associatedID))
             .map { url -> URL in
                 if let url = url {
                     return url
@@ -145,11 +225,16 @@ class SpotifyRemoteDataService: RemoteDataServiceProtocol {
         return response
     }
     
-    private func assembleURL(endpoint: Endpoint, queryItems: [URLQueryItem]) -> URL? {
+    private func assembleURL(endpoint endpointIn: Endpoint, queryItems: [URLQueryItem]? = nil, id: String? = nil) -> URL? {
+        var endpoint = endpointIn.rawValue
+        if let id = id {
+            endpoint = endpoint.replacingOccurrences(of: "{id}", with: id)
+        }
+        
         var components = URLComponents()
         components.scheme = API_Values.apiScheme
         components.host = API_Values.apiHost
-        components.path = API_Values.apiPath + endpoint.rawValue
+        components.path = API_Values.apiPath + endpoint
         components.queryItems = queryItems
         
         return components.url
@@ -160,6 +245,9 @@ class SpotifyRemoteDataService: RemoteDataServiceProtocol {
     enum Endpoint: String {
         case search = "/search"
         case userProfile = "/me"
+        case relatedArtists = "/artists/{id}/related-artists"
+        case artistAlbums = "/artists/{id}/albums"
+        case albumDetails = "/albums"
     }
     
     struct Endpoints {
@@ -181,6 +269,8 @@ class SpotifyRemoteDataService: RemoteDataServiceProtocol {
     struct ParameterKeys {
         static let searchQuery = "q"
         static let searchType = "type"
+        static let album_type = "album"
+        static let market = "market"
     }
     
     struct ParameterValues {

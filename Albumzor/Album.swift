@@ -24,4 +24,28 @@ extension Album {
         }
     }
     
+    convenience init(albumData: AlbumData, context: NSManagedObjectContext) {
+        if let entity = NSEntityDescription.entity(forEntityName: "Album", in: context) {
+            self.init(entity: entity, insertInto: context)
+            self.id = albumData.id
+            self.name = albumData.name
+            self.popularity = Int16(albumData.popularity)
+            self.largeImage = albumData.largeImage
+            self.smallImage = albumData.smallImage
+            self.liked = albumData.liked
+            self.likedDateTime = albumData.likedDateTime
+            self.seen = albumData.seen
+            self.priorSeed = albumData.priorSeed
+            if let imageData = albumData.imageData {
+                self.imageData = NSData(data: imageData)
+            }
+            if let smallImageData = albumData.smallImageData {
+                self.smallImageData = NSData(data: smallImageData)
+            }
+            
+        } else {
+            fatalError("Unable to find 'Album' Entity name!")
+        }
+    }
+
 }

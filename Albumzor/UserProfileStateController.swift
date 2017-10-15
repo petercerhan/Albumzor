@@ -33,6 +33,8 @@ class UserProfileStateController {
         
         self.userMarket = Variable(userProfile.userMarket)
         self.spotifyConnected = Variable(userProfile.spotifyConnected)
+        
+        remoteDataService.configureUserMarket(market: userMarket.value)
     }
     
     //MARK: - Interface
@@ -42,7 +44,7 @@ class UserProfileStateController {
         infoObservable
             .subscribe(onNext: { userInfo in
                 self.userMarket.value = userInfo.userMarket
-                print("userMarket recieved \(userInfo.userMarket)")
+                self.remoteDataService.configureUserMarket(market: self.userMarket.value)
                 
                 let userProfile = UserProfile(userMarket: self.userMarket.value, spotifyConnected: self.spotifyConnected.value)
                 self.archiveService.archive(object: userProfile, forKey: "userProfile")

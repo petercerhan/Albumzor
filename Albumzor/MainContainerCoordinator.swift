@@ -132,6 +132,7 @@ extension MainContainerCoordinator: WelcomeViewModelDelegate {
             .filter( { artists in
                 artists.count > 0
             })
+            .take(1)
             .subscribe(onNext: { [unowned self] artists in
                 if artists.count > 0 {
                     let vc = self.compositionRoot.composeChooseArtistsScene(mainContainerCoordinator: self, seedArtistStateController: self.seedArtistStateController)

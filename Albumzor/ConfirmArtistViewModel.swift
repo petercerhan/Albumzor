@@ -56,15 +56,22 @@ class ConfirmArtistViewModel {
     func dispatch(action: ConfirmArtistSceneAction) {
         switch action {
         case .confirmArtist:
-            print("Confirm artist")
-        case .cancel:
             handle_ConfirmArtist()
+        case .cancel:
+            handle_CancelArtist()
         case .openInSpotify(let url):
             print("URL \(url)")
         }
     }
     
     private func handle_ConfirmArtist() {
+        seedArtistStateController.addSeedArtist()
+        seedArtistStateController.endConfirmation()
+        delegate?.cancel(self)
+    }
+    
+    private func handle_CancelArtist() {
+        seedArtistStateController.endConfirmation()
         delegate?.cancel(self)
     }
     

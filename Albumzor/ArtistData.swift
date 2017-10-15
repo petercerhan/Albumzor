@@ -17,7 +17,7 @@ struct ArtistData {
     let relatedAdded: Bool = false
     let score: Int = 1
     let seenAlbums: Int = 0
-    let totalAlbums: Int = 0
+    var totalAlbums: Int = 0
     
     init(id: String, name: String) {
         self.id = id
@@ -25,8 +25,7 @@ struct ArtistData {
         imageURL = nil
     }
     
-    init?(dictionary: [String : Any]) {
-        
+    init?(dictionary: [String: Any]) {
         guard let name = dictionary["name"] as? String,
             let id = dictionary["id"] as? String else {
                 return nil
