@@ -70,6 +70,20 @@ class ChooseArtistViewController: UIViewController {
                 self.viewModel.dispatch(action: searchActive ? .cancelCustomSearch : .requestCustomSearch)
             })
             .disposed(by: disposeBag)
+        
+        doneButton.rx.tap
+            .withLatestFrom(viewModel.fullySeeded.asObservable()) {_, fullySeeded in
+                return fullySeeded
+            }
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] fullySeeded in
+                if fullySeeded {
+                    self.viewModel.dispatch(action: .requestNextScene)
+                } else {
+                    self.alert(title: nil, message: "Try choosing a few more artists!", buttonTitle: "Done")
+                }
+            })
+            .disposed(by: disposeBag)
     }
     
     //MARK: - Bind UI
@@ -98,6 +112,14 @@ class ChooseArtistViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        viewModel.fullySeeded
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] isFullySeeded in
+                if isFullySeeded {
+                    self.doneButton.setTitleColor(Styles.themeOrange, for: .normal)
+                }
+            })
+            .disposed(by: disposeBag)
     }
     
     //MARK: - Lifecycle
@@ -125,14 +147,6 @@ class ChooseArtistViewController: UIViewController {
         animateOutSearch()
     }
     
-    @IBAction func done() {
-        if appDelegate.userSettings.isSeeded {
-            viewModel.dispatch(action: .requestNextScene)
-        } else {
-            alert(title: nil, message: "Try choosing a few more artists!", buttonTitle: "Done")
-        }
-    }
-
     //MARK: - Animations
     
     func animateInSearch() {

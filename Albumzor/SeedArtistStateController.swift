@@ -20,17 +20,19 @@ class SeedArtistStateController {
     //MARK: - State
     
     let seedArtists = Variable<[String]>([])
+
     let searchActive = Variable<Bool>(false)
+    
     let confirmationActive = Variable<Bool>(false)
     let confirmationArtistName = Variable<String?>(nil)
     let confirmArtistIndex = Variable<Int?>(nil)
-    
     let loadConfirmArtistState = Variable<DataOperationState>(.none)
     let confirmArtistData = Variable<ArtistData?>(nil)
-    
     let loadConfirmArtistImageOperationState = Variable<DataOperationState>(.none)
     let confirmArtistImage = Variable<UIImage?>(nil)
     
+    let totalAlbumsSeeded = Variable<Int>(0)
+
     //MARK: - Rx
     
     let disposeBag = DisposeBag()
@@ -130,14 +132,6 @@ class SeedArtistStateController {
     
     //1.
     func addSeedArtist(artistData data: ArtistData? = nil) {
-        
-        print("\nGet a count \n")
-        localDatabaseService.countUnseenArtists()
-            .subscribe(onNext: { count in
-                print("Count: \(count)\n")
-            })
-            .disposed(by: disposeBag)
-        
         //use data either fed to function or last received from download service; else return
         guard let artistData = data ?? confirmArtistData.value else {
             return
@@ -225,12 +219,25 @@ class SeedArtistStateController {
                 
                 //save albums + artist
                 self.localDatabaseService.saveArtist(artist: artist, withAlbums: filteredAlbums)
+                self.getTotalSeededAlbums()
             })
             .disposed(by: disposeBag)
         
     }
     
+    //5.
+    //Update total seeded albums
+    private func getTotalSeededAlbums() {
+        localDatabaseService.countUnseenArtists()
+            .subscribe(onNext: { [unowned self] count in
+                self.totalAlbumsSeeded.value = count
+            })
+            .disposed(by: disposeBag)
+    }
+    
 }
+
+
 
 
 

@@ -471,9 +471,6 @@
                                 <state key="normal" title="Done">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <connections>
-                                    <action selector="done" destination="CIP-Kg-Qf9" eventType="touchUpInside" id="fVo-nw-7lG"/>
-                                </connections>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="PuU-K6-39w">
                                 <rect key="frame" x="0.0" y="76.5" width="375" height="533.5"/>

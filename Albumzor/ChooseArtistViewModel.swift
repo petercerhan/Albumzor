@@ -41,6 +41,12 @@ class ChooseArtistViewModel {
     var confirmationArtistName: Observable<String?> {
         return seedArtistStateController.confirmationArtistName.asObservable()
     }
+    var fullySeeded: Observable<Bool> {
+        return seedArtistStateController.totalAlbumsSeeded.asObservable()
+                .map { count -> Bool in
+                    return count >= 100
+                }
+    }
     
     //MARK: - Rx
     
@@ -92,7 +98,6 @@ class ChooseArtistViewModel {
         case .requestConfirmArtists(let artistString):
             handle_RequestConfirmArtists(artistString: artistString)
         }
-        
     }
     
     private func handle_RequestNextSceneAction() {
