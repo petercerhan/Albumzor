@@ -10,30 +10,9 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-//Remove
-enum ArtistSearchOrigin {
-    case icon(IndexPath)
-    case search
-}
-//
-
-//Remove
-protocol ChooseArtistViewControllerDelegate: class {
-    func chooseArtistSceneComplete()
-}
-//
-
 class ChooseArtistViewController: UIViewController {
     
-    //REMOVE
-    var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
-    //
-    
     //MARK: - Dependencies
-    
-    //remove
-    let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
-    //
     
     var viewModel: ChooseArtistViewModel!
     
@@ -45,11 +24,6 @@ class ChooseArtistViewController: UIViewController {
     @IBOutlet var overlayView: UIView!
     @IBOutlet var doneButton: UIButton!
     
-    //MARK: - State
-
-    var searchActive = false
-    var selectedCellPath: IndexPath?
-
     //MARK: - Rx
     
     let disposeBag = DisposeBag()
@@ -153,9 +127,8 @@ class ChooseArtistViewController: UIViewController {
     
     //MARK: - Animations
     
-    func animateInSearch() {
+    fileprivate func animateInSearch() {
         searchButton.isUserInteractionEnabled = false
-        searchActive = true
         textField.center.x += view.frame.width
         overlayView.alpha = 0
         self.textField.isHidden = false
@@ -173,7 +146,7 @@ class ChooseArtistViewController: UIViewController {
                        })
     }
     
-    func animateOutSearch() {
+    fileprivate func animateOutSearch() {
         searchButton.isUserInteractionEnabled = false
         textField.text = ""
         dismissKeyboard()
@@ -188,32 +161,10 @@ class ChooseArtistViewController: UIViewController {
                         self.textField.center.x -= self.view.frame.width
                         self.textField.isHidden = true
                         self.overlayView.isHidden = true
-                        self.searchActive = false
                         self.searchButton.isUserInteractionEnabled = true
                     })
     }
     
-    
-    
-    func launchConfirmArtistScene(searchString: String, searchOrigin: ArtistSearchOrigin) {
-        
-        let vc = storyboard!.instantiateViewController(withIdentifier: "ConfirmArtistViewController") as! ConfirmArtistViewController
-        present(vc, animated: true) {
-            if self.searchActive {
-                self.dismissKeyboard()
-                self.animateOutSearch()
-            }
-        }
-    }
-    
-    func updateDoneButton() {
-        //if enough albums, enable
-        if dataManager.getAlbumsCount() >= 100 {
-            doneButton.setTitleColor(Styles.themeOrange, for: .normal)
-            appDelegate.userSettings.isSeeded = true
-            appDelegate.saveUserSettings()
-        }
-    }
 }
 
 //MARK:- UICollectionViewDelegate
@@ -222,7 +173,6 @@ extension ChooseArtistViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         let cell = collectionView.cellForItem(at: indexPath) as! ChooseArtistCollectionViewCell
-        selectedCellPath = indexPath
         
         viewModel.dispatch(action: .confirmArtistIndexActive(index: indexPath.row))
         viewModel.dispatch(action: .requestConfirmArtists(searchString: cell.label.text!))

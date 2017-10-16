@@ -214,7 +214,7 @@ extension MainContainerViewController {
 
 //MARK: - ChooseArtistViewControllerDelegate
 
-extension MainContainerViewController: ChooseArtistViewControllerDelegate {
+extension MainContainerViewController {
     func chooseArtistSceneComplete() {
         let userSettings = (UIApplication.shared.delegate as! AppDelegate).userSettings
         

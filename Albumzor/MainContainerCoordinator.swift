@@ -149,13 +149,11 @@ extension MainContainerCoordinator: WelcomeViewModelDelegate {
 //MARK: - ChooseArtistViewControllerDelegate
 //TODO: Delete ChooseArtistViewControllerDelegate
 
-extension MainContainerCoordinator: ChooseArtistViewControllerDelegate, ChooseArtistViewModelDelegate {
-    func chooseArtistSceneComplete() {
-        print("Choose artists scene complete")
-    }
+extension MainContainerCoordinator: ChooseArtistViewModelDelegate {
     
     func chooseArtistSceneComplete(_ chooseArtistViewModel: ChooseArtistViewModel) {
         print("Choose artists scene complete")
+        //Set "is seeded"
     }
     
     func showConfirmArtistScene(_ chooseArtistViewModel: ChooseArtistViewModel, confirmationArtist: String) {
