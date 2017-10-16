@@ -198,8 +198,6 @@ class ChooseArtistViewController: UIViewController {
     func launchConfirmArtistScene(searchString: String, searchOrigin: ArtistSearchOrigin) {
         
         let vc = storyboard!.instantiateViewController(withIdentifier: "ConfirmArtistViewController") as! ConfirmArtistViewController
-        vc.searchString = searchString
-        vc.searchOrigin = searchOrigin
         present(vc, animated: true) {
             if self.searchActive {
                 self.dismissKeyboard()

@@ -27,47 +27,52 @@ class ConfirmArtistViewController: UIViewController {
     @IBOutlet var quitButton: UIButton!
     @IBOutlet var spotifyButtonContainer: UIView!
     
-    //MARK: - State
-    
-    //Remove
-    var confirmSessionComplete = false
-    var searchString: String!
-    var searchOrigin: ArtistSearchOrigin!
-    var spotifyID: String?
-    //remove
-    
     //MARK: - Rx
     
     var disposeBag = DisposeBag()
     
     //MARK: - Initialization
     
-    static func createWith(storyBoard: UIStoryboard, viewModel: ConfirmArtistViewModel, searchString: String, searchOrigin: ArtistSearchOrigin) -> ConfirmArtistViewController {
+    static func createWith(storyBoard: UIStoryboard, viewModel: ConfirmArtistViewModel) -> ConfirmArtistViewController {
         let vc = storyBoard.instantiateViewController(withIdentifier: "ConfirmArtistViewController") as! ConfirmArtistViewController
         vc.viewModel = viewModel
         
-        //Remove
-        vc.searchString = searchString
-        vc.searchOrigin = searchOrigin
-        //remove
-        
         return vc
+    }
+    
+    //MARK: - Life Cycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        bindUI()
+        bindActions()
     }
     
     //MARK: - Bind UI
     
     private func bindUI() {
+        bindUI_ArtistLabel()
+        bindUI_ArtistImage()
+        bindUI_ArtistLoading()
+        bindUI_ErrorMessages()
+        bindUI_ActivityIndicator()
+    }
+    
+    private func bindUI_ArtistLabel() {
         viewModel.confirmationArtistName
             .observeOn(MainScheduler.instance)
             .bind(to: artistLabel.rx.text)
             .disposed(by: disposeBag)
-        
+    }
+    
+    private func bindUI_ArtistImage() {
         viewModel.confirmArtistImage
             .observeOn(MainScheduler.instance)
             .bind(to: imageView.rx.image)
             .disposed(by: disposeBag)
-        
-        //artist loading state
+    }
+    
+    private func bindUI_ArtistLoading() {
         let artistSearchActiveObservable = viewModel.loadConfirmArtistState
             .observeOn(MainScheduler.instance)
             .map { operationState -> Bool in
@@ -80,36 +85,49 @@ class ConfirmArtistViewController: UIViewController {
             }
             .shareReplay(1)
         
-        //dislike button
+        bindUI_ArtistLoading_DislikeButton(artistSearchActiveObservable)
+        bindUI_ArtistLoading_LikeButton(artistSearchActiveObservable)
+        bindUI_ArtistLoading_SpotifyButton(artistSearchActiveObservable)
+        bindUI_ArtistLoading_SpotifyButtonContainer(artistSearchActiveObservable)
+        bindUI_ArtistLoading_QuitButton(artistSearchActiveObservable)
+    }
+    
+    private func bindUI_ArtistLoading_DislikeButton(_ artistSearchActiveObservable: Observable<Bool>) {
         artistSearchActiveObservable
             .map{ !($0) }
             .bind(to: dislikeButton.rx.isEnabled)
             .disposed(by: disposeBag)
-        
-        //like button
+    }
+    
+    private func bindUI_ArtistLoading_LikeButton(_ artistSearchActiveObservable: Observable<Bool>) {
         artistSearchActiveObservable
             .map{ !($0) }
             .bind(to: likeButton.rx.isEnabled)
             .disposed(by: disposeBag)
-        
-        //spotify button
+    }
+    
+    private func bindUI_ArtistLoading_SpotifyButton(_ artistSearchActiveObservable: Observable<Bool>) {
         artistSearchActiveObservable
             .map{ !($0) }
             .bind(to: spotifyButtonContainer.rx.isUserInteractionEnabled)
             .disposed(by: disposeBag)
-        
+    }
+    
+    private func bindUI_ArtistLoading_SpotifyButtonContainer(_ artistSearchActiveObservable: Observable<Bool>) {
         artistSearchActiveObservable
             .map{ $0 ? 0.6 : 1.0}
             .bind(to: spotifyButtonContainer.rx.alpha)
             .disposed(by: disposeBag)
-        
-        //cancel load button
+    }
+    
+    private func bindUI_ArtistLoading_QuitButton(_ artistSearchActiveObservable: Observable<Bool>) {
         artistSearchActiveObservable
             .map{ !($0) }
             .bind(to: quitButton.rx.isHidden)
             .disposed(by: disposeBag)
-        
-        //Search artist error messages
+    }
+    
+    private func bindUI_ErrorMessages() {
         viewModel.loadConfirmArtistState
             .observeOn(MainScheduler.instance)
             .map { operationState -> Error? in
@@ -135,9 +153,9 @@ class ConfirmArtistViewController: UIViewController {
                 }
             })
             .disposed(by: disposeBag)
-        
-        
-        //All loading state
+    }
+    
+    private func bindUI_ActivityIndicator() {
         //Is this needed? just replace with observing actual image..
         //Then could remove loadConfirmArtistImageOperationState altogether
         _ = Observable.combineLatest(viewModel.loadConfirmArtistState, viewModel.loadConfirmArtistImageOperationState)
@@ -160,7 +178,16 @@ class ConfirmArtistViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
+    //MARK: - Bind Actions
+    
     private func bindActions() {
+        bindAction_SpotifyButton()
+        bindAction_QuitButton()
+        bindAction_DislikeButton()
+        bindAction_LikeButton()
+    }
+    
+    private func bindAction_SpotifyButton() {
         spotifyButton.rx.tap
             .withLatestFrom(viewModel.confirmationArtistID) { _, artistID in
                 return artistID
@@ -173,32 +200,45 @@ class ConfirmArtistViewController: UIViewController {
                 self.viewModel.dispatch(action: .openInSpotify(url: "https://open.spotify.com/artist/\(artistID!)"))
             })
             .disposed(by: disposeBag)
-        
     }
     
-    //MARK: - Life Cycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        bindUI()
-        bindActions()
+    private func bindAction_QuitButton() {
+        quitButton.rx.tap
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] _ in
+                self.viewModel.dispatch(action: .cancel)
+            })
+            .disposed(by: disposeBag)
     }
     
-    //MARK: - User Actions
+    private func bindAction_DislikeButton() {
+        dislikeButton.rx.tap
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] _ in
+                self.rejectArtist()
+            })
+            .disposed(by: disposeBag)
+    }
     
-    @IBAction func quit() {
+    private func rejectArtist() {
+        disposeBag = DisposeBag()
         viewModel.dispatch(action: .cancel)
     }
     
-    @IBAction func selectArtist() {
+    private func bindAction_LikeButton() {
+        likeButton.rx.tap
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] _ in
+                self.selectArtist()
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func selectArtist() {
         disposeBag = DisposeBag()
         viewModel.dispatch(action: .confirmArtist)
     }
     
-    @IBAction func rejectArtist() {
-        disposeBag = DisposeBag()
-        viewModel.dispatch(action: .cancel)
-    }
 }
 
 

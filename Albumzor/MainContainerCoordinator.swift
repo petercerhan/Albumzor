@@ -163,7 +163,7 @@ extension MainContainerCoordinator: ChooseArtistViewControllerDelegate, ChooseAr
         
         //get confirmation artist directly from the state controller
         let viewModel = ConfirmArtistViewModel(delegate: self, seedArtistStateController: seedArtistStateController, externalURLProxy: AppDelegateURLProxy())
-        let confirmArtistVC = ConfirmArtistViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel, searchString: confirmationArtist, searchOrigin: .search)
+        let confirmArtistVC = ConfirmArtistViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
         
         //launch spotify confirmation, if necessary
         if !(authStateController.sessionIsValid) {

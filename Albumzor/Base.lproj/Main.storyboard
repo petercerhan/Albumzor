@@ -347,9 +347,6 @@
                                     <constraint firstAttribute="height" constant="80" id="TOu-td-uU3"/>
                                 </constraints>
                                 <state key="normal" image="X"/>
-                                <connections>
-                                    <action selector="rejectArtist" destination="Pac-VK-2Zx" eventType="touchUpInside" id="guH-J1-Gb7"/>
-                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vT6-M6-QD0">
                                 <rect key="frame" x="223" y="552" width="80" height="80"/>
@@ -358,9 +355,6 @@
                                     <constraint firstAttribute="width" constant="80" id="kf9-WS-X6d"/>
                                 </constraints>
                                 <state key="normal" image="Check"/>
-                                <connections>
-                                    <action selector="selectArtist" destination="Pac-VK-2Zx" eventType="touchUpInside" id="gD3-1D-qL7"/>
-                                </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="3l2-kq-gon">
                                 <rect key="frame" x="177" y="196.5" width="20" height="20"/>
@@ -375,9 +369,6 @@
                                 <state key="normal" title="X">
                                     <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <connections>
-                                    <action selector="quit" destination="Pac-VK-2Zx" eventType="touchUpInside" id="Xwq-fV-T5V"/>
-                                </connections>
                             </button>
                             <view userInteractionEnabled="NO" alpha="0.59999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IJL-UO-4aH">
                                 <rect key="frame" x="103.5" y="418" width="168" height="28"/>
