@@ -57,7 +57,7 @@ class WelcomeViewModel {
         if userProfileStateController.userMarket.value == "None" {
             userProfileStateController.fetchUserMarketFromAPI()
                 .subscribe(onError: { [unowned self] error in
-                    self.dataLoadStateSubject.onNext(.error)
+                    self.dataLoadStateSubject.onNext(.error(nil))
                 }, onCompleted: { [unowned self] in
                     self.dataLoadStateSubject.onNext(.operationCompleted)
                     self.delegate?.requestToChooseArtists(from: self)

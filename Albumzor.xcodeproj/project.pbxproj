@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A5560E17B38A8E8C3F7E993C /* Pods_Albumzor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94FB90085604F9BD04D4BEB3 /* Pods_Albumzor.framework */; };
+		E42375AF1F93F855006D8DFD /* ExternalURLProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42375AE1F93F855006D8DFD /* ExternalURLProxy.swift */; };
 		E423E4FA1F92AEFA007531F5 /* AbbreviatedAlbumData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E423E4F91F92AEFA007531F5 /* AbbreviatedAlbumData.swift */; };
 		E425AF591EC166E9004BB657 /* SpotifyLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E425AF581EC166E9004BB657 /* SpotifyLoginViewController.m */; };
 		E425AF5C1EC1679C004BB657 /* SpotifyAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E425AF5B1EC1679C004BB657 /* SpotifyAuthentication.framework */; };
@@ -109,6 +110,7 @@
 		39CB7133E3C2A4D47E38E0BA /* Pods-Albumzor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Albumzor.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Albumzor/Pods-Albumzor.debug.xcconfig"; sourceTree = "<group>"; };
 		6661D39B9E51CC748852D3FC /* Pods-Albumzor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Albumzor.release.xcconfig"; path = "Pods/Target Support Files/Pods-Albumzor/Pods-Albumzor.release.xcconfig"; sourceTree = "<group>"; };
 		94FB90085604F9BD04D4BEB3 /* Pods_Albumzor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Albumzor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E42375AE1F93F855006D8DFD /* ExternalURLProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalURLProxy.swift; sourceTree = "<group>"; };
 		E423E4F91F92AEFA007531F5 /* AbbreviatedAlbumData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbbreviatedAlbumData.swift; sourceTree = "<group>"; };
 		E425AF571EC166E9004BB657 /* Albumzor-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Albumzor-Bridging-Header.h"; sourceTree = "<group>"; };
 		E425AF581EC166E9004BB657 /* SpotifyLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpotifyLoginViewController.m; sourceTree = "<group>"; };
@@ -343,6 +345,7 @@
 				E423E4F91F92AEFA007531F5 /* AbbreviatedAlbumData.swift */,
 				E4A70C011F923ABB000301D0 /* AlbumData.swift */,
 				E47E09B31F8041C9004A5C9E /* ArtistData.swift */,
+				E42375AE1F93F855006D8DFD /* ExternalURLProxy.swift */,
 				E47E09A61F79D943004A5C9E /* Services */,
 				E4A7A5741F749C9B009D117D /* StateControllers */,
 				E44B02AB1F6DD95800B1A0D3 /* Coordinators */,
@@ -754,6 +757,7 @@
 				E45D99731E903B0B00CD3CE7 /* SuggestAlbumsViewController.swift in Sources */,
 				E45D990B1E7A0ED400CD3CE7 /* Album.swift in Sources */,
 				E4A70C021F923ABB000301D0 /* AlbumData.swift in Sources */,
+				E42375AF1F93F855006D8DFD /* ExternalURLProxy.swift in Sources */,
 				E45D996D1E90369100CD3CE7 /* CGDraggableView.swift in Sources */,
 				E47E09AB1F7B3170004A5C9E /* SeedArtistStateController.swift in Sources */,
 				E45D99191E7F767400CD3CE7 /* String.swift in Sources */,

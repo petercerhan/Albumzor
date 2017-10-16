@@ -24,6 +24,7 @@ class ConfirmArtistViewModel {
     //MARK: - Dependencies
     
     let seedArtistStateController: SeedArtistStateController
+    let externalURLProxy: ExternalURLProxy
     weak var delegate: ConfirmArtistViewModelDelegate?
     
     //MARK: - State
@@ -32,6 +33,12 @@ class ConfirmArtistViewModel {
         return seedArtistStateController.confirmArtistData.asObservable()
             .map { artistData -> String? in
                 return artistData?.name
+            }
+    }
+    var confirmationArtistID: Observable<String?> {
+        return seedArtistStateController.confirmArtistData.asObservable()
+            .map { artistData -> String? in
+                return artistData?.id
             }
     }
     var loadConfirmArtistState: Observable<DataOperationState> {
@@ -46,8 +53,9 @@ class ConfirmArtistViewModel {
     
     //MARK: - Initialization
     
-    init(delegate: ConfirmArtistViewModelDelegate, seedArtistStateController: SeedArtistStateController) {
+    init(delegate: ConfirmArtistViewModelDelegate, seedArtistStateController: SeedArtistStateController, externalURLProxy: ExternalURLProxy) {
         self.seedArtistStateController = seedArtistStateController
+        self.externalURLProxy = externalURLProxy
         self.delegate = delegate
     }
     
@@ -60,7 +68,7 @@ class ConfirmArtistViewModel {
         case .cancel:
             handle_CancelArtist()
         case .openInSpotify(let url):
-            print("URL \(url)")
+            handle_OpenInSpotify(url: url)
         }
     }
     
@@ -75,7 +83,13 @@ class ConfirmArtistViewModel {
         delegate?.cancel(self)
     }
     
+    private func handle_OpenInSpotify(url: String) {
+        externalURLProxy.requestToOpen(url: url)
+    }
 }
+
+
+
 
 
 

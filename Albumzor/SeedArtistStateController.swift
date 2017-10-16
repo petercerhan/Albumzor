@@ -63,6 +63,7 @@ class SeedArtistStateController {
         confirmArtistIndex.value = index
     }
     
+    //Fetch foncifmration artist data
     func searchArtistForConfirmation(artistString: String) {
         
         loadConfirmArtistState.value = .operationBegan
@@ -81,9 +82,10 @@ class SeedArtistStateController {
             .disposed(by: disposeBag)
         
         //loading status
+        //necessary to have a second observer?
         artistObservable.map {_ -> Void in}
             .subscribe(onError: { [unowned self] error in
-                self.loadConfirmArtistState.value = .error
+                self.loadConfirmArtistState.value = .error(error)
             }, onCompleted: { [unowned self] in
                 self.loadConfirmArtistState.value = .operationCompleted
                 self.loadConfirmArtistState.value = .none
@@ -91,6 +93,7 @@ class SeedArtistStateController {
             .disposed(by: disposeBag)
     }
     
+    //Fetch confirmation artist image
     func fetchImageFrom(urlString: String) {
         loadConfirmArtistImageOperationState.value = .operationBegan
         
@@ -104,7 +107,7 @@ class SeedArtistStateController {
         
         imageObservable.map { _ -> Void in }
             .subscribe(onError: { [unowned self] error in
-                self.loadConfirmArtistImageOperationState.value = .error
+                self.loadConfirmArtistImageOperationState.value = .error(nil)
             }, onCompleted: { [unowned self] in
                 self.loadConfirmArtistImageOperationState.value = .operationCompleted
                 self.loadConfirmArtistImageOperationState.value = .none

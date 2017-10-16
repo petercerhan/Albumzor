@@ -10,23 +10,31 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+//Remove
 enum ArtistSearchOrigin {
     case icon(IndexPath)
     case search
 }
+//
 
+//Remove
 protocol ChooseArtistViewControllerDelegate: class {
     func chooseArtistSceneComplete()
 }
+//
 
 class ChooseArtistViewController: UIViewController {
     
     //REMOVE
     var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+    //
     
     //MARK: - Dependencies
     
+    //remove
     let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
+    //
+    
     var viewModel: ChooseArtistViewModel!
     
     //MARK: - Interface Components
@@ -47,10 +55,6 @@ class ChooseArtistViewController: UIViewController {
     let disposeBag = DisposeBag()
     
     //MARK: - Initialization
-    
-    deinit {
-        print("Choose artist deinit")
-    }
     
     static func createWith(storyBoard: UIStoryboard, viewModel: ChooseArtistViewModel) -> ChooseArtistViewController {
         let vc = storyBoard.instantiateViewController(withIdentifier: "ChooseArtistViewController") as! ChooseArtistViewController
@@ -194,7 +198,6 @@ class ChooseArtistViewController: UIViewController {
     func launchConfirmArtistScene(searchString: String, searchOrigin: ArtistSearchOrigin) {
         
         let vc = storyboard!.instantiateViewController(withIdentifier: "ConfirmArtistViewController") as! ConfirmArtistViewController
-        vc.delegate = self
         vc.searchString = searchString
         vc.searchOrigin = searchOrigin
         present(vc, animated: true) {
@@ -270,41 +273,6 @@ extension ChooseArtistViewController: ArtistCollectionViewLayoutDelegate {
         
         //Add padded label vertical & horizontal padding
         return CGSize(width: size.width + CGFloat(20), height: size.height + CGFloat(14))
-    }
-}
-
-//MARK:- ConfirmArtistViewControllerDelegate
-
-extension ChooseArtistViewController: ConfirmArtistViewControllerDelegate {
-    func artistChosen(spotifyID: String, searchOrigin: ArtistSearchOrigin) {
-        //If artist was chosen from the collection view, remove that collection view item
-        switch searchOrigin {
-        case .icon(let path):
-            (collectionView.collectionViewLayout as! ArtistCollectionViewLayout).clearCache()
-            
-            //replace with action dispatch//
-            var newArtists = viewModel.seedArtists.value
-            newArtists.remove(at: path.item)
-            viewModel.seedArtists.value = newArtists
-            
-            collectionView.reloadData()
-        case .search:
-            break
-        }
-        
-        //add the artist's related artists
-        dataManager.getRelatedArtists(artistID: spotifyID) {
-            _ in
-            DispatchQueue.main.async {
-                self.updateDoneButton()
-            }
-        }
-        
-        dismiss(animated: true, completion: nil)
-    }
-    
-    func artistCanceled() {
-        dismiss(animated: true, completion: nil)
     }
 }
 

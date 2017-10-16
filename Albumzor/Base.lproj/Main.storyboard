@@ -395,9 +395,6 @@
                                         <state key="normal" title="Open in Spotify">
                                             <color key="titleColor" red="0.1176470588" green="0.84313725490000002" blue="0.37647058820000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
-                                        <connections>
-                                            <action selector="openInSpotify" destination="Pac-VK-2Zx" eventType="touchUpInside" id="5gr-xf-zKu"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -446,6 +443,7 @@
                         <outlet property="imageView" destination="EUS-UG-8VE" id="3xz-nC-2Km"/>
                         <outlet property="likeButton" destination="vT6-M6-QD0" id="9mw-zJ-FeO"/>
                         <outlet property="quitButton" destination="vX6-n0-95Y" id="iPb-MN-ocu"/>
+                        <outlet property="spotifyButton" destination="YNV-vI-vUd" id="4EG-hp-XZ9"/>
                         <outlet property="spotifyButtonContainer" destination="IJL-UO-4aH" id="gNE-f8-tUk"/>
                     </connections>
                 </viewController>

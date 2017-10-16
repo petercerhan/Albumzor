@@ -13,5 +13,5 @@ enum DataOperationState {
     case operationBegan
     case dataReceived
     case operationCompleted
-    case error
+    case error(Error?)
 }

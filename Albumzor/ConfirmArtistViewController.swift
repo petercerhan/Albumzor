@@ -10,38 +10,31 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-protocol ConfirmArtistViewControllerDelegate: class {
-    func artistChosen(spotifyID: String, searchOrigin: ArtistSearchOrigin)
-    func artistCanceled()
-}
-
 class ConfirmArtistViewController: UIViewController {
-
+    
+    //MARK: - Dependencies
+    
+    var viewModel: ConfirmArtistViewModel!
+    
     //MARK: - Interface Components
     
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var artistLabel: UILabel!
     @IBOutlet var dislikeButton: UIButton!
     @IBOutlet var likeButton: UIButton!
+    @IBOutlet var spotifyButton: UIButton!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var quitButton: UIButton!
     @IBOutlet var spotifyButtonContainer: UIView!
     
-    //MARK: - Dependencies
-    
-    var viewModel: ConfirmArtistViewModel!
-    
-    weak var delegate: ConfirmArtistViewControllerDelegate!
-    var client = SpotifyClient.sharedInstance()
-    
     //MARK: - State
     
+    //Remove
     var confirmSessionComplete = false
-    
     var searchString: String!
     var searchOrigin: ArtistSearchOrigin!
-    
     var spotifyID: String?
+    //remove
     
     //MARK: - Rx
     
@@ -52,8 +45,12 @@ class ConfirmArtistViewController: UIViewController {
     static func createWith(storyBoard: UIStoryboard, viewModel: ConfirmArtistViewModel, searchString: String, searchOrigin: ArtistSearchOrigin) -> ConfirmArtistViewController {
         let vc = storyBoard.instantiateViewController(withIdentifier: "ConfirmArtistViewController") as! ConfirmArtistViewController
         vc.viewModel = viewModel
+        
+        //Remove
         vc.searchString = searchString
         vc.searchOrigin = searchOrigin
+        //remove
+        
         return vc
     }
     
@@ -112,8 +109,37 @@ class ConfirmArtistViewController: UIViewController {
             .bind(to: quitButton.rx.isHidden)
             .disposed(by: disposeBag)
         
+        //Search artist error messages
+        viewModel.loadConfirmArtistState
+            .observeOn(MainScheduler.instance)
+            .map { operationState -> Error? in
+                switch operationState {
+                case .error(let error):
+                    return error
+                default:
+                    return nil
+                }
+            }
+            .filter { $0 != nil }
+            .subscribe(onNext: { [unowned self] error in
+                guard let error = error as? NetworkRequestError else { return }
+                switch error {
+                case .connectionFailed:
+                    self.alert(title: "Network Error", message: "Please check your internet connection", buttonTitle: "Dismiss") { action in
+                        self.viewModel.dispatch(action: .cancel)
+                    }
+                default:
+                    self.alert(title: "Artist not found!", message: "Note: some artists may be unavailable.", buttonTitle: "Dismiss") { action in
+                        self.viewModel.dispatch(action: .cancel)
+                    }
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        
         //All loading state
-        //Is this needed?
+        //Is this needed? just replace with observing actual image..
+        //Then could remove loadConfirmArtistImageOperationState altogether
         _ = Observable.combineLatest(viewModel.loadConfirmArtistState, viewModel.loadConfirmArtistImageOperationState)
             { (artistLoadState, imageLoadState) -> Bool in
                 let combinedState = (artistLoadState, imageLoadState)
@@ -132,6 +158,21 @@ class ConfirmArtistViewController: UIViewController {
             .observeOn(MainScheduler.instance)
             .bind(to: activityIndicator.rx.isAnimating)
             .disposed(by: disposeBag)
+    }
+    
+    private func bindActions() {
+        spotifyButton.rx.tap
+            .withLatestFrom(viewModel.confirmationArtistID) { _, artistID in
+                return artistID
+            }
+            .filter { artistID in
+                artistID != nil
+            }
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] artistID in
+                self.viewModel.dispatch(action: .openInSpotify(url: "https://open.spotify.com/artist/\(artistID!)"))
+            })
+            .disposed(by: disposeBag)
         
     }
     
@@ -140,15 +181,10 @@ class ConfirmArtistViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bindUI()
+        bindActions()
     }
     
     //MARK: - User Actions
-    
-    @IBAction func openInSpotify() {
-        if let spotifyID = spotifyID {
-            UIApplication.shared.open(URL(string:"https://open.spotify.com/artist/\(spotifyID)")!, options: [:], completionHandler: nil)
-        }
-    }
     
     @IBAction func quit() {
         viewModel.dispatch(action: .cancel)
@@ -163,29 +199,8 @@ class ConfirmArtistViewController: UIViewController {
         disposeBag = DisposeBag()
         viewModel.dispatch(action: .cancel)
     }
-    
-    func artistNotFound(networkError: Bool) {
-        var title = ""
-        var message = ""
-        
-        if networkError {
-            title = "Network Error"
-            message = "Please check you internet connection"
-        } else {
-            title = "Could not find \(searchString!)!"
-            message = "Note: some artists may be unavailable."
-        }
-        
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let dismissAction = UIAlertAction(title: "Dismiss", style: .default) {
-            action in
-            self.delegate.artistCanceled()
-        }
-        alert.addAction(dismissAction)
-        present(alert, animated: true, completion: nil)
-        
-    }
-
 }
+
+
 
 

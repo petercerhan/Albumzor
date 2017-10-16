@@ -208,6 +208,14 @@ class SpotifyRemoteDataService: RemoteDataServiceProtocol {
                     throw NetworkRequestError.connectionFailed
                 }
             }
+            .catchError { error in
+                switch error {
+                case NetworkRequestError.notAuthenticated:
+                    throw NetworkRequestError.notAuthenticated
+                default:
+                    throw NetworkRequestError.connectionFailed
+                }
+            }
             .map { response, data -> Data in
                 if 200..<300 ~= response.statusCode {
                     return data
