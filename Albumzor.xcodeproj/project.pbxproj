@@ -250,6 +250,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E44872051F95A1E80090F5A2 /* InstructionsScene */ = {
+			isa = PBXGroup;
+			children = (
+				E4B507811EAD98070049831B /* InstructionsViewController.swift */,
+			);
+			name = InstructionsScene;
+			sourceTree = "<group>";
+		};
 		E44B02A71F6DC9C400B1A0D3 /* OpenScene */ = {
 			isa = PBXGroup;
 			children = (
@@ -349,6 +357,7 @@
 				E4A7A5741F749C9B009D117D /* StateControllers */,
 				E44B02AB1F6DD95800B1A0D3 /* Coordinators */,
 				E44B02AE1F6DDEC600B1A0D3 /* ContainerViewControllers */,
+				E44872051F95A1E80090F5A2 /* InstructionsScene */,
 				E47E09A91F7B2CAC004A5C9E /* ChooseArtistsScene */,
 				E47E09B01F802A00004A5C9E /* ConfirmArtistsScene */,
 				E44B02A71F6DC9C400B1A0D3 /* OpenScene */,
@@ -441,7 +450,6 @@
 		E45D99111E7B5F6600CD3CE7 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				E4B507811EAD98070049831B /* InstructionsViewController.swift */,
 				E45D98BC1E75DC2F00CD3CE7 /* HomeViewController.swift */,
 				E467C4C81EAECD3800B0A62B /* MenuTableViewController.swift */,
 				E44481FE1EBBFD0E008C7146 /* SortOptionsTableViewController.swift */,

@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol InstructionsViewControllerDelegate: NSObjectProtocol {
+protocol InstructionsViewControllerDelegate: class {
     func instructionsSceneComplete()
 }
 

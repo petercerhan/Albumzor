@@ -35,6 +35,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        //Dev
+        resetUserSettings()
+        
+        //
+        
+        
         compositionRoot = CompositionRoot()
         
         authStateController = compositionRoot.composeAuthStateController()
@@ -63,6 +69,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         return SpotifyAuthManager().open(url)
+    }
+    
+    //MARK: - Dev Utilities
+    func resetUserSettings() {
+        let userSettingsController = UserSettingsStateController(archiveService: UserDefaultsArchivingService())
+        userSettingsController.reset()
     }
 
 }

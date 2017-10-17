@@ -43,5 +43,12 @@ class UserSettingsStateController {
         self.archiveService.archive(object: userSettings, forKey: "userSettings")
     }
     
+    //MARK: - Utilities
+    
+    func reset() {
+        let userSettings = UserSettings()
+        archiveService.archive(object: userSettings, forKey: "userSettings")
+    }
+    
 }
 

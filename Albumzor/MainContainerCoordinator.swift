@@ -157,7 +157,11 @@ extension MainContainerCoordinator: ChooseArtistViewModelDelegate {
         
         //launch instructions scene
         if userSettingsStateController.instructionsSeen.value {
-            //launch 
+            //launch suggest albums scene
+        } else {
+            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "InstructionsViewController") as! InstructionsViewController
+            vc.delegate = self
+            mainContainerViewController.show(viewController: vc, animation: .slideFromRight)
         }
         
     }
@@ -200,7 +204,13 @@ extension MainContainerCoordinator: ConfirmArtistViewModelDelegate {
     
 }
 
+extension MainContainerCoordinator: InstructionsViewControllerDelegate {
 
+    func instructionsSceneComplete() {
+        print("Instructions scene complete")
+    }
+    
+}
 
 
 
