@@ -7,40 +7,41 @@
 //
 
 import Foundation
+import RxSwift
 
 class UserSettingsStateController {
+
+    //MARK: - Dependencies
+    
+    private let archiveService: ArchivingServiceProtocol
     
     //MARK: - State
     
-    private let userSettings: UserSettings
+    let instructionsSeen: Variable<Bool>!
+    let isSeeded: Variable<Bool>!
+    let isAutoplayEnabled: Variable<Bool>!
+    let albumSortType: Variable<Int>!
     
     //MARK: - Initialization
     
-    init() {
-        if let data = UserDefaults.standard.object(forKey: "userSettings") as? Data,
-            let userSettings = NSKeyedUnarchiver.unarchiveObject(with: data) as? UserSettings {
-            
-            self.userSettings = userSettings
-        } else {
-            userSettings = UserSettings(instructionsSeen: false, isSeeded: false, autoplay: true, albumSortType: 0)
-        }
+    init(archiveService: ArchivingServiceProtocol) {
+        self.archiveService = archiveService
+        
+        let userSettings = archiveService.unarchiveObject(forKey: "userSettings") as? UserSettings ?? UserSettings()
+
+        instructionsSeen = Variable(userSettings.instructionsSeen)
+        isSeeded = Variable(userSettings.isSeeded)
+        isAutoplayEnabled = Variable(userSettings.autoplay)
+        albumSortType = Variable(userSettings.albumSortType)
     }
     
-    //MARK: - State getters
+    //MARK: - Interface
     
-    func instructionsSeen() -> Bool {
-        return userSettings.instructionsSeen
+    func setIsSeeded(_ isSeeded: Bool) {
+        self.isSeeded.value = isSeeded
+        let userSettings = UserSettings(instructionsSeen: instructionsSeen.value, isSeeded: isSeeded, autoplay: isAutoplayEnabled.value, albumSortType: albumSortType.value)
+        self.archiveService.archive(object: userSettings, forKey: "userSettings")
     }
     
-    func isSeeded() -> Bool {
-        return userSettings.isSeeded
-    }
-    
-    func isAutoplayEnabled() -> Bool {
-        return userSettings.autoplay
-    }
-    
-    func getAlbumSortType() -> Int {
-        return userSettings.albumSortType
-    }
 }
+

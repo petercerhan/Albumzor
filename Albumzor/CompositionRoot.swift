@@ -19,6 +19,7 @@ protocol CompositionRootProtocol {
     func composeSpotifyLoginScene(mainContainerCoordinator: MainContainerCoordinator) -> SpotifyLoginViewController
     func composeWelcomeScene(mainContainerCoordinator: MainContainerCoordinator, userProfileStateController: UserProfileStateController) -> WelcomeViewController
     func composeChooseArtistsScene(mainContainerCoordinator: MainContainerCoordinator, seedArtistStateController: SeedArtistStateController) -> ChooseArtistViewController
+    func composeConfirmArtistScene(mainContainerCoordinator: MainContainerCoordinator, seedArtistStateController: SeedArtistStateController) -> ConfirmArtistViewController
 }
 
 class CompositionRoot: CompositionRootProtocol {
@@ -37,15 +38,18 @@ class CompositionRoot: CompositionRootProtocol {
     //MARK: - Coordinators
     
     func composeMainCoordinator(authStateController: AuthStateController) -> MainContainerCoordinator {
+        let archivingService = UserDefaultsArchivingService()
         let remoteDataService = SpotifyRemoteDataService(session: URLSession.shared, authService: SpotifyAuthManager())
-        let userProfileStateController = UserProfileStateController(remoteDataService: remoteDataService, archiveService: UserDefaultsArchivingService())
+        
+        let userProfileStateController = UserProfileStateController(remoteDataService: remoteDataService, archiveService: archivingService)
         let seedArtistStateController = SeedArtistStateController(mediaLibraryService: ITunesLibraryService(),
                                                                   remoteDataService: remoteDataService,
                                                                   localDatabaseService: CoreDataService(coreDataStack: CoreDataStack(modelName: "Model")!))
+        
         return MainContainerCoordinator(mainContainerViewController: ContainerViewController(),
                                         authStateController: authStateController,
                                         userProfileStateController: userProfileStateController,
-                                        userSettingsStateController: UserSettingsStateController(),
+                                        userSettingsStateController: UserSettingsStateController(archiveService: archivingService),
                                         seedArtistStateController: seedArtistStateController,
                                         compositionRoot: self)
     }
@@ -69,6 +73,11 @@ class CompositionRoot: CompositionRootProtocol {
     func composeChooseArtistsScene(mainContainerCoordinator: MainContainerCoordinator, seedArtistStateController: SeedArtistStateController) -> ChooseArtistViewController {
         let viewModel = ChooseArtistViewModel(delegate: mainContainerCoordinator, seedArtistStateController: seedArtistStateController)
         return ChooseArtistViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
+    }
+    
+    func composeConfirmArtistScene(mainContainerCoordinator: MainContainerCoordinator, seedArtistStateController: SeedArtistStateController) -> ConfirmArtistViewController {
+        let viewModel = ConfirmArtistViewModel(delegate: mainContainerCoordinator, seedArtistStateController: seedArtistStateController, externalURLProxy: AppDelegateURLProxy())
+        return ConfirmArtistViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
     }
     
 }

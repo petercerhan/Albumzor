@@ -17,6 +17,11 @@ class SeedArtistStateController {
     private let remoteDataService: RemoteDataServiceProtocol
     private let localDatabaseService: LocalDatabaseServiceProtocol
     
+    //convenience for development
+    var localDBService: LocalDatabaseServiceProtocol {
+        return localDatabaseService
+    }
+    
     //MARK: - State
     
     let seedArtists = Variable<[String]>([])
@@ -231,7 +236,7 @@ class SeedArtistStateController {
     //5.
     //Update total seeded albums
     private func getTotalSeededAlbums() {
-        localDatabaseService.countUnseenArtists()
+        localDatabaseService.countUnseenAlbums()
             .subscribe(onNext: { [unowned self] count in
                 self.totalAlbumsSeeded.value = count
             })

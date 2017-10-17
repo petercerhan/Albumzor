@@ -82,21 +82,22 @@ extension MainContainerCoordinator: OpenSceneViewModelDelegate {
         
 //        print("\n\nInstructionsSeen: \(userSettingsStateController.instructionsSeen()) \nIsSeeded: \(userSettingsStateController.isSeeded()) \nAutoplay: \(userSettingsStateController.isAutoplayEnabled()) \nAlbumSortType: \(userSettingsStateController.getAlbumSortType())")
         
-        if userSettingsStateController.instructionsSeen() && userSettingsStateController.isSeeded() {
+        let instructionsSeen = userSettingsStateController.instructionsSeen.value
+        let isSeeded = userSettingsStateController.isSeeded.value
+        
+        if instructionsSeen && isSeeded {
             //Launch Home Scene
-        } else if !(userSettingsStateController.instructionsSeen()) && !(userSettingsStateController.isSeeded()) {
+        } else if !instructionsSeen && !isSeeded {
             //Launch welcome scene
             let vc = compositionRoot.composeWelcomeScene(mainContainerCoordinator: self, userProfileStateController: userProfileStateController)
             mainContainerViewController.show(viewController: vc, animation: .none)
             
-        } else if userSettingsStateController.instructionsSeen() && !userSettingsStateController.isSeeded() {
+        } else if instructionsSeen && !isSeeded {
             //launch Seed Artists scene
-        } else if !userSettingsStateController.instructionsSeen() && userSettingsStateController.isSeeded() {
+        } else if !instructionsSeen && isSeeded {
             //launch Instructions Scene
         }
-        
     }
-    
     
 }
 
@@ -115,7 +116,7 @@ extension MainContainerCoordinator: SpotifyLoginViewControllerDelegate {
     
 }
 
-//MARK: - WelcomeViewControllerDelegate
+//MARK: - WelcomeViewModelDelegate
 
 extension MainContainerCoordinator: WelcomeViewModelDelegate {
     
@@ -145,23 +146,25 @@ extension MainContainerCoordinator: WelcomeViewModelDelegate {
     
 }
 
-
-//MARK: - ChooseArtistViewControllerDelegate
-//TODO: Delete ChooseArtistViewControllerDelegate
+//MARK: - ChooseArtistViewModelDelegate
 
 extension MainContainerCoordinator: ChooseArtistViewModelDelegate {
     
     func chooseArtistSceneComplete(_ chooseArtistViewModel: ChooseArtistViewModel) {
         print("Choose artists scene complete")
-        //Set "is seeded"
+        
+        userSettingsStateController.setIsSeeded(true)
+        
+        //launch instructions scene
+        if userSettingsStateController.instructionsSeen.value {
+            //launch 
+        }
+        
     }
     
     func showConfirmArtistScene(_ chooseArtistViewModel: ChooseArtistViewModel, confirmationArtist: String) {
-        print("Launch confirm artist scene with \(confirmationArtist)")
         
-        //get confirmation artist directly from the state controller
-        let viewModel = ConfirmArtistViewModel(delegate: self, seedArtistStateController: seedArtistStateController, externalURLProxy: AppDelegateURLProxy())
-        let confirmArtistVC = ConfirmArtistViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
+        let confirmArtistVC = compositionRoot.composeConfirmArtistScene(mainContainerCoordinator: self, seedArtistStateController: seedArtistStateController)
         
         //launch spotify confirmation, if necessary
         if !(authStateController.sessionIsValid) {

@@ -15,7 +15,11 @@ class UserSettings: NSObject, NSCoding {
     var autoplay: Bool
     var albumSortType: Int
     
-    init(instructionsSeen: Bool, isSeeded: Bool, autoplay: Bool, albumSortType: Int) {
+    init(instructionsSeen: Bool = false,
+         isSeeded: Bool = false,
+         autoplay: Bool = true,
+         albumSortType: Int = 0)
+    {
         self.instructionsSeen = instructionsSeen
         self.isSeeded = isSeeded
         self.autoplay = autoplay
@@ -39,5 +43,6 @@ class UserSettings: NSObject, NSCoding {
     }
     
 }
+
 
 

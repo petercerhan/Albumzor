@@ -13,7 +13,7 @@ import RxSwift
 protocol LocalDatabaseServiceProtocol {
     func getArtist(id: String) -> Observable<ArtistData?>
     //Count Albums
-    func countUnseenArtists() -> Observable<Int>
+    func countUnseenAlbums() -> Observable<Int>
     //Save artist, withAlbums
     func saveArtist(artist artistData: ArtistData, withAlbums albums: [AlbumData])
     
@@ -33,7 +33,7 @@ class CoreDataService: LocalDatabaseServiceProtocol {
         self.coreDataStack = coreDataStack
     }
     
-    func countUnseenArtists() -> Observable<Int> {
+    func countUnseenAlbums() -> Observable<Int> {
         
         return Observable<Int>.create { [weak self] (observer) -> Disposable in
             

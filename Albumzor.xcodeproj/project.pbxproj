@@ -341,7 +341,6 @@
 			children = (
 				E45D98BA1E75DC2F00CD3CE7 /* AppDelegate.swift */,
 				E44B02A91F6DCB0700B1A0D3 /* CompositionRoot.swift */,
-				E47E09AA1F7B3170004A5C9E /* SeedArtistStateController.swift */,
 				E423E4F91F92AEFA007531F5 /* AbbreviatedAlbumData.swift */,
 				E4A70C011F923ABB000301D0 /* AlbumData.swift */,
 				E47E09B31F8041C9004A5C9E /* ArtistData.swift */,
@@ -489,6 +488,7 @@
 		E4A7A5741F749C9B009D117D /* StateControllers */ = {
 			isa = PBXGroup;
 			children = (
+				E47E09AA1F7B3170004A5C9E /* SeedArtistStateController.swift */,
 				E44B02BA1F6F307F00B1A0D3 /* UserSettingsStateController.swift */,
 				E44B02B81F6F0E7C00B1A0D3 /* UserProfileStateController.swift */,
 				E44B02B51F6EECD500B1A0D3 /* AuthStateController.swift */,

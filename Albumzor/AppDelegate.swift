@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -27,6 +28,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var authStateController: AuthStateController!
     
+    
+    //Mark: - Rx
+    //For dev purposes
+    let disposeBag = DisposeBag()
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         compositionRoot = CompositionRoot()
@@ -45,6 +51,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
         dataManager = DataManager()
+        
+        //Get albums count
+        mainContainerCoordinator.seedArtistStateController.localDBService
+            .countUnseenAlbums()
+            .subscribe(onNext: { print("Total unseen albums \($0)") })
+            .disposed(by: disposeBag)
         
         return true
     }
