@@ -43,6 +43,12 @@ class UserSettingsStateController {
         self.archiveService.archive(object: userSettings, forKey: "userSettings")
     }
     
+    func setInstructionsSeen(_ instructionsSeen: Bool) {
+        self.instructionsSeen.value = instructionsSeen
+        let userSettings = UserSettings(instructionsSeen: instructionsSeen, isSeeded: isSeeded.value, autoplay: isAutoplayEnabled.value, albumSortType: albumSortType.value)
+        self.archiveService.archive(object: userSettings, forKey: "userSettings")
+    }
+    
     //MARK: - Utilities
     
     func reset() {

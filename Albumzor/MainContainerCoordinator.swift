@@ -87,15 +87,18 @@ extension MainContainerCoordinator: OpenSceneViewModelDelegate {
         
         if instructionsSeen && isSeeded {
             //Launch Home Scene
+            print("Launch home scene")
         } else if !instructionsSeen && !isSeeded {
-            //Launch welcome scene
+            //Launch Welcome Scene
             let vc = compositionRoot.composeWelcomeScene(mainContainerCoordinator: self, userProfileStateController: userProfileStateController)
             mainContainerViewController.show(viewController: vc, animation: .none)
-            
         } else if instructionsSeen && !isSeeded {
             //launch Seed Artists scene
+            print("launch seed artist")
         } else if !instructionsSeen && isSeeded {
-            //launch Instructions Scene
+            //Launch Instructions Scene
+            let vc = compositionRoot.composeInstructionsScene(mainContainerCoordinator: self, userSettingsStateController: userSettingsStateController)
+            mainContainerViewController.show(viewController: vc, animation: .slideFromRight)
         }
     }
     
@@ -159,8 +162,7 @@ extension MainContainerCoordinator: ChooseArtistViewModelDelegate {
         if userSettingsStateController.instructionsSeen.value {
             //launch suggest albums scene
         } else {
-            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "InstructionsViewController") as! InstructionsViewController
-            vc.delegate = self
+            let vc = compositionRoot.composeInstructionsScene(mainContainerCoordinator: self, userSettingsStateController: userSettingsStateController)
             mainContainerViewController.show(viewController: vc, animation: .slideFromRight)
         }
         
@@ -204,9 +206,9 @@ extension MainContainerCoordinator: ConfirmArtistViewModelDelegate {
     
 }
 
-extension MainContainerCoordinator: InstructionsViewControllerDelegate {
-
-    func instructionsSceneComplete() {
+extension MainContainerCoordinator: InstructionsViewModelDelegate {
+    
+    func requestNextScene(_ instructionsViewModel: InstructionsViewModel) {
         print("Instructions scene complete")
     }
     

@@ -119,7 +119,6 @@ extension MainContainerViewController: SpotifyLoginViewControllerDelegate {
             //user seeded artists but didn't navigate to final instructions pane
             //show last instruction screen
             let vc = appStoryboard.instantiateViewController(withIdentifier: "InstructionsViewController") as! InstructionsViewController
-            vc.delegate = self
             update(contentViewController: vc)
         }
     }
@@ -224,7 +223,6 @@ extension MainContainerViewController {
             updateAnimated(contentViewController: vc)
         } else {
             let vc = appStoryboard.instantiateViewController(withIdentifier: "InstructionsViewController") as! InstructionsViewController
-            vc.delegate = self
             updateAnimated(contentViewController: vc)
         }
     }
@@ -232,7 +230,7 @@ extension MainContainerViewController {
 
 //MARK: - InstructionsViewControllerDelegate
 
-extension MainContainerViewController: InstructionsViewControllerDelegate {
+extension MainContainerViewController {
     func instructionsSceneComplete() {
         let vc = AlbumsContainerViewController()
         vc.delegate = self

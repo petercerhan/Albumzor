@@ -29,6 +29,7 @@
 		E44B02B91F6F0E7C00B1A0D3 /* UserProfileStateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44B02B81F6F0E7C00B1A0D3 /* UserProfileStateController.swift */; };
 		E44B02BB1F6F307F00B1A0D3 /* UserSettingsStateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44B02BA1F6F307F00B1A0D3 /* UserSettingsStateController.swift */; };
 		E44B0EA41F81875A00F29615 /* NetworkRequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44B0EA31F81875A00F29615 /* NetworkRequestError.swift */; };
+		E456D8A71F96D09B00FF539F /* InstructionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E456D8A61F96D09B00FF539F /* InstructionsViewModel.swift */; };
 		E45D98BB1E75DC2F00CD3CE7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D98BA1E75DC2F00CD3CE7 /* AppDelegate.swift */; };
 		E45D98BD1E75DC2F00CD3CE7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E45D98BC1E75DC2F00CD3CE7 /* HomeViewController.swift */; };
 		E45D98C01E75DC2F00CD3CE7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E45D98BE1E75DC2F00CD3CE7 /* Main.storyboard */; };
@@ -135,6 +136,7 @@
 		E44B02B81F6F0E7C00B1A0D3 /* UserProfileStateController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileStateController.swift; sourceTree = "<group>"; };
 		E44B02BA1F6F307F00B1A0D3 /* UserSettingsStateController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingsStateController.swift; sourceTree = "<group>"; };
 		E44B0EA31F81875A00F29615 /* NetworkRequestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestError.swift; sourceTree = "<group>"; };
+		E456D8A61F96D09B00FF539F /* InstructionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionsViewModel.swift; sourceTree = "<group>"; };
 		E45D98B71E75DC2F00CD3CE7 /* Albumzor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Albumzor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E45D98BA1E75DC2F00CD3CE7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E45D98BC1E75DC2F00CD3CE7 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 			isa = PBXGroup;
 			children = (
 				E4B507811EAD98070049831B /* InstructionsViewController.swift */,
+				E456D8A61F96D09B00FF539F /* InstructionsViewModel.swift */,
 			);
 			name = InstructionsScene;
 			sourceTree = "<group>";
@@ -721,6 +724,7 @@
 				E45D99B51E93225C00CD3CE7 /* TrackTableViewCell.swift in Sources */,
 				E467C4CB1EAED4B400B0A62B /* UserSettings.swift in Sources */,
 				E45D98FA1E78D71800CD3CE7 /* CoreDataStack.swift in Sources */,
+				E456D8A71F96D09B00FF539F /* InstructionsViewModel.swift in Sources */,
 				E4B507801EAD763D0049831B /* WelcomeViewController.swift in Sources */,
 				E4B507821EAD98070049831B /* InstructionsViewController.swift in Sources */,
 				E47E09AF1F7C88C3004A5C9E /* ChooseArtistViewModel.swift in Sources */,

@@ -615,9 +615,6 @@
                                 <state key="normal" title="Get Started">
                                     <color key="titleColor" red="1" green="0.44705882349999998" blue="0.043137254899999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <connections>
-                                    <action selector="getStarted" destination="kvO-gp-AZW" eventType="touchUpInside" id="DZq-Ip-Lbw"/>
-                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -634,6 +631,9 @@
                             <constraint firstItem="QiQ-hG-0kC" firstAttribute="width" secondItem="37T-z7-a0y" secondAttribute="width" multiplier="0.8" id="wFh-Tg-DF2"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="startButton" destination="h9k-ny-bfE" id="xGs-aW-5UO"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="URl-5x-eDx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
