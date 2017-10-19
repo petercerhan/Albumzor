@@ -13,6 +13,7 @@ class SuggestAlbumsViewModel {
     //MARK: - Dependencies
     
     private let seedArtistStateController: SeedArtistStateController
+    //SuggestedAlbumsStateController
     
     //MARK: - Initialization
     
