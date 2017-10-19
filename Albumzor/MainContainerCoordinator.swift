@@ -88,6 +88,11 @@ extension MainContainerCoordinator: OpenSceneViewModelDelegate {
         if instructionsSeen && isSeeded {
             //Launch Home Scene
             print("Launch home scene")
+            
+            let vc = compositionRoot.composeSuggestAlbumsScene(mainContainerCoordinator: self, seedArtistStateController: seedArtistStateController)
+            mainContainerViewController.show(viewController: vc, animation: .none)
+            
+            
         } else if !instructionsSeen && !isSeeded {
             //Launch Welcome Scene
             let vc = compositionRoot.composeWelcomeScene(mainContainerCoordinator: self, userProfileStateController: userProfileStateController)

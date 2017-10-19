@@ -20,6 +20,8 @@ protocol SuggestAlbumsViewControllerDelegate : NSObjectProtocol {
 
 class SuggestAlbumsViewController: UIViewController {
     
+    //MARK: - Interface Components
+    
     @IBOutlet var topLabel: UILabel!
     @IBOutlet var defaultView: UIView!
     @IBOutlet var titleLabel: UILabel!
@@ -36,12 +38,18 @@ class SuggestAlbumsViewController: UIViewController {
 
     var currentAlbumView: CGDraggableView!
     var nextAlbumView: CGDraggableView!
+
+    //MARK: - Dependencies
+    
+    private var viewModel: SuggestAlbumsViewModel!
     
     weak var delegate: SuggestAlbumsViewControllerDelegate!
     var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
     
     let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
     var audioPlayer = (UIApplication.shared.delegate as! AppDelegate).audioPlayer
+    
+    //MARK: - State
     
     var albumArt: [UIImage]!
     var albums: [Album]!
@@ -60,6 +68,14 @@ class SuggestAlbumsViewController: UIViewController {
     
     var buttonsEnabled = true
     
+    //MARK: - Initialization
+    
+    static func createWith(storyBoard: UIStoryboard, viewModel: SuggestAlbumsViewModel) -> SuggestAlbumsViewController {
+        let vc = storyBoard.instantiateViewController(withIdentifier: "SuggestAlbumsViewController") as! SuggestAlbumsViewController
+        vc.viewModel = viewModel
+        return vc
+    }
+    
     //MARK:- Life Cycle
     
     override func viewDidLoad() {
@@ -75,24 +91,24 @@ class SuggestAlbumsViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         if !initialLayoutConfigured {
             currentAlbumView = CGDraggableView(frame: defaultView.frame)
-            currentAlbumView.imageView.image = albumArt[0]
+//            currentAlbumView.imageView.image = albumArt[0]
             currentAlbumView.delegate = self
             currentAlbumView.addShadow()
             view.addSubview(currentAlbumView)
             
             nextAlbumView = CGDraggableView(frame: defaultView.frame)
-            nextAlbumView.imageView.image = albumArt[1]
+//            nextAlbumView.imageView.image = albumArt[1]
             nextAlbumView.delegate = self
             nextAlbumView.addShadow()
             view.insertSubview(nextAlbumView, belowSubview: currentAlbumView)
             nextAlbumView.isUserInteractionEnabled = false
             
-            currentAlbumTracks = dataManager.getTracks(forAlbum: albums[0].objectID)
-            nextAlbumTracks = dataManager.getTracks(forAlbum: albums[1].objectID)
+//            currentAlbumTracks = dataManager.getTracks(forAlbum: albums[0].objectID)
+//            nextAlbumTracks = dataManager.getTracks(forAlbum: albums[1].objectID)
             autoPlay()
             
-            titleLabel.text = albums[0].name!.cleanAlbumName()
-            artistLabel.text = albums[0].artist!.name!
+//            titleLabel.text = albums[0].name!.cleanAlbumName()
+//            artistLabel.text = albums[0].artist!.name!
             
             audioButton.imageEdgeInsets = UIEdgeInsetsMake(11.0, 11.0, 11.0, 11.0)
             audioButton.contentMode = .center
