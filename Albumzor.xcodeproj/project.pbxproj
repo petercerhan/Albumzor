@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E0F7F211F9BE10200F74879 /* ObservableType+nextEventsOnly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0F7F201F9BE10200F74879 /* ObservableType+nextEventsOnly.swift */; };
 		6EFA3E2A1F983853002E9B04 /* SuggestAlbumsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA3E291F983853002E9B04 /* SuggestAlbumsViewModel.swift */; };
 		6EFA3E2C1F983E14002E9B04 /* SuggestedAlbumsStateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA3E2B1F983E14002E9B04 /* SuggestedAlbumsStateController.swift */; };
 		6EFA3E2E1F996F10002E9B04 /* InspectableQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA3E2D1F996F10002E9B04 /* InspectableQueue.swift */; };
@@ -113,6 +114,7 @@
 /* Begin PBXFileReference section */
 		39CB7133E3C2A4D47E38E0BA /* Pods-Albumzor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Albumzor.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Albumzor/Pods-Albumzor.debug.xcconfig"; sourceTree = "<group>"; };
 		6661D39B9E51CC748852D3FC /* Pods-Albumzor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Albumzor.release.xcconfig"; path = "Pods/Target Support Files/Pods-Albumzor/Pods-Albumzor.release.xcconfig"; sourceTree = "<group>"; };
+		6E0F7F201F9BE10200F74879 /* ObservableType+nextEventsOnly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ObservableType+nextEventsOnly.swift"; sourceTree = "<group>"; };
 		6EFA3E291F983853002E9B04 /* SuggestAlbumsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestAlbumsViewModel.swift; sourceTree = "<group>"; };
 		6EFA3E2B1F983E14002E9B04 /* SuggestedAlbumsStateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedAlbumsStateController.swift; sourceTree = "<group>"; };
 		6EFA3E2D1F996F10002E9B04 /* InspectableQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectableQueue.swift; sourceTree = "<group>"; };
@@ -306,6 +308,7 @@
 				E425AF571EC166E9004BB657 /* Albumzor-Bridging-Header.h */,
 				E44B02B31F6E065100B1A0D3 /* Action.swift */,
 				6EFA3E2D1F996F10002E9B04 /* InspectableQueue.swift */,
+				6E0F7F201F9BE10200F74879 /* ObservableType+nextEventsOnly.swift */,
 			);
 			name = SupportingFiles;
 			sourceTree = "<group>";
@@ -375,7 +378,6 @@
 			children = (
 				E45D98BA1E75DC2F00CD3CE7 /* AppDelegate.swift */,
 				E44B02A91F6DCB0700B1A0D3 /* CompositionRoot.swift */,
-				6EFA3E2B1F983E14002E9B04 /* SuggestedAlbumsStateController.swift */,
 				E423E4F91F92AEFA007531F5 /* AbbreviatedAlbumData.swift */,
 				E4A70C011F923ABB000301D0 /* AlbumData.swift */,
 				E47E09B31F8041C9004A5C9E /* ArtistData.swift */,
@@ -524,6 +526,7 @@
 		E4A7A5741F749C9B009D117D /* StateControllers */ = {
 			isa = PBXGroup;
 			children = (
+				6EFA3E2B1F983E14002E9B04 /* SuggestedAlbumsStateController.swift */,
 				E47E09AA1F7B3170004A5C9E /* SeedArtistStateController.swift */,
 				E44B02BA1F6F307F00B1A0D3 /* UserSettingsStateController.swift */,
 				E44B02B81F6F0E7C00B1A0D3 /* UserProfileStateController.swift */,
@@ -803,6 +806,7 @@
 				E45D99191E7F767400CD3CE7 /* String.swift in Sources */,
 				E47E09A51F793BFF004A5C9E /* DataOperationState.swift in Sources */,
 				E45D99091E7A05A900CD3CE7 /* Artist.swift in Sources */,
+				6E0F7F211F9BE10200F74879 /* ObservableType+nextEventsOnly.swift in Sources */,
 				E45D98ED1E75EC2600CD3CE7 /* SpotifyClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

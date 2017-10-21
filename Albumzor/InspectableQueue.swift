@@ -24,6 +24,12 @@ struct InspectableQueue<T> {
         array.append(element)
     }
     
+    mutating func enqueue(elements: [T]) {
+        array.append(contentsOf: elements)
+    }
+    
+    //enqueueUnique
+    
     mutating func dequeue() -> T? {
         if isEmpty {
             return nil

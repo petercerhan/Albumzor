@@ -88,7 +88,8 @@ class CompositionRoot: CompositionRootProtocol {
     }
     
     func composeSuggestAlbumsScene(mainContainerCoordinator: MainContainerCoordinator, seedArtistStateController: SeedArtistStateController) -> SuggestAlbumsViewController {
-        let viewModel = SuggestAlbumsViewModel(seedArtistStateController: seedArtistStateController)
+        let suggestedAlbumsStateController = SuggestedAlbumsStateController(localDatabaseService: CoreDataService(coreDataStack: CoreDataStack(modelName: "Model")!))
+        let viewModel = SuggestAlbumsViewModel(seedArtistStateController: seedArtistStateController, suggestedAlbumsStateController: suggestedAlbumsStateController)
         let vc = SuggestAlbumsViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
         return vc
     }

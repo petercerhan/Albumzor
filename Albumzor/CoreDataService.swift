@@ -17,8 +17,9 @@ protocol LocalDatabaseServiceProtocol {
     //Save artist, withAlbums
     func saveArtist(artist artistData: ArtistData, withAlbums albums: [AlbumData])
     
-    //update artist
-    //update albums
+    //get artists by exposures and score
+    func getArtistsByExposuresAndScore(max: Int) -> Observable<[ArtistData]>
+    
 }
 
 class CoreDataService: LocalDatabaseServiceProtocol {
@@ -33,8 +34,39 @@ class CoreDataService: LocalDatabaseServiceProtocol {
         self.coreDataStack = coreDataStack
     }
     
+    func getArtistsByExposuresAndScore(max: Int) -> Observable<[ArtistData]> {
+        return Observable<[ArtistData]>.create { [weak self] (observer) -> Disposable in
+            
+            guard let backgroundContext = self?.coreDataStack.backgroundContext else {
+                observer.onCompleted()
+                return Disposables.create()
+            }
+            
+            backgroundContext.perform {
+                let request = NSFetchRequest<Artist>(entityName: "Artist")
+                let predicate = NSPredicate(format: "totalAlbums - seenAlbums > 0 && priorSeed = false")
+                request.sortDescriptors = [NSSortDescriptor(key: "seenAlbums", ascending: true), NSSortDescriptor(key: "score", ascending: false)]
+                request.predicate = predicate
+                request.fetchLimit = max
+                
+                if let artistArray = try? backgroundContext.fetch(request),
+                    artistArray.count > 0
+                {
+                    observer.onNext(artistArray.map { $0.artistDataRepresentation })
+                } else {
+                    observer.onNext([ArtistData]())
+                }
+                
+                observer.onCompleted()
+            }
+            
+            return Disposables.create()
+        }
+    }
+    
+    
+    
     func countUnseenAlbums() -> Observable<Int> {
-        
         return Observable<Int>.create { [weak self] (observer) -> Disposable in
             
             guard let backgroundContext = self?.coreDataStack.backgroundContext else {
@@ -59,7 +91,6 @@ class CoreDataService: LocalDatabaseServiceProtocol {
     }
     
     func getArtist(id: String) -> Observable<ArtistData?> {
-        
         return Observable<ArtistData?>.create { [weak self] (observer) -> Disposable in
             
             guard let backgroundContext = self?.coreDataStack.backgroundContext else {

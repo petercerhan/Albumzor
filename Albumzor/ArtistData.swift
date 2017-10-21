@@ -44,3 +44,11 @@ struct ArtistData {
     }
     
 }
+
+extension ArtistData: Equatable {
+    static func == (lhs: ArtistData, rhs: ArtistData) -> Bool {
+        return lhs.id == rhs.id
+    }
+}
+
+
