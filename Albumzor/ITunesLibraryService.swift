@@ -35,7 +35,7 @@ class ITunesLibraryService: MediaLibraryServiceProtocol {
         
     }
     
-    func getArtistsFromItunes() -> [String]? {
+    private func getArtistsFromItunes() -> [String]? {
         let artistQuery = MPMediaQuery.artists()
         
         guard let mediaItemsArray = artistQuery.items else {

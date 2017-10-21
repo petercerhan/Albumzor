@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct InspectableQueue<T> {
+struct InspectableQueue<T: Equatable> {
     
     private var array = [T]()
     
@@ -26,6 +26,14 @@ struct InspectableQueue<T> {
     
     mutating func enqueue(elements: [T]) {
         array.append(contentsOf: elements)
+    }
+    
+    mutating func enqueueUnique(elements: [T]) {
+        for element in elements {
+            if !(array.contains(element)) {
+                array.append(element)
+            }
+        }
     }
     
     //enqueueUnique
