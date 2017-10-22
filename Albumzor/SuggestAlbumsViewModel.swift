@@ -8,6 +8,13 @@
 
 import Foundation
 
+
+
+enum SuggestAlbumsSceneAction {
+    case likeAlbum
+}
+
+
 class SuggestAlbumsViewModel {
     
     //MARK: - Dependencies
@@ -20,6 +27,19 @@ class SuggestAlbumsViewModel {
     init(seedArtistStateController: SeedArtistStateController, suggestedAlbumsStateController: SuggestedAlbumsStateController) {
         self.seedArtistStateController = seedArtistStateController
         self.suggestedAlbumsStateController = suggestedAlbumsStateController
+    }
+    
+    //MARK: - Dispatch Actions
+    
+    func dispatch(action: SuggestAlbumsSceneAction) {
+        switch action {
+        case .likeAlbum:
+            handle_likeAlbum()
+        }
+    }
+    
+    private func handle_likeAlbum() {
+        suggestedAlbumsStateController.reviewAlbum(like: true)
     }
     
 }

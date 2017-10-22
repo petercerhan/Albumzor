@@ -32,20 +32,39 @@ extension Album {
             self.popularity = Int16(albumData.popularity)
             self.largeImage = albumData.largeImage
             self.smallImage = albumData.smallImage
+            self.seen = albumData.seen
             self.liked = albumData.liked
             self.likedDateTime = albumData.likedDateTime
-            self.seen = albumData.seen
-            self.priorSeed = albumData.priorSeed
             if let imageData = albumData.imageData {
                 self.imageData = NSData(data: imageData)
             }
             if let smallImageData = albumData.smallImageData {
                 self.smallImageData = NSData(data: smallImageData)
             }
+            self.priorSeed = albumData.priorSeed
             
         } else {
             fatalError("Unable to find 'Album' Entity name!")
         }
     }
-
+    
+    var albumDataRepresentation: AlbumData {
+        return AlbumData(id: id!,
+                         name: name!,
+                         popularity: Int(popularity),
+                         largeImage: largeImage!,
+                         smallImage: smallImage!,
+                         seen: seen,
+                         liked: liked,
+                         likedDateTime: likedDateTime!,
+                         imageData: imageData as Data?,
+                         smallImageData: smallImageData as Data?,
+                         priorSeed: priorSeed)
+    }
+    
 }
+
+
+
+
+

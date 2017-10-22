@@ -20,6 +20,9 @@ protocol LocalDatabaseServiceProtocol {
     //get artists by exposures and score
     func getArtistsByExposuresAndScore(max: Int) -> Observable<[ArtistData]>
     
+    //get top rated unseen album for artistalbum
+//    func getTopUnseenAlbumForArtist(_ artist: ArtistData) -> Observable<(AlbumData, ArtistData)>
+    
 }
 
 class CoreDataService: LocalDatabaseServiceProtocol {
@@ -33,6 +36,23 @@ class CoreDataService: LocalDatabaseServiceProtocol {
     init(coreDataStack: CoreDataStack) {
         self.coreDataStack = coreDataStack
     }
+    
+//    func getTopUnseenAlbumForArtist(_ artist: ArtistData) -> Observable<(AlbumData, ArtistData)> {
+//        return Observable<(AlbumData, ArtistData)>.create { [weak self] (observer) -> Disposable in
+//
+//            guard let backgroundContext = self?.coreDataStack.backgroundContext else {
+//                observer.onCompleted()
+//                return Disposables.create()
+//            }
+//
+//            backgroundContext.perform {
+//                let request = NSFetchRequest<Album>(entityName: "Album")
+//                let predicate = NSPredicate(format: "(seen = false) AND (artist.id = %@)", artist.id)
+//                request.sortDescriptors = [NSSortDescriptor(key: "popularity", ascending: false)]
+//                request.predicate = predicate
+//            }
+//        }
+//    }
     
     func getArtistsByExposuresAndScore(max: Int) -> Observable<[ArtistData]> {
         return Observable<[ArtistData]>.create { [weak self] (observer) -> Disposable in

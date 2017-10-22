@@ -13,17 +13,39 @@ struct AlbumData {
     let id: String
     let name: String
     let popularity: Int
-    var largeImage: String?
-    var smallImage: String?
+    let largeImage: String
+    let smallImage: String
+    var seen: Bool
+    var liked: Bool
+    var likedDateTime: NSDate
+    var imageData: Data?
+    var smallImageData: Data?
+    let priorSeed: Bool
     
-    var liked = false
-    var likedDateTime = NSDate()
-    var seen = false
-    
-    var priorSeed = false
-    
-    let imageData: Data? = nil
-    let smallImageData: Data? = nil
+    init(id: String,
+         name: String,
+         popularity: Int,
+         largeImage: String,
+         smallImage: String,
+         seen: Bool = false,
+         liked: Bool = false,
+         likedDateTime: NSDate = NSDate(),
+         imageData: Data? = nil,
+         smallImageData: Data? = nil,
+         priorSeed: Bool = false)
+    {
+        self.id = id
+        self.name = name
+        self.popularity = popularity
+        self.largeImage = largeImage
+        self.smallImage = smallImage
+        self.seen = seen
+        self.liked = liked
+        self.likedDateTime = likedDateTime
+        self.imageData = imageData
+        self.smallImageData = smallImageData
+        self.priorSeed = priorSeed
+    }
     
     init?(jsonDictionary: [String: Any]) {
         guard
@@ -38,12 +60,7 @@ struct AlbumData {
             return nil
         }
         
-        self.id = id
-        self.name = name
-        self.popularity = popularity
-        self.largeImage = largeImage
-        self.smallImage = smallImage
-        
+        self.init(id: id, name: name, popularity: popularity, largeImage: largeImage, smallImage: smallImage)
     }
     
     struct AlbumDisallowedKeywords {
@@ -66,7 +83,6 @@ struct AlbumData {
             }
             return false
         }
-    
     }
     
 }

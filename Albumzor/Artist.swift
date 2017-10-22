@@ -26,12 +26,12 @@ extension Artist {
             self.init(entity: entity, insertInto: context)
             self.id = artistData.id
             self.name = artistData.name
-            self.priorSeed = artistData.priorSeed
-            self.references = Int16(artistData.references)
-            self.relatedAdded = artistData.relatedAdded
-            self.score = Int16(artistData.score)
-            self.seenAlbums = Int16(artistData.seenAlbums)
             self.totalAlbums = Int16(artistData.totalAlbums)
+            self.seenAlbums = Int16(artistData.seenAlbums)
+            self.references = Int16(artistData.references)
+            self.score = Int16(artistData.score)
+            self.relatedAdded = artistData.relatedAdded
+            self.priorSeed = artistData.priorSeed
         } else {
             fatalError("Unable to find 'Artist' Entity name!")
         }
@@ -39,10 +39,19 @@ extension Artist {
     }
     
     var artistDataRepresentation: ArtistData {
-        return ArtistData(id: id!, name: name!)
+        return ArtistData(id: id!,
+                          name: name!,
+                          imageURL: nil,
+                          totalAlbums: Int(totalAlbums),
+                          seenAlbums: Int(seenAlbums),
+                          references: Int(references),
+                          score: Int(score),
+                          relatedAdded: relatedAdded,
+                          priorSeed: priorSeed)
     }
     
 }
+
 
 
 

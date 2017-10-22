@@ -47,10 +47,31 @@ class SuggestedAlbumsStateController {
                         //potentially trigger something else here
                         return (currentArtistQueue, .none)
                     }
+                    print("Fetch album for next artist")
                     return (currentArtistQueue, .fetchAlbumForArtist(artist: artist))
                 }
             }
     }()
+    
+//    private lazy var fetchAlbumProcess: Observable<AlbumQueueEvent> = {
+//        return self.currentArtistPool
+//            .map { (_, albumProcessEvent) in
+//                return albumProcessEvent
+//            }
+//            .map { albumProcessEvent -> ArtistData? in
+//                switch albumProcessEvent {
+//                case .fetchAlbumForArtist(let artistData):
+//                    return artistData
+//                default:
+//                    return nil
+//                }
+//            }
+//            .filter { $0 != nil }
+//            .map { return $0! }
+//            .map { [unowned self] artistData -> Observable<AlbumData> in
+//                self.localDatabaseService
+//            }
+//    }()
     
     //MARK: - Rx
     
@@ -137,9 +158,9 @@ class SuggestedAlbumsStateController {
         case none
     }
     
-    enum AlbumPoolFinalEvent {
-        case enqueueAlbum(AlbumData)
-        case dequeueAlbum
+    enum AlbumQueueEvent {
+        case addAlbum(AlbumData)
+        case nextAlbum
     }
     
     
@@ -147,7 +168,7 @@ class SuggestedAlbumsStateController {
     //MARK: - Interface
     
     func reviewAlbum(like: Bool) {
-        
+        artistPoolEventSubject.onNext(.fetchAlbumForNextArtist)
     }
     
 }

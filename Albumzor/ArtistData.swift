@@ -12,18 +12,35 @@ struct ArtistData {
     let id: String
     let name: String
     let imageURL: String?
-    let priorSeed: Bool = false
-    let references: Int = 1
-    let relatedAdded: Bool = false
-    let score: Int = 1
-    let seenAlbums: Int = 0
-    var totalAlbums: Int = 0
+    var totalAlbums: Int
+    var seenAlbums: Int
+    var references: Int
+    var score: Int
+    var relatedAdded: Bool
+    let priorSeed: Bool
     
-    init(id: String, name: String) {
+    init(id: String,
+         name: String,
+         imageURL: String? = nil,
+         totalAlbums: Int = 0,
+         seenAlbums: Int = 0,
+         references: Int = 1,
+         score: Int = 1,
+         relatedAdded: Bool = false,
+         priorSeed: Bool = false)
+    {
         self.id = id
         self.name = name
-        imageURL = nil
+        self.imageURL = imageURL
+        self.totalAlbums = totalAlbums
+        self.seenAlbums = seenAlbums
+        self.references = references
+        self.score = score
+        self.relatedAdded = relatedAdded
+        self.priorSeed = priorSeed
     }
+    
+    //MARK: - Initialize from json
     
     init?(dictionary: [String: Any]) {
         guard let name = dictionary["name"] as? String,
@@ -31,16 +48,16 @@ struct ArtistData {
                 return nil
         }
         
-        self.id = id
-        self.name = name
+        var imageURL: String?
         
         if let images = dictionary["images"] as? [[String : Any]],
-                images.count >= 3,
-                let largeImageURL = images[0]["url"] as? String {
+                images.count >= 1,
+                let largeImageURL = images[0]["url"] as? String
+        {
             imageURL = largeImageURL
-        } else {
-            imageURL = nil
         }
+        
+        self.init(id: id, name: name, imageURL: imageURL)
     }
     
 }

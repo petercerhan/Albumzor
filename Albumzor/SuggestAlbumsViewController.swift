@@ -120,6 +120,27 @@ class SuggestAlbumsViewController: UIViewController {
         }
     }
     
+    //MARK: - New Actions
+    
+    @IBAction func like() {
+        viewModel.dispatch(action: .likeAlbum)
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     func appWillResignActive() {
         if let currentAlbumView = currentAlbumView {
             currentAlbumView.resetViewPositionAndTransformations()
@@ -158,7 +179,7 @@ class SuggestAlbumsViewController: UIViewController {
         UIApplication.shared.open(URL(string:"https://open.spotify.com/album/\(albums[currentIndex].id!)")!, options: [:], completionHandler: nil)
     }
     
-    @IBAction func like() {
+    @IBAction func likePrior() {
         
         //setting .isEnabled or .isUserInteractionEnabled does not seem to apply quickly enough; buttons can be hit multiple times quickly, leading to unpredictable results
         if !buttonsEnabled {
