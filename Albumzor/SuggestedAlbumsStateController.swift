@@ -18,60 +18,82 @@ class SuggestedAlbumsStateController {
     
     //MARK: - State
     
+//    private(set) lazy var currentAlbum: Observable<AlbumData?> = {
+//        return self.suggestedAlbumQueue.asObservable()
+//            .map { queue -> AlbumData? in
+//                if queue.
+//        }
+//    }
     
-//    private let fetchedArtistsSubject = PublishSubject<ArtistPoolEvent>()
-//
-//    private let fetchNextAlbumSubject = PublishSubject<ArtistPoolEvent>()
-//
-//    private lazy var currentArtistsPool: Observable<[ArtistData]> = {
-//
-//        let source = Observable.of(fetchedArtistsSubject.asObservable(), fetchNextAlbumSubject.asObservable())
-//
-//
-//        return self.fetchedArtistsSubject.asObservable()
-//    }()
-
+    
+    
+    //Suggestion Pool Elements
+    
     private let artistPoolEventSubject = PublishSubject<ArtistPoolEvent>()
     
     private lazy var currentArtistPool: Observable<(InspectableQueue<ArtistData>, FetchAlbumProcessEvent)> = {
         return self.artistPoolEventSubject.asObservable()
             .scan((InspectableQueue<ArtistData>(), .none)) { (accumulator, artistPoolEvent) -> (InspectableQueue<ArtistData>, FetchAlbumProcessEvent) in
                 var currentArtistQueue = accumulator.0
-                
                 switch artistPoolEvent {
                 case .addArtists(let newArtistData):
                     currentArtistQueue.enqueueUnique(elements: newArtistData)
                     return (currentArtistQueue, .none)
-                case .fetchAlbumForNextArtist:
+                 case .fetchAlbumForNextArtist:
                     guard let artist = currentArtistQueue.dequeue() else {
                         //potentially trigger something else here
                         return (currentArtistQueue, .none)
                     }
-                    print("Fetch album for next artist")
                     return (currentArtistQueue, .fetchAlbumForArtist(artist: artist))
                 }
             }
+            .share()
     }()
     
-//    private lazy var fetchAlbumProcess: Observable<AlbumQueueEvent> = {
-//        return self.currentArtistPool
-//            .map { (_, albumProcessEvent) in
-//                return albumProcessEvent
-//            }
-//            .map { albumProcessEvent -> ArtistData? in
-//                switch albumProcessEvent {
-//                case .fetchAlbumForArtist(let artistData):
-//                    return artistData
-//                default:
-//                    return nil
-//                }
-//            }
-//            .filter { $0 != nil }
-//            .map { return $0! }
-//            .map { [unowned self] artistData -> Observable<AlbumData> in
-//                self.localDatabaseService
-//            }
-//    }()
+    private lazy var fetchAlbumProcess: Observable<AlbumQueueEvent> = {
+        return self.currentArtistPool
+            .map { (_, albumProcessEvent) in
+                return albumProcessEvent
+            }
+            .map { albumProcessEvent -> ArtistData? in
+                switch albumProcessEvent {
+                case .fetchAlbumForArtist(let artistData):
+                    return artistData
+                default:
+                    return nil
+                }
+            }
+            .filter { $0 != nil }
+            .map { return $0! }
+            .map { [unowned self] artistData -> Observable<(AlbumData, ArtistData)> in
+                return self.localDatabaseService.getTopUnseenAlbumForArtist(artistData)
+                    .nextEventsOnly()
+            }
+            .flatMap { return $0 }
+            .map { (albumData, artistData) -> AlbumQueueEvent in
+                return AlbumQueueEvent.addAlbum(albumData: albumData, artistData: artistData)
+            }
+            .share()
+    }()
+    
+    private let nextAlbumSubject = PublishSubject<AlbumQueueEvent>()
+    
+    private lazy var suggestedAlbumQueue: Observable<InspectableQueue<(AlbumData, ArtistData)>> = {
+        return Observable.of(self.fetchAlbumProcess, self.nextAlbumSubject.asObservable()).merge()
+            .scan(InspectableQueue<(AlbumData, ArtistData)>()) { (accumulator, albumQueueEvent) -> InspectableQueue<(AlbumData, ArtistData)> in
+                var albumQueue = accumulator
+                
+                switch albumQueueEvent {
+                case .addAlbum(let albumData, let artistData):
+                    albumQueue.enqueue((albumData, artistData))
+                    return albumQueue
+                case .nextAlbum:
+                    _ = albumQueue.dequeue()
+                    return albumQueue
+                }
+            }
+            .share()
+    }()
     
     //MARK: - Rx
     
@@ -89,15 +111,41 @@ class SuggestedAlbumsStateController {
     }
     
     private func bindMonitors() {
+
+        //temporary monitor album queue
+        suggestedAlbumQueue
+            .subscribe(onNext: { queue in
+                print("New album queue with \(queue.count) elements")
+                for i in 0..<queue.count {
+                    print("Album \(queue.elementAt(i)!.0.name)")
+                }
+                print("\n\n")
+            })
+            .disposed(by: disposeBag)
+        
+        
+        //create first album fetch monitor
+        currentArtistPool
+            .map { (artistQueue, _) -> Int in
+                return artistQueue.count
+            }
+            .filter { $0 > 0 }
+            .take(1)
+            .delay(RxTimeInterval(0.1), scheduler: ConcurrentDispatchQueueScheduler(queue: DispatchQueue.global()))
+            .subscribe(onNext: { [unowned self] _ in
+                self.artistPoolEventSubject.onNext(.fetchAlbumForNextArtist)
+            })
+            .disposed(by: disposeBag)
+        
         //ArtistPoolMonitor
         currentArtistPool
             .map { (artistQueue, _) -> Int in
-               
-//                print("\n\nQueue count \(artistQueue.count)")
+
+                print("\nUpdate artist queue \(artistQueue.count)\n")
 //                for i in 0..<artistQueue.count {
 //                    print("Artist \(artistQueue.elementAt(i)!.name)")
 //                }
-                
+
                 return artistQueue.count
             }
             .filter { count in
@@ -117,8 +165,16 @@ class SuggestedAlbumsStateController {
             })
             .disposed(by: disposeBag)
 
-        
-        
+        //AlbumQueueMonitor
+        suggestedAlbumQueue
+            .map { queue -> Int in
+                return queue.count
+            }
+            .filter { $0 < 10 }
+            .subscribe(onNext: { [unowned self] _ in
+                self.artistPoolEventSubject.onNext(.fetchAlbumForNextArtist)
+            })
+            .disposed(by: disposeBag)
         
     }
     
@@ -159,7 +215,7 @@ class SuggestedAlbumsStateController {
     }
     
     enum AlbumQueueEvent {
-        case addAlbum(AlbumData)
+        case addAlbum(albumData: AlbumData, artistData: ArtistData)
         case nextAlbum
     }
     

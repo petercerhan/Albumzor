@@ -8,9 +8,9 @@
 
 import Foundation
 
-struct InspectableQueue<T: Equatable> {
+struct InspectableQueue<T> {
     
-    private var array = [T]()
+    fileprivate var array = [T]()
     
     var count: Int {
         return array.count
@@ -27,16 +27,6 @@ struct InspectableQueue<T: Equatable> {
     mutating func enqueue(elements: [T]) {
         array.append(contentsOf: elements)
     }
-    
-    mutating func enqueueUnique(elements: [T]) {
-        for element in elements {
-            if !(array.contains(element)) {
-                array.append(element)
-            }
-        }
-    }
-    
-    //enqueueUnique
     
     mutating func dequeue() -> T? {
         if isEmpty {
@@ -55,4 +45,19 @@ struct InspectableQueue<T: Equatable> {
     }
     
 }
+
+extension InspectableQueue where T: Equatable {
+    
+    mutating func enqueueUnique(elements: [T]) {
+        for element in elements {
+            if !(array.contains(element)) {
+                array.append(element)
+            }
+        }
+    }
+    
+}
+
+
+
 

@@ -21,7 +21,7 @@ protocol LocalDatabaseServiceProtocol {
     func getArtistsByExposuresAndScore(max: Int) -> Observable<[ArtistData]>
     
     //get top rated unseen album for artistalbum
-//    func getTopUnseenAlbumForArtist(_ artist: ArtistData) -> Observable<(AlbumData, ArtistData)>
+    func getTopUnseenAlbumForArtist(_ artist: ArtistData) -> Observable<(AlbumData, ArtistData)>
     
 }
 
@@ -37,22 +37,31 @@ class CoreDataService: LocalDatabaseServiceProtocol {
         self.coreDataStack = coreDataStack
     }
     
-//    func getTopUnseenAlbumForArtist(_ artist: ArtistData) -> Observable<(AlbumData, ArtistData)> {
-//        return Observable<(AlbumData, ArtistData)>.create { [weak self] (observer) -> Disposable in
-//
-//            guard let backgroundContext = self?.coreDataStack.backgroundContext else {
-//                observer.onCompleted()
-//                return Disposables.create()
-//            }
-//
-//            backgroundContext.perform {
-//                let request = NSFetchRequest<Album>(entityName: "Album")
-//                let predicate = NSPredicate(format: "(seen = false) AND (artist.id = %@)", artist.id)
-//                request.sortDescriptors = [NSSortDescriptor(key: "popularity", ascending: false)]
-//                request.predicate = predicate
-//            }
-//        }
-//    }
+    func getTopUnseenAlbumForArtist(_ artist: ArtistData) -> Observable<(AlbumData, ArtistData)> {
+        return Observable<(AlbumData, ArtistData)>.create { [weak self] (observer) -> Disposable in
+
+            guard let backgroundContext = self?.coreDataStack.backgroundContext else {
+                observer.onCompleted()
+                return Disposables.create()
+            }
+
+            backgroundContext.perform {
+                let request = NSFetchRequest<Album>(entityName: "Album")
+                let predicate = NSPredicate(format: "(seen = false) AND (artist.id = %@)", artist.id)
+                request.sortDescriptors = [NSSortDescriptor(key: "popularity", ascending: false)]
+                request.predicate = predicate
+                
+                if let albumArray = try? backgroundContext.fetch(request),
+                    albumArray.count > 0
+                {
+                    observer.onNext((albumArray[0].albumDataRepresentation, artist))
+                }
+                observer.onCompleted()
+            }
+            
+            return Disposables.create()
+        }
+    }
     
     func getArtistsByExposuresAndScore(max: Int) -> Observable<[ArtistData]> {
         return Observable<[ArtistData]>.create { [weak self] (observer) -> Disposable in
