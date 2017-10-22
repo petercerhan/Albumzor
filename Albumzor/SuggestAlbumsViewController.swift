@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 //error - tried and failed to retrieve sample audio; noTrack - no attempt has been made to retrieve a track
 enum AudioState {
@@ -43,6 +45,8 @@ class SuggestAlbumsViewController: UIViewController {
     
     private var viewModel: SuggestAlbumsViewModel!
     
+    
+    
     weak var delegate: SuggestAlbumsViewControllerDelegate!
     var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
     
@@ -68,6 +72,10 @@ class SuggestAlbumsViewController: UIViewController {
     
     var buttonsEnabled = true
     
+    //MARK: - Rx
+    
+    private var disposeBag = DisposeBag()
+    
     //MARK: - Initialization
     
     static func createWith(storyBoard: UIStoryboard, viewModel: SuggestAlbumsViewModel) -> SuggestAlbumsViewController {
@@ -76,12 +84,32 @@ class SuggestAlbumsViewController: UIViewController {
         return vc
     }
     
+    //MARK: - Bind UI
+    
+    func bindUI() {
+        
+        //Album Title
+        viewModel.currentAlbumTitle
+            .observeOn(MainScheduler.instance)
+            .bind(to: titleLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        //Artist name
+        viewModel.currentAlbumArtistName
+            .observeOn(MainScheduler.instance)
+            .bind(to: artistLabel.rx.text)
+            .disposed(by: disposeBag)
+
+    }
+    
     //MARK:- Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         audioPlayer.delegate = self
         subscribeToNotifications()
+        
+        bindUI()
     }
     
     func subscribeToNotifications() {

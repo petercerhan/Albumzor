@@ -7,13 +7,12 @@
 //
 
 import Foundation
-
+import RxSwift
 
 
 enum SuggestAlbumsSceneAction {
     case likeAlbum
 }
-
 
 class SuggestAlbumsViewModel {
     
@@ -21,6 +20,20 @@ class SuggestAlbumsViewModel {
     
     private let seedArtistStateController: SeedArtistStateController
     private let suggestedAlbumsStateController: SuggestedAlbumsStateController
+    
+    //MARK: - State
+    
+    private(set) lazy var currentAlbumTitle: Observable<String?> = {
+        return self.suggestedAlbumsStateController.currentAlbum
+            .map { $0?.name }
+            .shareReplay(1)
+    }()
+    
+    private(set) lazy var currentAlbumArtistName: Observable<String?> = {
+        return self.suggestedAlbumsStateController.currentArtist
+            .map { $0?.name }
+            .shareReplay(1)
+    }()
     
     //MARK: - Initialization
     

@@ -18,14 +18,21 @@ class SuggestedAlbumsStateController {
     
     //MARK: - State
     
-//    private(set) lazy var currentAlbum: Observable<AlbumData?> = {
-//        return self.suggestedAlbumQueue.asObservable()
-//            .map { queue -> AlbumData? in
-//                if queue.
-//        }
-//    }
+    private(set) lazy var currentAlbum: Observable<AlbumData?> = {
+        return self.suggestedAlbumQueue.asObservable()
+            .map { queue -> AlbumData? in
+                return queue.elementAt(0)?.0
+            }
+            .shareReplay(1)
+    }()
     
-    
+    private(set) lazy var currentArtist: Observable<ArtistData?> = {
+        return self.suggestedAlbumQueue.asObservable()
+            .map { queue -> ArtistData? in
+                return queue.elementAt(0)?.1
+            }
+            .shareReplay(1)
+    }()
     
     //Suggestion Pool Elements
     
