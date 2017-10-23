@@ -99,6 +99,9 @@ class SuggestAlbumsViewController: UIViewController {
             .observeOn(MainScheduler.instance)
             .bind(to: artistLabel.rx.text)
             .disposed(by: disposeBag)
+        
+        //
+        
 
     }
     
@@ -122,12 +125,16 @@ class SuggestAlbumsViewController: UIViewController {
 //            currentAlbumView.imageView.image = albumArt[0]
             currentAlbumView.delegate = self
             currentAlbumView.addShadow()
+            currentAlbumView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0)
             view.addSubview(currentAlbumView)
+            
+            currentAlbumView.bindImageSource(viewModel.currentAlbumArt)
             
             nextAlbumView = CGDraggableView(frame: defaultView.frame)
 //            nextAlbumView.imageView.image = albumArt[1]
             nextAlbumView.delegate = self
             nextAlbumView.addShadow()
+            nextAlbumView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0)
             view.insertSubview(nextAlbumView, belowSubview: currentAlbumView)
             nextAlbumView.isUserInteractionEnabled = false
             
@@ -363,16 +370,16 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
     }
 
     func tapped() {
-        let vc = storyboard!.instantiateViewController(withIdentifier: "AlbumDetailsViewController") as! AlbumDetailsViewController
-        vc.albumImage = albumArt[currentIndex]
-        vc.tracks = currentAlbumTracks
-        vc.album = albums[currentIndex]
-        
-        vc.trackPlaying = trackPlaying
-        vc.audioState = audioState
-        
-        vc.delegate = self
-        present(vc, animated: true, completion: nil)
+//        let vc = storyboard!.instantiateViewController(withIdentifier: "AlbumDetailsViewController") as! AlbumDetailsViewController
+//        vc.albumImage = albumArt[currentIndex]
+//        vc.tracks = currentAlbumTracks
+//        vc.album = albums[currentIndex]
+//        
+//        vc.trackPlaying = trackPlaying
+//        vc.audioState = audioState
+//        
+//        vc.delegate = self
+//        present(vc, animated: true, completion: nil)
     }
     
     func swipeBegan() {

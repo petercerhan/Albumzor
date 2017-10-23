@@ -14,6 +14,7 @@ class SuggestedAlbumsStateController {
     //MARK: - Dependencies
     
     private let localDatabaseService: LocalDatabaseServiceProtocol
+    private let remoteDataService: RemoteDataServiceProtocol
     private let shufflingService: ShufflingService
     
     //MARK: - State
@@ -34,7 +35,18 @@ class SuggestedAlbumsStateController {
             .shareReplay(1)
     }()
     
-    //Suggestion Pool Elements
+    private(set) lazy var currentAlbumArt: Observable<UIImage> = {
+        return self.albumArtObservableQueue
+            .map { albumArtQueue -> Observable<UIImage>? in
+                return albumArtQueue.elementAt(0)
+            }
+            .filter { $0 != nil }
+            .map { $0! }
+            .flatMapLatest { $0 }
+            .shareReplay(1)
+    }()
+    
+    //Artists Queue
     
     private let artistPoolEventSubject = PublishSubject<ArtistPoolEvent>()
     
@@ -102,34 +114,64 @@ class SuggestedAlbumsStateController {
             .share()
     }()
     
+    //Album Art Queue
+    
+    private let albumArtLoadingSubject = PublishSubject<ImageLoadState>()
+    
+    private lazy var albumArtObservableQueue: Observable<InspectableQueue<Observable<UIImage>>> = {
+        return Observable
+            .combineLatest(self.suggestedAlbumQueue, self.albumArtLoadingSubject.asObservable()) { return ($0, $1) }
+            .scan(InspectableQueue<Observable<UIImage>>()) { [weak self] (accumulator, inputs) -> InspectableQueue<Observable<UIImage>> in
+                var albumArtObservableQueue = accumulator
+                let albumQueue = inputs.0
+                let imageLoadState = inputs.1
+                
+                if albumQueue.count > albumArtObservableQueue.count,
+                    imageLoadState == .notLoading,
+                    let nextAlbum = albumQueue.elementAt(albumArtObservableQueue.count)?.0,
+                    let albumArtObservable = self?.remoteDataService.fetchImageFrom(urlString: nextAlbum.largeImage),
+                    let disposeBag = self?.disposeBag
+                {
+                    albumArtObservable.subscribe(
+                        onError: { error in
+                            self?.albumArtLoadingSubject.onNext(.notLoading)
+                        }, onCompleted: {
+                            self?.albumArtLoadingSubject.onNext(.notLoading)
+                        })
+                        .disposed(by: disposeBag)
+                    
+                    albumArtObservableQueue.enqueue(albumArtObservable.nextEventsOnly())
+                }
+                
+                return albumArtObservableQueue
+            }
+        
+    }()
+    
     //MARK: - Rx
     
     private let disposeBag = DisposeBag()
     
     //MARK: - Initialization
     
-    init(localDatabaseService: LocalDatabaseServiceProtocol, shufflingService: ShufflingService) {
+    init(localDatabaseService: LocalDatabaseServiceProtocol, remoteDataService: RemoteDataServiceProtocol, shufflingService: ShufflingService) {
         self.localDatabaseService = localDatabaseService
+        self.remoteDataService = remoteDataService
         self.shufflingService = shufflingService
 
         bindMonitors()
         getInitialArtists()
+        albumArtLoadingSubject.onNext(.notLoading)
         
     }
     
     private func bindMonitors() {
-
-        //temporary monitor album queue
-        suggestedAlbumQueue
-            .subscribe(onNext: { queue in
-                print("New album queue with \(queue.count) elements")
-                for i in 0..<queue.count {
-                    print("Album \(queue.elementAt(i)!.0.name)")
-                }
-                print("\n\n")
-            })
-            .disposed(by: disposeBag)
         
+        //Trigger album art observables
+        albumArtObservableQueue
+            .take(1)
+            .subscribe()
+            .disposed(by: disposeBag)
         
         //create first album fetch monitor
         currentArtistPool
@@ -148,7 +190,7 @@ class SuggestedAlbumsStateController {
         currentArtistPool
             .map { (artistQueue, _) -> Int in
 
-                print("\nUpdate artist queue \(artistQueue.count)\n")
+//                print("\nUpdate artist queue \(artistQueue.count)\n")
 //                for i in 0..<artistQueue.count {
 //                    print("Artist \(artistQueue.elementAt(i)!.name)")
 //                }
@@ -197,18 +239,6 @@ class SuggestedAlbumsStateController {
             .disposed(by: disposeBag)
     }
     
-    
-    //MARK: - Suggestions Algorithm
-    
-    private func fetchAlbum() {
-        
-        
-        
-        
-        
-    }
-    
-    
     //MARK: - Process Event Types
     
     enum ArtistPoolEvent {
@@ -226,14 +256,20 @@ class SuggestedAlbumsStateController {
         case nextAlbum
     }
     
-    
+    enum ImageLoadState {
+        case loading
+        case notLoading
+    }
     
     //MARK: - Interface
     
     func reviewAlbum(like: Bool) {
-        artistPoolEventSubject.onNext(.fetchAlbumForNextArtist)
+//        artistPoolEventSubject.onNext(.fetchAlbumForNextArtist)
+        
+        
     }
     
 }
+
 
 

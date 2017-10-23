@@ -9,7 +9,6 @@
 import Foundation
 import RxSwift
 
-
 enum SuggestAlbumsSceneAction {
     case likeAlbum
 }
@@ -32,6 +31,11 @@ class SuggestAlbumsViewModel {
     private(set) lazy var currentAlbumArtistName: Observable<String?> = {
         return self.suggestedAlbumsStateController.currentArtist
             .map { $0?.name }
+            .shareReplay(1)
+    }()
+    
+    private(set) lazy var currentAlbumArt: Observable<UIImage> = {
+        return self.suggestedAlbumsStateController.currentAlbumArt
             .shareReplay(1)
     }()
     

@@ -8,6 +8,8 @@
 // Based on this tutorial: http://guti.in/articles/creating-tinder-like-animations
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 enum SwipeDirection: Int {
     case none
@@ -31,7 +33,15 @@ class CGDraggableView: UIView {
     var imageView: UIImageView!
     var direction = SwipeDirection.none
     
+    //MARK: - Dependencies
+    
     weak var delegate: CGDraggableViewDelegate?
+    
+    //MARK: - Rx
+    
+    private var disposeBag = DisposeBag()
+    
+    //MARK: - Initialization
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -65,6 +75,16 @@ class CGDraggableView: UIView {
         overlayView.alpha = 0
         addSubview(overlayView)
     }
+    
+    //MARK: - Bind UI
+    
+    func bindImageSource(_ sourceObservable: Observable<UIImage>) {
+        sourceObservable
+            .observeOn(MainScheduler.instance)
+            .bind(to: imageView.rx.image)
+            .disposed(by: disposeBag)
+    }
+    
     
     func tapped(gestureRecognizer: UITapGestureRecognizer) {
         delegate?.tapped()
