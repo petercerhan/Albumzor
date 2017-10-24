@@ -137,6 +137,7 @@ class SuggestAlbumsViewController: UIViewController {
             nextAlbumView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0)
             view.insertSubview(nextAlbumView, belowSubview: currentAlbumView)
             nextAlbumView.isUserInteractionEnabled = false
+            nextAlbumView.bindImageSource(viewModel.nextAlbumArt)
             
 //            currentAlbumTracks = dataManager.getTracks(forAlbum: albums[0].objectID)
 //            nextAlbumTracks = dataManager.getTracks(forAlbum: albums[1].objectID)

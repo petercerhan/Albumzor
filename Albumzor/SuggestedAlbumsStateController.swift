@@ -36,9 +36,26 @@ class SuggestedAlbumsStateController {
     }()
     
     private(set) lazy var currentAlbumArt: Observable<UIImage> = {
+        
+//        return Observable.of(UIImage())
+        
         return self.albumArtObservableQueue
             .map { albumArtQueue -> Observable<UIImage>? in
                 return albumArtQueue.elementAt(0)
+            }
+            .filter { $0 != nil }
+            .map { $0! }
+            .flatMapLatest { $0 }
+            .shareReplay(1)
+    }()
+    
+    private(set) lazy var nextAlbumArt: Observable<UIImage> = {
+
+//        return Observable.of(UIImage())
+        
+        return self.albumArtObservableQueue
+            .map { albumArtQueue -> Observable<UIImage>? in
+                return albumArtQueue.elementAt(1)
             }
             .filter { $0 != nil }
             .map { $0! }
@@ -115,38 +132,27 @@ class SuggestedAlbumsStateController {
     }()
     
     //Album Art Queue
-    
-    private let albumArtLoadingSubject = PublishSubject<ImageLoadState>()
-    
+
     private lazy var albumArtObservableQueue: Observable<InspectableQueue<Observable<UIImage>>> = {
-        return Observable
-            .combineLatest(self.suggestedAlbumQueue, self.albumArtLoadingSubject.asObservable()) { return ($0, $1) }
-            .scan(InspectableQueue<Observable<UIImage>>()) { [weak self] (accumulator, inputs) -> InspectableQueue<Observable<UIImage>> in
+        return self.suggestedAlbumQueue
+            .scan(InspectableQueue<Observable<UIImage>>()) { [weak self] (accumulator, albumQueue) -> InspectableQueue<Observable<UIImage>> in
                 var albumArtObservableQueue = accumulator
-                let albumQueue = inputs.0
-                let imageLoadState = inputs.1
-                
+
                 if albumQueue.count > albumArtObservableQueue.count,
-                    imageLoadState == .notLoading,
                     let nextAlbum = albumQueue.elementAt(albumArtObservableQueue.count)?.0,
                     let albumArtObservable = self?.remoteDataService.fetchImageFrom(urlString: nextAlbum.largeImage),
                     let disposeBag = self?.disposeBag
                 {
-                    albumArtObservable.subscribe(
-                        onError: { error in
-                            self?.albumArtLoadingSubject.onNext(.notLoading)
-                        }, onCompleted: {
-                            self?.albumArtLoadingSubject.onNext(.notLoading)
-                        })
-                        .disposed(by: disposeBag)
-                    
                     albumArtObservableQueue.enqueue(albumArtObservable.nextEventsOnly())
                 }
                 
                 return albumArtObservableQueue
             }
-        
+            .share()
+
     }()
+    
+    //Review Album
     
     //MARK: - Rx
     
@@ -161,7 +167,6 @@ class SuggestedAlbumsStateController {
 
         bindMonitors()
         getInitialArtists()
-        albumArtLoadingSubject.onNext(.notLoading)
         
     }
     
@@ -264,7 +269,7 @@ class SuggestedAlbumsStateController {
     //MARK: - Interface
     
     func reviewAlbum(like: Bool) {
-//        artistPoolEventSubject.onNext(.fetchAlbumForNextArtist)
+
         
         
     }

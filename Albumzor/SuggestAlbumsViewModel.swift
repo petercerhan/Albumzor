@@ -39,6 +39,11 @@ class SuggestAlbumsViewModel {
             .shareReplay(1)
     }()
     
+    private(set) lazy var nextAlbumArt: Observable<UIImage> = {
+        return self.suggestedAlbumsStateController.nextAlbumArt
+            .shareReplay(1)
+    }()
+    
     //MARK: - Initialization
     
     init(seedArtistStateController: SeedArtistStateController, suggestedAlbumsStateController: SuggestedAlbumsStateController) {
