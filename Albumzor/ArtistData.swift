@@ -60,6 +60,14 @@ struct ArtistData {
         self.init(id: id, name: name, imageURL: imageURL)
     }
     
+    //MARK: - Review Album
+    
+    mutating func albumReviewed(liked: Bool) {
+        seenAlbums += 1
+        if liked { references += 1 }
+        if !liked { score -= 1 }
+    }
+    
 }
 
 extension ArtistData: Equatable {

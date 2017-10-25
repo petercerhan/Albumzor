@@ -35,9 +35,9 @@ class SuggestedAlbumsStateController {
             .shareReplay(1)
     }()
     
-    private(set) lazy var currentAlbumArt: Observable<UIImage> = {
+    private(set) lazy var currentAlbumArt: Observable<UIImage?> = {
         return self.albumArtObservableQueue
-            .map { albumArtQueue -> Observable<UIImage>? in
+            .map { albumArtQueue -> Observable<UIImage?>? in
                 return albumArtQueue.elementAt(0)
             }
             .filter { $0 != nil }
@@ -46,9 +46,9 @@ class SuggestedAlbumsStateController {
             .shareReplay(1)
     }()
     
-    private(set) lazy var nextAlbumArt: Observable<UIImage> = {
+    private(set) lazy var nextAlbumArt: Observable<UIImage?> = {
         return self.albumArtObservableQueue
-            .map { albumArtQueue -> Observable<UIImage>? in
+            .map { albumArtQueue -> Observable<UIImage?>? in
                 return albumArtQueue.elementAt(1)
             }
             .filter { $0 != nil }
@@ -129,10 +129,10 @@ class SuggestedAlbumsStateController {
     
     //MARK: - Album Art Queue
 
-    private lazy var albumArtObservableQueue: Observable<InspectableQueue<Observable<UIImage>>> = {
+    private lazy var albumArtObservableQueue: Observable<InspectableQueue<Observable<UIImage?>>> = {
         
         return Observable.of(self.fetchAlbumProcess, self.nextAlbumSubject.asObservable()).merge()
-            .scan(InspectableQueue<Observable<UIImage>>()) { [weak self] (accumulator, albumQueueEvent) -> InspectableQueue<Observable<UIImage>> in
+            .scan(InspectableQueue<Observable<UIImage?>>()) { [weak self] (accumulator, albumQueueEvent) -> InspectableQueue<Observable<UIImage?>> in
                 var albumArtQueue = accumulator
                 
                 switch albumQueueEvent {
@@ -140,9 +140,9 @@ class SuggestedAlbumsStateController {
                     if let albumArtObservable = self?.remoteDataService.fetchImageFrom(urlString: albumData.largeImage),
                         let disposeBag = self?.disposeBag
                     {
-                        albumArtQueue.enqueue(albumArtObservable.nextEventsOnly())
+                        albumArtQueue.enqueue(albumArtObservable.nextEventsOnly().makeEventTypeOptional(initialValue: nil))
                     } else {
-                        albumArtQueue.enqueue(Observable.just(UIImage()))
+                        albumArtQueue.enqueue(Observable<UIImage?>.just(nil).nextEventsOnly())
                     }
                 case .nextAlbum:
                     _ = albumArtQueue.dequeue()
@@ -278,11 +278,33 @@ class SuggestedAlbumsStateController {
                 let albumAndArtist = albumQueue.elementAt(0)!
                 return (liked, albumAndArtist.0, albumAndArtist.1)
             }
-            .withLatestFrom(currentAlbumArt) { (data, albumArt) -> (Bool, AlbumData, ArtistData, UIImage) in
+            .withLatestFrom(currentAlbumArt) { (data, albumArt) -> (Bool, AlbumData, ArtistData, UIImage?) in
                 return (data.0, data.1, data.2, albumArt)
             }
-           .subscribe(onNext: { liked in
-                print("persist album, artist, image etc.")
+           .subscribe(onNext: { [unowned self] data in
+            
+                let liked = data.0
+                var albumData = data.1
+                var artistData = data.2
+            
+                var dataPresent = ""
+                if data.3 != nil {
+                    dataPresent = "Data"
+                } else {
+                    dataPresent = "No Data"
+                }
+                print("Persist data with liked \(data.0), album \(data.1.name), artist \(data.2.name), imageData?: \(dataPresent)")
+            
+                albumData.review(liked: liked)
+                artistData.albumReviewed(liked: liked)
+                if let image = data.3 {
+                    let imageData = UIImagePNGRepresentation(image)
+                    albumData.imageData = imageData
+                }
+            
+                self.localDatabaseService.save(album: albumData)
+                self.localDatabaseService.save(artist: artistData)
+            
             })
             .disposed(by: disposeBag)
         
@@ -294,6 +316,7 @@ class SuggestedAlbumsStateController {
     }
     
 }
+
 
 
 

@@ -47,6 +47,8 @@ struct AlbumData {
         self.priorSeed = priorSeed
     }
     
+    //MARK: - Initialize from json
+    
     init?(jsonDictionary: [String: Any]) {
         guard
             let name = jsonDictionary["name"] as? String,
@@ -61,6 +63,16 @@ struct AlbumData {
         }
         
         self.init(id: id, name: name, popularity: popularity, largeImage: largeImage, smallImage: smallImage)
+    }
+    
+    //MARK: - Review Album
+    
+    mutating func review(liked albumLiked: Bool) {
+        seen = true
+        if albumLiked {
+            liked = true
+            likedDateTime = NSDate()
+        }
     }
     
     struct AlbumDisallowedKeywords {

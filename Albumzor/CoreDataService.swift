@@ -23,6 +23,10 @@ protocol LocalDatabaseServiceProtocol {
     //get top rated unseen album for artistalbum
     func getTopUnseenAlbumForArtist(_ artist: ArtistData) -> Observable<(AlbumData, ArtistData)>
     
+    func save(album albumData: AlbumData)
+    
+    func save(artist artistData: ArtistData)
+    
 }
 
 class CoreDataService: LocalDatabaseServiceProtocol {
@@ -35,6 +39,44 @@ class CoreDataService: LocalDatabaseServiceProtocol {
     
     init(coreDataStack: CoreDataStack) {
         self.coreDataStack = coreDataStack
+    }
+    
+    func save(album albumData: AlbumData) {
+        let backgroundContext = coreDataStack.backgroundContext
+        backgroundContext.perform {
+            let request = NSFetchRequest<Album>(entityName: "Album")
+            request.predicate = NSPredicate(format: "id = %@", albumData.id)
+            
+            guard let albumArray = try? backgroundContext.fetch(request),
+                albumArray.count > 0 else
+            {
+                return
+            }
+            
+            let album = albumArray[0]
+            
+            album.syncWithAlbumData(albumData)
+            try? backgroundContext.save()
+        }
+    }
+    
+    func save(artist artistData: ArtistData) {
+        let backgroundContext = coreDataStack.backgroundContext
+        backgroundContext.perform {
+            let request = NSFetchRequest<Artist>(entityName: "Artist")
+            request.predicate = NSPredicate(format: "id = %@", artistData.id)
+            
+            guard let artistArray = try? backgroundContext.fetch(request),
+                artistArray.count > 0 else
+            {
+                return
+            }
+            
+            let artist = artistArray[0]
+            
+            artist.syncWithArtistData(artistData)
+            try? backgroundContext.save()
+        }
     }
     
     func getTopUnseenAlbumForArtist(_ artist: ArtistData) -> Observable<(AlbumData, ArtistData)> {

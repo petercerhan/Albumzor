@@ -78,7 +78,7 @@ class CGDraggableView: UIView {
     
     //MARK: - Bind UI
     
-    func bindImageSource(_ sourceObservable: Observable<UIImage>) {
+    func bindImageSource(_ sourceObservable: Observable<UIImage?>) {
         sourceObservable
             .observeOn(MainScheduler.instance)
             .bind(to: imageView.rx.image)

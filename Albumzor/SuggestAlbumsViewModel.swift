@@ -34,12 +34,12 @@ class SuggestAlbumsViewModel {
             .shareReplay(1)
     }()
     
-    private(set) lazy var currentAlbumArt: Observable<UIImage> = {
+    private(set) lazy var currentAlbumArt: Observable<UIImage?> = {
         return self.suggestedAlbumsStateController.currentAlbumArt
             .shareReplay(1)
     }()
     
-    private(set) lazy var nextAlbumArt: Observable<UIImage> = {
+    private(set) lazy var nextAlbumArt: Observable<UIImage?> = {
         return self.suggestedAlbumsStateController.nextAlbumArt
             .shareReplay(1)
     }()
