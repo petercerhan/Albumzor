@@ -61,7 +61,7 @@ class SuggestAlbumsViewModel {
     }
     
     private func handle_likeAlbum() {
-        suggestedAlbumsStateController.reviewAlbum(like: true)
+        suggestedAlbumsStateController.reviewAlbum(liked: true)
     }
     
 }

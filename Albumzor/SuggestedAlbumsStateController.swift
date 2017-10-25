@@ -17,7 +17,7 @@ class SuggestedAlbumsStateController {
     private let remoteDataService: RemoteDataServiceProtocol
     private let shufflingService: ShufflingService
     
-    //MARK: - State
+    //MARK: - Exposed State
     
     private(set) lazy var currentAlbum: Observable<AlbumData?> = {
         return self.suggestedAlbumQueue.asObservable()
@@ -36,9 +36,6 @@ class SuggestedAlbumsStateController {
     }()
     
     private(set) lazy var currentAlbumArt: Observable<UIImage> = {
-        
-//        return Observable.of(UIImage())
-        
         return self.albumArtObservableQueue
             .map { albumArtQueue -> Observable<UIImage>? in
                 return albumArtQueue.elementAt(0)
@@ -50,9 +47,6 @@ class SuggestedAlbumsStateController {
     }()
     
     private(set) lazy var nextAlbumArt: Observable<UIImage> = {
-
-//        return Observable.of(UIImage())
-        
         return self.albumArtObservableQueue
             .map { albumArtQueue -> Observable<UIImage>? in
                 return albumArtQueue.elementAt(1)
@@ -63,7 +57,7 @@ class SuggestedAlbumsStateController {
             .shareReplay(1)
     }()
     
-    //Artists Queue
+    //MARK: - Artist Queue
     
     private let artistPoolEventSubject = PublishSubject<ArtistPoolEvent>()
     
@@ -83,8 +77,10 @@ class SuggestedAlbumsStateController {
                     return (currentArtistQueue, .fetchAlbumForArtist(artist: artist))
                 }
             }
-            .share()
+            .shareReplay(1)
     }()
+    
+    //MARK: - Album Queue
     
     private lazy var fetchAlbumProcess: Observable<AlbumQueueEvent> = {
         return self.currentArtistPool
@@ -128,28 +124,33 @@ class SuggestedAlbumsStateController {
                     return albumQueue
                 }
             }
-            .share()
+            .shareReplay(1)
     }()
     
-    //Album Art Queue
+    //MARK: - Album Art Queue
 
     private lazy var albumArtObservableQueue: Observable<InspectableQueue<Observable<UIImage>>> = {
-        return self.suggestedAlbumQueue
-            .scan(InspectableQueue<Observable<UIImage>>()) { [weak self] (accumulator, albumQueue) -> InspectableQueue<Observable<UIImage>> in
-                var albumArtObservableQueue = accumulator
-
-                if albumQueue.count > albumArtObservableQueue.count,
-                    let nextAlbum = albumQueue.elementAt(albumArtObservableQueue.count)?.0,
-                    let albumArtObservable = self?.remoteDataService.fetchImageFrom(urlString: nextAlbum.largeImage),
-                    let disposeBag = self?.disposeBag
-                {
-                    albumArtObservableQueue.enqueue(albumArtObservable.nextEventsOnly())
+        
+        return Observable.of(self.fetchAlbumProcess, self.nextAlbumSubject.asObservable()).merge()
+            .scan(InspectableQueue<Observable<UIImage>>()) { [weak self] (accumulator, albumQueueEvent) -> InspectableQueue<Observable<UIImage>> in
+                var albumArtQueue = accumulator
+                
+                switch albumQueueEvent {
+                case .addAlbum(let albumData, let artistData):
+                    if let albumArtObservable = self?.remoteDataService.fetchImageFrom(urlString: albumData.largeImage),
+                        let disposeBag = self?.disposeBag
+                    {
+                        albumArtQueue.enqueue(albumArtObservable.nextEventsOnly())
+                    } else {
+                        albumArtQueue.enqueue(Observable.just(UIImage()))
+                    }
+                case .nextAlbum:
+                    _ = albumArtQueue.dequeue()
                 }
                 
-                return albumArtObservableQueue
+                return albumArtQueue
             }
-            .share()
-
+            .shareReplay(1)
     }()
     
     //Review Album
@@ -261,15 +262,33 @@ class SuggestedAlbumsStateController {
         case nextAlbum
     }
     
-    enum ImageLoadState {
-        case loading
-        case notLoading
-    }
-    
     //MARK: - Interface
     
-    func reviewAlbum(like: Bool) {
+    func reviewAlbum(liked: Bool) {
 
+        //Update domain objects and persist
+        let _ = Observable.just(liked)
+            .withLatestFrom(suggestedAlbumQueue.asObservable()) { (liked, albumQueue) -> (Bool, InspectableQueue<(AlbumData, ArtistData)>) in
+                return (liked, albumQueue)
+            }
+            .filter { (_, albumQueue) in
+                return albumQueue.count > 0
+            }
+            .map { (liked, albumQueue) -> (Bool, AlbumData, ArtistData) in
+                let albumAndArtist = albumQueue.elementAt(0)!
+                return (liked, albumAndArtist.0, albumAndArtist.1)
+            }
+            .withLatestFrom(currentAlbumArt) { (data, albumArt) -> (Bool, AlbumData, ArtistData, UIImage) in
+                return (data.0, data.1, data.2, albumArt)
+            }
+           .subscribe(onNext: { liked in
+                print("persist album, artist, image etc.")
+            })
+            .disposed(by: disposeBag)
+        
+        //dequeue and see whats what
+        nextAlbumSubject.onNext(.nextAlbum)
+        
         
         
     }
