@@ -44,11 +44,28 @@ class SuggestAlbumsViewModel {
             .shareReplay(1)
     }()
     
+    //MARK: - Rx
+    
+    private let disposeBag = DisposeBag()
+    
     //MARK: - Initialization
     
     init(seedArtistStateController: SeedArtistStateController, suggestedAlbumsStateController: SuggestedAlbumsStateController) {
         self.seedArtistStateController = seedArtistStateController
         self.suggestedAlbumsStateController = suggestedAlbumsStateController
+        
+        bindSuggestedAlbumsStateController()
+    }
+    
+    private func bindSuggestedAlbumsStateController() {
+        suggestedAlbumsStateController.likedAlbumArtistStream
+            .subscribe(onNext: { [unowned self] artistData in
+                
+                print("view model sees add seed artist for artist \(artistData.name)")
+                
+                self.seedArtistStateController.addSeedArtist(artistData: artistData)
+            })
+            .disposed(by: disposeBag)
     }
     
     //MARK: - Dispatch Actions
@@ -61,9 +78,6 @@ class SuggestAlbumsViewModel {
     }
     
     private func handle_reviewAlbum(liked: Bool) {
-        
-        
-        
         suggestedAlbumsStateController.reviewAlbum(liked: liked)
     }
     

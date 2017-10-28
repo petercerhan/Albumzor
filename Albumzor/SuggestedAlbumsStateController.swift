@@ -59,6 +59,10 @@ class SuggestedAlbumsStateController {
             .shareReplay(1)
     }()
     
+    private(set) lazy var likedAlbumArtistStream: Observable<ArtistData> = {
+        return self.likedAlbumArtistSubject.asObservable()
+    }()
+    
     //MARK: - Artist Queue
     
     private let artistPoolEventSubject = PublishSubject<ArtistPoolEvent>()
@@ -156,6 +160,10 @@ class SuggestedAlbumsStateController {
             }
             .shareReplay(1)
     }()
+    
+    //MARK: - Liked Albums
+    
+    private let likedAlbumArtistSubject = PublishSubject<ArtistData>()
     
     //Review Album
     
@@ -269,7 +277,6 @@ class SuggestedAlbumsStateController {
     //MARK: - Interface
     
     func reviewAlbum(liked: Bool) {
-
         //Update domain objects and persist
         let _ = Observable.just(liked)
             .withLatestFrom(suggestedAlbumQueue.asObservable()) { (liked, albumQueue) -> (Bool, InspectableQueue<(AlbumData, ArtistData)>) in
@@ -286,18 +293,9 @@ class SuggestedAlbumsStateController {
                 return (data.0, data.1, data.2, albumArt)
             }
            .subscribe(onNext: { [unowned self] data in
-
                 let liked = data.0
                 var albumData = data.1
                 var artistData = data.2
-
-                var dataPresent = ""
-                if data.3 != nil {
-                    dataPresent = "Data"
-                } else {
-                    dataPresent = "No Data"
-                }
-//                print("Persist data with liked \(data.0), album \(data.1.name), artist \(data.2.name), imageData?: \(dataPresent)")
 
                 albumData.review(liked: liked)
                 artistData.albumReviewed(liked: liked)
@@ -308,13 +306,14 @@ class SuggestedAlbumsStateController {
 
                 self.localDatabaseService.save(album: albumData)
                 self.localDatabaseService.save(artist: artistData)
-
+            
+                if liked {
+                    self.likedAlbumArtistSubject.onNext(artistData)
+                }
             })
             .disposed(by: disposeBag)
         
-        //dequeue and see whats what
         nextAlbumSubject.onNext(.nextAlbum)
-        
     }
     
 }

@@ -21,6 +21,7 @@ class SeedArtistStateController {
     var localDBService: LocalDatabaseServiceProtocol {
         return localDatabaseService
     }
+    //
     
     //MARK: - State
     
@@ -68,7 +69,7 @@ class SeedArtistStateController {
         confirmArtistIndex.value = index
     }
     
-    //Fetch foncifmration artist data
+    //Fetch confirmation artist data
     func searchArtistForConfirmation(artistString: String) {
         
         loadConfirmArtistState.value = .operationBegan
@@ -138,10 +139,10 @@ class SeedArtistStateController {
         confirmArtistIndex.value = nil
     }
     
-    //1.
-    func addSeedArtist(artistData data: ArtistData? = nil) {
-        //use data either fed to function or last received from download service; else return
-        guard let artistData = data ?? confirmArtistData.value else {
+    //code path for adding seed artists from picker
+    //do not save artist or add related added property
+    func addSeedArtist() {
+        guard let artistData = confirmArtistData.value else {
             return
         }
         
@@ -152,14 +153,30 @@ class SeedArtistStateController {
             seedArtists.value = newValue
         }
         
-        //fetch related artists
-        let x = remoteDataService.fetchRelatedArtists(id: artistData.id)
+        addSeedArtistProcess(artistData: artistData)
+    }
+    
+    //func addSeedArtist(artistData data: ArtistData)
+    //code path for saving artist provided through interface. set add related and save
+    func addSeedArtist(artistData: ArtistData) {
+        if !(artistData.relatedAdded) {
+            var mutableArtistData = artistData
+            mutableArtistData.relatedAdded = true
+            localDatabaseService.save(artist: mutableArtistData)
+            addSeedArtistProcess(artistData: mutableArtistData)
+        }
+    }
+    
+    //MARK: - Add Seed Artist Process
+    
+    //1.
+    private func addSeedArtistProcess(artistData: ArtistData) {
+        let relatedArtistsObservable = remoteDataService.fetchRelatedArtists(id: artistData.id)
         
-        x.subscribe(onNext: { [unowned self] artistArray in
+        relatedArtistsObservable.subscribe(onNext: { [unowned self] artistArray in
             self.checkArtists(artistArray: artistArray)
         })
         .disposed(by: disposeBag)
-        
     }
     
     //2.
@@ -168,12 +185,15 @@ class SeedArtistStateController {
         for artist in artistArray {
             
             localDatabaseService.getArtist(id: artist.id)
-                .subscribe(onNext: { [unowned self] value in
-                    if let value = value {
-                        //If yes, increment references and continue..
-                        print("artist \(value.name) found")
+                .subscribe(onNext: { [unowned self] fetchedArtist in
+                    if var fetchedArtist = fetchedArtist {
+                        //If artist is already in data, increment references and continue..
+                        print("Add reference for \(fetchedArtist.name)")
+                        
+                        fetchedArtist.referenced()
+                        self.localDatabaseService.save(artist: fetchedArtist)
                     } else {
-                        //commence add artist process
+                        //Add new seed artist
                         self.fetchAlbumsForArtist(artist: artist)
                     }
                 })
@@ -195,7 +215,7 @@ class SeedArtistStateController {
     }
     
     //4.
-    //Fetch full album info
+    //Fetch full album info and persist
     private func fetchAlbumDetails(albums: [AbbreviatedAlbumData], artist artistIn: ArtistData) {
         
         var artist = artistIn
