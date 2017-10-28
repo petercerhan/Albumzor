@@ -15,7 +15,9 @@ struct ArtistData {
     var totalAlbums: Int
     var seenAlbums: Int
     var references: Int
-    var score: Int
+    var score: Int {
+        return references - seenAlbums
+    }
     var relatedAdded: Bool
     let priorSeed: Bool
     
@@ -25,7 +27,6 @@ struct ArtistData {
          totalAlbums: Int = 0,
          seenAlbums: Int = 0,
          references: Int = 1,
-         score: Int = 1,
          relatedAdded: Bool = false,
          priorSeed: Bool = false)
     {
@@ -35,7 +36,6 @@ struct ArtistData {
         self.totalAlbums = totalAlbums
         self.seenAlbums = seenAlbums
         self.references = references
-        self.score = score
         self.relatedAdded = relatedAdded
         self.priorSeed = priorSeed
     }
@@ -65,7 +65,6 @@ struct ArtistData {
     mutating func albumReviewed(liked: Bool) {
         seenAlbums += 1
         if liked { references += 1 }
-        if !liked { score -= 1 }
     }
     
     mutating func referenced() {

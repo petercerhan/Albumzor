@@ -49,7 +49,6 @@ extension Artist {
                           totalAlbums: Int(totalAlbums),
                           seenAlbums: Int(seenAlbums),
                           references: Int(references),
-                          score: Int(score),
                           relatedAdded: relatedAdded,
                           priorSeed: priorSeed)
     }

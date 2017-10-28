@@ -188,8 +188,6 @@ class SeedArtistStateController {
                 .subscribe(onNext: { [unowned self] fetchedArtist in
                     if var fetchedArtist = fetchedArtist {
                         //If artist is already in data, increment references and continue..
-                        print("Add reference for \(fetchedArtist.name)")
-                        
                         fetchedArtist.referenced()
                         self.localDatabaseService.save(artist: fetchedArtist)
                     } else {
@@ -205,10 +203,8 @@ class SeedArtistStateController {
     //3.
     //Fetch list of albums
     private func fetchAlbumsForArtist(artist: ArtistData) {
-
         remoteDataService.fetchArtistAlbums(id: artist.id)
             .subscribe(onNext: { [unowned self] albumDataArray in
-                
                 self.fetchAlbumDetails(albums: albumDataArray, artist: artist)
             })
             .disposed(by: disposeBag)
