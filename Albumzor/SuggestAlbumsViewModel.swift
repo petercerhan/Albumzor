@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 
 enum SuggestAlbumsSceneAction {
-    case likeAlbum
+    case reviewAlbum(liked: Bool)
 }
 
 class SuggestAlbumsViewModel {
@@ -55,13 +55,16 @@ class SuggestAlbumsViewModel {
     
     func dispatch(action: SuggestAlbumsSceneAction) {
         switch action {
-        case .likeAlbum:
-            handle_likeAlbum()
+        case .reviewAlbum(let liked):
+            handle_reviewAlbum(liked: liked)
         }
     }
     
-    private func handle_likeAlbum() {
-        suggestedAlbumsStateController.reviewAlbum(liked: true)
+    private func handle_reviewAlbum(liked: Bool) {
+        
+        
+        
+        suggestedAlbumsStateController.reviewAlbum(liked: liked)
     }
     
 }

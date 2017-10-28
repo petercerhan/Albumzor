@@ -99,4 +99,9 @@ struct AlbumData {
     
 }
 
+extension AlbumData: Equatable {
+    static func == (lhs: AlbumData, rhs: AlbumData) -> Bool {
+        return lhs.id == rhs.id
+    }
+}
 

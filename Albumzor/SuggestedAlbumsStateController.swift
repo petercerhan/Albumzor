@@ -24,6 +24,7 @@ class SuggestedAlbumsStateController {
             .map { queue -> AlbumData? in
                 return queue.elementAt(0)?.0
             }
+            .distinctUntilChanged() { $0 == $1 }
             .shareReplay(1)
     }()
     
@@ -32,6 +33,7 @@ class SuggestedAlbumsStateController {
             .map { queue -> ArtistData? in
                 return queue.elementAt(0)?.1
             }
+            .distinctUntilChanged() { $0 == $1 }
             .shareReplay(1)
     }()
     
@@ -42,7 +44,7 @@ class SuggestedAlbumsStateController {
             }
             .filter { $0 != nil }
             .map { $0! }
-            .flatMapLatest { $0 }
+            .flatMapLatest { $0 } 
             .shareReplay(1)
     }()
     
@@ -134,6 +136,8 @@ class SuggestedAlbumsStateController {
         return Observable.of(self.fetchAlbumProcess, self.nextAlbumSubject.asObservable()).merge()
             .scan(InspectableQueue<Observable<UIImage?>>()) { [weak self] (accumulator, albumQueueEvent) -> InspectableQueue<Observable<UIImage?>> in
                 var albumArtQueue = accumulator
+                
+//                print("In album art, album queue event \(albumQueueEvent)")
                 
                 switch albumQueueEvent {
                 case .addAlbum(let albumData, let artistData):
@@ -282,36 +286,34 @@ class SuggestedAlbumsStateController {
                 return (data.0, data.1, data.2, albumArt)
             }
            .subscribe(onNext: { [unowned self] data in
-            
+
                 let liked = data.0
                 var albumData = data.1
                 var artistData = data.2
-            
+
                 var dataPresent = ""
                 if data.3 != nil {
                     dataPresent = "Data"
                 } else {
                     dataPresent = "No Data"
                 }
-                print("Persist data with liked \(data.0), album \(data.1.name), artist \(data.2.name), imageData?: \(dataPresent)")
-            
+//                print("Persist data with liked \(data.0), album \(data.1.name), artist \(data.2.name), imageData?: \(dataPresent)")
+
                 albumData.review(liked: liked)
                 artistData.albumReviewed(liked: liked)
                 if let image = data.3 {
                     let imageData = UIImagePNGRepresentation(image)
                     albumData.imageData = imageData
                 }
-            
+
                 self.localDatabaseService.save(album: albumData)
                 self.localDatabaseService.save(artist: artistData)
-            
+
             })
             .disposed(by: disposeBag)
         
         //dequeue and see whats what
         nextAlbumSubject.onNext(.nextAlbum)
-        
-        
         
     }
     

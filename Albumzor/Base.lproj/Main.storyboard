@@ -684,7 +684,7 @@
                                 </constraints>
                                 <state key="normal" image="X"/>
                                 <connections>
-                                    <action selector="dislike" destination="X8r-tE-8de" eventType="touchUpInside" id="md1-Th-xbU"/>
+                                    <action selector="dislike" destination="X8r-tE-8de" eventType="touchUpInside" id="0Ao-Xr-PfA"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b03-O6-eNL">
@@ -695,7 +695,7 @@
                                 </constraints>
                                 <state key="normal" image="Check"/>
                                 <connections>
-                                    <action selector="like" destination="X8r-tE-8de" eventType="touchUpInside" id="Hhk-kW-QhF"/>
+                                    <action selector="like" destination="X8r-tE-8de" eventType="touchUpInside" id="Sil-av-Pc9"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RVp-es-UfG">
@@ -873,7 +873,6 @@
                                                                 <color key="titleColor" red="0.1176470588" green="0.84313725490000002" blue="0.37647058820000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </state>
                                                             <connections>
-                                                                <action selector="openInSpotify" destination="X8r-tE-8de" eventType="touchUpInside" id="KXD-qh-kY6"/>
                                                                 <action selector="openInSpotify" destination="z37-xA-2s9" eventType="touchUpInside" id="VCi-mS-3Zy"/>
                                                             </connections>
                                                         </button>

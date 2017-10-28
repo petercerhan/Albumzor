@@ -39,7 +39,7 @@ class CGDraggableView: UIView {
     
     //MARK: - Rx
     
-    private var disposeBag = DisposeBag()
+    fileprivate var disposeBag = DisposeBag()
     
     //MARK: - Initialization
     
@@ -76,16 +76,6 @@ class CGDraggableView: UIView {
         addSubview(overlayView)
     }
     
-    //MARK: - Bind UI
-    
-    func bindImageSource(_ sourceObservable: Observable<UIImage?>) {
-        sourceObservable
-            .observeOn(MainScheduler.instance)
-            .bind(to: imageView.rx.image)
-            .disposed(by: disposeBag)
-    }
-    
-    
     func tapped(gestureRecognizer: UITapGestureRecognizer) {
         delegate?.tapped()
     }
@@ -100,7 +90,7 @@ class CGDraggableView: UIView {
             originalPoint = center
         case .changed:
             let rotationStrength = min(xDistance / 375, 1.0)
-            let rotationAngle = 2 * CGFloat(M_PI) * rotationStrength / 16.0
+            let rotationAngle = 2 * CGFloat(Double.pi) * rotationStrength / 16.0
             let scaleStrength = CGFloat(1 - fabsf(Float(rotationStrength)) / 4.0)
             let scale = max(scaleStrength, 0.93)
             center = CGPoint(x: originalPoint.x + xDistance, y: originalPoint.y + yDistance)
@@ -147,7 +137,8 @@ class CGDraggableView: UIView {
                             }
                             self.alpha = 0
                         },
-                       completion: { _ in self.removeFromSuperview()
+                       completion: { _ in
+//                            self.removeFromSuperview()
                             if let delegate = self.delegate {
                                 delegate.swipeComplete(direction: self.direction)
                             }
@@ -170,3 +161,20 @@ class CGDraggableView: UIView {
     }
     
 }
+
+//MARK: - Rx
+
+extension CGDraggableView {
+    
+    //MARK: - Bind UI
+    
+    func bindImageSource(_ sourceObservable: Observable<UIImage?>) {
+        sourceObservable
+            .observeOn(MainScheduler.instance)
+            .bind(to: imageView.rx.image)
+            .disposed(by: disposeBag)
+    }
+    
+}
+
+

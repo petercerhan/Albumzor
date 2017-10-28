@@ -55,6 +55,26 @@ class SuggestAlbumsViewController: UIViewController {
     
     //MARK: - State
     
+    private lazy var currentImageView: UIImageView = {
+        let imageView = UIImageView()
+        self.viewModel.currentAlbumArt
+            .observeOn(MainScheduler.instance)
+            .bind(to: imageView.rx.image)
+            .disposed(by: self.disposeBag)
+        
+        return imageView
+    }()
+    
+    private lazy var nextImageView: UIImageView = {
+        let imageView = UIImageView()
+        self.viewModel.nextAlbumArt
+            .observeOn(MainScheduler.instance)
+            .bind(to: imageView.rx.image)
+            .disposed(by: self.disposeBag)
+
+        return imageView
+    }()
+    
     var albumArt: [UIImage]!
     var albums: [Album]!
     var likedAlbums = 0
@@ -88,6 +108,9 @@ class SuggestAlbumsViewController: UIViewController {
     
     func bindUI() {
         
+        let _ = currentImageView
+        let _ = nextImageView
+        
         //Album Title
         viewModel.currentAlbumTitle
             .observeOn(MainScheduler.instance)
@@ -100,9 +123,24 @@ class SuggestAlbumsViewController: UIViewController {
             .bind(to: artistLabel.rx.text)
             .disposed(by: disposeBag)
         
-        //
+    }
+    
+    func bindAlbumStream() {
         
-
+        //Album Stream
+        viewModel.currentAlbumTitle
+            .skip(1)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] _ in
+                self.currentAlbumView.removeFromSuperview()
+                self.currentAlbumView = self.nextAlbumView
+                self.currentAlbumView.isUserInteractionEnabled = true
+                
+                self.nextAlbumView = self.configureAlbumView(imageSource: self.viewModel.nextAlbumArt)
+                self.nextAlbumView.isUserInteractionEnabled = false
+                self.view.insertSubview(self.nextAlbumView, belowSubview: self.currentAlbumView)
+            })
+            .disposed(by: disposeBag)
     }
     
     //MARK:- Life Cycle
@@ -121,48 +159,50 @@ class SuggestAlbumsViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         if !initialLayoutConfigured {
-            currentAlbumView = CGDraggableView(frame: defaultView.frame)
-//            currentAlbumView.imageView.image = albumArt[0]
-            currentAlbumView.delegate = self
-            currentAlbumView.addShadow()
-            currentAlbumView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0)
+            
+            currentAlbumView = configureAlbumView(imageSource: viewModel.currentAlbumArt)
             view.addSubview(currentAlbumView)
             
-            currentAlbumView.bindImageSource(viewModel.currentAlbumArt)
-            
-            nextAlbumView = CGDraggableView(frame: defaultView.frame)
-//            nextAlbumView.imageView.image = albumArt[1]
-            nextAlbumView.delegate = self
-            nextAlbumView.addShadow()
-            nextAlbumView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0)
-            view.insertSubview(nextAlbumView, belowSubview: currentAlbumView)
+            nextAlbumView = configureAlbumView(imageSource: viewModel.nextAlbumArt)
             nextAlbumView.isUserInteractionEnabled = false
-            nextAlbumView.bindImageSource(viewModel.nextAlbumArt)
+            view.insertSubview(nextAlbumView, belowSubview: currentAlbumView)
             
-//            currentAlbumTracks = dataManager.getTracks(forAlbum: albums[0].objectID)
-//            nextAlbumTracks = dataManager.getTracks(forAlbum: albums[1].objectID)
+            
+            configureAudioButton()
+            configureQuitButton()
+            
             autoPlay()
             
-//            titleLabel.text = albums[0].name!.cleanAlbumName()
-//            artistLabel.text = albums[0].artist!.name!
-            
-            audioButton.imageEdgeInsets = UIEdgeInsetsMake(11.0, 11.0, 11.0, 11.0)
-            audioButton.contentMode = .center
-            
-            quitButton.imageEdgeInsets = UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0)
-            quitButton.contentMode = .center
-            
             initialLayoutConfigured = true
+            
+            bindAlbumStream()
         }
+    }
+    
+    private func configureAlbumView(imageSource: Observable<UIImage?>) -> CGDraggableView {
+        let albumView = CGDraggableView(frame: defaultView.frame)
+        albumView.delegate = self
+        albumView.addShadow()
+        albumView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0)
+        albumView.bindImageSource(imageSource.skipWhile{ $0 == nil }.take(1))
+        return albumView
+    }
+    
+    private func configureAudioButton() {
+        audioButton.imageEdgeInsets = UIEdgeInsetsMake(11.0, 11.0, 11.0, 11.0)
+        audioButton.contentMode = .center
+    }
+    
+    private func configureQuitButton() {
+        quitButton.imageEdgeInsets = UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0)
+        quitButton.contentMode = .center
     }
     
     //MARK: - New Actions
     
-    @IBAction func like() {
-        viewModel.dispatch(action: .likeAlbum)
+    @IBAction func likeDispatch() {
+//        viewModel.dispatch(action: .likeAlbum)
     }
-    
-    
     
     
     
@@ -183,28 +223,12 @@ class SuggestAlbumsViewController: UIViewController {
         }
     }
     
-    func animateOut() {
-        setButtons(enabled: false)
-        currentAlbumView.isUserInteractionEnabled = false
-        
-        titleLabel.alpha = 0.0
-        artistLabel.alpha = 0.0
-        spotifyButtonContainer.alpha = 0.0
-        activityIndicator.stopAnimating()
-        
-        UIView.animate(withDuration: 0.5,
-                       animations: {
-                        self.quitButton.alpha = 0.0
-                        self.dislikeButton.alpha = 0.0
-                        self.likeButton.alpha = 0.0
-                        self.audioButton.alpha = 0.0
-                        self.spotifyIndicator.alpha = 0.0
-                    },
-                       completion: {
-                        _ in
-                        self.delegate.batteryComplete(liked: self.likedAlbums)
-                    })
-    }
+    
+    
+    
+
+    
+    
     
     //MARK:- User Actions
     
@@ -215,7 +239,7 @@ class SuggestAlbumsViewController: UIViewController {
         UIApplication.shared.open(URL(string:"https://open.spotify.com/album/\(albums[currentIndex].id!)")!, options: [:], completionHandler: nil)
     }
     
-    @IBAction func likePrior() {
+    @IBAction func like() {
         
         //setting .isEnabled or .isUserInteractionEnabled does not seem to apply quickly enough; buttons can be hit multiple times quickly, leading to unpredictable results
         if !buttonsEnabled {
@@ -241,7 +265,7 @@ class SuggestAlbumsViewController: UIViewController {
                         _ in
                         self.currentAlbumView.removeFromSuperview()
                         self.buttonsEnabled = true
-                        self.album(liked: true)
+                        self.reviewAlbum(liked: true)
                     })
         
     }
@@ -270,7 +294,7 @@ class SuggestAlbumsViewController: UIViewController {
                        completion: { _ in
                         self.currentAlbumView.removeFromSuperview()
                         self.buttonsEnabled = true
-                        self.album(liked: false)
+                        self.reviewAlbum(liked: false)
                     })
     }
 
@@ -303,6 +327,12 @@ class SuggestAlbumsViewController: UIViewController {
 
     //MARK:- Manage likes
     
+    fileprivate func reviewAlbum(liked: Bool) {
+        viewModel.dispatch(action: .reviewAlbum(liked: liked))
+    }
+    
+    
+    //PRIOR
     func album(liked: Bool) {
         audioPlayer.stop()
         
@@ -355,6 +385,33 @@ class SuggestAlbumsViewController: UIViewController {
             nextAlbumTracks = dataManager.getTracks(forAlbum: albums[currentIndex + 1].objectID)
         }
     }
+    //
+    
+    
+    
+    //MARK: - Animations
+    func animateOut() {
+        setButtons(enabled: false)
+        currentAlbumView.isUserInteractionEnabled = false
+        
+        titleLabel.alpha = 0.0
+        artistLabel.alpha = 0.0
+        spotifyButtonContainer.alpha = 0.0
+        activityIndicator.stopAnimating()
+        
+        UIView.animate(withDuration: 0.5,
+                       animations: {
+                        self.quitButton.alpha = 0.0
+                        self.dislikeButton.alpha = 0.0
+                        self.likeButton.alpha = 0.0
+                        self.audioButton.alpha = 0.0
+                        self.spotifyIndicator.alpha = 0.0
+        },
+                       completion: {
+                        _ in
+                        self.delegate.batteryComplete(liked: self.likedAlbums)
+        })
+    }
     
 }
 
@@ -364,9 +421,9 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
     func swipeComplete(direction: SwipeDirection) {
         setButtons(enabled: true)
         if direction == .right {
-            album(liked: true)
+            reviewAlbum(liked: true)
         } else {
-            album(liked: false)
+            reviewAlbum(liked: false)
         }
     }
 
