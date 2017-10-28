@@ -22,6 +22,16 @@ struct AlbumData {
     var smallImageData: Data?
     let priorSeed: Bool
     
+    var cleanName: String {
+        if let index = name.index(of: "(") {
+            return name.substring(to: index).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        } else if let index = name.index(of: "[") {
+            return name.substring(to: index).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        } else {
+            return name
+        }
+    }
+    
     init(id: String,
          name: String,
          popularity: Int,

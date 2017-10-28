@@ -24,13 +24,13 @@ class SuggestAlbumsViewModel {
     
     private(set) lazy var currentAlbumTitle: Observable<String?> = {
         return self.suggestedAlbumsStateController.currentAlbum
-            .map { $0?.name }
+            .map { $0?.cleanName }
             .shareReplay(1)
     }()
     
     private(set) lazy var currentAlbumArtistName: Observable<String?> = {
         return self.suggestedAlbumsStateController.currentArtist
-            .map { $0?.name }
+            .map { $0?.cleanName }
             .shareReplay(1)
     }()
     

@@ -222,10 +222,10 @@ class SeedArtistStateController {
                 //remove duplicates
                 var sortedAlbums = albumDataArray.sorted
                 {
-                    if $0.name.cleanAlbumName() == $1.name.cleanAlbumName() {
+                    if $0.cleanName == $1.cleanName {
                         return $0.popularity > $1.popularity
                     } else {
-                        return $0.name.cleanAlbumName().localizedCaseInsensitiveCompare($1.name.cleanAlbumName()) == ComparisonResult.orderedAscending
+                        return $0.cleanName.localizedCaseInsensitiveCompare($1.cleanName) == ComparisonResult.orderedAscending
                     }
                 }
                 
@@ -233,7 +233,7 @@ class SeedArtistStateController {
                 for (index, album) in sortedAlbums.enumerated() {
                     
                     if index == 0 ||
-                        !(album.name.cleanAlbumName().localizedCaseInsensitiveCompare(sortedAlbums[index - 1].name.cleanAlbumName()) == ComparisonResult.orderedSame)
+                        !(album.cleanName.localizedCaseInsensitiveCompare(sortedAlbums[index - 1].cleanName) == ComparisonResult.orderedSame)
                     {
                         filteredAlbums.append(album)
                     }

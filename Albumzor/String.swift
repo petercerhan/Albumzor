@@ -13,6 +13,7 @@ extension String {
         return range(of: substring)?.lowerBound
     }
     
+    //Should be part of AlbumData
     func cleanAlbumName() -> String {
         if let index = index(of: "(") {
             return substring(to: index).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
@@ -22,7 +23,9 @@ extension String {
             return self
         }
     }
+    //
     
+    //Should be part of ArtistData
     func cleanArtistName() -> String {
         if let index = index(of: "(") {
             return substring(to: index).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
@@ -34,6 +37,7 @@ extension String {
             return self
         }
     }
+    //
     
     func truncated(maxLength: Int) -> String {
         let length = self.distance(from: self.startIndex, to: self.endIndex)

@@ -21,6 +21,18 @@ struct ArtistData {
     var relatedAdded: Bool
     let priorSeed: Bool
     
+    var cleanName: String {
+        if let index = name.index(of: "(") {
+            return name.substring(to: index).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        } else if let index = name.index(of: ", composer") {
+            return name.substring(to: index).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        } else if let index = name.index(of: "Feat") {
+            return name.substring(to: index).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        } else {
+            return name
+        }
+    }
+    
     init(id: String,
          name: String,
          imageURL: String? = nil,
