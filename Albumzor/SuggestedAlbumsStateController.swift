@@ -300,8 +300,7 @@ class SuggestedAlbumsStateController {
                 albumData.review(liked: liked)
                 artistData.albumReviewed(liked: liked)
                 if let image = data.3 {
-                    let imageData = UIImagePNGRepresentation(image)
-                    albumData.imageData = imageData
+                    albumData.imageData = UIImagePNGRepresentation(image)
                 }
 
                 self.localDatabaseService.save(album: albumData)
@@ -309,11 +308,22 @@ class SuggestedAlbumsStateController {
             
                 if liked {
                     self.likedAlbumArtistSubject.onNext(artistData)
+                    self.getSmallImageData(forAlbum: albumData)
                 }
             })
             .disposed(by: disposeBag)
         
         nextAlbumSubject.onNext(.nextAlbum)
+    }
+    
+    private func getSmallImageData(forAlbum albumData: AlbumData) {
+        let _ = remoteDataService.fetchImageFrom(urlString: albumData.smallImage)
+            .subscribe(onNext: { [unowned self] image in
+                var mutableAlbumData = albumData
+                mutableAlbumData.smallImageData = UIImagePNGRepresentation(image)
+                self.localDatabaseService.save(album: mutableAlbumData)
+            })
+            .disposed(by: disposeBag)
     }
     
 }
