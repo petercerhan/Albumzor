@@ -22,6 +22,7 @@ protocol CompositionRootProtocol {
     func composeConfirmArtistScene(mainContainerCoordinator: MainContainerCoordinator, seedArtistStateController: SeedArtistStateController) -> ConfirmArtistViewController
     func composeInstructionsScene(mainContainerCoordinator: MainContainerCoordinator, userSettingsStateController: UserSettingsStateController) -> InstructionsViewController
     func composeSuggestAlbumsScene(mainContainerCoordinator: MainContainerCoordinator, seedArtistStateController: SeedArtistStateController) -> SuggestAlbumsViewController
+    func composeAlbumsDetailsScene(mainContainerCoordinator: MainContainerCoordinator, albumDetailsStateController: AlbumDetailsStateControllerProtocol) -> AlbumDetailsViewController
 }
 
 class CompositionRoot: CompositionRootProtocol {
@@ -99,6 +100,11 @@ class CompositionRoot: CompositionRootProtocol {
         return vc
     }
     
+    func composeAlbumsDetailsScene(mainContainerCoordinator: MainContainerCoordinator, albumDetailsStateController: AlbumDetailsStateControllerProtocol) -> AlbumDetailsViewController {
+        let viewModel = AlbumDetailsViewModel(albumDetailsStateController: albumDetailsStateController, delegate: mainContainerCoordinator)
+        let vc = AlbumDetailsViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
+        return vc
+    }
 }
 
 

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxSwift
 
 protocol AlbumDetailsViewControllerDelegate: NSObjectProtocol {
     func playTrack(atIndex index: Int)
@@ -18,14 +19,29 @@ protocol AlbumDetailsViewControllerDelegate: NSObjectProtocol {
 
 class AlbumDetailsViewController: UIViewController {
     
+    //MARK: - Interface Components
+    
     @IBOutlet var tableView: UITableView!
     @IBOutlet var audioButton: UIButton!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
-    weak var album: Album!
-    var tracks: [Track]?
+    //MARK: - State
     
-    var albumImage: UIImage!
+    fileprivate var albumTitle: String?
+    fileprivate var artistName: String?
+    fileprivate var albumImage: UIImage?
+    fileprivate var tracks: [TrackData]?
+    
+    //MARK: - Rx
+    
+    private let disposeBag = DisposeBag()
+    
+    //Remove
+    weak var album: Album!
+//    var tracks: [Track]?
+    
+//    var albumImage: UIImage!
+    //
     
     //Index of currently playing track
     var trackPlaying: Int?
@@ -47,6 +63,50 @@ class AlbumDetailsViewController: UIViewController {
         return vc
     }
     
+    //MARK: - BindUI
+    
+    private func bindUI() {
+        //Album Title
+        viewModel.albumTitle
+            .filter { $0 != nil }
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] albumTitle in
+                self.albumTitle = albumTitle
+                self.tableView.reloadData()
+            })
+            .disposed(by: disposeBag)
+        
+        //Artist Name
+        viewModel.artistName
+            .filter { $0 != nil }
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] artistName in
+                self.artistName = artistName
+                self.tableView.reloadData()
+            })
+            .disposed(by: disposeBag)
+
+        //Album Art
+        viewModel.albumImage
+            .filter { $0 != nil }
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] image in
+                self.albumImage = image
+                self.tableView.reloadData()
+            })
+            .disposed(by: disposeBag)
+        
+        //Tracks
+        viewModel.tracks
+            .filter { $0 != nil }
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] tracks in
+                self.tracks = tracks
+                self.tableView.reloadData()
+            })
+            .disposed(by: disposeBag)
+    }
+    
     //MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -54,6 +114,8 @@ class AlbumDetailsViewController: UIViewController {
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 150
+        
+        bindUI()
         
 //        configureAudioButton()
     }
@@ -198,13 +260,13 @@ extension AlbumDetailsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        return 0
+//        return 0
         
-        //        if let tracks = tracks {
-//            return tracks.count + 1
-//        } else {
-//            return 1
-//        }
+        if let tracks = tracks {
+            return tracks.count + 1
+        } else {
+            return 1
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -213,8 +275,8 @@ extension AlbumDetailsViewController: UITableViewDataSource {
             
             cell.albumImageView.image = albumImage
             cell.albumImageView.addShadow()
-            cell.titleLabel.text = album.name!.cleanAlbumName()
-            cell.artistLabel.text = album.artist!.name!
+            cell.titleLabel.text = albumTitle
+            cell.artistLabel.text = artistName
             
             cell.selectionStyle = .none
             
@@ -222,10 +284,9 @@ extension AlbumDetailsViewController: UITableViewDataSource {
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TrackCell") as! TrackTableViewCell
             
-            
             cell.titleLabel.font = UIFont.systemFont(ofSize: cell.titleLabel.font.pointSize)
             cell.titleLabel.text = tracks?[indexPath.row - 1].name
-            cell.numberLabel.text = "\(tracks![indexPath.row - 1].track)"
+            cell.numberLabel.text = "\(tracks![indexPath.row - 1].trackNumber)"
             
             cell.selectionStyle = .none
             

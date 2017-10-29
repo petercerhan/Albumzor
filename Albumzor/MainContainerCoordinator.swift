@@ -221,10 +221,12 @@ extension MainContainerCoordinator: SuggestAlbumsViewModelDelegate {
         
     }
     
-    func showAlbumDetails(_ suggestArtistViewModel: SuggestAlbumsViewModel) {
+    func showAlbumDetails(_ suggestArtistViewModel: SuggestAlbumsViewModel, albumDetailsStateController: AlbumDetailsStateControllerProtocol) {
         
-        let viewModel = AlbumDetailsViewModel(delegate: self)
-        let vc = AlbumDetailsViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
+//        let viewModel = AlbumDetailsViewModel(delegate: self)
+//        let vc = AlbumDetailsViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
+
+        let vc = compositionRoot.composeAlbumsDetailsScene(mainContainerCoordinator: self, albumDetailsStateController: albumDetailsStateController)
         
         mainContainerViewController.showModally(viewController: vc)
         

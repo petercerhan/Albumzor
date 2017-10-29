@@ -443,6 +443,23 @@ class SuggestedAlbumsStateController {
     
 }
 
-
+extension SuggestedAlbumsStateController: AlbumDetailsStateControllerProtocol {
+    
+    var albumDetails_album: Observable<AlbumData?> {
+        return currentAlbum
+    }
+    var albumDetails_artist: Observable<ArtistData?> {
+        return currentArtist
+    }
+    var albumDetails_albumArt: Observable<UIImage?> {
+        return currentAlbumArt
+    }
+    var albumDetails_tracks: Observable<[TrackData]?> {
+        return currentAlbumTracks
+    }
+    
+    
+    
+}
 
 

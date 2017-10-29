@@ -122,8 +122,8 @@ extension HomeViewController: UITableViewDelegate {
         currentAlbumTracks = dataManager.getTracks(forAlbum: album.objectID)
         
         let vc = storyboard!.instantiateViewController(withIdentifier: "AlbumDetailsViewController") as! AlbumDetailsViewController
-        vc.albumImage = UIImage(data: album.imageData as! Data)
-        vc.tracks = currentAlbumTracks
+//        vc.albumImage = UIImage(data: album.imageData as! Data)
+//        vc.tracks = currentAlbumTracks
         vc.album = album
         
         vc.trackPlaying = nil
