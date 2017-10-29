@@ -21,6 +21,33 @@ extension Track {
         } else {
             fatalError("Unable to find Entity name!")
         }
-        
     }
+    
+    convenience init(trackData: TrackData, context: NSManagedObjectContext) {
+        if let entity = NSEntityDescription.entity(forEntityName: "Track", in: context) {
+            self.init(entity: entity, insertInto: context)
+            self.id = trackData.id
+            self.name = trackData.name
+            self.popularity = Int16(trackData.popularity)
+            self.track = Int16(trackData.trackNumber)
+            self.disc = Int16(trackData.discNumber)
+            self.previewURL = trackData.previewURL
+            
+        } else {
+            fatalError("Unable to find 'Track' Entity name")
+        }
+    }
+    
+    //MARK: - Convert to/from TrackData Structure
+    
+    var trackDataRepresentation: TrackData {
+        return TrackData(id: id!,
+                         name: name!,
+                         popularity: Int(popularity),
+                         trackNumber: Int(track),
+                         discNumber: Int(disc),
+                         previewURL: previewURL)
+    }
+    
+    
 }

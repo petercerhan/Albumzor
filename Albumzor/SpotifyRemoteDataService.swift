@@ -18,6 +18,13 @@ protocol RemoteDataServiceProtocol {
     func fetchRelatedArtists(id: String) -> Observable<[ArtistData]>
     func fetchArtistAlbums(id: String) -> Observable<[AbbreviatedAlbumData]>
     func fetchAlbumDetails(albums: [AbbreviatedAlbumData]) -> Observable<[AlbumData]>
+    
+    //fetchTracksForAlbum(album
+    func fetchTracksForAlbum(album albumData: AlbumData) -> Observable<[AbbreviatedTrackData]>
+    
+    //fetchTrackDetails(tracks
+    func fetchTrackDetails(tracks: [AbbreviatedTrackData]) -> Observable<[TrackData]>
+    
 }
 
 class SpotifyRemoteDataService: RemoteDataServiceProtocol {
@@ -138,7 +145,7 @@ class SpotifyRemoteDataService: RemoteDataServiceProtocol {
         
         //build query
         let endpoint = Endpoint.albumDetails
-        let queryItems = [URLQueryItem(name: "ids", value: idString),
+        let queryItems = [URLQueryItem(name: ParameterKeys.ids, value: idString),
                           URLQueryItem(name: ParameterKeys.market, value: userMarket)]
         
         let albumDetailsStream = assembleRequest(endpoint: endpoint, queryItems: queryItems)
@@ -154,6 +161,53 @@ class SpotifyRemoteDataService: RemoteDataServiceProtocol {
             .shareReplay(1)
         
         return albumDetailsStream
+    }
+    
+    func fetchTracksForAlbum(album albumData: AlbumData) -> Observable<[AbbreviatedTrackData]> {
+        let endpoint = Endpoint.albumTracks
+        let queryItems = [URLQueryItem(name: ParameterKeys.limit, value: "50"),
+                          URLQueryItem(name: ParameterKeys.market, value: userMarket)]
+        
+        let albumTracksStream = assembleRequest(endpoint: endpoint, queryItems: queryItems, associatedID: albumData.id)
+            .map { jsonDictionary -> [[String: Any]] in
+                guard let result = jsonDictionary["items"] as? [[String: Any]] else {
+                    throw NetworkRequestError.invalidData
+                }
+                return result
+            }
+            .map { jsonObjectArray -> [AbbreviatedTrackData] in
+                return jsonObjectArray.flatMap({AbbreviatedTrackData.init(jsonDictionary: $0)})
+            }
+            .shareReplay(1)
+        
+        return albumTracksStream
+    }
+    
+    func fetchTrackDetails(tracks: [AbbreviatedTrackData]) -> Observable<[TrackData]> {
+        //Prepare string of track ids for Spotify query
+        var idString = tracks.reduce("") { (currentString, trackData) in
+            return currentString + trackData.id + ","
+        }
+        if idString != "" {
+            idString.remove(at: idString.index(before: idString.endIndex))
+        }
+        
+        let endpoint = Endpoint.trackDetails
+        let queryItems = [URLQueryItem(name: ParameterKeys.ids, value: idString), URLQueryItem(name: ParameterKeys.market, value: userMarket)]
+        
+        let tracksStream = assembleRequest(endpoint: endpoint, queryItems: queryItems)
+            .map { jsonDictionary -> [[String: Any]] in
+                guard let result = jsonDictionary["tracks"] as? [[String: Any]] else {
+                    throw NetworkRequestError.invalidData
+                }
+                return result
+            }
+            .map { jsonObjectArray -> [TrackData] in
+                return jsonObjectArray.flatMap({TrackData.init(jsonDictionary: $0)})
+            }
+            .shareReplay(1)
+        
+        return tracksStream
     }
 
     //MARK: - Generic Methods
@@ -249,13 +303,15 @@ class SpotifyRemoteDataService: RemoteDataServiceProtocol {
     }
     
     //MARK: - Reference values
-    
+
     enum Endpoint: String {
         case search = "/search"
         case userProfile = "/me"
         case relatedArtists = "/artists/{id}/related-artists"
         case artistAlbums = "/artists/{id}/albums"
         case albumDetails = "/albums"
+        case albumTracks = "/albums/{id}/tracks"
+        case trackDetails = "/tracks"
     }
     
     struct Endpoints {
@@ -279,6 +335,8 @@ class SpotifyRemoteDataService: RemoteDataServiceProtocol {
         static let searchType = "type"
         static let album_type = "album"
         static let market = "market"
+        static let limit = "limit"
+        static let ids = "ids"
     }
     
     struct ParameterValues {

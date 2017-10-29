@@ -27,6 +27,10 @@ protocol LocalDatabaseServiceProtocol {
     
     func save(artist artistData: ArtistData)
     
+    func getTracksForAlbum(_ albumData: AlbumData) -> Observable<[TrackData]>
+    
+    func save(tracks: [TrackData], forAlbum album: AlbumData)
+    
 }
 
 class CoreDataService: LocalDatabaseServiceProtocol {
@@ -39,6 +43,27 @@ class CoreDataService: LocalDatabaseServiceProtocol {
     
     init(coreDataStack: CoreDataStack) {
         self.coreDataStack = coreDataStack
+    }
+    
+    func save(tracks trackDataArray: [TrackData], forAlbum albumData: AlbumData) {
+        let backgroundContext = coreDataStack.backgroundContext
+        backgroundContext.perform {
+            let request = NSFetchRequest<Album>(entityName: "Album")
+            request.predicate = NSPredicate(format: "id = %@", albumData.id)
+            guard
+                let albumArray = try? backgroundContext.fetch(request),
+                albumArray.count > 0 else
+            {
+                return
+            }
+            let album = albumArray[0]
+            
+            for trackData in trackDataArray {
+                let track = Track(trackData: trackData, context: backgroundContext)
+                track.album = album
+            }
+            try? backgroundContext.save()
+        }
     }
     
     func save(album albumData: AlbumData) {
@@ -120,7 +145,8 @@ class CoreDataService: LocalDatabaseServiceProtocol {
                 request.predicate = predicate
                 request.fetchLimit = max
                 
-                if let artistArray = try? backgroundContext.fetch(request),
+                if
+                    let artistArray = try? backgroundContext.fetch(request),
                     artistArray.count > 0
                 {
                     observer.onNext(artistArray.map { $0.artistDataRepresentation })
@@ -135,7 +161,34 @@ class CoreDataService: LocalDatabaseServiceProtocol {
         }
     }
     
-    
+    func getTracksForAlbum(_ albumData: AlbumData) -> Observable<[TrackData]> {
+        return Observable<[TrackData]>.create { [weak self] (observer) -> Disposable in
+
+            guard let backgroundContext = self?.coreDataStack.backgroundContext else {
+                observer.onCompleted()
+                return Disposables.create()
+            }
+
+            backgroundContext.perform {
+                let request = NSFetchRequest<Track>(entityName: "Track")
+                request.predicate = NSPredicate(format: "album.id = %@", albumData.id)
+                request.sortDescriptors = [NSSortDescriptor(key: "disc", ascending: true),
+                                           NSSortDescriptor(key: "track", ascending: true)]
+
+                if
+                    let tracksArray = try? backgroundContext.fetch(request),
+                    tracksArray.count > 0
+                {
+                    observer.onNext(tracksArray.map { $0.trackDataRepresentation })
+                } else {
+                    observer.onNext([TrackData]())
+                }
+                observer.onCompleted()
+            }
+         
+            return Disposables.create()
+        }
+    }
     
     func countUnseenAlbums() -> Observable<Int> {
         return Observable<Int>.create { [weak self] (observer) -> Disposable in

@@ -60,10 +60,17 @@ class SuggestAlbumsViewModel {
     private func bindSuggestedAlbumsStateController() {
         suggestedAlbumsStateController.likedAlbumArtistStream
             .subscribe(onNext: { [unowned self] artistData in
-                
-                print("view model sees add seed artist for artist \(artistData.name)")
-                
                 self.seedArtistStateController.addSeedArtist(artistData: artistData)
+            })
+            .disposed(by: disposeBag)
+        
+        suggestedAlbumsStateController.currentAlbumTracks
+            .subscribe(onNext: { tracks in
+                if let tracks = tracks {
+                    print("tracks received: \(tracks[0].name)")
+                } else {
+                    print("nil received")
+                }
             })
             .disposed(by: disposeBag)
     }

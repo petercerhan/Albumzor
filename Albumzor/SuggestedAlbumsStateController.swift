@@ -44,7 +44,8 @@ class SuggestedAlbumsStateController {
             }
             .filter { $0 != nil }
             .map { $0! }
-            .flatMapLatest { $0 } 
+            .flatMapLatest { $0 }
+            .distinctUntilChanged() { $0 == $1 }
             .shareReplay(1)
     }()
     
@@ -56,6 +57,35 @@ class SuggestedAlbumsStateController {
             .filter { $0 != nil }
             .map { $0! }
             .flatMapLatest { $0 }
+            .distinctUntilChanged() { $0 == $1 }
+            .shareReplay(1)
+    }()
+    
+    private(set) lazy var currentAlbumTracks: Observable<[TrackData]?> = {
+       return self.albumTracksObservableQueue
+            .map { tracksQueue -> Observable<[TrackData]?>? in
+                return tracksQueue.elementAt(0)
+            }
+            .filter { $0 != nil }
+            .map { $0! }
+            .flatMapLatest { $0 }
+            .distinctUntilChanged() { lhs, rhs -> Bool in
+                if let lhs = lhs, let rhs = rhs, lhs.count == rhs.count {
+                    for (index, element) in lhs.enumerated() {
+                        if element != rhs[index] {
+//                            print("elements not equal")
+                            return false
+                        }
+                    }
+//                    print("All elements equal")
+                    return true
+                } else if lhs == nil, rhs == nil {
+//                    print("Both nil")
+                    return true
+                }
+//                print("Default")
+                return false
+            }
             .shareReplay(1)
     }()
     
@@ -141,11 +171,10 @@ class SuggestedAlbumsStateController {
             .scan(InspectableQueue<Observable<UIImage?>>()) { [weak self] (accumulator, albumQueueEvent) -> InspectableQueue<Observable<UIImage?>> in
                 var albumArtQueue = accumulator
                 
-//                print("In album art, album queue event \(albumQueueEvent)")
-                
                 switch albumQueueEvent {
                 case .addAlbum(let albumData, let artistData):
-                    if let albumArtObservable = self?.remoteDataService.fetchImageFrom(urlString: albumData.largeImage),
+                    if
+                        let albumArtObservable = self?.remoteDataService.fetchImageFrom(urlString: albumData.largeImage),
                         let disposeBag = self?.disposeBag
                     {
                         albumArtQueue.enqueue(albumArtObservable.nextEventsOnly().makeEventTypeOptional(initialValue: nil))
@@ -160,6 +189,79 @@ class SuggestedAlbumsStateController {
             }
             .shareReplay(1)
     }()
+    
+    //MARK: - Tracks Queue
+    
+    private lazy var albumTracksObservableQueue: Observable<InspectableQueue<Observable<[TrackData]?>>> = {
+        
+        return Observable.of(self.fetchAlbumProcess, self.nextAlbumSubject.asObservable()).merge()
+            .scan(InspectableQueue<Observable<[TrackData]?>>()) { [weak self] (accumulator, albumQueueEvent) -> InspectableQueue<Observable<[TrackData]?>> in
+                var tracksQueue = accumulator
+                
+                switch albumQueueEvent {
+                case .addAlbum(let albumData, let artistData):
+                    if
+                        let tracksObservable = self?.getTracksForAlbum(albumData: albumData).shareReplay(1),
+                        let disposeBag = self?.disposeBag
+                    {
+                        tracksObservable.subscribe().disposed(by: disposeBag)
+                        tracksQueue.enqueue(tracksObservable.nextEventsOnly().shareReplay(1))
+                    } else {
+                        tracksQueue.enqueue(Observable<[TrackData]?>.just(nil).nextEventsOnly())
+                    }
+                case .nextAlbum:
+                    _ = tracksQueue.dequeue()
+                }
+                
+                return tracksQueue
+            }
+            .shareReplay(1)
+        
+    }()
+    
+    private func getTracksForAlbum(albumData: AlbumData) -> Observable<[TrackData]?> {
+        let tracksStream = Observable<[TrackData]?>.create { [weak self] (observer) -> Disposable in
+            observer.onNext(nil)
+            
+            guard let strongSelf = self else { return Disposables.create() }
+            
+            let savedTracksStream = strongSelf.localDatabaseService.getTracksForAlbum(albumData)
+            
+            //if there are tracks already in the data return those; otherwise fetch from remote datasource
+            savedTracksStream
+                .subscribe(onNext: { tracks in
+                    if tracks.count > 0 {
+                        observer.onNext(tracks)
+                    } else {
+                        fetchTracksFromRemoteDatasource()
+                    }
+                })
+                .disposed(by: strongSelf.disposeBag)
+
+            //remote datasource step 1
+            func fetchTracksFromRemoteDatasource() {
+                strongSelf.remoteDataService.fetchTracksForAlbum(album: albumData)
+                    .subscribe(onNext: { abbreviatedTrackData in
+                        fetchTrackDetailsFromRemoteDatasource(abbreviatedTrackData: abbreviatedTrackData)
+                    })
+                    .disposed(by: strongSelf.disposeBag)
+            }
+            
+            //remote datasource step 2
+            func fetchTrackDetailsFromRemoteDatasource(abbreviatedTrackData: [AbbreviatedTrackData]) {
+                strongSelf.remoteDataService.fetchTrackDetails(tracks: abbreviatedTrackData)
+                    .subscribe(onNext: { tracks in
+                        observer.onNext(tracks)
+                        strongSelf.localDatabaseService.save(tracks: tracks, forAlbum: albumData)
+                    })
+                    .disposed(by: strongSelf.disposeBag)
+            }
+            
+            return Disposables.create()
+        }
+        
+        return tracksStream
+    }
     
     //MARK: - Liked Albums
     
@@ -184,6 +286,17 @@ class SuggestedAlbumsStateController {
     }
     
     private func bindMonitors() {
+        
+        //For dev only
+        albumTracksObservableQueue
+            .subscribe(onNext: { _ in
+//                print("Got some album tracks")
+            })
+            .disposed(by: disposeBag)
+        //
+        
+        
+        
         
         //Trigger album art observables
         albumArtObservableQueue
