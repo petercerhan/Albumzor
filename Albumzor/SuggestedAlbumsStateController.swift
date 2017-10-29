@@ -73,17 +73,13 @@ class SuggestedAlbumsStateController {
                 if let lhs = lhs, let rhs = rhs, lhs.count == rhs.count {
                     for (index, element) in lhs.enumerated() {
                         if element != rhs[index] {
-//                            print("elements not equal")
                             return false
                         }
                     }
-//                    print("All elements equal")
                     return true
                 } else if lhs == nil, rhs == nil {
-//                    print("Both nil")
                     return true
                 }
-//                print("Default")
                 return false
             }
             .shareReplay(1)
@@ -92,6 +88,8 @@ class SuggestedAlbumsStateController {
     private(set) lazy var likedAlbumArtistStream: Observable<ArtistData> = {
         return self.likedAlbumArtistSubject.asObservable()
     }()
+
+    let showDetails = ReplaySubject<Bool>.create(bufferSize: 1)
     
     //MARK: - Artist Queue
     
@@ -437,6 +435,10 @@ class SuggestedAlbumsStateController {
                 self.localDatabaseService.save(album: mutableAlbumData)
             })
             .disposed(by: disposeBag)
+    }
+    
+    func showDetails(_ show: Bool) {
+        showDetails.onNext(show)
     }
     
 }

@@ -203,6 +203,8 @@ extension MainContainerCoordinator: ChooseArtistViewModelDelegate {
     }
 }
 
+//MARK: - ConfirmArtistViewModelDelegate
+
 extension MainContainerCoordinator: ConfirmArtistViewModelDelegate {
     
     func cancel(_ confirmArtistViewModel: ConfirmArtistViewModel) {
@@ -210,6 +212,37 @@ extension MainContainerCoordinator: ConfirmArtistViewModelDelegate {
     }
     
 }
+
+//MARK: - SuggestAlbumsViewModelDelegate
+
+extension MainContainerCoordinator: SuggestAlbumsViewModelDelegate {
+
+    func suggestAlbumsSceneComplete(_ suggestAlbumsViewModel: SuggestAlbumsViewModel) {
+        
+    }
+    
+    func showAlbumDetails(_ suggestArtistViewModel: SuggestAlbumsViewModel) {
+        
+        let viewModel = AlbumDetailsViewModel(delegate: self)
+        let vc = AlbumDetailsViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
+        
+        mainContainerViewController.showModally(viewController: vc)
+        
+    }
+    
+}
+
+//MARK: - AlbumDetailsViewModelDelegate
+
+extension MainContainerCoordinator: AlbumDetailsViewModelDelegate {
+    
+    func dismiss(_ albumDetailsViewModel: AlbumDetailsViewModel) {
+        mainContainerViewController.dismissModalVC()
+    }
+    
+}
+
+//MARK: - InstructionsViewModelDelegate
 
 extension MainContainerCoordinator: InstructionsViewModelDelegate {
     

@@ -9,8 +9,14 @@
 import Foundation
 import RxSwift
 
+protocol SuggestAlbumsViewModelDelegate: class {
+    func suggestAlbumsSceneComplete(_ suggestAlbumsViewModel: SuggestAlbumsViewModel)
+    func showAlbumDetails(_ suggestArtistViewModel: SuggestAlbumsViewModel)
+}
+
 enum SuggestAlbumsSceneAction {
     case reviewAlbum(liked: Bool)
+    case showDetails
 }
 
 class SuggestAlbumsViewModel {
@@ -19,6 +25,7 @@ class SuggestAlbumsViewModel {
     
     private let seedArtistStateController: SeedArtistStateController
     private let suggestedAlbumsStateController: SuggestedAlbumsStateController
+    private weak var delegate: SuggestAlbumsViewModelDelegate?
     
     //MARK: - State
     
@@ -50,20 +57,30 @@ class SuggestAlbumsViewModel {
     
     //MARK: - Initialization
     
-    init(seedArtistStateController: SeedArtistStateController, suggestedAlbumsStateController: SuggestedAlbumsStateController) {
+    init(seedArtistStateController: SeedArtistStateController, suggestedAlbumsStateController: SuggestedAlbumsStateController, delegate: SuggestAlbumsViewModelDelegate) {
         self.seedArtistStateController = seedArtistStateController
         self.suggestedAlbumsStateController = suggestedAlbumsStateController
+        self.delegate = delegate
         
         bindSuggestedAlbumsStateController()
     }
     
     private func bindSuggestedAlbumsStateController() {
+        
+        suggestedAlbumsStateController.showDetails.asObservable()
+            .subscribe(onNext: { [unowned self] _ in
+                self.delegate?.showAlbumDetails(self)
+            })
+            .disposed(by: disposeBag)
+        
         suggestedAlbumsStateController.likedAlbumArtistStream
             .subscribe(onNext: { [unowned self] artistData in
                 self.seedArtistStateController.addSeedArtist(artistData: artistData)
             })
             .disposed(by: disposeBag)
         
+        
+        //Current Tracks...
         suggestedAlbumsStateController.currentAlbumTracks
             .subscribe(onNext: { tracks in
                 if let tracks = tracks {
@@ -73,6 +90,8 @@ class SuggestAlbumsViewModel {
                 }
             })
             .disposed(by: disposeBag)
+        ////
+        
     }
     
     //MARK: - Dispatch Actions
@@ -81,11 +100,17 @@ class SuggestAlbumsViewModel {
         switch action {
         case .reviewAlbum(let liked):
             handle_reviewAlbum(liked: liked)
+        case .showDetails:
+            handle_showDetails()
         }
     }
     
     private func handle_reviewAlbum(liked: Bool) {
         suggestedAlbumsStateController.reviewAlbum(liked: liked)
+    }
+    
+    private func handle_showDetails() {
+        suggestedAlbumsStateController.showDetails(true)
     }
     
 }

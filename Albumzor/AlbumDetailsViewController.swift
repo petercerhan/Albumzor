@@ -33,7 +33,20 @@ class AlbumDetailsViewController: UIViewController {
     var audioState: AudioState = .noTrack
     
     var delegate: AlbumDetailsViewControllerDelegate?
-
+    
+    
+    //MARK: - Dependencies
+    
+    private var viewModel: AlbumDetailsViewModel!
+    
+    //MARK: - Initialization
+    
+    static func createWith(storyBoard: UIStoryboard, viewModel: AlbumDetailsViewModel) -> AlbumDetailsViewController {
+        let vc = storyBoard.instantiateViewController(withIdentifier: "AlbumDetailsViewController") as! AlbumDetailsViewController
+        vc.viewModel = viewModel
+        return vc
+    }
+    
     //MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -42,7 +55,7 @@ class AlbumDetailsViewController: UIViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 150
         
-        configureAudioButton()
+//        configureAudioButton()
     }
     
     func configureAudioButton() {
@@ -99,7 +112,7 @@ class AlbumDetailsViewController: UIViewController {
     }
     
     @IBAction func back() {
-        delegate?.dismiss()
+        viewModel.dispatch(action: .dismiss)
     }
     
     @IBAction func audioControl() {
@@ -184,11 +197,14 @@ extension AlbumDetailsViewController: UITableViewDelegate {
 extension AlbumDetailsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let tracks = tracks {
-            return tracks.count + 1
-        } else {
-            return 1
-        }
+
+        return 0
+        
+        //        if let tracks = tracks {
+//            return tracks.count + 1
+//        } else {
+//            return 1
+//        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

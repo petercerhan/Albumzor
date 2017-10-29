@@ -43,7 +43,7 @@ class SuggestAlbumsViewController: UIViewController {
 
     //MARK: - Dependencies
     
-    private var viewModel: SuggestAlbumsViewModel!
+    fileprivate var viewModel: SuggestAlbumsViewModel!
     
     
     
@@ -428,6 +428,9 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
     }
 
     func tapped() {
+        
+        viewModel.dispatch(action: .showDetails)
+        
 //        let vc = storyboard!.instantiateViewController(withIdentifier: "AlbumDetailsViewController") as! AlbumDetailsViewController
 //        vc.albumImage = albumArt[currentIndex]
 //        vc.tracks = currentAlbumTracks
