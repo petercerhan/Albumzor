@@ -80,7 +80,6 @@ class ChooseArtistViewModel {
                 self.delegate?.showConfirmArtistScene(self, confirmationArtist: confirmationArtist!)
             })
             .disposed(by: disposeBag)
-            
     }
     
     //MARK: - Dispatch Actions

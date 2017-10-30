@@ -53,7 +53,7 @@ class AlbumDetailsViewController: UIViewController {
     
     //MARK: - Dependencies
     
-    private var viewModel: AlbumDetailsViewModel!
+    fileprivate var viewModel: AlbumDetailsViewModel!
     
     //MARK: - Initialization
     
@@ -224,8 +224,18 @@ extension AlbumDetailsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.item == 0 {
-            delegate?.dismiss()
+            viewModel.dispatch(action: .dismiss)
         } else {
+            
+            if let previewURL = tracks![indexPath.item - 1].previewURL {
+                viewModel.dispatch(action: .playTrack(url: previewURL, trackIndex: indexPath.item - 1))
+            }
+            
+//            viewModel.dispatch(action: .playTrack(url: tracks![indexPath.item - 1].previewU, trackIndex: <#T##Int#>))
+            
+            
+            
+            
             if let trackPlaying = trackPlaying, let priorCell = tableView.cellForRow(at: IndexPath(item: trackPlaying + 1, section: 0)) as? TrackTableViewCell {
                 priorCell.titleLabel.font = UIFont.systemFont(ofSize: priorCell.titleLabel.font.pointSize)
             }

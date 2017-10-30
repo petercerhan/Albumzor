@@ -78,20 +78,6 @@ class SuggestAlbumsViewModel {
                 self.seedArtistStateController.addSeedArtist(artistData: artistData)
             })
             .disposed(by: disposeBag)
-        
-        
-        //Current Tracks...
-        suggestedAlbumsStateController.currentAlbumTracks
-            .subscribe(onNext: { tracks in
-                if let tracks = tracks {
-                    print("tracks received: \(tracks[0].name)")
-                } else {
-                    print("nil received")
-                }
-            })
-            .disposed(by: disposeBag)
-        ////
-        
     }
     
     //MARK: - Dispatch Actions

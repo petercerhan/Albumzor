@@ -101,7 +101,10 @@ class CompositionRoot: CompositionRootProtocol {
     }
     
     func composeAlbumsDetailsScene(mainContainerCoordinator: MainContainerCoordinator, albumDetailsStateController: AlbumDetailsStateControllerProtocol) -> AlbumDetailsViewController {
-        let viewModel = AlbumDetailsViewModel(albumDetailsStateController: albumDetailsStateController, delegate: mainContainerCoordinator)
+        let audioStateController = AudioStateController(audioService: AVAudioPlayerService())
+        let viewModel = AlbumDetailsViewModel(albumDetailsStateController: albumDetailsStateController,
+                                              audioStateController: audioStateController,
+                                              delegate: mainContainerCoordinator)
         let vc = AlbumDetailsViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
         return vc
     }

@@ -22,9 +22,16 @@ protocol AlbumDetailsStateControllerProtocol {
 
 enum AlbumDetailsSceneAction {
     case dismiss
+    case playTrack(url: String, trackIndex: Int)
 }
 
 class AlbumDetailsViewModel {
+    
+    //MARK: - Dependencies
+    
+    private let albumDetailsStateController: AlbumDetailsStateControllerProtocol
+    private let audioStateController: AudioStateController
+    private weak var delegate: AlbumDetailsViewModelDelegate?
     
     //MARK: - State
     
@@ -50,15 +57,11 @@ class AlbumDetailsViewModel {
             .shareReplay(1)
     }()
     
-    //MARK: - Dependencies
-    
-    private let albumDetailsStateController: AlbumDetailsStateControllerProtocol
-    private weak var delegate: AlbumDetailsViewModelDelegate?
-    
     //MARK: - Initialization
     
-    init(albumDetailsStateController: AlbumDetailsStateControllerProtocol, delegate: AlbumDetailsViewModelDelegate) {
+    init(albumDetailsStateController: AlbumDetailsStateControllerProtocol, audioStateController: AudioStateController, delegate: AlbumDetailsViewModelDelegate) {
         self.albumDetailsStateController = albumDetailsStateController
+        self.audioStateController = audioStateController
         self.delegate = delegate
     }
     
@@ -68,6 +71,8 @@ class AlbumDetailsViewModel {
         switch action {
         case .dismiss:
             handle_dismiss()
+        case .playTrack(let url, let trackIndex):
+            handle_playTrack(url: url, trackIndex: trackIndex)
         }
     }
     
@@ -75,4 +80,11 @@ class AlbumDetailsViewModel {
         delegate?.dismiss(self)
     }
     
+    private func handle_playTrack(url: String, trackIndex: Int) {
+        print("audio command dispatched")
+        audioStateController.playTrack(url: url, trackListIndex: trackIndex)
+    }
+
 }
+
+
