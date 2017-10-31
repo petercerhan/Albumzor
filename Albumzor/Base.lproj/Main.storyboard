@@ -962,9 +962,6 @@
                                 <state key="normal" title="Done">
                                     <color key="titleColor" red="1" green="0.44705882352941173" blue="0.043137254901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <connections>
-                                    <action selector="back" destination="z37-xA-2s9" eventType="touchUpInside" id="IPQ-GQ-cPY"/>
-                                </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gF5-G5-8Uj" userLabel="DivideView">
                                 <rect key="frame" x="0.0" y="615" width="375" height="3"/>
@@ -990,7 +987,7 @@
                                     <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="q56-N9-u5y">
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="q56-N9-u5y">
                                 <rect key="frame" x="333" y="630.5" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
@@ -1020,6 +1017,7 @@
                     <connections>
                         <outlet property="activityIndicator" destination="q56-N9-u5y" id="GbJ-jV-S4t"/>
                         <outlet property="audioButton" destination="2JD-9A-zOL" id="Guu-dq-b6Y"/>
+                        <outlet property="doneButton" destination="UP5-Vb-zCI" id="lBf-Sm-0P5"/>
                         <outlet property="tableView" destination="hBC-lM-7WT" id="XmA-6V-SsC"/>
                     </connections>
                 </viewController>

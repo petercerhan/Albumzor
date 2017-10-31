@@ -16,7 +16,8 @@ protocol AudioService {
     func playTrack(url urlString: String)
     func pauseAudio()
     func resumeAudio()
-    func noTrack()
+    func error()
+    func clear()
 }
 
 enum AudioState {
@@ -96,11 +97,18 @@ class AVAudioPlayerService: AudioService {
         audioStateSubject.onNext(.playing)
     }
     
-    func noTrack() {
+    func clear() {
+        audioPlayer?.stop()
+        audioPlayer = nil
+        audioStateSubject.onNext(.none)
+    }
+    
+    func error() {
         audioPlayer?.stop()
         audioPlayer = nil
         audioStateSubject.onNext(.error)
     }
     
 }
+
 

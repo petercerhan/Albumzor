@@ -29,6 +29,7 @@ class AlbumDetailsViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     @IBOutlet var audioButton: UIButton!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet var doneButton: UIButton!
     
     //MARK: - State
     
@@ -36,20 +37,11 @@ class AlbumDetailsViewController: UIViewController {
     fileprivate var artistName: String?
     fileprivate var albumImage: UIImage?
     fileprivate var tracks: [(String, Int)]?
+    fileprivate var trackPlaying: Int?
     
     //MARK: - Rx
     
     private let disposeBag = DisposeBag()
-    
-    //Remove
-    weak var album: Album!
-    
-    //Index of currently playing track
-    var trackPlaying: Int?
-    
-    var audioState: AudioState_old = .noTrack
-    
-    var delegate: AlbumDetailsViewControllerDelegate?
     
     //MARK: - Initialization
     
@@ -92,7 +84,7 @@ class AlbumDetailsViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        //Track New
+        //Tracks
         viewModel.tracks
             .filter { $0 != nil }
             .observeOn(MainScheduler.instance)
@@ -102,46 +94,74 @@ class AlbumDetailsViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        
-        //Audio Control
-        viewModel.audioState
+        //Track Playing Index
+        viewModel.trackPlayingIndex
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { [unowned self] audioState in
-                let button = self.audioButton!
-                let indicator = self.activityIndicator!
-                
-                switch audioState {
-                case .none:
-                    button.setTitle("", for: .normal)
-                    button.setImage(UIImage(named: "Play"), for: .normal)
-                    button.isHidden = false
-                    indicator.stopAnimating()
-                    print("none")
-                case .loading:
-                    indicator.startAnimating()
-                    button.isHidden = true
-                    print("loading")
-                case .playing:
-                    button.setTitle("", for: .normal)
-                    button.setImage(UIImage(named: "Pause"), for: .normal)
-                    button.isHidden = false
-                    indicator.stopAnimating()
-                    print("playing")
-                case .paused:
-                    button.setTitle("", for: .normal)
-                    button.setImage(UIImage(named: "Play"), for: .normal)
-                    button.isHidden = false
-                    indicator.stopAnimating()
-                    print("paused")
-                case .error:
-                    button.isHidden = false
-                    button.setTitle("!", for: .normal)
-                    button.setImage(nil, for: .normal)
-                    indicator.stopAnimating()
-                    print("error")
-                }
+            .subscribe(onNext: { [unowned self] trackIndex in
+                self.trackPlaying = trackIndex
             })
             .disposed(by: disposeBag)
+        
+        //Audio
+        
+        //Audio Control Title
+        viewModel.audioState
+            .observeOn(MainScheduler.instance)
+            .map { audioState -> String in
+                switch audioState {
+                case .error:
+                    return "!"
+                default:
+                    return ""
+                }
+            }
+            .bind(to: audioButton.rx.title(for: .normal))
+            .disposed(by: disposeBag)
+        
+        //Audio Control Image
+        viewModel.audioState
+            .observeOn(MainScheduler.instance)
+            .map { audioState -> UIImage? in
+                switch audioState {
+                case .none, .paused:
+                    return UIImage(named: "Play")
+                case .playing:
+                    return UIImage(named: "Pause")
+                default:
+                    return nil
+                }
+            }
+            .bind(to: audioButton.rx.image(for: .normal))
+            .disposed(by: disposeBag)
+        
+        //Audio Control isHidden
+        viewModel.audioState
+            .observeOn(MainScheduler.instance)
+            .map { audioState -> Bool in
+                switch audioState {
+                case .loading:
+                    return true
+                default:
+                    return false
+                }
+            }
+            .bind(to: audioButton.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        //Audio Control loading indicator
+        viewModel.audioState
+            .observeOn(MainScheduler.instance)
+            .map { audioState -> Bool in
+                switch audioState {
+                case .loading:
+                    return true
+                default:
+                    return false
+                }
+            }
+            .bind(to: activityIndicator.rx.isAnimating)
+            .disposed(by: disposeBag)
+        
     }
     
     private func bindActions() {
@@ -153,7 +173,6 @@ class AlbumDetailsViewController: UIViewController {
             .filter { audioState in
                 audioState == AudioState.paused || audioState == AudioState.playing || audioState == AudioState.error
             }
-            .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [unowned self] audioState in
                 switch audioState {
                 case AudioState.paused:
@@ -168,14 +187,14 @@ class AlbumDetailsViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        //Open in Spotify
-//        spotifyButton.rx.tap
-//            .observeOn(MainScheduler.instance)
-//            .subscribe(onNext: { [unowned self] _ in
-//                self.viewModel.dispatch(action: .openInSpotify)
-//            })
-//            .disposed(by: disposeBag)
+        //Back
+        doneButton.rx.tap
+            .subscribe(onNext: { [unowned self] _ in
+                self.viewModel.dispatch(action: .dismiss)
+            })
+            .disposed(by: disposeBag)
         
+
     }
     
     //MARK: - Life Cycle
@@ -197,16 +216,6 @@ class AlbumDetailsViewController: UIViewController {
         audioButton.imageEdgeInsets = UIEdgeInsetsMake(8.0, 8.0, 8.0, 8.0)
         audioButton.contentMode = .center
     }
-    
-    //MARK: - User Actions
-    
-    @IBAction func openInSpotify() {
-        UIApplication.shared.open(URL(string:"https://open.spotify.com/album/\(album.id!)")!, options: [:], completionHandler: nil)
-    }
-    
-    @IBAction func back() {
-        viewModel.dispatch(action: .dismiss)
-    }
 
 }
 
@@ -218,18 +227,16 @@ extension AlbumDetailsViewController: UITableViewDelegate {
         if indexPath.item == 0 {
             viewModel.dispatch(action: .dismiss)
         } else {
-            viewModel.dispatch(action: .playTrack(trackIndex: indexPath.item - 1))
             
             if let trackPlaying = trackPlaying, let priorCell = tableView.cellForRow(at: IndexPath(item: trackPlaying + 1, section: 0)) as? TrackTableViewCell {
                 priorCell.titleLabel.font = UIFont.systemFont(ofSize: priorCell.titleLabel.font.pointSize)
             }
             
-            trackPlaying = indexPath.item - 1
+            viewModel.dispatch(action: .playTrack(trackIndex: indexPath.item - 1))
             
             let cell = tableView.cellForRow(at: indexPath) as! TrackTableViewCell
             cell.titleLabel.font = UIFont.boldSystemFont(ofSize: cell.titleLabel.font.pointSize)
         }
-        
     }
     
     func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {

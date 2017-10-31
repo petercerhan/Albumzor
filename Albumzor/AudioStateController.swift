@@ -22,16 +22,17 @@ class AudioStateController {
         return self.audioService.audioState.shareReplay(1)
     }()
     
-    private(set) lazy var trackListIndex: Observable<Int> = {
+    private(set) lazy var trackListIndex: Observable<Int?> = {
         return self.trackListIndexSubject.asObservable().shareReplay(1)
     }()
     
-    private let trackListIndexSubject = PublishSubject<Int>()
+    private let trackListIndexSubject = PublishSubject<Int?>()
     
     //MARK: - Initialization
     
     init(audioService: AudioService) {
         self.audioService = audioService
+        trackListIndexSubject.onNext(nil)
     }
     
     //MARK: - Interface
@@ -49,8 +50,14 @@ class AudioStateController {
         audioService.resumeAudio()
     }
     
-    func noTrack() {
-        audioService.noTrack()
+    func noPreview(trackListIndex: Int) {
+        trackListIndexSubject.onNext(trackListIndex)
+        audioService.error()
+    }
+    
+    func clear() {
+        trackListIndexSubject.onNext(nil)
+        audioService.clear()
     }
     
 }

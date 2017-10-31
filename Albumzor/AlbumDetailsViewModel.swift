@@ -74,6 +74,11 @@ class AlbumDetailsViewModel {
             .shareReplay(1)
     }()
     
+    private(set) lazy var trackPlayingIndex: Observable<Int?> = {
+        return self.audioStateController.trackListIndex
+            .shareReplay(1)
+    }()
+    
     //MARK: - Rx
     
     private let disposeBag = DisposeBag()
@@ -122,7 +127,7 @@ class AlbumDetailsViewModel {
                 {
                     self.audioStateController.playTrack(url: previewURL, trackListIndex: trackIndex)
                 } else {
-                    self.audioStateController.noTrack()
+                    self.audioStateController.noPreview(trackListIndex: trackIndex)
                 }
             })
             .disposed(by: disposeBag)

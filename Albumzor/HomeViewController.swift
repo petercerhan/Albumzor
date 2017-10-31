@@ -124,12 +124,12 @@ extension HomeViewController: UITableViewDelegate {
         let vc = storyboard!.instantiateViewController(withIdentifier: "AlbumDetailsViewController") as! AlbumDetailsViewController
 //        vc.albumImage = UIImage(data: album.imageData as! Data)
 //        vc.tracks = currentAlbumTracks
-        vc.album = album
+//        vc.album = album
         
-        vc.trackPlaying = nil
-        vc.audioState = .noTrack
+//        vc.trackPlaying = nil
+//        vc.audioState = .noTrack
         
-        vc.delegate = self
+//        vc.delegate = self
         present(vc, animated: true, completion: nil)
     }
     
