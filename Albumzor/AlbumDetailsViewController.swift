@@ -169,6 +169,13 @@ class AlbumDetailsViewController: UIViewController {
             .disposed(by: disposeBag)
         
         //Open in Spotify
+//        spotifyButton.rx.tap
+//            .observeOn(MainScheduler.instance)
+//            .subscribe(onNext: { [unowned self] _ in
+//                self.viewModel.dispatch(action: .openInSpotify)
+//            })
+//            .disposed(by: disposeBag)
+        
     }
     
     //MARK: - Life Cycle
@@ -256,6 +263,10 @@ extension AlbumDetailsViewController: UITableViewDataSource {
             cell.albumImageView.addShadow()
             cell.titleLabel.text = albumTitle
             cell.artistLabel.text = artistName
+            
+            cell.spotifyButtonCallback = { [unowned self] in
+                self.viewModel.dispatch(action: .openInSpotify)
+            }
             
             cell.selectionStyle = .none
             

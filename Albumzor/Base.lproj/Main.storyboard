@@ -873,7 +873,7 @@
                                                                 <color key="titleColor" red="0.1176470588" green="0.84313725490000002" blue="0.37647058820000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </state>
                                                             <connections>
-                                                                <action selector="openInSpotify" destination="z37-xA-2s9" eventType="touchUpInside" id="VCi-mS-3Zy"/>
+                                                                <action selector="spotifyButtonPressed" destination="ShE-Ov-0ck" eventType="touchUpInside" id="6w5-oJ-7tU"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>

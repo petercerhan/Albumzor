@@ -25,6 +25,7 @@ enum AlbumDetailsSceneAction {
     case playTrack(trackIndex: Int)
     case pauseAudio
     case resumeAudio
+    case openInSpotify
 }
 
 class AlbumDetailsViewModel {
@@ -102,6 +103,8 @@ class AlbumDetailsViewModel {
             handle_pauseAudio()
         case .resumeAudio:
             handle_resumeAudio()
+        case .openInSpotify:
+            handle_openInSpotify()
         }
     }
     
@@ -131,6 +134,17 @@ class AlbumDetailsViewModel {
     
     private func handle_resumeAudio() {
         audioStateController.resumeAudio()
+    }
+    
+    private func handle_openInSpotify() {
+        albumDetailsStateController.albumDetails_album
+            .take(1)
+            .filter { $0 != nil }
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] albumData in
+                self.externalURLProxy.requestToOpen(url: "https://open.spotify.com/album/\(albumData!.id)")
+            })
+            .disposed(by: disposeBag)
     }
 
 }
