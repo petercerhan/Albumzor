@@ -18,7 +18,7 @@ class AudioStateController {
     
     //MARK: - State
     
-    private(set) lazy var audioState: Observable<AudioStateNew> = {
+    private(set) lazy var audioState: Observable<AudioState> = {
         return self.audioService.audioState.shareReplay(1)
     }()
     
@@ -37,10 +37,22 @@ class AudioStateController {
     //MARK: - Interface
     
     func playTrack(url urlString: String, trackListIndex: Int) {
-        print("recieved in state controller")
         trackListIndexSubject.onNext(trackListIndex)
         audioService.playTrack(url: urlString)
     }
     
+    func pauseAudio() {
+        audioService.pauseAudio()
+    }
+    
+    func resumeAudio() {
+        audioService.resumeAudio()
+    }
+    
+    func noTrack() {
+        audioService.noTrack()
+    }
     
 }
+
+

@@ -22,7 +22,9 @@ protocol AlbumDetailsStateControllerProtocol {
 
 enum AlbumDetailsSceneAction {
     case dismiss
-    case playTrack(url: String, trackIndex: Int)
+    case playTrack(trackIndex: Int)
+    case pauseAudio
+    case resumeAudio
 }
 
 class AlbumDetailsViewModel {
@@ -31,6 +33,7 @@ class AlbumDetailsViewModel {
     
     private let albumDetailsStateController: AlbumDetailsStateControllerProtocol
     private let audioStateController: AudioStateController
+    private let externalURLProxy: ExternalURLProxy
     private weak var delegate: AlbumDetailsViewModelDelegate?
     
     //MARK: - State
@@ -52,16 +55,38 @@ class AlbumDetailsViewModel {
             .shareReplay(1)
     }()
     
-    private(set) lazy var tracks: Observable<[TrackData]?> = {
+    private(set) lazy var tracks: Observable<[(String, Int)]?> = {
         return self.albumDetailsStateController.albumDetails_tracks
+            .map { tracks -> [(String, Int)]? in
+                if let tracks = tracks {
+                    return tracks.map { ($0.name, $0.trackNumber) }
+                } else {
+                    return nil
+                }
+            }
             .shareReplay(1)
     }()
     
+    private(set) lazy var audioState: Observable<AudioState> = {
+        return self.audioStateController.audioState
+            .distinctUntilChanged()
+            .shareReplay(1)
+    }()
+    
+    //MARK: - Rx
+    
+    private let disposeBag = DisposeBag()
+    
     //MARK: - Initialization
     
-    init(albumDetailsStateController: AlbumDetailsStateControllerProtocol, audioStateController: AudioStateController, delegate: AlbumDetailsViewModelDelegate) {
+    init(albumDetailsStateController: AlbumDetailsStateControllerProtocol,
+         audioStateController: AudioStateController,
+         externalURLProxy: ExternalURLProxy,
+         delegate: AlbumDetailsViewModelDelegate)
+    {
         self.albumDetailsStateController = albumDetailsStateController
         self.audioStateController = audioStateController
+        self.externalURLProxy = externalURLProxy
         self.delegate = delegate
     }
     
@@ -71,8 +96,12 @@ class AlbumDetailsViewModel {
         switch action {
         case .dismiss:
             handle_dismiss()
-        case .playTrack(let url, let trackIndex):
-            handle_playTrack(url: url, trackIndex: trackIndex)
+        case .playTrack(let trackIndex):
+            handle_playTrack(trackIndex: trackIndex)
+        case .pauseAudio:
+            handle_pauseAudio()
+        case .resumeAudio:
+            handle_resumeAudio()
         }
     }
     
@@ -80,11 +109,32 @@ class AlbumDetailsViewModel {
         delegate?.dismiss(self)
     }
     
-    private func handle_playTrack(url: String, trackIndex: Int) {
-        print("audio command dispatched")
-        audioStateController.playTrack(url: url, trackListIndex: trackIndex)
+    private func handle_playTrack(trackIndex: Int) {
+        albumDetailsStateController.albumDetails_tracks
+            .take(1)
+            .subscribe(onNext: { [unowned self] tracks in
+                if
+                    let tracks = tracks,
+                    let previewURL = tracks[trackIndex].previewURL
+                {
+                    self.audioStateController.playTrack(url: previewURL, trackListIndex: trackIndex)
+                } else {
+                    self.audioStateController.noTrack()
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func handle_pauseAudio() {
+        audioStateController.pauseAudio()
+    }
+    
+    private func handle_resumeAudio() {
+        audioStateController.resumeAudio()
     }
 
 }
+
+
 
 

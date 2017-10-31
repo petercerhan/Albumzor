@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 protocol AlbumDetailsViewControllerDelegate: NSObjectProtocol {
     func playTrack(atIndex index: Int)
@@ -18,6 +19,10 @@ protocol AlbumDetailsViewControllerDelegate: NSObjectProtocol {
 }
 
 class AlbumDetailsViewController: UIViewController {
+    
+    //MARK: - Dependencies
+    
+    fileprivate var viewModel: AlbumDetailsViewModel!
     
     //MARK: - Interface Components
     
@@ -30,7 +35,7 @@ class AlbumDetailsViewController: UIViewController {
     fileprivate var albumTitle: String?
     fileprivate var artistName: String?
     fileprivate var albumImage: UIImage?
-    fileprivate var tracks: [TrackData]?
+    fileprivate var tracks: [(String, Int)]?
     
     //MARK: - Rx
     
@@ -38,22 +43,13 @@ class AlbumDetailsViewController: UIViewController {
     
     //Remove
     weak var album: Album!
-//    var tracks: [Track]?
-    
-//    var albumImage: UIImage!
-    //
     
     //Index of currently playing track
     var trackPlaying: Int?
     
-    var audioState: AudioState = .noTrack
+    var audioState: AudioState_old = .noTrack
     
     var delegate: AlbumDetailsViewControllerDelegate?
-    
-    
-    //MARK: - Dependencies
-    
-    fileprivate var viewModel: AlbumDetailsViewModel!
     
     //MARK: - Initialization
     
@@ -96,7 +92,7 @@ class AlbumDetailsViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        //Tracks
+        //Track New
         viewModel.tracks
             .filter { $0 != nil }
             .observeOn(MainScheduler.instance)
@@ -105,6 +101,74 @@ class AlbumDetailsViewController: UIViewController {
                 self.tableView.reloadData()
             })
             .disposed(by: disposeBag)
+        
+        
+        //Audio Control
+        viewModel.audioState
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] audioState in
+                let button = self.audioButton!
+                let indicator = self.activityIndicator!
+                
+                switch audioState {
+                case .none:
+                    button.setTitle("", for: .normal)
+                    button.setImage(UIImage(named: "Play"), for: .normal)
+                    button.isHidden = false
+                    indicator.stopAnimating()
+                    print("none")
+                case .loading:
+                    indicator.startAnimating()
+                    button.isHidden = true
+                    print("loading")
+                case .playing:
+                    button.setTitle("", for: .normal)
+                    button.setImage(UIImage(named: "Pause"), for: .normal)
+                    button.isHidden = false
+                    indicator.stopAnimating()
+                    print("playing")
+                case .paused:
+                    button.setTitle("", for: .normal)
+                    button.setImage(UIImage(named: "Play"), for: .normal)
+                    button.isHidden = false
+                    indicator.stopAnimating()
+                    print("paused")
+                case .error:
+                    button.isHidden = false
+                    button.setTitle("!", for: .normal)
+                    button.setImage(nil, for: .normal)
+                    indicator.stopAnimating()
+                    print("error")
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func bindActions() {
+        //Audio Control
+        audioButton.rx.tap
+            .withLatestFrom(viewModel.audioState) { (_, audioState) -> AudioState in
+                return audioState
+            }
+            .filter { audioState in
+                audioState == AudioState.paused || audioState == AudioState.playing || audioState == AudioState.error
+            }
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] audioState in
+                switch audioState {
+                case AudioState.paused:
+                    self.viewModel.dispatch(action: .resumeAudio)
+                case AudioState.playing:
+                    self.viewModel.dispatch(action: .pauseAudio)
+                case AudioState.error:
+                    self.alert(title: nil, message: "Preview may not be available for all tracks", buttonTitle: "Dismiss")
+                default:
+                    break
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        //Open in Spotify
     }
     
     //MARK: - Life Cycle
@@ -116,55 +180,15 @@ class AlbumDetailsViewController: UIViewController {
         tableView.estimatedRowHeight = 150
         
         bindUI()
+        bindActions()
         
-//        configureAudioButton()
+        
+        configureAudioButton()
     }
     
     func configureAudioButton() {
         audioButton.imageEdgeInsets = UIEdgeInsetsMake(8.0, 8.0, 8.0, 8.0)
         audioButton.contentMode = .center
-        
-        switch audioState {
-        case .loading:
-            set(audioState: .loading, controlEnabled: false)
-        case .playing:
-            set(audioState: .playing, controlEnabled: true)
-        case .paused:
-            set(audioState: .paused, controlEnabled: true)
-        case .error:
-            set(audioState: .error, controlEnabled: false)
-        case .noTrack:
-            set(audioState: .noTrack, controlEnabled: false)
-        }
-    }
-    
-    func set(audioState: AudioState, controlEnabled: Bool) {
-        self.audioState = audioState
-        audioButton.isUserInteractionEnabled = controlEnabled
-        
-        activityIndicator.stopAnimating()
-        
-        switch audioState {
-        case .noTrack:
-            audioButton.setTitle("", for: .normal)
-            audioButton.setImage(UIImage(named: "Play"), for: .normal)
-            audioButton.isHidden = false
-        case .loading:
-            activityIndicator.startAnimating()
-            audioButton.isHidden = true
-        case .playing:
-            audioButton.setTitle("", for: .normal)
-            audioButton.setImage(UIImage(named: "Pause"), for: .normal)
-            audioButton.isHidden = false
-        case .paused:
-            audioButton.setTitle("", for: .normal)
-            audioButton.setImage(UIImage(named: "Play"), for: .normal)
-            audioButton.isHidden = false
-        case .error:
-            audioButton.isHidden = false
-            audioButton.setTitle("!", for: .normal)
-            audioButton.setImage(nil, for: .normal)
-        }
     }
     
     //MARK: - User Actions
@@ -176,46 +200,7 @@ class AlbumDetailsViewController: UIViewController {
     @IBAction func back() {
         viewModel.dispatch(action: .dismiss)
     }
-    
-    @IBAction func audioControl() {
-        switch audioState {
-        case .playing:
-            set(audioState: .paused, controlEnabled: false)
-            delegate?.pauseAudio()
-        case .paused:
-            set(audioState: .playing, controlEnabled: false)
-            delegate?.resumeAudio()
-        default:
-            break
-        }
-    }
-}
 
-//MARK:- Audio messages forwarded from parent
-
-extension AlbumDetailsViewController {
-    
-    func audioBeganLoading() {
-        // do nothing
-    }
-    
-    func audioBeganPlaying() {
-        set(audioState: .playing, controlEnabled: true)
-    }
-    
-    func audioPaused() {
-        set(audioState: .paused, controlEnabled: true)
-    }
-    
-    func audioStopped() {
-        // do nothing
-    }
-    
-    func audioCouldNotPlay() {
-        set(audioState: .error, controlEnabled: false)
-    }
-    
-    
 }
 
 //MARK:- TableViewDelegate
@@ -226,15 +211,7 @@ extension AlbumDetailsViewController: UITableViewDelegate {
         if indexPath.item == 0 {
             viewModel.dispatch(action: .dismiss)
         } else {
-            
-            if let previewURL = tracks![indexPath.item - 1].previewURL {
-                viewModel.dispatch(action: .playTrack(url: previewURL, trackIndex: indexPath.item - 1))
-            }
-            
-//            viewModel.dispatch(action: .playTrack(url: tracks![indexPath.item - 1].previewU, trackIndex: <#T##Int#>))
-            
-            
-            
+            viewModel.dispatch(action: .playTrack(trackIndex: indexPath.item - 1))
             
             if let trackPlaying = trackPlaying, let priorCell = tableView.cellForRow(at: IndexPath(item: trackPlaying + 1, section: 0)) as? TrackTableViewCell {
                 priorCell.titleLabel.font = UIFont.systemFont(ofSize: priorCell.titleLabel.font.pointSize)
@@ -244,18 +221,13 @@ extension AlbumDetailsViewController: UITableViewDelegate {
             
             let cell = tableView.cellForRow(at: indexPath) as! TrackTableViewCell
             cell.titleLabel.font = UIFont.boldSystemFont(ofSize: cell.titleLabel.font.pointSize)
-            
-            set(audioState: .loading, controlEnabled: false)
-            
-            delegate?.stopAudio()
-            delegate?.playTrack(atIndex: indexPath.item - 1)
         }
         
     }
     
     func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         if indexPath.item == 0 {
-            delegate?.dismiss()
+            viewModel.dispatch(action: .dismiss)
             return false
         } else {
             return true
@@ -269,9 +241,6 @@ extension AlbumDetailsViewController: UITableViewDelegate {
 extension AlbumDetailsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
-//        return 0
-        
         if let tracks = tracks {
             return tracks.count + 1
         } else {
@@ -295,8 +264,8 @@ extension AlbumDetailsViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TrackCell") as! TrackTableViewCell
             
             cell.titleLabel.font = UIFont.systemFont(ofSize: cell.titleLabel.font.pointSize)
-            cell.titleLabel.text = tracks?[indexPath.row - 1].name
-            cell.numberLabel.text = "\(tracks![indexPath.row - 1].trackNumber)"
+            cell.titleLabel.text = tracks?[indexPath.row - 1].0
+            cell.numberLabel.text = "\(tracks![indexPath.row - 1].1)"
             
             cell.selectionStyle = .none
             

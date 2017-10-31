@@ -37,7 +37,7 @@ class CoreDataService: LocalDatabaseServiceProtocol {
     
     //MARK: - Dependencies
     
-    private let coreDataStack: CoreDataStack
+    fileprivate let coreDataStack: CoreDataStack
     
     //MARK: - Initialization
     
@@ -259,7 +259,16 @@ class CoreDataService: LocalDatabaseServiceProtocol {
     
 }
 
+//MARK: - Utilities
 
+extension CoreDataService {
+    
+    func resetDatabase() {
+        print("! Reset database")
+        try? coreDataStack.dropAllData()
+    }
+    
+}
 
 
 

@@ -11,17 +11,20 @@ import RxSwift
 import AVFoundation
 
 protocol AudioService {
-    var audioState: Observable<AudioStateNew> { get }
+    var audioState: Observable<AudioState> { get }
     
     func playTrack(url urlString: String)
+    func pauseAudio()
+    func resumeAudio()
+    func noTrack()
 }
 
-enum AudioStateNew {
+enum AudioState {
+    case none
     case loading
     case playing
     case paused
     case error
-    case none
 }
 
 class AVAudioPlayerService: AudioService {
@@ -30,11 +33,11 @@ class AVAudioPlayerService: AudioService {
     
     private var audioPlayer: AVAudioPlayer?
     
-    private(set) lazy var audioState: Observable<AudioStateNew> = {
+    private(set) lazy var audioState: Observable<AudioState> = {
         return self.audioStateSubject.asObservable().shareReplay(1)
     }()
     
-    private let audioStateSubject = PublishSubject<AudioStateNew>()
+    private let audioStateSubject = PublishSubject<AudioState>()
     
     //MARK: - Rx
     
@@ -49,12 +52,11 @@ class AVAudioPlayerService: AudioService {
     //MARK: - Interface
     
     func playTrack(url urlString: String) {
-        print("Made it to service")
         //stop current track if any
         audioPlayer?.stop()
         //set current state to loading
         audioStateSubject.onNext(.loading)
-        //try to play new track
+        
         playerWithTrack(atURL: urlString)
             .subscribe(onNext: { [unowned self] audioPlayer in
                 self.audioPlayer = audioPlayer
@@ -84,6 +86,21 @@ class AVAudioPlayerService: AudioService {
         }
     }
     
+    func pauseAudio() {
+        audioPlayer?.pause()
+        audioStateSubject.onNext(.paused)
+    }
+    
+    func resumeAudio() {
+        audioPlayer?.play()
+        audioStateSubject.onNext(.playing)
+    }
+    
+    func noTrack() {
+        audioPlayer?.stop()
+        audioPlayer = nil
+        audioStateSubject.onNext(.error)
+    }
     
 }
 

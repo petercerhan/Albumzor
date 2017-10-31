@@ -104,13 +104,12 @@ class CompositionRoot: CompositionRootProtocol {
         let audioStateController = AudioStateController(audioService: AVAudioPlayerService())
         let viewModel = AlbumDetailsViewModel(albumDetailsStateController: albumDetailsStateController,
                                               audioStateController: audioStateController,
+                                              externalURLProxy: AppDelegateURLProxy(),
                                               delegate: mainContainerCoordinator)
         let vc = AlbumDetailsViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
         return vc
     }
 }
-
-
 
 
 

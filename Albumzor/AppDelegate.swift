@@ -35,10 +35,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        //Dev
+        //Reset "User settings"
 //        resetUserSettings()
         
-        //
+        //Reset Database
+//        let coreDataUtilityService = CoreDataService(coreDataStack: CoreDataStack(modelName: "Model")!)
+//        coreDataUtilityService.resetDatabase()
         
         
         compositionRoot = CompositionRoot()

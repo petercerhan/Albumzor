@@ -341,32 +341,32 @@ extension HomeViewController: AudioPlayerDelegate {
     
     func beganLoading() {
         if let vc = presentedViewController as? AlbumDetailsViewController {
-            vc.audioBeganLoading()
+//            vc.audioBeganLoading()
         }
         //no action needed
     }
     
     func beganPlaying() {
         if let vc = presentedViewController as? AlbumDetailsViewController {
-            vc.audioBeganPlaying()
+//            vc.audioBeganPlaying()
         }
     }
     
     func paused() {
         if let vc = presentedViewController as? AlbumDetailsViewController {
-            vc.audioPaused()
+//            vc.audioPaused()
         }
     }
     
     func stopped() {
         if let vc = presentedViewController as? AlbumDetailsViewController {
-            vc.audioStopped()
+//            vc.audioStopped()
         }
     }
     
     func couldNotPlay() {
         if let vc = presentedViewController as? AlbumDetailsViewController {
-            vc.audioCouldNotPlay()
+//            vc.audioCouldNotPlay()
         }
     }
     

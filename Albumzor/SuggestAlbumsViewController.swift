@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 
 //error - tried and failed to retrieve sample audio; noTrack - no attempt has been made to retrieve a track
-enum AudioState {
+enum AudioState_old {
     case loading, playing, paused, error, noTrack
 }
 
@@ -84,7 +84,7 @@ class SuggestAlbumsViewController: UIViewController {
     
     var currentIndex: Int = 0
     
-    var audioState: AudioState = .noTrack
+    var audioState: AudioState_old = .noTrack
     
     var trackPlaying: Int?
     
@@ -523,7 +523,7 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
         dismiss(animated: true, completion: nil)
     }
     
-    func set(audioState: AudioState, controlEnabled: Bool) {
+    func set(audioState: AudioState_old, controlEnabled: Bool) {
         self.audioState = audioState
         audioButton.isUserInteractionEnabled = controlEnabled
         
@@ -559,41 +559,41 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
 extension SuggestAlbumsViewController: AudioPlayerDelegate {
     
     func beganLoading() {
-        if let vc = presentedViewController as? AlbumDetailsViewController {
-            vc.audioBeganLoading()
-        }
+//        if let vc = presentedViewController as? AlbumDetailsViewController {
+////            vc.audioBeganLoading()
+//        }
         //no action needed
     }
     
     func beganPlaying() {
         set(audioState: .playing, controlEnabled: true)
         
-        if let vc = presentedViewController as? AlbumDetailsViewController {
-            vc.audioBeganPlaying()
-        }
+//        if let vc = presentedViewController as? AlbumDetailsViewController {
+////            vc.audioBeganPlaying()
+//        }
     }
     
     func paused() {
         set(audioState: .paused, controlEnabled: true)
         
-        if let vc = presentedViewController as? AlbumDetailsViewController {
-            vc.audioPaused()
-        }
+//        if let vc = presentedViewController as? AlbumDetailsViewController {
+////            vc.audioPaused()
+//        }
     }
     
     func stopped() {
-        if let vc = presentedViewController as? AlbumDetailsViewController {
-            vc.audioStopped()
-        }
+//        if let vc = presentedViewController as? AlbumDetailsViewController {
+////            vc.audioStopped()
+//        }
         //no action needed
     }
     
     func couldNotPlay() {
         set(audioState: .error, controlEnabled: false)
         
-        if let vc = presentedViewController as? AlbumDetailsViewController {
-            vc.audioCouldNotPlay()
-        }
+//        if let vc = presentedViewController as? AlbumDetailsViewController {
+////            vc.audioCouldNotPlay()
+//        }
     }
 
 }
