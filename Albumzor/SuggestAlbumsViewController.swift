@@ -81,9 +81,13 @@ class SuggestAlbumsViewController: UIViewController {
         return imageView
     }()
     
+    
+    //Remove
     var albumArt: [UIImage]!
     var albums: [Album]!
     var likedAlbums = 0
+    //
+    
     
     var currentAlbumTracks: [Track]?
     var nextAlbumTracks: [Track]?
@@ -358,7 +362,6 @@ class SuggestAlbumsViewController: UIViewController {
                     },
                        completion: {
                         _ in
-                        self.currentAlbumView.removeFromSuperview()
                         self.buttonsEnabled = true
                         self.reviewAlbum(liked: true)
                     })
@@ -387,7 +390,6 @@ class SuggestAlbumsViewController: UIViewController {
                         
                     },
                        completion: { _ in
-                        self.currentAlbumView.removeFromSuperview()
                         self.buttonsEnabled = true
                         self.reviewAlbum(liked: false)
                     })
@@ -396,12 +398,6 @@ class SuggestAlbumsViewController: UIViewController {
     @IBAction func quit() {
         audioPlayer.stop()
         delegate.quit()
-    }
-    
-    @IBAction func audioControl() {
-        
-        print("Audio control command")
-        
     }
     
     func setButtons(enabled: Bool) {
@@ -432,7 +428,7 @@ class SuggestAlbumsViewController: UIViewController {
         //if last album has been reviewed, go to next steps view
         if currentIndex == albums.count - 1 {
             audioPlayer.stop()
-            animateOut()
+//            animateOut()
             return
         }
         
@@ -471,33 +467,7 @@ class SuggestAlbumsViewController: UIViewController {
             nextAlbumTracks = dataManager.getTracks(forAlbum: albums[currentIndex + 1].objectID)
         }
     }
-    //
     
-    
-    
-    //MARK: - Animations
-    func animateOut() {
-        setButtons(enabled: false)
-        currentAlbumView.isUserInteractionEnabled = false
-        
-        titleLabel.alpha = 0.0
-        artistLabel.alpha = 0.0
-        spotifyButtonContainer.alpha = 0.0
-        activityIndicator.stopAnimating()
-        
-        UIView.animate(withDuration: 0.5,
-                       animations: {
-                        self.quitButton.alpha = 0.0
-                        self.dislikeButton.alpha = 0.0
-                        self.likeButton.alpha = 0.0
-                        self.audioButton.alpha = 0.0
-                        self.spotifyIndicator.alpha = 0.0
-        },
-                       completion: {
-                        _ in
-                        self.delegate.batteryComplete(liked: self.likedAlbums)
-        })
-    }
     
 }
 

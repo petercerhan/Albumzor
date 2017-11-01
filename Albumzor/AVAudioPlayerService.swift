@@ -62,6 +62,7 @@ class AVAudioPlayerService: AudioService {
             .subscribe(onNext: { [unowned self] audioPlayer in
                 self.audioPlayer = audioPlayer
                 self.audioPlayer?.play()
+                self.audioPlayer?.numberOfLoops = -1
                 self.audioStateSubject.onNext(.playing)
             }, onError: { _ in
                 self.audioStateSubject.onNext(.error)
@@ -98,6 +99,7 @@ class AVAudioPlayerService: AudioService {
     }
     
     func clear() {
+        print("Should be cleared")
         audioPlayer?.stop()
         audioPlayer = nil
         audioStateSubject.onNext(.none)

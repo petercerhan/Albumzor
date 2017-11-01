@@ -138,7 +138,6 @@ class CGDraggableView: UIView {
                             self.alpha = 0
                         },
                        completion: { _ in
-//                            self.removeFromSuperview()
                             if let delegate = self.delegate {
                                 delegate.swipeComplete(direction: self.direction)
                             }

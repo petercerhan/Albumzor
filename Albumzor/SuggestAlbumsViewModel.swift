@@ -123,6 +123,7 @@ class SuggestAlbumsViewModel {
     }
     
     private func handle_reviewAlbum(liked: Bool) {
+        audioStateController.clear()
         suggestedAlbumsStateController.reviewAlbum(liked: liked)
     }
     
