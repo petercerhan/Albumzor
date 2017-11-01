@@ -46,12 +46,16 @@ class SuggestAlbumsViewController: UIViewController {
     fileprivate var viewModel: SuggestAlbumsViewModel!
     
     
+    //REMOVE
     
     weak var delegate: SuggestAlbumsViewControllerDelegate!
     var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
     
     let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
     var audioPlayer = (UIApplication.shared.delegate as! AppDelegate).audioPlayer
+    
+    //
+    
     
     //MARK: - State
     
@@ -123,9 +127,69 @@ class SuggestAlbumsViewController: UIViewController {
             .bind(to: artistLabel.rx.text)
             .disposed(by: disposeBag)
         
+        //Audio Control
+        
+        //Audio Control Title
+        viewModel.audioState
+            .observeOn(MainScheduler.instance)
+            .map { audioState -> String in
+                switch audioState {
+                case .error:
+                    return "!"
+                default:
+                    return ""
+                }
+            }
+            .bind(to: audioButton.rx.title(for: .normal))
+            .disposed(by: disposeBag)
+        
+        //Audio Control Image
+        viewModel.audioState
+            .observeOn(MainScheduler.instance)
+            .map { audioState -> UIImage? in
+                switch audioState {
+                case .none, .paused:
+                    return UIImage(named: "Play")
+                case .playing:
+                    return UIImage(named: "Pause")
+                default:
+                    return nil
+                }
+            }
+            .bind(to: audioButton.rx.image(for: .normal))
+            .disposed(by: disposeBag)
+        
+        //Audio Control isHidden
+        viewModel.audioState
+            .observeOn(MainScheduler.instance)
+            .map { audioState -> Bool in
+                switch audioState {
+                case .loading:
+                    return true
+                default:
+                    return false
+                }
+            }
+            .bind(to: audioButton.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        //Audio Control loading indicator
+        viewModel.audioState
+            .observeOn(MainScheduler.instance)
+            .map { audioState -> Bool in
+                switch audioState {
+                case .loading:
+                    return true
+                default:
+                    return false
+                }
+            }
+            .bind(to: activityIndicator.rx.isAnimating)
+            .disposed(by: disposeBag)
+        
     }
     
-    func bindAlbumStream() {
+    private func bindAlbumStream() {
         
         //Album Stream
         viewModel.currentAlbumTitle
@@ -143,6 +207,32 @@ class SuggestAlbumsViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
+    //MARK: - Bind Actions
+    
+    private func bindActions() {
+        
+        //Audio Control
+        audioButton.rx.tap
+            .withLatestFrom(viewModel.audioState) { (_, audioState) -> AudioState in
+                return audioState
+            }
+            .filter { audioState in
+                audioState == AudioState.paused || audioState == AudioState.playing
+            }
+            .subscribe(onNext: { [unowned self] audioState in
+                switch audioState {
+                case AudioState.paused:
+                    self.viewModel.dispatch(action: .resumeAudio)
+                case AudioState.playing:
+                    self.viewModel.dispatch(action: .pauseAudio)
+                default:
+                    break
+                }
+            })
+            .disposed(by: disposeBag)
+        
+    }
+    
     //MARK:- Life Cycle
     
     override func viewDidLoad() {
@@ -151,6 +241,7 @@ class SuggestAlbumsViewController: UIViewController {
         subscribeToNotifications()
         
         bindUI()
+        bindActions()
     }
     
     func subscribeToNotifications() {
@@ -524,32 +615,32 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
     }
     
     func set(audioState: AudioState_old, controlEnabled: Bool) {
-        self.audioState = audioState
-        audioButton.isUserInteractionEnabled = controlEnabled
-        
-        activityIndicator.stopAnimating()
-        
-        switch audioState {
-        case .noTrack:
-            audioButton.setTitle("", for: .normal)
-            audioButton.setImage(UIImage(named: "Play"), for: .normal)
-            audioButton.isHidden = false
-        case .loading:
-            activityIndicator.startAnimating()
-            audioButton.isHidden = true
-        case .playing:
-            audioButton.setTitle("", for: .normal)
-            audioButton.setImage(UIImage(named: "Pause"), for: .normal)
-            audioButton.isHidden = false
-        case .paused:
-            audioButton.setTitle("", for: .normal)
-            audioButton.setImage(UIImage(named: "Play"), for: .normal)
-            audioButton.isHidden = false
-        case .error:
-            audioButton.isHidden = false
-            audioButton.setTitle("!", for: .normal)
-            audioButton.setImage(nil, for: .normal)
-        }
+//        self.audioState = audioState
+//        audioButton.isUserInteractionEnabled = controlEnabled
+//
+//        activityIndicator.stopAnimating()
+//
+//        switch audioState {
+//        case .noTrack:
+//            audioButton.setTitle("", for: .normal)
+//            audioButton.setImage(UIImage(named: "Play"), for: .normal)
+//            audioButton.isHidden = false
+//        case .loading:
+//            activityIndicator.startAnimating()
+//            audioButton.isHidden = true
+//        case .playing:
+//            audioButton.setTitle("", for: .normal)
+//            audioButton.setImage(UIImage(named: "Pause"), for: .normal)
+//            audioButton.isHidden = false
+//        case .paused:
+//            audioButton.setTitle("", for: .normal)
+//            audioButton.setImage(UIImage(named: "Play"), for: .normal)
+//            audioButton.isHidden = false
+//        case .error:
+//            audioButton.isHidden = false
+//            audioButton.setTitle("!", for: .normal)
+//            audioButton.setImage(nil, for: .normal)
+//        }
     }
 
 }

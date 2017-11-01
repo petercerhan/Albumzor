@@ -22,6 +22,7 @@ class MainContainerCoordinator {
     let userProfileStateController: UserProfileStateController
     let userSettingsStateController: UserSettingsStateController
     let seedArtistStateController: SeedArtistStateController
+    let audioStateController: AudioStateController
     let compositionRoot: CompositionRootProtocol
     
     //MARK: - Children
@@ -40,6 +41,7 @@ class MainContainerCoordinator {
          userProfileStateController: UserProfileStateController,
          userSettingsStateController: UserSettingsStateController,
          seedArtistStateController: SeedArtistStateController,
+         audioStateController: AudioStateController,
          compositionRoot: CompositionRootProtocol)
     {
             self.mainContainerViewController = mainContainerViewController
@@ -47,6 +49,7 @@ class MainContainerCoordinator {
             self.userProfileStateController = userProfileStateController
             self.userSettingsStateController = userSettingsStateController
             self.seedArtistStateController = seedArtistStateController
+            self.audioStateController = audioStateController
             self.compositionRoot = compositionRoot
     }
     
@@ -89,7 +92,7 @@ extension MainContainerCoordinator: OpenSceneViewModelDelegate {
             //Launch Home Scene
             print("Launch home scene")
             
-            let vc = compositionRoot.composeSuggestAlbumsScene(mainContainerCoordinator: self, seedArtistStateController: seedArtistStateController)
+            let vc = compositionRoot.composeSuggestAlbumsScene(mainContainerCoordinator: self, seedArtistStateController: seedArtistStateController, audioStateController: audioStateController)
             mainContainerViewController.show(viewController: vc, animation: .none)
             
             
@@ -226,7 +229,7 @@ extension MainContainerCoordinator: SuggestAlbumsViewModelDelegate {
 //        let viewModel = AlbumDetailsViewModel(delegate: self)
 //        let vc = AlbumDetailsViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
 
-        let vc = compositionRoot.composeAlbumsDetailsScene(mainContainerCoordinator: self, albumDetailsStateController: albumDetailsStateController)
+        let vc = compositionRoot.composeAlbumsDetailsScene(mainContainerCoordinator: self, albumDetailsStateController: albumDetailsStateController, audioStateController: audioStateController)
         
         mainContainerViewController.showModally(viewController: vc)
         

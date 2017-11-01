@@ -726,9 +726,6 @@
                                 <state key="normal" image="Play">
                                     <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <connections>
-                                    <action selector="audioControl" destination="X8r-tE-8de" eventType="touchUpInside" id="snI-Cr-n6L"/>
-                                </connections>
                             </button>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="O9R-OS-4Xq">
                                 <rect key="frame" x="329" y="41" width="20" height="20"/>

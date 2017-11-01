@@ -17,6 +17,9 @@ protocol SuggestAlbumsViewModelDelegate: class {
 enum SuggestAlbumsSceneAction {
     case reviewAlbum(liked: Bool)
     case showDetails
+    case autoPlay
+    case pauseAudio
+    case resumeAudio
 }
 
 class SuggestAlbumsViewModel {
@@ -25,6 +28,7 @@ class SuggestAlbumsViewModel {
     
     private let seedArtistStateController: SeedArtistStateController
     private let suggestedAlbumsStateController: SuggestedAlbumsStateController
+    private let audioStateController: AudioStateController
     private weak var delegate: SuggestAlbumsViewModelDelegate?
     
     //MARK: - State
@@ -51,15 +55,26 @@ class SuggestAlbumsViewModel {
             .shareReplay(1)
     }()
     
+    private(set) lazy var audioState: Observable<AudioState> = {
+        return self.audioStateController.audioState
+            .distinctUntilChanged()
+            .shareReplay(1)
+    }()
+    
     //MARK: - Rx
     
     private let disposeBag = DisposeBag()
     
     //MARK: - Initialization
     
-    init(seedArtistStateController: SeedArtistStateController, suggestedAlbumsStateController: SuggestedAlbumsStateController, delegate: SuggestAlbumsViewModelDelegate) {
+    init(seedArtistStateController: SeedArtistStateController,
+         suggestedAlbumsStateController: SuggestedAlbumsStateController,
+         audioStateController: AudioStateController,
+         delegate: SuggestAlbumsViewModelDelegate)
+    {
         self.seedArtistStateController = seedArtistStateController
         self.suggestedAlbumsStateController = suggestedAlbumsStateController
+        self.audioStateController = audioStateController
         self.delegate = delegate
         
         bindSuggestedAlbumsStateController()
@@ -88,6 +103,12 @@ class SuggestAlbumsViewModel {
             handle_reviewAlbum(liked: liked)
         case .showDetails:
             handle_showDetails()
+        case .autoPlay:
+            handle_autoPlay()
+        case .pauseAudio:
+            handle_pauseAudio()
+        case .resumeAudio:
+            handle_resumeAudio()
         }
     }
     
@@ -98,6 +119,19 @@ class SuggestAlbumsViewModel {
     private func handle_showDetails() {
         suggestedAlbumsStateController.showDetails(true)
     }
+    
+    private func handle_autoPlay() {
+        print("Autoplay..")
+    }
+    
+    private func handle_pauseAudio() {
+        audioStateController.pauseAudio()
+    }
+    
+    private func handle_resumeAudio() {
+        audioStateController.resumeAudio()
+    }
+    
     
 }
 

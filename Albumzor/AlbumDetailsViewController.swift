@@ -147,7 +147,7 @@ class AlbumDetailsViewController: UIViewController {
             }
             .bind(to: audioButton.rx.isHidden)
             .disposed(by: disposeBag)
-        
+         
         //Audio Control loading indicator
         viewModel.audioState
             .observeOn(MainScheduler.instance)
@@ -163,6 +163,8 @@ class AlbumDetailsViewController: UIViewController {
             .disposed(by: disposeBag)
         
     }
+    
+    //MARK: - Bind Actions
     
     private func bindActions() {
         //Audio Control
