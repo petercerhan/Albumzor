@@ -79,15 +79,6 @@ class SuggestAlbumsViewModel {
         
         bindSuggestedAlbumsStateController()
         
-        bindTest()
-    }
-    
-    private func bindTest() {
-//        audioState
-//            .subscribe(onNext: { _ in 
-//                print("audio state event")
-//            })
-//            .disposed(by: disposeBag)
     }
     
     private func bindSuggestedAlbumsStateController() {
@@ -103,6 +94,11 @@ class SuggestAlbumsViewModel {
                 self.seedArtistStateController.addSeedArtist(artistData: artistData)
             })
             .disposed(by: disposeBag)
+        
+        //tracks
+        suggestedAlbumsStateController.currentAlbumTracks
+            .subscribe().disposed(by: disposeBag)
+        
     }
     
     //MARK: - Dispatch Actions
