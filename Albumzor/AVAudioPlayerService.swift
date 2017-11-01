@@ -38,7 +38,7 @@ class AVAudioPlayerService: AudioService {
         return self.audioStateSubject.asObservable().shareReplay(1)
     }()
     
-    private let audioStateSubject = PublishSubject<AudioState>()
+    private let audioStateSubject = ReplaySubject<AudioState>.create(bufferSize: 1)
     
     //MARK: - Rx
     

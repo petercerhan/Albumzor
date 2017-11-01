@@ -10,10 +10,12 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+//Remove
 //error - tried and failed to retrieve sample audio; noTrack - no attempt has been made to retrieve a track
 enum AudioState_old {
     case loading, playing, paused, error, noTrack
 }
+//remove
 
 protocol SuggestAlbumsViewControllerDelegate : NSObjectProtocol {
     func quit()
@@ -217,7 +219,7 @@ class SuggestAlbumsViewController: UIViewController {
                 return audioState
             }
             .filter { audioState in
-                audioState == AudioState.paused || audioState == AudioState.playing
+                audioState == AudioState.paused || audioState == AudioState.playing || audioState == AudioState.none
             }
             .subscribe(onNext: { [unowned self] audioState in
                 switch audioState {
@@ -225,6 +227,8 @@ class SuggestAlbumsViewController: UIViewController {
                     self.viewModel.dispatch(action: .resumeAudio)
                 case AudioState.playing:
                     self.viewModel.dispatch(action: .pauseAudio)
+                case AudioState.none:
+                    self.viewModel.dispatch(action: .autoPlay)
                 default:
                     break
                 }
@@ -396,16 +400,7 @@ class SuggestAlbumsViewController: UIViewController {
     
     @IBAction func audioControl() {
         
-        switch audioState {
-        case .playing:
-            pauseAudio()
-        case .paused:
-            resumeAudio()
-        case .noTrack:
-            playTopTrack()
-        default:
-            break
-        }
+        print("Audio control command")
         
     }
     
@@ -519,19 +514,7 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
     }
 
     func tapped() {
-        
         viewModel.dispatch(action: .showDetails)
-        
-//        let vc = storyboard!.instantiateViewController(withIdentifier: "AlbumDetailsViewController") as! AlbumDetailsViewController
-//        vc.albumImage = albumArt[currentIndex]
-//        vc.tracks = currentAlbumTracks
-//        vc.album = albums[currentIndex]
-//        
-//        vc.trackPlaying = trackPlaying
-//        vc.audioState = audioState
-//        
-//        vc.delegate = self
-//        present(vc, animated: true, completion: nil)
     }
     
     func swipeBegan() {
@@ -550,7 +533,8 @@ extension SuggestAlbumsViewController: CGDraggableViewDelegate {
 //MARK:- Handle Audio / AlbumDetailsViewControllerDelegate
 //playTrack(atIndex:), pauseAudio(), stopAudio(), and resumeAudio() called internally by SuggestAlbumsViewController, and are also AlbumDetailsViewController Delegate functions
 
-extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
+//AlbumDetailsViewControllerDelegate
+extension SuggestAlbumsViewController  {
     
     func playTrack(atIndex index: Int) {
         set(audioState: .loading, controlEnabled: false)
@@ -568,11 +552,11 @@ extension SuggestAlbumsViewController: AlbumDetailsViewControllerDelegate {
     
     //Automatically play the sample of the most popular track on the album
     func autoPlay() {
-        if !(appDelegate.userSettings.autoplay) {
-            set(audioState: .noTrack, controlEnabled: true)
-            return
-        }
-        playTopTrack()
+//        if !(appDelegate.userSettings.autoplay) {
+//            set(audioState: .noTrack, controlEnabled: true)
+//            return
+//        }
+//        playTopTrack()
     }
     
     func playTopTrack() {

@@ -304,8 +304,8 @@ extension HomeViewController: AlbumsContainerViewControllerDelegate {
 }
 
 //MARK: - AlbumDetailsViewControllerDelegate
-
-extension HomeViewController: AlbumDetailsViewControllerDelegate {
+//AlbumDetailsViewControllerDelegate
+extension HomeViewController  {
     
     func playTrack(atIndex index: Int) {
         

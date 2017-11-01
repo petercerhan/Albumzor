@@ -26,6 +26,7 @@ enum AlbumDetailsSceneAction {
     case pauseAudio
     case resumeAudio
     case openInSpotify
+    case autoPlay
 }
 
 class AlbumDetailsViewModel {
@@ -110,6 +111,8 @@ class AlbumDetailsViewModel {
             handle_resumeAudio()
         case .openInSpotify:
             handle_openInSpotify()
+        case .autoPlay:
+            handle_autoPlay()
         }
     }
     
@@ -148,6 +151,37 @@ class AlbumDetailsViewModel {
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [unowned self] albumData in
                 self.externalURLProxy.requestToOpen(url: "https://open.spotify.com/album/\(albumData!.id)")
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func handle_autoPlay() {
+        albumDetailsStateController.albumDetails_tracks
+            .take(1)
+            .subscribe(onNext: { [unowned self] tracks in
+                guard let tracks = tracks else {
+                    self.audioStateController.noPreview(trackListIndex: nil)
+                    return
+                }
+                
+                var maxPopularity = 0
+                var maxIndex = 0
+                
+                for (index, track) in tracks.enumerated() {
+                    if Int(track.popularity) > maxPopularity {
+                        maxPopularity = Int(track.popularity)
+                        maxIndex = index
+                    }
+                }
+                
+                guard let previewURL = tracks[maxIndex].previewURL else {
+                    self.audioStateController.noPreview(trackListIndex: nil)
+                    return
+                }
+                
+                print("Autoplay track at index \(maxIndex)")
+                
+                self.audioStateController.playTrack(url: previewURL, trackListIndex: maxIndex)
             })
             .disposed(by: disposeBag)
     }

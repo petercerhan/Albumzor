@@ -26,13 +26,12 @@ class AudioStateController {
         return self.trackListIndexSubject.asObservable().shareReplay(1)
     }()
     
-    private let trackListIndexSubject = PublishSubject<Int?>()
+    private let trackListIndexSubject = BehaviorSubject<Int?>(value: nil)
     
     //MARK: - Initialization
     
     init(audioService: AudioService) {
         self.audioService = audioService
-        trackListIndexSubject.onNext(nil)
     }
     
     //MARK: - Interface
@@ -50,7 +49,7 @@ class AudioStateController {
         audioService.resumeAudio()
     }
     
-    func noPreview(trackListIndex: Int) {
+    func noPreview(trackListIndex: Int?) {
         trackListIndexSubject.onNext(trackListIndex)
         audioService.error()
     }

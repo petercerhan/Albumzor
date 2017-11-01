@@ -78,6 +78,16 @@ class SuggestAlbumsViewModel {
         self.delegate = delegate
         
         bindSuggestedAlbumsStateController()
+        
+        bindTest()
+    }
+    
+    private func bindTest() {
+//        audioState
+//            .subscribe(onNext: { _ in 
+//                print("audio state event")
+//            })
+//            .disposed(by: disposeBag)
     }
     
     private func bindSuggestedAlbumsStateController() {
@@ -121,7 +131,34 @@ class SuggestAlbumsViewModel {
     }
     
     private func handle_autoPlay() {
-        print("Autoplay..")
+        suggestedAlbumsStateController.currentAlbumTracks
+            .take(1)
+            .subscribe(onNext: { [unowned self] tracks in
+                guard let tracks = tracks else {
+                    self.audioStateController.noPreview(trackListIndex: nil)
+                    return
+                }
+                
+                var maxPopularity = 0
+                var maxIndex = 0
+                
+                for (index, track) in tracks.enumerated() {
+                    if Int(track.popularity) > maxPopularity {
+                        maxPopularity = Int(track.popularity)
+                        maxIndex = index
+                    }
+                }
+                
+                guard let previewURL = tracks[maxIndex].previewURL else {
+                    self.audioStateController.noPreview(trackListIndex: nil)
+                    return
+                }
+
+                print("Autoplay track at index \(maxIndex)")
+                
+                self.audioStateController.playTrack(url: previewURL, trackListIndex: maxIndex)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func handle_pauseAudio() {

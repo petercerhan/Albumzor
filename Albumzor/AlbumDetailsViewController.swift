@@ -10,14 +10,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-protocol AlbumDetailsViewControllerDelegate: NSObjectProtocol {
-    func playTrack(atIndex index: Int)
-    func pauseAudio()
-    func resumeAudio()
-    func stopAudio()
-    func dismiss()
-}
-
 class AlbumDetailsViewController: UIViewController {
     
     //MARK: - Dependencies
@@ -173,7 +165,7 @@ class AlbumDetailsViewController: UIViewController {
                 return audioState
             }
             .filter { audioState in
-                audioState == AudioState.paused || audioState == AudioState.playing || audioState == AudioState.error
+                audioState != AudioState.loading
             }
             .subscribe(onNext: { [unowned self] audioState in
                 switch audioState {
@@ -183,6 +175,8 @@ class AlbumDetailsViewController: UIViewController {
                     self.viewModel.dispatch(action: .pauseAudio)
                 case AudioState.error:
                     self.alert(title: nil, message: "Preview may not be available for all tracks", buttonTitle: "Dismiss")
+                case AudioState.none:
+                    self.viewModel.dispatch(action: .autoPlay)
                 default:
                     break
                 }
@@ -196,7 +190,6 @@ class AlbumDetailsViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-
     }
     
     //MARK: - Life Cycle
