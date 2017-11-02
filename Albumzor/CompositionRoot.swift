@@ -21,7 +21,7 @@ protocol CompositionRootProtocol {
     func composeChooseArtistsScene(mainContainerCoordinator: MainContainerCoordinator, seedArtistStateController: SeedArtistStateController) -> ChooseArtistViewController
     func composeConfirmArtistScene(mainContainerCoordinator: MainContainerCoordinator, seedArtistStateController: SeedArtistStateController) -> ConfirmArtistViewController
     func composeInstructionsScene(mainContainerCoordinator: MainContainerCoordinator, userSettingsStateController: UserSettingsStateController) -> InstructionsViewController
-    func composeSuggestAlbumsScene(mainContainerCoordinator: MainContainerCoordinator, seedArtistStateController: SeedArtistStateController, audioStateController: AudioStateController) -> SuggestAlbumsViewController
+    func composeSuggestAlbumsScene(mainContainerCoordinator: MainContainerCoordinator, seedArtistStateController: SeedArtistStateController, audioStateController: AudioStateController, userSettingsStateController: UserSettingsStateController) -> SuggestAlbumsViewController
     func composeAlbumsDetailsScene(mainContainerCoordinator: MainContainerCoordinator, albumDetailsStateController: AlbumDetailsStateControllerProtocol, audioStateController: AudioStateController) -> AlbumDetailsViewController
 }
 
@@ -90,7 +90,7 @@ class CompositionRoot: CompositionRootProtocol {
         return InstructionsViewController.createWith(viewModel: viewModel, storyBoard: UIStoryboard(name: "Main", bundle: nil))
     }
     
-    func composeSuggestAlbumsScene(mainContainerCoordinator: MainContainerCoordinator, seedArtistStateController: SeedArtistStateController, audioStateController: AudioStateController) -> SuggestAlbumsViewController {
+    func composeSuggestAlbumsScene(mainContainerCoordinator: MainContainerCoordinator, seedArtistStateController: SeedArtistStateController, audioStateController: AudioStateController, userSettingsStateController: UserSettingsStateController) -> SuggestAlbumsViewController {
         let remoteDataService = SpotifyRemoteDataService(session: URLSession.shared, authService: SpotifyAuthManager())
         let suggestedAlbumsStateController = SuggestedAlbumsStateController(localDatabaseService: CoreDataService(coreDataStack: CoreDataStack(modelName: "Model")!),
                                                                             remoteDataService: remoteDataService,
@@ -98,6 +98,8 @@ class CompositionRoot: CompositionRootProtocol {
         let viewModel = SuggestAlbumsViewModel(seedArtistStateController: seedArtistStateController,
                                                suggestedAlbumsStateController: suggestedAlbumsStateController,
                                                audioStateController: audioStateController,
+                                               userSettingsStateController: userSettingsStateController,
+                                               externalURLProxy: AppDelegateURLProxy(),
                                                delegate: mainContainerCoordinator)
         let vc = SuggestAlbumsViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
         return vc

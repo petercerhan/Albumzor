@@ -86,6 +86,34 @@ class ContainerViewController: UIViewController {
         }
     }
     
+    func showModalWithPresenter(modalViewController: UIViewController, presentingViewController: UIViewController, animation: ContainerAnimation = .none) {
+        
+        let priorViewController = contentViewController
+        contentViewController = modalViewController
+
+        addChildViewController(modalViewController)
+        
+        modalViewController.view.frame = view.bounds
+        modalViewController.view.alpha = 0
+        view.addSubview(modalViewController.view)
+        
+        priorViewController.willMove(toParentViewController: nil)
+        modalViewController.didMove(toParentViewController: self)
+        
+        animateTransition(newViewController: modalViewController, priorViewController: priorViewController, animation: animation) {
+            priorViewController.view.removeFromSuperview()
+            priorViewController.removeFromParentViewController()
+            
+        }
+        
+        presentingViewController.view.frame = view.bounds
+        presentingViewController.view.alpha = 1
+        view.insertSubview(presentingViewController.view, belowSubview: modalViewController.view)
+        presentingViewController.didMove(toParentViewController: self)
+        
+        modallyPresentingViewController = presentingViewController
+    }
+    
     func replaceModalVC(viewController newViewController: UIViewController, animation: ContainerAnimation = .none) {
         
         guard modallyPresentingViewController != nil else { return }

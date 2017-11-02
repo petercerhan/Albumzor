@@ -15,7 +15,7 @@
         <!--HomeViewController-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController title="LPSwipe" id="BYZ-38-t0r" userLabel="HomeViewController" customClass="HomeViewController" customModule="Albumzor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeViewController" title="LPSwipe" id="BYZ-38-t0r" userLabel="HomeViewController" customClass="HomeViewController" customModule="Albumzor" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -660,9 +660,6 @@
                                 <state key="normal" image="Home_icon">
                                     <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <connections>
-                                    <action selector="quit" destination="X8r-tE-8de" eventType="touchUpInside" id="UUp-wZ-zYW"/>
-                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Album" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FoF-1Y-GXe">
                                 <rect key="frame" x="46" y="406.5" width="283" height="27"/>
@@ -746,9 +743,6 @@
                                         <state key="normal" title="Open in Spotify">
                                             <color key="titleColor" red="0.1176470588" green="0.84313725490000002" blue="0.37647058820000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
-                                        <connections>
-                                            <action selector="openInSpotify" destination="X8r-tE-8de" eventType="touchUpInside" id="8jv-JQ-RG6"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -799,8 +793,9 @@
                         <outlet property="audioButton" destination="ggX-MA-VPX" id="tXn-4h-hzl"/>
                         <outlet property="defaultView" destination="RVp-es-UfG" id="ndT-Kf-Bgo"/>
                         <outlet property="dislikeButton" destination="ySh-9V-TfZ" id="OFX-KZ-kc2"/>
+                        <outlet property="homeButton" destination="MXn-7G-w2S" id="PjV-VC-u0j"/>
                         <outlet property="likeButton" destination="b03-O6-eNL" id="c5x-F1-4Ev"/>
-                        <outlet property="quitButton" destination="MXn-7G-w2S" id="Tcb-9x-bgZ"/>
+                        <outlet property="spotifyButton" destination="TIJ-Aa-Ize" id="9Go-Mg-xeE"/>
                         <outlet property="spotifyButtonContainer" destination="iHu-pE-Phv" id="0sm-ae-EJf"/>
                         <outlet property="spotifyIndicator" destination="f5j-LO-qvE" id="2fJ-3g-hhV"/>
                         <outlet property="titleLabel" destination="FoF-1Y-GXe" id="S86-PI-W3w"/>
@@ -992,7 +987,7 @@
                         <constraints>
                             <constraint firstItem="2JD-9A-zOL" firstAttribute="leading" secondItem="81e-Cc-tqN" secondAttribute="trailing" id="Bhc-yh-ZOz"/>
                             <constraint firstAttribute="trailing" secondItem="gF5-G5-8Uj" secondAttribute="trailing" id="Bs8-Sy-tdx"/>
-                            <constraint firstItem="hBC-lM-7WT" firstAttribute="top" secondItem="Bou-CD-Eec" secondAttribute="bottom" id="F4i-fA-GGR"/>
+                            <constraint firstItem="hBC-lM-7WT" firstAttribute="top" secondItem="xtX-Yl-hrn" secondAttribute="top" constant="20" id="E7x-jH-ba8"/>
                             <constraint firstItem="p85-e2-E58" firstAttribute="top" secondItem="Nla-wx-Wjf" secondAttribute="bottom" id="Gg9-pB-cx4"/>
                             <constraint firstItem="hBC-lM-7WT" firstAttribute="leading" secondItem="xtX-Yl-hrn" secondAttribute="leading" id="M9e-yE-H09"/>
                             <constraint firstItem="81e-Cc-tqN" firstAttribute="centerY" secondItem="2JD-9A-zOL" secondAttribute="centerY" id="NVp-Qr-vQT"/>

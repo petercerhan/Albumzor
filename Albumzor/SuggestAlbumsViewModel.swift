@@ -20,6 +20,8 @@ enum SuggestAlbumsSceneAction {
     case autoPlay
     case pauseAudio
     case resumeAudio
+    case openInSpotify
+    case home
 }
 
 class SuggestAlbumsViewModel {
@@ -29,6 +31,8 @@ class SuggestAlbumsViewModel {
     private let seedArtistStateController: SeedArtistStateController
     private let suggestedAlbumsStateController: SuggestedAlbumsStateController
     private let audioStateController: AudioStateController
+    private let userSettingsStateController: UserSettingsStateController
+    private let externalURLProxy: ExternalURLProxy
     private weak var delegate: SuggestAlbumsViewModelDelegate?
     
     //MARK: - State
@@ -70,15 +74,18 @@ class SuggestAlbumsViewModel {
     init(seedArtistStateController: SeedArtistStateController,
          suggestedAlbumsStateController: SuggestedAlbumsStateController,
          audioStateController: AudioStateController,
+         userSettingsStateController: UserSettingsStateController,
+         externalURLProxy: ExternalURLProxy,
          delegate: SuggestAlbumsViewModelDelegate)
     {
         self.seedArtistStateController = seedArtistStateController
         self.suggestedAlbumsStateController = suggestedAlbumsStateController
         self.audioStateController = audioStateController
+        self.userSettingsStateController = userSettingsStateController
+        self.externalURLProxy = externalURLProxy
         self.delegate = delegate
         
         bindSuggestedAlbumsStateController()
-        
     }
     
     private func bindSuggestedAlbumsStateController() {
@@ -99,6 +106,16 @@ class SuggestAlbumsViewModel {
         suggestedAlbumsStateController.currentAlbumTracks
             .subscribe().disposed(by: disposeBag)
         
+        //Autoplay
+        currentAlbumTitle
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] _ in
+                if self.userSettingsStateController.isAutoplayEnabled.value {
+                    self.handle_autoPlay()
+                }
+            })
+            .disposed(by: disposeBag)
+    
     }
     
     //MARK: - Dispatch Actions
@@ -115,6 +132,10 @@ class SuggestAlbumsViewModel {
             handle_pauseAudio()
         case .resumeAudio:
             handle_resumeAudio()
+        case .openInSpotify:
+            handle_openInSpotify()
+        case .home:
+            handle_home()
         }
     }
     
@@ -166,6 +187,20 @@ class SuggestAlbumsViewModel {
         audioStateController.resumeAudio()
     }
     
+    private func handle_openInSpotify() {
+        suggestedAlbumsStateController.currentAlbum
+            .take(1)
+            .filter { $0 != nil }
+            .subscribe(onNext: { [unowned self] albumData in
+                self.externalURLProxy.requestToOpen(url: "https://open.spotify.com/album/\(albumData!.id)")
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func handle_home() {
+        audioStateController.clear()
+        delegate?.suggestAlbumsSceneComplete(self)
+    }
     
 }
 

@@ -76,9 +76,9 @@ extension AlbumsContainerViewController: PrepareAlbumsViewControllerDelegate {
     func launchAlbumView(albums: [Album], albumArt: [UIImage]) {
         if shouldLaunchAlbumView {
             let vc = appStoryboard.instantiateViewController(withIdentifier: "SuggestAlbumsViewController") as! SuggestAlbumsViewController
-            vc.albums = albums
-            vc.albumArt = albumArt
-            vc.delegate = self
+//            vc.albums = albums
+//            vc.albumArt = albumArt
+//            vc.delegate = self
             update(contentViewController: vc)
         }
     }

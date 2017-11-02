@@ -91,9 +91,14 @@ extension MainContainerCoordinator: OpenSceneViewModelDelegate {
         if instructionsSeen && isSeeded {
             //Launch Home Scene
             print("Launch home scene")
+
+            let presentingVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+
+//            mainContainerViewController.show(viewController: vc, animation: .none)
             
-            let vc = compositionRoot.composeSuggestAlbumsScene(mainContainerCoordinator: self, seedArtistStateController: seedArtistStateController, audioStateController: audioStateController)
-            mainContainerViewController.show(viewController: vc, animation: .none)
+            let modalVC = compositionRoot.composeSuggestAlbumsScene(mainContainerCoordinator: self, seedArtistStateController: seedArtistStateController, audioStateController: audioStateController, userSettingsStateController: userSettingsStateController)
+//            mainContainerViewController.show(viewController: vc, animation: .none)
+            mainContainerViewController.showModalWithPresenter(modalViewController: modalVC, presentingViewController: presentingVC, animation: .none)
             
             
         } else if !instructionsSeen && !isSeeded {
@@ -221,18 +226,12 @@ extension MainContainerCoordinator: ConfirmArtistViewModelDelegate {
 extension MainContainerCoordinator: SuggestAlbumsViewModelDelegate {
 
     func suggestAlbumsSceneComplete(_ suggestAlbumsViewModel: SuggestAlbumsViewModel) {
-        
+        mainContainerViewController.dismissModalVC()
     }
     
     func showAlbumDetails(_ suggestArtistViewModel: SuggestAlbumsViewModel, albumDetailsStateController: AlbumDetailsStateControllerProtocol) {
-        
-//        let viewModel = AlbumDetailsViewModel(delegate: self)
-//        let vc = AlbumDetailsViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
-
         let vc = compositionRoot.composeAlbumsDetailsScene(mainContainerCoordinator: self, albumDetailsStateController: albumDetailsStateController, audioStateController: audioStateController)
-        
         mainContainerViewController.showModally(viewController: vc)
-        
     }
     
 }

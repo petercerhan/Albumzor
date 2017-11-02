@@ -99,7 +99,6 @@ class AVAudioPlayerService: AudioService {
     }
     
     func clear() {
-        print("Should be cleared")
         audioPlayer?.stop()
         audioPlayer = nil
         audioStateSubject.onNext(.none)
