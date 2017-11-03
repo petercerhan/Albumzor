@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-class MainContainerCoordinator {
+class MainContainerCoordinator: Coordinator {
     
     //MARK: - Dependencies
     
@@ -49,6 +49,12 @@ class MainContainerCoordinator {
             self.compositionRoot = compositionRoot
     }
     
+    //MARK: - Interface
+    
+    var containerViewController: UIViewController {
+        return mainContainerViewController
+    }
+    
     func start() {
         let vc = compositionRoot.composeOpenScene(mainContainerCoordinator: self)
         mainContainerViewController.show(viewController: vc, animation: .none)
@@ -60,7 +66,7 @@ class MainContainerCoordinator {
 
 extension MainContainerCoordinator: OpenSceneViewModelDelegate {
     func sceneComplete(_ openSceneViewModel: OpenSceneViewModel) {
-        
+        print("Open Scene complete callback")
         if authStateController.sessionIsValid {
             launchPostAuthenticationScene()
         } else {
@@ -78,7 +84,7 @@ extension MainContainerCoordinator: OpenSceneViewModelDelegate {
     
     //Enter main application once a valid session has been obtained
     func launchPostAuthenticationScene() {
-        
+        print("post authentication code path")
 //        print("\n\nInstructionsSeen: \(userSettingsStateController.instructionsSeen()) \nIsSeeded: \(userSettingsStateController.isSeeded()) \nAutoplay: \(userSettingsStateController.isAutoplayEnabled()) \nAlbumSortType: \(userSettingsStateController.getAlbumSortType())")
         
         let instructionsSeen = userSettingsStateController.instructionsSeen.value

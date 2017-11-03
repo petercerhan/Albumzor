@@ -41,6 +41,7 @@ class OpenSceneViewModel {
     }
     
     func handleSceneCompleteAction(action: OpenSceneActions.SceneCompleteAction) {
+        print("open scene complete")
         delegate?.sceneComplete(self)
     }
     

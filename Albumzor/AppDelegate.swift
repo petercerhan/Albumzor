@@ -24,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     var compositionRoot: CompositionRootProtocol!
+    var rootCoordinator: RootCoordinator!
+    
     var mainContainerCoordinator: MainContainerCoordinator!
     
     var authStateController: AuthStateController!
@@ -50,21 +52,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        authStateController.deleteSession()
         //
         
-        mainContainerCoordinator = compositionRoot.composeMainCoordinator(authStateController: authStateController)
-        mainContainerCoordinator.start()
+//        mainContainerCoordinator = compositionRoot.composeMainCoordinator()
+//        mainContainerCoordinator.start()
+        
+        rootCoordinator = compositionRoot.composeRootCoordinator()
+        rootCoordinator.start()
         
         window = compositionRoot.composeWindow()
         
-        window?.rootViewController = mainContainerCoordinator.mainContainerViewController
+        window?.rootViewController = rootCoordinator.containerViewController
         window?.makeKeyAndVisible()
         
         dataManager = DataManager()
         
         //Get albums count
-        mainContainerCoordinator.seedArtistStateController.localDBService
-            .countUnseenAlbums()
-            .subscribe(onNext: { print("Total unseen albums \($0)") })
-            .disposed(by: disposeBag)
+//        mainContainerCoordinator.seedArtistStateController.localDBService
+//            .countUnseenAlbums()
+//            .subscribe(onNext: { print("Total unseen albums \($0)") })
+//            .disposed(by: disposeBag)
         
         return true
     }

@@ -13,7 +13,9 @@ protocol CompositionRootProtocol {
     func composeWindow() -> UIWindow
     func composeAuthStateController() -> AuthStateController
     
-    func composeMainCoordinator(authStateController: AuthStateController) -> MainContainerCoordinator
+    func composeRootCoordinator() -> RootCoordinator
+    
+    func composeMainCoordinator() -> MainContainerCoordinator
     
     func composeOpenScene(mainContainerCoordinator: MainContainerCoordinator) -> OpenSceneViewController
     func composeSpotifyLoginScene(mainContainerCoordinator: MainContainerCoordinator) -> SpotifyLoginViewController
@@ -40,7 +42,12 @@ class CompositionRoot: CompositionRootProtocol {
 
     //MARK: - Coordinators
     
-    func composeMainCoordinator(authStateController: AuthStateController) -> MainContainerCoordinator {
+    func composeRootCoordinator() -> RootCoordinator {
+        return RootCoordinator(containerViewController: ContainerViewController(),
+                               compositionRoot: self)
+    }
+    
+    func composeMainCoordinator() -> MainContainerCoordinator {
         let archivingService = UserDefaultsArchivingService()
         let remoteDataService = SpotifyRemoteDataService(session: URLSession.shared, authService: SpotifyAuthManager())
         
@@ -51,7 +58,7 @@ class CompositionRoot: CompositionRootProtocol {
         let audioStateController = AudioStateController(audioService: AVAudioPlayerService())
         
         return MainContainerCoordinator(mainContainerViewController: ContainerViewController(),
-                                        authStateController: authStateController,
+                                        authStateController: composeAuthStateController(),
                                         userProfileStateController: userProfileStateController,
                                         userSettingsStateController: UserSettingsStateController(archiveService: archivingService),
                                         seedArtistStateController: seedArtistStateController,
