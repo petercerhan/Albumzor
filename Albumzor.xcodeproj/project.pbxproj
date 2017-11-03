@@ -34,7 +34,7 @@
 		E44481FF1EBBFD0E008C7146 /* SortOptionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44481FE1EBBFD0E008C7146 /* SortOptionsTableViewController.swift */; };
 		E44606CD1EB6417E00295D8E /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E44606CC1EB6417E00295D8E /* MediaPlayer.framework */; };
 		E44B02AA1F6DCB0700B1A0D3 /* CompositionRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44B02A91F6DCB0700B1A0D3 /* CompositionRoot.swift */; };
-		E44B02AD1F6DD96B00B1A0D3 /* MainContainerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44B02AC1F6DD96B00B1A0D3 /* MainContainerCoordinator.swift */; };
+		E44B02AD1F6DD96B00B1A0D3 /* SetupSceneSetCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44B02AC1F6DD96B00B1A0D3 /* SetupSceneSetCoordinator.swift */; };
 		E44B02B01F6DE39600B1A0D3 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44B02AF1F6DE39600B1A0D3 /* ContainerViewController.swift */; };
 		E44B02B21F6DF73800B1A0D3 /* OpenSceneViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44B02B11F6DF73800B1A0D3 /* OpenSceneViewModel.swift */; };
 		E44B02B41F6E065100B1A0D3 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44B02B31F6E065100B1A0D3 /* Action.swift */; };
@@ -154,7 +154,7 @@
 		E44481FE1EBBFD0E008C7146 /* SortOptionsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortOptionsTableViewController.swift; sourceTree = "<group>"; };
 		E44606CC1EB6417E00295D8E /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		E44B02A91F6DCB0700B1A0D3 /* CompositionRoot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompositionRoot.swift; sourceTree = "<group>"; };
-		E44B02AC1F6DD96B00B1A0D3 /* MainContainerCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainContainerCoordinator.swift; sourceTree = "<group>"; };
+		E44B02AC1F6DD96B00B1A0D3 /* SetupSceneSetCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupSceneSetCoordinator.swift; sourceTree = "<group>"; };
 		E44B02AF1F6DE39600B1A0D3 /* ContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		E44B02B11F6DF73800B1A0D3 /* OpenSceneViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenSceneViewModel.swift; sourceTree = "<group>"; };
 		E44B02B31F6E065100B1A0D3 /* Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
@@ -365,8 +365,8 @@
 			isa = PBXGroup;
 			children = (
 				6E5C3E981FABF832008ACDAE /* Coordinator.swift */,
-				E44B02AC1F6DD96B00B1A0D3 /* MainContainerCoordinator.swift */,
 				6E5C3E961FABF63D008ACDAE /* RootCoordinator.swift */,
+				E44B02AC1F6DD96B00B1A0D3 /* SetupSceneSetCoordinator.swift */,
 			);
 			name = Coordinators;
 			sourceTree = "<group>";
@@ -822,7 +822,7 @@
 				6EFA3E2E1F996F10002E9B04 /* InspectableQueue.swift in Sources */,
 				E45D99151E7B6DB100CD3CE7 /* AlbumsContainerViewController.swift in Sources */,
 				E47E09B41F8041CA004A5C9E /* ArtistData.swift in Sources */,
-				E44B02AD1F6DD96B00B1A0D3 /* MainContainerCoordinator.swift in Sources */,
+				E44B02AD1F6DD96B00B1A0D3 /* SetupSceneSetCoordinator.swift in Sources */,
 				E44B02B91F6F0E7C00B1A0D3 /* UserProfileStateController.swift in Sources */,
 				E4A7A5761F76DA76009D117D /* SpotifyRemoteDataService.swift in Sources */,
 				E467C4CD1EB174A800B0A62B /* ResetDataViewController.swift in Sources */,

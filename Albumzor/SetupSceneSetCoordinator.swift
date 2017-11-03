@@ -1,5 +1,5 @@
 //
-//  MainContainerCoordinator.swift
+//  SetupSceneSetCoordinator.swift
 //  Albumzor
 //
 //  Created by Peter Cerhan on 9/16/17.
@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-class MainContainerCoordinator: Coordinator {
+class SetupSceneSetCoordinator: Coordinator {
     
     //MARK: - Dependencies
     
@@ -64,7 +64,7 @@ class MainContainerCoordinator: Coordinator {
 
 //MARK: - OpenSceneViewModelDelegate
 
-extension MainContainerCoordinator: OpenSceneViewModelDelegate {
+extension SetupSceneSetCoordinator: OpenSceneViewModelDelegate {
     func sceneComplete(_ openSceneViewModel: OpenSceneViewModel) {
         print("Open Scene complete callback")
         if authStateController.sessionIsValid {
@@ -121,7 +121,7 @@ extension MainContainerCoordinator: OpenSceneViewModelDelegate {
 
 //MARK: - SpotifyViewControllerDelegate
 
-extension MainContainerCoordinator: SpotifyLoginViewControllerDelegate {
+extension SetupSceneSetCoordinator: SpotifyLoginViewControllerDelegate {
     
     func loginSucceeded() {
         userProfileStateController.setSpotifyConnected()
@@ -136,7 +136,7 @@ extension MainContainerCoordinator: SpotifyLoginViewControllerDelegate {
 
 //MARK: - WelcomeViewModelDelegate
 
-extension MainContainerCoordinator: WelcomeViewModelDelegate {
+extension SetupSceneSetCoordinator: WelcomeViewModelDelegate {
     
     func requestToChooseArtists(from welcomeViewModel: WelcomeViewModel) {
         launchChooseArtistsScene(animated: true)
@@ -166,7 +166,7 @@ extension MainContainerCoordinator: WelcomeViewModelDelegate {
 
 //MARK: - ChooseArtistViewModelDelegate
 
-extension MainContainerCoordinator: ChooseArtistViewModelDelegate {
+extension SetupSceneSetCoordinator: ChooseArtistViewModelDelegate {
     
     func chooseArtistSceneComplete(_ chooseArtistViewModel: ChooseArtistViewModel) {
         print("Choose artists scene complete")
@@ -215,7 +215,7 @@ extension MainContainerCoordinator: ChooseArtistViewModelDelegate {
 
 //MARK: - ConfirmArtistViewModelDelegate
 
-extension MainContainerCoordinator: ConfirmArtistViewModelDelegate {
+extension SetupSceneSetCoordinator: ConfirmArtistViewModelDelegate {
     
     func cancel(_ confirmArtistViewModel: ConfirmArtistViewModel) {
         mainContainerViewController.dismissModalVC()
@@ -223,9 +223,19 @@ extension MainContainerCoordinator: ConfirmArtistViewModelDelegate {
     
 }
 
+//MARK: - InstructionsViewModelDelegate
+
+extension SetupSceneSetCoordinator: InstructionsViewModelDelegate {
+    
+    func requestNextScene(_ instructionsViewModel: InstructionsViewModel) {
+        print("Instructions scene complete")
+    }
+    
+}
+
 //MARK: - SuggestAlbumsViewModelDelegate
 
-extension MainContainerCoordinator: SuggestAlbumsViewModelDelegate {
+extension SetupSceneSetCoordinator: SuggestAlbumsViewModelDelegate {
 
     func suggestAlbumsSceneComplete(_ suggestAlbumsViewModel: SuggestAlbumsViewModel) {
         mainContainerViewController.dismissModalVC()
@@ -240,7 +250,7 @@ extension MainContainerCoordinator: SuggestAlbumsViewModelDelegate {
 
 //MARK: - AlbumDetailsViewModelDelegate
 
-extension MainContainerCoordinator: AlbumDetailsViewModelDelegate {
+extension SetupSceneSetCoordinator: AlbumDetailsViewModelDelegate {
     
     func dismiss(_ albumDetailsViewModel: AlbumDetailsViewModel) {
         mainContainerViewController.dismissModalVC()
@@ -248,15 +258,6 @@ extension MainContainerCoordinator: AlbumDetailsViewModelDelegate {
     
 }
 
-//MARK: - InstructionsViewModelDelegate
-
-extension MainContainerCoordinator: InstructionsViewModelDelegate {
-    
-    func requestNextScene(_ instructionsViewModel: InstructionsViewModel) {
-        print("Instructions scene complete")
-    }
-    
-}
 
 
 

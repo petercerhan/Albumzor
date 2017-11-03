@@ -26,8 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var compositionRoot: CompositionRootProtocol!
     var rootCoordinator: RootCoordinator!
     
-    var mainContainerCoordinator: MainContainerCoordinator!
-    
     var authStateController: AuthStateController!
     
     
@@ -44,16 +42,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        let coreDataUtilityService = CoreDataService(coreDataStack: CoreDataStack(modelName: "Model")!)
 //        coreDataUtilityService.resetDatabase()
         
-        
         compositionRoot = CompositionRoot()
         
         authStateController = compositionRoot.composeAuthStateController()
         //
 //        authStateController.deleteSession()
         //
-        
-//        mainContainerCoordinator = compositionRoot.composeMainCoordinator()
-//        mainContainerCoordinator.start()
         
         rootCoordinator = compositionRoot.composeRootCoordinator()
         rootCoordinator.start()

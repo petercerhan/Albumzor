@@ -33,7 +33,7 @@ class RootCoordinator: Coordinator {
     }
     
     func start() {
-        let setupSceneSetCoordinator = compositionRoot.composeMainCoordinator()
+        let setupSceneSetCoordinator = compositionRoot.composeSetupSceneSetCoordinator()
         containerVC.show(viewController: setupSceneSetCoordinator.containerViewController, animation: .none)
         setupSceneSetCoordinator.start()
         childCoordinator = setupSceneSetCoordinator

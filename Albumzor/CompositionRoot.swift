@@ -15,16 +15,16 @@ protocol CompositionRootProtocol {
     
     func composeRootCoordinator() -> RootCoordinator
     
-    func composeMainCoordinator() -> MainContainerCoordinator
+    func composeSetupSceneSetCoordinator() -> SetupSceneSetCoordinator
     
-    func composeOpenScene(mainContainerCoordinator: MainContainerCoordinator) -> OpenSceneViewController
-    func composeSpotifyLoginScene(mainContainerCoordinator: MainContainerCoordinator) -> SpotifyLoginViewController
-    func composeWelcomeScene(mainContainerCoordinator: MainContainerCoordinator, userProfileStateController: UserProfileStateController) -> WelcomeViewController
-    func composeChooseArtistsScene(mainContainerCoordinator: MainContainerCoordinator, seedArtistStateController: SeedArtistStateController) -> ChooseArtistViewController
-    func composeConfirmArtistScene(mainContainerCoordinator: MainContainerCoordinator, seedArtistStateController: SeedArtistStateController) -> ConfirmArtistViewController
-    func composeInstructionsScene(mainContainerCoordinator: MainContainerCoordinator, userSettingsStateController: UserSettingsStateController) -> InstructionsViewController
-    func composeSuggestAlbumsScene(mainContainerCoordinator: MainContainerCoordinator, seedArtistStateController: SeedArtistStateController, audioStateController: AudioStateController, userSettingsStateController: UserSettingsStateController) -> SuggestAlbumsViewController
-    func composeAlbumsDetailsScene(mainContainerCoordinator: MainContainerCoordinator, albumDetailsStateController: AlbumDetailsStateControllerProtocol, audioStateController: AudioStateController) -> AlbumDetailsViewController
+    func composeOpenScene(mainContainerCoordinator: SetupSceneSetCoordinator) -> OpenSceneViewController
+    func composeSpotifyLoginScene(mainContainerCoordinator: SetupSceneSetCoordinator) -> SpotifyLoginViewController
+    func composeWelcomeScene(mainContainerCoordinator: SetupSceneSetCoordinator, userProfileStateController: UserProfileStateController) -> WelcomeViewController
+    func composeChooseArtistsScene(mainContainerCoordinator: SetupSceneSetCoordinator, seedArtistStateController: SeedArtistStateController) -> ChooseArtistViewController
+    func composeConfirmArtistScene(mainContainerCoordinator: SetupSceneSetCoordinator, seedArtistStateController: SeedArtistStateController) -> ConfirmArtistViewController
+    func composeInstructionsScene(mainContainerCoordinator: SetupSceneSetCoordinator, userSettingsStateController: UserSettingsStateController) -> InstructionsViewController
+    func composeSuggestAlbumsScene(mainContainerCoordinator: SetupSceneSetCoordinator, seedArtistStateController: SeedArtistStateController, audioStateController: AudioStateController, userSettingsStateController: UserSettingsStateController) -> SuggestAlbumsViewController
+    func composeAlbumsDetailsScene(mainContainerCoordinator: SetupSceneSetCoordinator, albumDetailsStateController: AlbumDetailsStateControllerProtocol, audioStateController: AudioStateController) -> AlbumDetailsViewController
 }
 
 class CompositionRoot: CompositionRootProtocol {
@@ -47,7 +47,7 @@ class CompositionRoot: CompositionRootProtocol {
                                compositionRoot: self)
     }
     
-    func composeMainCoordinator() -> MainContainerCoordinator {
+    func composeSetupSceneSetCoordinator() -> SetupSceneSetCoordinator {
         let archivingService = UserDefaultsArchivingService()
         let remoteDataService = SpotifyRemoteDataService(session: URLSession.shared, authService: SpotifyAuthManager())
         
@@ -57,7 +57,7 @@ class CompositionRoot: CompositionRootProtocol {
                                                                   localDatabaseService: CoreDataService(coreDataStack: CoreDataStack(modelName: "Model")!))
         let audioStateController = AudioStateController(audioService: AVAudioPlayerService())
         
-        return MainContainerCoordinator(mainContainerViewController: ContainerViewController(),
+        return SetupSceneSetCoordinator(mainContainerViewController: ContainerViewController(),
                                         authStateController: composeAuthStateController(),
                                         userProfileStateController: userProfileStateController,
                                         userSettingsStateController: UserSettingsStateController(archiveService: archivingService),
@@ -68,36 +68,36 @@ class CompositionRoot: CompositionRootProtocol {
     
     //MARK: - Main Coordinator Scenes
     
-    func composeOpenScene(mainContainerCoordinator: MainContainerCoordinator) -> OpenSceneViewController {
+    func composeOpenScene(mainContainerCoordinator: SetupSceneSetCoordinator) -> OpenSceneViewController {
         let viewModel = OpenSceneViewModel(delegate: mainContainerCoordinator)
         return OpenSceneViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
     }
     
-    func composeSpotifyLoginScene(mainContainerCoordinator: MainContainerCoordinator) -> SpotifyLoginViewController {
+    func composeSpotifyLoginScene(mainContainerCoordinator: SetupSceneSetCoordinator) -> SpotifyLoginViewController {
         return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SpotifyLoginViewController") as! SpotifyLoginViewController
     }
     
-    func composeWelcomeScene(mainContainerCoordinator: MainContainerCoordinator, userProfileStateController: UserProfileStateController) -> WelcomeViewController {
+    func composeWelcomeScene(mainContainerCoordinator: SetupSceneSetCoordinator, userProfileStateController: UserProfileStateController) -> WelcomeViewController {
         let viewModel = WelcomeViewModel(delegate: mainContainerCoordinator, userProfileStateController: userProfileStateController)
         return WelcomeViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
     }
     
-    func composeChooseArtistsScene(mainContainerCoordinator: MainContainerCoordinator, seedArtistStateController: SeedArtistStateController) -> ChooseArtistViewController {
+    func composeChooseArtistsScene(mainContainerCoordinator: SetupSceneSetCoordinator, seedArtistStateController: SeedArtistStateController) -> ChooseArtistViewController {
         let viewModel = ChooseArtistViewModel(delegate: mainContainerCoordinator, seedArtistStateController: seedArtistStateController)
         return ChooseArtistViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
     }
     
-    func composeConfirmArtistScene(mainContainerCoordinator: MainContainerCoordinator, seedArtistStateController: SeedArtistStateController) -> ConfirmArtistViewController {
+    func composeConfirmArtistScene(mainContainerCoordinator: SetupSceneSetCoordinator, seedArtistStateController: SeedArtistStateController) -> ConfirmArtistViewController {
         let viewModel = ConfirmArtistViewModel(delegate: mainContainerCoordinator, seedArtistStateController: seedArtistStateController, externalURLProxy: AppDelegateURLProxy())
         return ConfirmArtistViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
     }
     
-    func composeInstructionsScene(mainContainerCoordinator: MainContainerCoordinator, userSettingsStateController: UserSettingsStateController) -> InstructionsViewController {
+    func composeInstructionsScene(mainContainerCoordinator: SetupSceneSetCoordinator, userSettingsStateController: UserSettingsStateController) -> InstructionsViewController {
         let viewModel = InstructionsViewModel(delegate: mainContainerCoordinator, userSettingsStateController: userSettingsStateController)
         return InstructionsViewController.createWith(viewModel: viewModel, storyBoard: UIStoryboard(name: "Main", bundle: nil))
     }
     
-    func composeSuggestAlbumsScene(mainContainerCoordinator: MainContainerCoordinator, seedArtistStateController: SeedArtistStateController, audioStateController: AudioStateController, userSettingsStateController: UserSettingsStateController) -> SuggestAlbumsViewController {
+    func composeSuggestAlbumsScene(mainContainerCoordinator: SetupSceneSetCoordinator, seedArtistStateController: SeedArtistStateController, audioStateController: AudioStateController, userSettingsStateController: UserSettingsStateController) -> SuggestAlbumsViewController {
         let remoteDataService = SpotifyRemoteDataService(session: URLSession.shared, authService: SpotifyAuthManager())
         let suggestedAlbumsStateController = SuggestedAlbumsStateController(localDatabaseService: CoreDataService(coreDataStack: CoreDataStack(modelName: "Model")!),
                                                                             remoteDataService: remoteDataService,
@@ -112,7 +112,7 @@ class CompositionRoot: CompositionRootProtocol {
         return vc
     }
     
-    func composeAlbumsDetailsScene(mainContainerCoordinator: MainContainerCoordinator, albumDetailsStateController: AlbumDetailsStateControllerProtocol, audioStateController: AudioStateController) -> AlbumDetailsViewController {
+    func composeAlbumsDetailsScene(mainContainerCoordinator: SetupSceneSetCoordinator, albumDetailsStateController: AlbumDetailsStateControllerProtocol, audioStateController: AudioStateController) -> AlbumDetailsViewController {
         let viewModel = AlbumDetailsViewModel(albumDetailsStateController: albumDetailsStateController,
                                               audioStateController: audioStateController,
                                               externalURLProxy: AppDelegateURLProxy(),
