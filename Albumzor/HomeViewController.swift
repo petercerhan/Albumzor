@@ -11,16 +11,23 @@ import CoreData
 
 class HomeViewController: UIViewController {
     
+    //MARK: - Interface Components
+    
     @IBOutlet var tableView: UITableView!
     @IBOutlet var findAlbumsButton: AnimatedButton!
     @IBOutlet var editButton: UIBarButtonItem!
     @IBOutlet var menuButton: UIBarButtonItem!
     
+    //Remove
     let userSettings = (UIApplication.shared.delegate as! AppDelegate).userSettings
     let stack = (UIApplication.shared.delegate as! AppDelegate).coreDataStack
     let audioPlayer = (UIApplication.shared.delegate as! AppDelegate).audioPlayer
+    //remove
     
+    //Remove
     var currentAlbumTracks: [Track]?
+    //remove
+    
     
     var fetchedResultsController : NSFetchedResultsController<Album>? {
         didSet {
@@ -30,8 +37,10 @@ class HomeViewController: UIViewController {
         }
     }
     
+    //How to best implement this?
     var imageBuffer = [String : UIImage]()
-
+    //
+    
     //MARK:- Life Cycle
     
     override func viewDidLoad() {
@@ -82,7 +91,7 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        audioPlayer.delegate = self
+//        audioPlayer.delegate = self
         tableView.reloadData()
     }
     
@@ -301,75 +310,6 @@ extension HomeViewController: AlbumsContainerViewControllerDelegate {
     func findAlbumsHome() {
         dismiss(animated: true, completion: nil)
     }
-}
-
-//MARK: - AlbumDetailsViewControllerDelegate
-//AlbumDetailsViewControllerDelegate
-extension HomeViewController  {
-    
-    func playTrack(atIndex index: Int) {
-        
-        guard let urlString = currentAlbumTracks?[index].previewURL, let url = URL(string: urlString) else {
-            couldNotPlay()
-            return
-        }
-        
-        self.audioPlayer.playTrack(url: url)
-    }
-    
-    func pauseAudio() {
-        audioPlayer.pause()
-    }
-    
-    func resumeAudio() {
-        audioPlayer.play()
-    }
-    
-    func stopAudio() {
-        audioPlayer.stop()
-    }
-    
-    func dismiss() {
-        stopAudio()
-        dismiss(animated: true, completion: nil)
-    }
-}
-
-//MARK: - AudioPlayerDelegate
-
-extension HomeViewController: AudioPlayerDelegate {
-    
-    func beganLoading() {
-        if let vc = presentedViewController as? AlbumDetailsViewController {
-//            vc.audioBeganLoading()
-        }
-        //no action needed
-    }
-    
-    func beganPlaying() {
-        if let vc = presentedViewController as? AlbumDetailsViewController {
-//            vc.audioBeganPlaying()
-        }
-    }
-    
-    func paused() {
-        if let vc = presentedViewController as? AlbumDetailsViewController {
-//            vc.audioPaused()
-        }
-    }
-    
-    func stopped() {
-        if let vc = presentedViewController as? AlbumDetailsViewController {
-//            vc.audioStopped()
-        }
-    }
-    
-    func couldNotPlay() {
-        if let vc = presentedViewController as? AlbumDetailsViewController {
-//            vc.audioCouldNotPlay()
-        }
-    }
-    
 }
 
 //MARK: - Menu Delegate

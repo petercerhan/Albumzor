@@ -263,6 +263,26 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		6E1839351FAABAA300DA53E3 /* HomeScene */ = {
+			isa = PBXGroup;
+			children = (
+				E45D98BC1E75DC2F00CD3CE7 /* HomeViewController.swift */,
+			);
+			name = HomeScene;
+			sourceTree = "<group>";
+		};
+		6E330A741FABF048008747E6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E423E4F91F92AEFA007531F5 /* AbbreviatedAlbumData.swift */,
+				6E98162B1FA5170F00EE69D7 /* AbbreviatedTrackData.swift */,
+				6E98162D1FA51E2900EE69D7 /* TrackData.swift */,
+				E4A70C011F923ABB000301D0 /* AlbumData.swift */,
+				E47E09B31F8041C9004A5C9E /* ArtistData.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		6E80E6C31FA6632300C7852B /* AlbumDetailsScene */ = {
 			isa = PBXGroup;
 			children = (
@@ -402,17 +422,14 @@
 			children = (
 				E45D98BA1E75DC2F00CD3CE7 /* AppDelegate.swift */,
 				E44B02A91F6DCB0700B1A0D3 /* CompositionRoot.swift */,
-				E423E4F91F92AEFA007531F5 /* AbbreviatedAlbumData.swift */,
-				6E98162B1FA5170F00EE69D7 /* AbbreviatedTrackData.swift */,
-				6E98162D1FA51E2900EE69D7 /* TrackData.swift */,
-				E4A70C011F923ABB000301D0 /* AlbumData.swift */,
-				E47E09B31F8041C9004A5C9E /* ArtistData.swift */,
+				6E330A741FABF048008747E6 /* Models */,
 				E47E09A61F79D943004A5C9E /* Services */,
 				E4A7A5741F749C9B009D117D /* StateControllers */,
 				E44B02AB1F6DD95800B1A0D3 /* Coordinators */,
+				E44B02AE1F6DDEC600B1A0D3 /* ContainerViewControllers */,
+				6E1839351FAABAA300DA53E3 /* HomeScene */,
 				6EFA3E281F983332002E9B04 /* SuggestAlbumsScene */,
 				6E80E6C31FA6632300C7852B /* AlbumDetailsScene */,
-				E44B02AE1F6DDEC600B1A0D3 /* ContainerViewControllers */,
 				E44872051F95A1E80090F5A2 /* InstructionsScene */,
 				E47E09A91F7B2CAC004A5C9E /* ChooseArtistsScene */,
 				E47E09B01F802A00004A5C9E /* ConfirmArtistsScene */,
@@ -506,7 +523,6 @@
 		E45D99111E7B5F6600CD3CE7 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				E45D98BC1E75DC2F00CD3CE7 /* HomeViewController.swift */,
 				E467C4C81EAECD3800B0A62B /* MenuTableViewController.swift */,
 				E44481FE1EBBFD0E008C7146 /* SortOptionsTableViewController.swift */,
 				E467C4D01EB2CFAC00B0A62B /* ConfirmResetViewController.swift */,

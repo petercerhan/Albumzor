@@ -242,6 +242,54 @@ class SuggestAlbumsViewController: UIViewController {
                 self.viewModel.dispatch(action: .home)
             })
             .disposed(by: disposeBag)
+        
+        //Like button
+        likeButton.rx.tap
+            .subscribe(onNext: { [unowned self] _ in
+                self.currentAlbumView.isUserInteractionEnabled = false
+                
+                let rotationAngle = 2 * CGFloat(Double.pi) / 16.0
+                let transform = CGAffineTransform(rotationAngle: rotationAngle)
+                let finalTransform = transform.scaledBy(x: 0.93, y: 0.93)
+                
+                let exitDistance = self.view.frame.size.width
+                
+                UIView.animate(
+                    withDuration: 0.25,
+                    animations: {
+                        self.currentAlbumView.center.x += exitDistance
+                        self.currentAlbumView.center.y -= 20
+                        self.currentAlbumView.transform = finalTransform
+                    }, completion: { _ in
+                        self.viewModel.dispatch(action: .reviewAlbum(liked: true))
+                    })
+            })
+            .disposed(by: disposeBag)
+        
+        //Dislike button
+        dislikeButton.rx.tap
+            .subscribe(onNext: { [unowned self] _ in
+                self.currentAlbumView.isUserInteractionEnabled = false
+                
+                let rotationAngle = -2 * CGFloat(Double.pi) / 16.0
+                let transform = CGAffineTransform(rotationAngle: rotationAngle)
+                let finalTransform = transform.scaledBy(x: 0.93, y: 0.93)
+                
+                let exitDistance = self.view.frame.size.width
+                
+                UIView.animate(
+                    withDuration: 0.25,
+                    animations: {
+                        self.currentAlbumView.center.x -= exitDistance
+                        self.currentAlbumView.center.y -= 20
+                        self.currentAlbumView.transform = finalTransform
+                    },
+                    completion: { _ in
+                        self.viewModel.dispatch(action: .reviewAlbum(liked: false))
+                    })
+            })
+            .disposed(by: disposeBag)
+        
     }
     
     //MARK:- Life Cycle
@@ -306,58 +354,7 @@ class SuggestAlbumsViewController: UIViewController {
             currentAlbumView.resetViewPositionAndTransformations()
         }
     }
-    
-    //MARK: - User Actions
-    
-    @IBAction func like() {
-        
-        currentAlbumView.isUserInteractionEnabled = false
-        
-        let rotationAngle = 2 * CGFloat(Double.pi) / 16.0
-        let transform = CGAffineTransform(rotationAngle: rotationAngle)
-        let finalTransform = transform.scaledBy(x: 0.93, y: 0.93)
-        
-        let exitDistance = view.frame.size.width
-        
-        UIView.animate(withDuration: 0.25,
-                       animations: {
-                            self.currentAlbumView.center.x += exitDistance
-                            self.currentAlbumView.center.y -= 20
-                            self.currentAlbumView.transform = finalTransform
-                        }, completion: {
-                            _ in
-                            self.reviewAlbum(liked: true)
-                        })
-        
-    }
-    
-    @IBAction func dislike() {
-        
-        currentAlbumView.isUserInteractionEnabled = false
-        
-        let rotationAngle = -2 * CGFloat(Double.pi) / 16.0
-        let transform = CGAffineTransform(rotationAngle: rotationAngle)
-        let finalTransform = transform.scaledBy(x: 0.93, y: 0.93)
-        
-        let exitDistance = view.frame.size.width
-        
-        UIView.animate(withDuration: 0.25,
-                       animations: {
-                        self.currentAlbumView.center.x -= exitDistance
-                        self.currentAlbumView.center.y -= 20
-                        self.currentAlbumView.transform = finalTransform
-                        
-                    },
-                       completion: { _ in
-                        self.reviewAlbum(liked: false)
-                    })
-    }
-    
-    //MARK:- Manage likes
-    
-    fileprivate func reviewAlbum(liked: Bool) {
-        viewModel.dispatch(action: .reviewAlbum(liked: liked))
-    }
+
     
 }
 
@@ -366,7 +363,6 @@ class SuggestAlbumsViewController: UIViewController {
 extension SuggestAlbumsViewController: CGDraggableViewDelegate {
     func swipeComplete(direction: SwipeDirection) {
         if direction == .right {
-            reviewAlbum(liked: true)
             viewModel.dispatch(action: .reviewAlbum(liked: true))
         } else {
             viewModel.dispatch(action: .reviewAlbum(liked: false))

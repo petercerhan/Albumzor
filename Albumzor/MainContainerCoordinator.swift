@@ -9,10 +9,6 @@
 import Foundation
 import RxSwift
 
-//Temporary
-import MediaPlayer
-import GameKit
-
 class MainContainerCoordinator {
     
     //MARK: - Dependencies

@@ -33,7 +33,7 @@ class ContainerViewController: UIViewController {
         addChildViewController(newViewController)
         
         newViewController.view.frame = view.bounds
-        newViewController.view.alpha = 0
+        newViewController.view.alpha = 0 //Default before animation
         view.addSubview(newViewController.view)
         
         priorViewController.willMove(toParentViewController: nil)
@@ -86,6 +86,8 @@ class ContainerViewController: UIViewController {
         }
     }
     
+    
+    
     func showModalWithPresenter(modalViewController: UIViewController, presentingViewController: UIViewController, animation: ContainerAnimation = .none) {
         
         let priorViewController = contentViewController
@@ -114,6 +116,8 @@ class ContainerViewController: UIViewController {
         modallyPresentingViewController = presentingViewController
     }
     
+    
+    
     func replaceModalVC(viewController newViewController: UIViewController, animation: ContainerAnimation = .none) {
         
         guard modallyPresentingViewController != nil else { return }
@@ -132,6 +136,8 @@ class ContainerViewController: UIViewController {
             priorViewController.view.removeFromSuperview()
             priorViewController.removeFromParentViewController()
         }
+        
+        
     }
     
     fileprivate func animateTransition(newViewController: UIViewController, priorViewController: UIViewController, animation: ContainerAnimation, completion: ( () -> Void )? ) {
@@ -148,10 +154,6 @@ class ContainerViewController: UIViewController {
         }
     }
     
-    fileprivate func remove(priorViewController: UIViewController) {
-        priorViewController.view.removeFromSuperview()
-        priorViewController.removeFromParentViewController()
-    }
 }
 
 //MARK: - Animations
