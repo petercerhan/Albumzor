@@ -18,6 +18,12 @@ class HomeViewController: UIViewController {
     @IBOutlet var editButton: UIBarButtonItem!
     @IBOutlet var menuButton: UIBarButtonItem!
     
+    //MARK: - Dependencies
+    
+    fileprivate var viewModel: HomeViewModel!
+    
+    
+    
     //Remove
     let userSettings = (UIApplication.shared.delegate as! AppDelegate).userSettings
     let stack = (UIApplication.shared.delegate as! AppDelegate).coreDataStack
@@ -28,6 +34,13 @@ class HomeViewController: UIViewController {
     var currentAlbumTracks: [Track]?
     //remove
     
+    //MARK: - Initialization
+    
+    static func createWith(storyBoard: UIStoryboard, viewModel: HomeViewModel) -> HomeViewController {
+        let vc = storyBoard.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+        vc.viewModel = viewModel
+        return vc
+    }
     
     var fetchedResultsController : NSFetchedResultsController<Album>? {
         didSet {
@@ -112,9 +125,12 @@ class HomeViewController: UIViewController {
     }
 
     @IBAction func menu() {
-        let vc = storyboard!.instantiateViewController(withIdentifier: "MenuTableViewController") as! MenuTableViewController
-        vc.menuDelegate = self
-        navigationController?.pushViewController(vc, animated: true)
+        
+        viewModel.dispatch(action: .requestMenuScene)
+        
+//        let vc = storyboard!.instantiateViewController(withIdentifier: "MenuTableViewController") as! MenuTableViewController
+//        vc.menuDelegate = self
+//        navigationController?.pushViewController(vc, animated: true)
     }
 
 }

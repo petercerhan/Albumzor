@@ -46,21 +46,13 @@ class HomeSceneSetCoordinator: Coordinator {
     }
     
     func startWithSuggestAlbumsActive() {
-        
-        //Move to composition root
-        let homeVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-        //
-        //set container root vc
+        let homeVC = compositionRoot.composeHomeScene(delegate: self)
         containerVC.setRootViewController(homeVC)
         
         let suggestAlbumsSceneSetCoordinator = compositionRoot.composeSuggestAlbumsSceneSetCoordinator(delegate: self)
         suggestAlbumsSceneSetCoordinator.start()
-        
-        //show suggest albums vc modally
         containerVC.showModally(viewController: suggestAlbumsSceneSetCoordinator.containerViewController, animation: .none)
         
-//        containerVC.showModalWithPresenter(modalViewController: suggestAlbumsSceneSetCoordinator.containerViewController, presentingViewController: homeVC)
-
         childCoordinator = suggestAlbumsSceneSetCoordinator
     }
     
@@ -71,6 +63,23 @@ extension HomeSceneSetCoordinator: SuggestAlbumsSceneSetCoordinatorDelegate {
     func requestCompleteSceneSet(_ suggestAlbumsSceneSetCoordinator: SuggestAlbumsSceneSetCoordinator) {
         containerVC.dismissModalVC()
         childCoordinator = nil
+    }
+    
+}
+
+extension HomeSceneSetCoordinator: HomeViewModelDelegate {
+    
+    func requestMenuScene(_ homeViewModel: HomeViewModel) {
+        
+        //Move to composition root
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MenuTableViewController") as! MenuTableViewController
+        //
+        
+//        vc.menuDelegate = self
+//        navigationController?.pushViewController(vc, animated: true)
+        
+        containerVC.push(viewController: vc, animated: true)
+        
     }
     
 }

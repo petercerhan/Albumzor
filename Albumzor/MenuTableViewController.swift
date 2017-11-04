@@ -22,7 +22,7 @@ class MenuTableViewController: UITableViewController {
     @IBOutlet var autoPlaySwitch: UISwitch!
     @IBOutlet var sortAlbumsLabel: UILabel!
     
-    weak var delegate = (UIApplication.shared.delegate as! AppDelegate).mainContainerViewController!
+//    weak var delegate = (UIApplication.shared.delegate as! AppDelegate).mainContainerViewController!
     weak var menuDelegate: MenuDelegate?
     var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
     
@@ -34,28 +34,28 @@ class MenuTableViewController: UITableViewController {
         super.viewDidLoad()
 
         title = "Options"
-        autoPlaySwitch.isOn = appDelegate.userSettings.autoplay
+//        autoPlaySwitch.isOn = appDelegate.userSettings.autoplay
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        guard let albumSortType = AlbumSortType(rawValue: appDelegate.userSettings.albumSortType) else {
-            return
-        }
-        
-        switch albumSortType {
-        case .dateAdded:
-            sortAlbumsLabel.text = "Date Added"
-        case .albumName:
-            sortAlbumsLabel.text = "Album Name"
-        case .artist:
-            sortAlbumsLabel.text = "Artist"
-        }
-     
-        if shouldReloadAlbums {
-            menuDelegate?.refreshAlbumDisplay()
-        }
+//        guard let albumSortType = AlbumSortType(rawValue: appDelegate.userSettings.albumSortType) else {
+//            return
+//        }
+//
+//        switch albumSortType {
+//        case .dateAdded:
+//            sortAlbumsLabel.text = "Date Added"
+//        case .albumName:
+//            sortAlbumsLabel.text = "Album Name"
+//        case .artist:
+//            sortAlbumsLabel.text = "Artist"
+//        }
+//
+//        if shouldReloadAlbums {
+//            menuDelegate?.refreshAlbumDisplay()
+//        }
     }
     
     //MARK: - User Actions
@@ -157,7 +157,7 @@ class MenuTableViewController: UITableViewController {
         
         let disconnectAction = UIAlertAction(title: "Disconnect", style: .default) { action in
             self.appDelegate.disconnectSpotify()
-            self.delegate?.spotifyDisconnected()
+//            self.delegate?.spotifyDisconnected()
         }
          
         let cancelAction = UIAlertAction(title: "Cancel", style: .default)

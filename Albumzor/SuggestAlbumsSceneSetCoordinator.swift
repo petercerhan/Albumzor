@@ -48,7 +48,6 @@ extension SuggestAlbumsSceneSetCoordinator: SuggestAlbumsViewModelDelegate {
     
     func suggestAlbumsSceneComplete(_ suggestAlbumsViewModel: SuggestAlbumsViewModel) {
         delegate?.requestCompleteSceneSet(self)
-        print("suggest album scene complete")
     }
     
     func showAlbumDetails(_ suggestArtistViewModel: SuggestAlbumsViewModel) {

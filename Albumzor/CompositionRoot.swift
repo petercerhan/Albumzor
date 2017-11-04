@@ -28,6 +28,8 @@ protocol CompositionRootProtocol {
 
     func composeSuggestAlbumsScene(delegate: SuggestAlbumsViewModelDelegate) -> SuggestAlbumsViewController
     func composeAlbumsDetailsScene(delegate: AlbumDetailsViewModelDelegate) -> AlbumDetailsViewController
+    
+    func composeHomeScene(delegate: HomeViewModelDelegate) -> HomeViewController
 }
 
 class CompositionRoot: CompositionRootProtocol {
@@ -163,6 +165,11 @@ class CompositionRoot: CompositionRootProtocol {
         let vc = AlbumDetailsViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
         return vc
     }
+    
+    func composeHomeScene(delegate: HomeViewModelDelegate) -> HomeViewController {
+        return HomeViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: HomeViewModel(delegate: delegate))
+    }
+    
 }
 
 
