@@ -18,14 +18,12 @@ protocol MediaLibraryServiceProtocol {
 class ITunesLibraryService: MediaLibraryServiceProtocol {
     
     func fetchArtistsFromMediaLibrary() -> Observable<[String]> {
-        
         return Observable.create( { (observer) -> Disposable in
             
             DispatchQueue.global(qos: .userInitiated).async {
                 var artists = self.getArtistsFromItunes() ?? ITunesLibraryService.defaultArtists
                 
                 artists = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: artists) as! Array<String>
-                
                 observer.onNext(artists)
                 observer.onCompleted()
             }

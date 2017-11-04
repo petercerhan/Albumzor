@@ -15,6 +15,10 @@ class RootCoordinator: Coordinator {
     fileprivate let containerVC: ContainerViewController
     fileprivate let compositionRoot: CompositionRoot
     
+//    //inject into 
+//    fileprivate let seedArtistStateController: seedArtistStateController
+//    fileprivate let 
+    
     //MARK: - Children
     
     fileprivate var childCoordinator: Coordinator?
@@ -37,6 +41,20 @@ class RootCoordinator: Coordinator {
         containerVC.show(viewController: setupSceneSetCoordinator.containerViewController, animation: .none)
         setupSceneSetCoordinator.start()
         childCoordinator = setupSceneSetCoordinator
+    }
+    
+}
+
+//MARK: - SetupSceneSetCoordinatorDelegate
+
+extension RootCoordinator: SetupSceneSetCoordinatorDelegate {
+    
+    func requestHomeSceneSet(_ setupSceneSetCoordinator: SetupSceneSetCoordinator) {
+        
+    }
+    
+    func requestSuggestAlbumsSceneSet(_ setupSceneSetCoordinator: SetupSceneSetCoordinator) {
+        
     }
     
 }
