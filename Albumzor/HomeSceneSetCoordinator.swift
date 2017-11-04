@@ -16,7 +16,7 @@ class HomeSceneSetCoordinator: Coordinator {
     
     //MARK: - Dependencies
     
-    fileprivate let containerVC: ContainerViewController
+    fileprivate let containerVC: NavigationContainerViewController
     fileprivate let compositionRoot: CompositionRoot
     fileprivate weak var delegate: HomeSceneSetCoordinatorDelegate?
     
@@ -26,7 +26,7 @@ class HomeSceneSetCoordinator: Coordinator {
     
     //Mark: - Initialization
     
-    init(containerViewController: ContainerViewController,
+    init(containerViewController: NavigationContainerViewController,
          compositionRoot: CompositionRoot,
          delegate: HomeSceneSetCoordinatorDelegate)
     {
@@ -50,11 +50,17 @@ class HomeSceneSetCoordinator: Coordinator {
         //Move to composition root
         let homeVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
         //
+        //set container root vc
+        containerVC.setRootViewController(homeVC)
         
         let suggestAlbumsSceneSetCoordinator = compositionRoot.composeSuggestAlbumsSceneSetCoordinator(delegate: self)
-        
-        containerVC.showModalWithPresenter(modalViewController: suggestAlbumsSceneSetCoordinator.containerViewController, presentingViewController: homeVC)
         suggestAlbumsSceneSetCoordinator.start()
+        
+        //show suggest albums vc modally
+        containerVC.showModally(viewController: suggestAlbumsSceneSetCoordinator.containerViewController, animation: .none)
+        
+//        containerVC.showModalWithPresenter(modalViewController: suggestAlbumsSceneSetCoordinator.containerViewController, presentingViewController: homeVC)
+
         childCoordinator = suggestAlbumsSceneSetCoordinator
     }
     

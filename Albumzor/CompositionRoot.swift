@@ -106,7 +106,7 @@ class CompositionRoot: CompositionRootProtocol {
     }
     
     func composeHomeSceneSetCoordinator(delegate: HomeSceneSetCoordinatorDelegate) -> HomeSceneSetCoordinator {
-        return HomeSceneSetCoordinator(containerViewController: ContainerViewController(), compositionRoot: self, delegate: delegate)
+        return HomeSceneSetCoordinator(containerViewController: NavigationContainerViewController(), compositionRoot: self, delegate: delegate)
     }
     
     func composeSuggestAlbumsSceneSetCoordinator(delegate: SuggestAlbumsSceneSetCoordinatorDelegate) -> SuggestAlbumsSceneSetCoordinator {

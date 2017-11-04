@@ -10,7 +10,7 @@ import UIKit
 
 class ContainerViewController: UIViewController {
     
-    private var contentViewController = UIViewController()
+    var contentViewController = UIViewController()
     
     var hideStatusBar = false
     var modallyPresentingViewController: UIViewController?
