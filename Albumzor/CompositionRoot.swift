@@ -15,7 +15,9 @@ protocol CompositionRootProtocol {
     
     func composeRootCoordinator() -> RootCoordinator
     
-    func composeSetupSceneSetCoordinator() -> SetupSceneSetCoordinator
+    func composeSetupSceneSetCoordinator(delegate: SetupSceneSetCoordinatorDelegate) -> SetupSceneSetCoordinator
+    func composeSuggestAlbumsSceneSetCoordinator(delegate: SuggestAlbumsSceneSetCoordinatorDelegate) -> SuggestAlbumsSceneSetCoordinator
+    func composeHomeSceneSetCoordinator(delegate: HomeSceneSetCoordinatorDelegate) -> HomeSceneSetCoordinator
     
     func composeOpenScene(delegate: OpenSceneViewModelDelegate) -> OpenSceneViewController
     func composeSpotifyLoginScene() -> SpotifyLoginViewController
@@ -93,13 +95,22 @@ class CompositionRoot: CompositionRootProtocol {
                                compositionRoot: self)
     }
     
-    func composeSetupSceneSetCoordinator() -> SetupSceneSetCoordinator {
+    func composeSetupSceneSetCoordinator(delegate: SetupSceneSetCoordinatorDelegate) -> SetupSceneSetCoordinator {
         return SetupSceneSetCoordinator(mainContainerViewController: ContainerViewController(),
                                         authStateController: composeAuthStateController(),
                                         userProfileStateController: userProfileStateController,
                                         userSettingsStateController: userSettingsStateController,
                                         seedArtistStateController: seedArtistStateController,
-                                        compositionRoot: self)
+                                        compositionRoot: self,
+                                        delegate: delegate)
+    }
+    
+    func composeHomeSceneSetCoordinator(delegate: HomeSceneSetCoordinatorDelegate) -> HomeSceneSetCoordinator {
+        return HomeSceneSetCoordinator(containerViewController: ContainerViewController(), compositionRoot: self, delegate: delegate)
+    }
+    
+    func composeSuggestAlbumsSceneSetCoordinator(delegate: SuggestAlbumsSceneSetCoordinatorDelegate) -> SuggestAlbumsSceneSetCoordinator {
+        return SuggestAlbumsSceneSetCoordinator(containerViewController: ContainerViewController(), compositionRoot: self, delegate: delegate)
     }
     
     //MARK: - Main Coordinator Scenes

@@ -11,7 +11,7 @@ import RxSwift
 
 protocol SuggestAlbumsViewModelDelegate: class {
     func suggestAlbumsSceneComplete(_ suggestAlbumsViewModel: SuggestAlbumsViewModel)
-    func showAlbumDetails(_ suggestArtistViewModel: SuggestAlbumsViewModel, albumDetailsStateController: AlbumDetailsStateControllerProtocol)
+    func showAlbumDetails(_ suggestArtistViewModel: SuggestAlbumsViewModel)
 }
 
 enum SuggestAlbumsSceneAction {
@@ -92,7 +92,7 @@ class SuggestAlbumsViewModel {
         
         suggestedAlbumsStateController.showDetails.asObservable()
             .subscribe(onNext: { [unowned self] _ in
-                self.delegate?.showAlbumDetails(self, albumDetailsStateController: self.suggestedAlbumsStateController)
+                self.delegate?.showAlbumDetails(self)
             })
             .disposed(by: disposeBag)
         

@@ -25,9 +25,14 @@ class SetupSceneSetCoordinator: Coordinator {
     let seedArtistStateController: SeedArtistStateController
     let compositionRoot: CompositionRootProtocol
     
-    //MARK: - Children
+    weak var delegate: SetupSceneSetCoordinatorDelegate?
     
+    //MARK: - Children
+
+    //Review
     var childCoordinators = [Any]()
+    //review
+    
     var activeSceneDelegateProxy: AnyObject?
     
     //MARK: - Rx
@@ -41,7 +46,8 @@ class SetupSceneSetCoordinator: Coordinator {
          userProfileStateController: UserProfileStateController,
          userSettingsStateController: UserSettingsStateController,
          seedArtistStateController: SeedArtistStateController,
-         compositionRoot: CompositionRootProtocol)
+         compositionRoot: CompositionRootProtocol,
+         delegate: SetupSceneSetCoordinatorDelegate)
     {
             self.mainContainerViewController = mainContainerViewController
             self.authStateController = authStateController
@@ -49,6 +55,7 @@ class SetupSceneSetCoordinator: Coordinator {
             self.userSettingsStateController = userSettingsStateController
             self.seedArtistStateController = seedArtistStateController
             self.compositionRoot = compositionRoot
+            self.delegate = delegate
     }
     
     //MARK: - Interface
@@ -93,13 +100,15 @@ extension SetupSceneSetCoordinator: OpenSceneViewModelDelegate {
         
         if instructionsSeen && isSeeded {
             //Launch Home Scene
-            print("Launch home scene")
-
-            //This happens in root coordinator
-            let presentingVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-            let modalVC = compositionRoot.composeSuggestAlbumsScene(delegate: self)
             
-            mainContainerViewController.showModalWithPresenter(modalViewController: modalVC, presentingViewController: presentingVC, animation: .none)
+            delegate?.requestHomeSceneSet(self)
+            
+            
+            //This happens in root coordinator
+//            let presentingVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+//            let modalVC = compositionRoot.composeSuggestAlbumsScene(delegate: self)
+//
+//            mainContainerViewController.showModalWithPresenter(modalViewController: modalVC, presentingViewController: presentingVC, animation: .none)
             //
             
         } else if !instructionsSeen && !isSeeded {
@@ -231,6 +240,8 @@ extension SetupSceneSetCoordinator: InstructionsViewModelDelegate {
     
 }
 
+//REMOVE
+
 //MARK: - SuggestAlbumsViewModelDelegate
 
 extension SetupSceneSetCoordinator: SuggestAlbumsViewModelDelegate {
@@ -239,7 +250,7 @@ extension SetupSceneSetCoordinator: SuggestAlbumsViewModelDelegate {
         mainContainerViewController.dismissModalVC()
     }
     
-    func showAlbumDetails(_ suggestArtistViewModel: SuggestAlbumsViewModel, albumDetailsStateController: AlbumDetailsStateControllerProtocol) {
+    func showAlbumDetails(_ suggestArtistViewModel: SuggestAlbumsViewModel) {
         let vc = compositionRoot.composeAlbumsDetailsScene(delegate: self)
         mainContainerViewController.showModally(viewController: vc)
     }
@@ -256,7 +267,7 @@ extension SetupSceneSetCoordinator: AlbumDetailsViewModelDelegate {
     
 }
 
-
+//remove
 
 
 
