@@ -17,15 +17,15 @@ protocol CompositionRootProtocol {
     
     func composeSetupSceneSetCoordinator() -> SetupSceneSetCoordinator
     
-    func composeOpenScene(mainContainerCoordinator: SetupSceneSetCoordinator) -> OpenSceneViewController
-    func composeSpotifyLoginScene(mainContainerCoordinator: SetupSceneSetCoordinator) -> SpotifyLoginViewController
-    func composeWelcomeScene(mainContainerCoordinator: SetupSceneSetCoordinator) -> WelcomeViewController
-    func composeChooseArtistsScene(mainContainerCoordinator: SetupSceneSetCoordinator) -> ChooseArtistViewController
-    func composeConfirmArtistScene(mainContainerCoordinator: SetupSceneSetCoordinator) -> ConfirmArtistViewController
-    func composeInstructionsScene(mainContainerCoordinator: SetupSceneSetCoordinator) -> InstructionsViewController
+    func composeOpenScene(delegate: OpenSceneViewModelDelegate) -> OpenSceneViewController
+    func composeSpotifyLoginScene() -> SpotifyLoginViewController
+    func composeWelcomeScene(delegate: WelcomeViewModelDelegate) -> WelcomeViewController
+    func composeChooseArtistsScene(delegate: ChooseArtistViewModelDelegate) -> ChooseArtistViewController
+    func composeConfirmArtistScene(delegate: ConfirmArtistViewModelDelegate) -> ConfirmArtistViewController
+    func composeInstructionsScene(delegate: InstructionsViewModelDelegate) -> InstructionsViewController
 
-    func composeSuggestAlbumsScene(mainContainerCoordinator: SetupSceneSetCoordinator) -> SuggestAlbumsViewController
-    func composeAlbumsDetailsScene(mainContainerCoordinator: SetupSceneSetCoordinator) -> AlbumDetailsViewController
+    func composeSuggestAlbumsScene(delegate: SuggestAlbumsViewModelDelegate) -> SuggestAlbumsViewController
+    func composeAlbumsDetailsScene(delegate: AlbumDetailsViewModelDelegate) -> AlbumDetailsViewController
 }
 
 class CompositionRoot: CompositionRootProtocol {
@@ -104,53 +104,51 @@ class CompositionRoot: CompositionRootProtocol {
     
     //MARK: - Main Coordinator Scenes
     
-    func composeOpenScene(mainContainerCoordinator: SetupSceneSetCoordinator) -> OpenSceneViewController {
-        let viewModel = OpenSceneViewModel(delegate: mainContainerCoordinator)
+    func composeOpenScene(delegate: OpenSceneViewModelDelegate) -> OpenSceneViewController {
+        let viewModel = OpenSceneViewModel(delegate: delegate)
         return OpenSceneViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
     }
     
-    func composeSpotifyLoginScene(mainContainerCoordinator: SetupSceneSetCoordinator) -> SpotifyLoginViewController {
+    func composeSpotifyLoginScene() -> SpotifyLoginViewController {
         return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SpotifyLoginViewController") as! SpotifyLoginViewController
     }
     
-    func composeWelcomeScene(mainContainerCoordinator: SetupSceneSetCoordinator) -> WelcomeViewController {
-        let viewModel = WelcomeViewModel(delegate: mainContainerCoordinator, userProfileStateController: userProfileStateController)
+    func composeWelcomeScene(delegate: WelcomeViewModelDelegate) -> WelcomeViewController {
+        let viewModel = WelcomeViewModel(delegate: delegate, userProfileStateController: userProfileStateController)
         return WelcomeViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
     }
     
-    func composeChooseArtistsScene(mainContainerCoordinator: SetupSceneSetCoordinator) -> ChooseArtistViewController {
-        let viewModel = ChooseArtistViewModel(delegate: mainContainerCoordinator,
-                                              seedArtistStateController: seedArtistStateController)
-        return ChooseArtistViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil),
-                                                     viewModel: viewModel)
+    func composeChooseArtistsScene(delegate: ChooseArtistViewModelDelegate) -> ChooseArtistViewController {
+        let viewModel = ChooseArtistViewModel(delegate: delegate, seedArtistStateController: seedArtistStateController)
+        return ChooseArtistViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
     }
     
-    func composeConfirmArtistScene(mainContainerCoordinator: SetupSceneSetCoordinator) -> ConfirmArtistViewController {
-        let viewModel = ConfirmArtistViewModel(delegate: mainContainerCoordinator, seedArtistStateController: seedArtistStateController, externalURLProxy: AppDelegateURLProxy())
+    func composeConfirmArtistScene(delegate: ConfirmArtistViewModelDelegate) -> ConfirmArtistViewController {
+        let viewModel = ConfirmArtistViewModel(delegate: delegate, seedArtistStateController: seedArtistStateController, externalURLProxy: AppDelegateURLProxy())
         return ConfirmArtistViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
     }
     
-    func composeInstructionsScene(mainContainerCoordinator: SetupSceneSetCoordinator) -> InstructionsViewController {
-        let viewModel = InstructionsViewModel(delegate: mainContainerCoordinator, userSettingsStateController: userSettingsStateController)
+    func composeInstructionsScene(delegate: InstructionsViewModelDelegate) -> InstructionsViewController {
+        let viewModel = InstructionsViewModel(delegate: delegate, userSettingsStateController: userSettingsStateController)
         return InstructionsViewController.createWith(viewModel: viewModel, storyBoard: UIStoryboard(name: "Main", bundle: nil))
     }
     
-    func composeSuggestAlbumsScene(mainContainerCoordinator: SetupSceneSetCoordinator) -> SuggestAlbumsViewController {
+    func composeSuggestAlbumsScene(delegate: SuggestAlbumsViewModelDelegate) -> SuggestAlbumsViewController {
         let viewModel = SuggestAlbumsViewModel(seedArtistStateController: seedArtistStateController,
                                                suggestedAlbumsStateController: suggestedAlbumsStateController,
                                                audioStateController: audioStateController,
                                                userSettingsStateController: userSettingsStateController,
                                                externalURLProxy: AppDelegateURLProxy(),
-                                               delegate: mainContainerCoordinator)
+                                               delegate: delegate)
         let vc = SuggestAlbumsViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
         return vc
     }
     
-    func composeAlbumsDetailsScene(mainContainerCoordinator: SetupSceneSetCoordinator) -> AlbumDetailsViewController {
+    func composeAlbumsDetailsScene(delegate: AlbumDetailsViewModelDelegate) -> AlbumDetailsViewController {
         let viewModel = AlbumDetailsViewModel(albumDetailsStateController: suggestedAlbumsStateController,
                                               audioStateController: audioStateController,
                                               externalURLProxy: AppDelegateURLProxy(),
-                                              delegate: mainContainerCoordinator)
+                                              delegate: delegate)
         let vc = AlbumDetailsViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
         return vc
     }

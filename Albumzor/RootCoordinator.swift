@@ -15,10 +15,6 @@ class RootCoordinator: Coordinator {
     fileprivate let containerVC: ContainerViewController
     fileprivate let compositionRoot: CompositionRoot
     
-//    //inject into 
-//    fileprivate let seedArtistStateController: seedArtistStateController
-//    fileprivate let 
-    
     //MARK: - Children
     
     fileprivate var childCoordinator: Coordinator?

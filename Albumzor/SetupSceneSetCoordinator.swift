@@ -58,7 +58,7 @@ class SetupSceneSetCoordinator: Coordinator {
     }
     
     func start() {
-        let vc = compositionRoot.composeOpenScene(mainContainerCoordinator: self)
+        let vc = compositionRoot.composeOpenScene(delegate: self)
         mainContainerViewController.show(viewController: vc, animation: .none)
     }
     
@@ -71,7 +71,7 @@ extension SetupSceneSetCoordinator: OpenSceneViewModelDelegate {
         if authStateController.sessionIsValid {
             launchPostAuthenticationScene()
         } else {
-            let vc = compositionRoot.composeSpotifyLoginScene(mainContainerCoordinator: self)
+            let vc = compositionRoot.composeSpotifyLoginScene()
             
             vc.spotifyConnected = userProfileStateController.spotifyConnected.value
             
@@ -97,21 +97,21 @@ extension SetupSceneSetCoordinator: OpenSceneViewModelDelegate {
 
             //This happens in root coordinator
             let presentingVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-            let modalVC = compositionRoot.composeSuggestAlbumsScene(mainContainerCoordinator: self)
+            let modalVC = compositionRoot.composeSuggestAlbumsScene(delegate: self)
             
             mainContainerViewController.showModalWithPresenter(modalViewController: modalVC, presentingViewController: presentingVC, animation: .none)
             //
             
         } else if !instructionsSeen && !isSeeded {
             //Launch Welcome Scene
-            let vc = compositionRoot.composeWelcomeScene(mainContainerCoordinator: self)
+            let vc = compositionRoot.composeWelcomeScene(delegate: self)
             mainContainerViewController.show(viewController: vc, animation: .none)
         } else if instructionsSeen && !isSeeded {
             //launch Seed Artists scene
             print("launch seed artist")
         } else if !instructionsSeen && isSeeded {
             //Launch Instructions Scene
-            let vc = compositionRoot.composeInstructionsScene(mainContainerCoordinator: self)
+            let vc = compositionRoot.composeInstructionsScene(delegate: self)
             mainContainerViewController.show(viewController: vc, animation: .slideFromRight)
         }
     }
@@ -153,7 +153,7 @@ extension SetupSceneSetCoordinator: WelcomeViewModelDelegate {
             .take(1)
             .subscribe(onNext: { [unowned self] artists in
                 if artists.count > 0 {
-                    let vc = self.compositionRoot.composeChooseArtistsScene(mainContainerCoordinator: self)
+                    let vc = self.compositionRoot.composeChooseArtistsScene(delegate: self)
                     self.mainContainerViewController.show(viewController: vc, animation: animated ? .slideFromRight : .none)
                 }
             })
@@ -175,7 +175,7 @@ extension SetupSceneSetCoordinator: ChooseArtistViewModelDelegate {
         if userSettingsStateController.instructionsSeen.value {
             //launch suggest albums scene
         } else {
-            let vc = compositionRoot.composeInstructionsScene(mainContainerCoordinator: self)
+            let vc = compositionRoot.composeInstructionsScene(delegate: self)
             mainContainerViewController.show(viewController: vc, animation: .slideFromRight)
         }
         
@@ -183,11 +183,11 @@ extension SetupSceneSetCoordinator: ChooseArtistViewModelDelegate {
     
     func showConfirmArtistScene(_ chooseArtistViewModel: ChooseArtistViewModel, confirmationArtist: String) {
         
-        let confirmArtistVC = compositionRoot.composeConfirmArtistScene(mainContainerCoordinator: self)
+        let confirmArtistVC = compositionRoot.composeConfirmArtistScene(delegate: self)
         
         //launch spotify confirmation, if necessary
         if !(authStateController.sessionIsValid) {
-            let vc = compositionRoot.composeSpotifyLoginScene(mainContainerCoordinator: self)
+            let vc = compositionRoot.composeSpotifyLoginScene()
             
             mainContainerViewController.showModally(viewController: vc)
             
@@ -240,7 +240,7 @@ extension SetupSceneSetCoordinator: SuggestAlbumsViewModelDelegate {
     }
     
     func showAlbumDetails(_ suggestArtistViewModel: SuggestAlbumsViewModel, albumDetailsStateController: AlbumDetailsStateControllerProtocol) {
-        let vc = compositionRoot.composeAlbumsDetailsScene(mainContainerCoordinator: self)
+        let vc = compositionRoot.composeAlbumsDetailsScene(delegate: self)
         mainContainerViewController.showModally(viewController: vc)
     }
     
