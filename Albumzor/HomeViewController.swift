@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import RxSwift
 
 class HomeViewController: UIViewController {
     
@@ -18,6 +19,8 @@ class HomeViewController: UIViewController {
     @IBOutlet var editButton: UIBarButtonItem!
     @IBOutlet var menuButton: UIBarButtonItem!
     
+    var tableViewProxy: TableViewProxy!
+    
     //MARK: - Dependencies
     
     fileprivate var viewModel: HomeViewModel!
@@ -27,12 +30,16 @@ class HomeViewController: UIViewController {
     //Remove
     let userSettings = (UIApplication.shared.delegate as! AppDelegate).userSettings
     let stack = (UIApplication.shared.delegate as! AppDelegate).coreDataStack
-    let audioPlayer = (UIApplication.shared.delegate as! AppDelegate).audioPlayer
     //remove
     
     //Remove
     var currentAlbumTracks: [Track]?
     //remove
+    
+    //MARK: - Rx
+    
+    let disposeBag = DisposeBag()
+    
     
     //MARK: - Initialization
     
@@ -65,8 +72,35 @@ class HomeViewController: UIViewController {
         findAlbumsButton.baseColor = Styles.themeBlue
         findAlbumsButton.highlightedColor = Styles.shadedThemeBlue
         
-        configureFetchedResultsController()
+        setUpTableView()
+        
+        
+        
+        
+//        configureFetchedResultsController()
     }
+    
+    private func setUpTableView() {
+        tableViewProxy = TableViewProxy(tableView: tableView)
+        
+        viewModel.likedAlbumData
+            .observeOn(MainScheduler.instance)
+            .map { albumTupleArray -> [TableCellData] in
+                return albumTupleArray.map { albumTuple -> TableCellData in
+                    return TableCellData(title: albumTuple.0, subTitle: albumTuple.1, imageStream: albumTuple.2)
+                }
+            }
+            .subscribe(onNext: { [unowned self] data in
+                self.tableViewProxy.setTableViewData(data)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    
+    
+    
+    
+    
     
     func configureFetchedResultsController() {
         guard let albumSortType = AlbumSortType(rawValue: userSettings.albumSortType) else {
@@ -104,7 +138,6 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        audioPlayer.delegate = self
         tableView.reloadData()
     }
     
@@ -119,18 +152,11 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func findAlbums() {
-        let vc = AlbumsContainerViewController()
-        vc.delegate = self
-        present(vc, animated: true, completion: nil)
+        viewModel.dispatch(action: .requestSuggestAlbumsScene)
     }
 
     @IBAction func menu() {
-        
         viewModel.dispatch(action: .requestMenuScene)
-        
-//        let vc = storyboard!.instantiateViewController(withIdentifier: "MenuTableViewController") as! MenuTableViewController
-//        vc.menuDelegate = self
-//        navigationController?.pushViewController(vc, animated: true)
     }
 
 }

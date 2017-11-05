@@ -31,6 +31,7 @@ protocol LocalDatabaseServiceProtocol {
     
     func save(tracks: [TrackData], forAlbum album: AlbumData)
     
+    func getLikedAlbums() -> Observable<[AlbumData]>
 }
 
 class CoreDataService: LocalDatabaseServiceProtocol {
@@ -43,6 +44,36 @@ class CoreDataService: LocalDatabaseServiceProtocol {
     
     init(coreDataStack: CoreDataStack) {
         self.coreDataStack = coreDataStack
+    }
+    
+    //MARK: - Interface
+    
+    func getLikedAlbums() -> Observable<[AlbumData]> {
+        return Observable<[AlbumData]>.create { [weak self] observer -> Disposable in
+            
+            guard let backgroundContext = self?.coreDataStack.backgroundContext else {
+                observer.onCompleted()
+                return Disposables.create()
+            }
+            
+            backgroundContext.perform {
+                let request = NSFetchRequest<Album>(entityName: "Album")
+                request.predicate = NSPredicate(format: "(liked = true)")
+                
+                if let albumArray = try? backgroundContext.fetch(request) {
+                    observer
+                        .onNext(albumArray.map { album -> AlbumData in
+                                    var albumData = album.albumDataRepresentation
+                                    albumData.artistName = album.artist?.name
+                                    return albumData
+                                })
+                }
+                
+                observer.onCompleted()
+            }
+            
+            return Disposables.create()
+        }
     }
     
     func save(tracks trackDataArray: [TrackData], forAlbum albumData: AlbumData) {

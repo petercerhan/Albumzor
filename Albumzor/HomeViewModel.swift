@@ -7,13 +7,16 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol HomeViewModelDelegate: class {
     func requestMenuScene(_ homeViewModel: HomeViewModel)
+    func requestSuggestAlbumsScene(_ homeViewModel: HomeViewModel)
 }
 
 enum HomeSceneAction {
     case requestMenuScene
+    case requestSuggestAlbumsScene
 }
 
 class HomeViewModel {
@@ -21,11 +24,31 @@ class HomeViewModel {
     //MARK: - Dependencies
     
     private weak var delegate: HomeViewModelDelegate?
+    private let likedAlbumsStateController: LikedAlbumsStateController
+    private let userSettingsStateController: UserSettingsStateController
+    
+    //MARK: - State
+    
+    private(set) lazy var likedAlbumData: Observable<[(String, String, Observable<UIImage>?)]> = {
+        return self.likedAlbumsStateController.likedAlbums
+            .filter { $0 != nil }
+            .map { $0! }
+            .map { albumDataArray -> [(String, String, Observable<UIImage>?)] in
+                return albumDataArray.map { albumTuple -> (String, String, Observable<UIImage>?) in
+                    let albumData = albumTuple.0
+                    let imageObservable = albumTuple.1
+                    return (albumData.cleanName, albumData.artistName ?? "", imageObservable)
+                }
+            }
+            .shareReplay(1)
+    }()
     
     //MARK: - Initialization
     
-    init(delegate: HomeViewModelDelegate) {
+    init(delegate: HomeViewModelDelegate, likedAlbumsStateController: LikedAlbumsStateController, userSettingsStateController: UserSettingsStateController) {
         self.delegate = delegate
+        self.likedAlbumsStateController = likedAlbumsStateController
+        self.userSettingsStateController = userSettingsStateController
     }
     
     //MARK: - Dispatch Actions
@@ -34,6 +57,8 @@ class HomeViewModel {
         switch action {
         case .requestMenuScene:
             handle_requestMenuScene()
+        case .requestSuggestAlbumsScene:
+            handle_requestSuggestAlbumsScene()
         }
     }
     
@@ -41,4 +66,10 @@ class HomeViewModel {
         delegate?.requestMenuScene(self)
     }
     
+    private func handle_requestSuggestAlbumsScene() {
+        delegate?.requestSuggestAlbumsScene(self)
+    }
+    
 }
+
+

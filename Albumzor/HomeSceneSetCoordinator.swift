@@ -75,11 +75,15 @@ extension HomeSceneSetCoordinator: HomeViewModelDelegate {
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MenuTableViewController") as! MenuTableViewController
         //
         
-//        vc.menuDelegate = self
-//        navigationController?.pushViewController(vc, animated: true)
-        
         containerVC.push(viewController: vc, animated: true)
-        
+    }
+    
+    
+    func requestSuggestAlbumsScene(_ homeViewModel: HomeViewModel) {
+        let suggestAlbumsSceneSetCoordinator = compositionRoot.composeSuggestAlbumsSceneSetCoordinator(delegate: self)
+        suggestAlbumsSceneSetCoordinator.start()
+        containerVC.showModally(viewController: suggestAlbumsSceneSetCoordinator.containerViewController)
+        childCoordinator = suggestAlbumsSceneSetCoordinator
     }
     
 }

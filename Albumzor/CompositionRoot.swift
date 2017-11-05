@@ -61,6 +61,10 @@ class CompositionRoot: CompositionRootProtocol {
         return AudioStateController(audioService: self.avAudioPlayerService)
     }()
     
+    private lazy var likedAlbumsStateController: LikedAlbumsStateController = {
+        return LikedAlbumsStateController(localDatabaseService: self.coreDataService, remoteDataService: self.spotifyRemoteDataService)
+    }()
+    
     //MARK: - Services
     
     private lazy var coreDataService: CoreDataService = {
@@ -115,7 +119,7 @@ class CompositionRoot: CompositionRootProtocol {
         return SuggestAlbumsSceneSetCoordinator(containerViewController: ContainerViewController(), compositionRoot: self, delegate: delegate)
     }
     
-    //MARK: - Main Coordinator Scenes
+    //MARK: - Setup Scene Set
     
     func composeOpenScene(delegate: OpenSceneViewModelDelegate) -> OpenSceneViewController {
         let viewModel = OpenSceneViewModel(delegate: delegate)
@@ -146,6 +150,8 @@ class CompositionRoot: CompositionRootProtocol {
         return InstructionsViewController.createWith(viewModel: viewModel, storyBoard: UIStoryboard(name: "Main", bundle: nil))
     }
     
+    //MARK: - Suggest Albums Scene Set
+    
     func composeSuggestAlbumsScene(delegate: SuggestAlbumsViewModelDelegate) -> SuggestAlbumsViewController {
         let viewModel = SuggestAlbumsViewModel(seedArtistStateController: seedArtistStateController,
                                                suggestedAlbumsStateController: suggestedAlbumsStateController,
@@ -166,8 +172,13 @@ class CompositionRoot: CompositionRootProtocol {
         return vc
     }
     
+    //MARK: - Home Scene Set
+    
     func composeHomeScene(delegate: HomeViewModelDelegate) -> HomeViewController {
-        return HomeViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: HomeViewModel(delegate: delegate))
+        let viewModel = HomeViewModel(delegate: delegate,
+                                      likedAlbumsStateController: likedAlbumsStateController,
+                                      userSettingsStateController: userSettingsStateController)
+        return HomeViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
     }
     
 }

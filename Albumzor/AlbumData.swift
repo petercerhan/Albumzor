@@ -22,6 +22,8 @@ struct AlbumData {
     var smallImageData: Data?
     let priorSeed: Bool
     
+    var artistName: String?
+    
     var cleanName: String {
         if let index = name.index(of: "(") {
             return name.substring(to: index).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
