@@ -29,15 +29,15 @@ class HomeViewModel {
     
     //MARK: - State
     
-    private(set) lazy var likedAlbumData: Observable<[(String, String, Observable<UIImage>?)]> = {
+    private(set) lazy var likedAlbumData: Observable<[(String, String, Data?, Observable<UIImage>?)]> = {
         return self.likedAlbumsStateController.likedAlbums
             .filter { $0 != nil }
             .map { $0! }
-            .map { albumDataArray -> [(String, String, Observable<UIImage>?)] in
-                return albumDataArray.map { albumTuple -> (String, String, Observable<UIImage>?) in
+            .map { albumDataArray -> [(String, String, Data?, Observable<UIImage>?)] in
+                return albumDataArray.map { albumTuple -> (String, String, Data?, Observable<UIImage>?) in
                     let albumData = albumTuple.0
                     let imageObservable = albumTuple.1
-                    return (albumData.cleanName, albumData.artistName ?? "", imageObservable)
+                    return (albumData.cleanName, albumData.artistName ?? "", albumData.smallImageData, imageObservable)
                 }
             }
             .shareReplay(1)

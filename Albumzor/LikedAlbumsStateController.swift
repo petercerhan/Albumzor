@@ -28,7 +28,11 @@ class LikedAlbumsStateController {
                         if albumData.smallImageData != nil {
                             return (albumData, nil)
                         } else {
-                            return (albumData, self?.remoteDataService.fetchImageFrom(urlString: albumData.smallImage))
+                            return (albumData, self?.remoteDataService.fetchImageFrom(urlString: albumData.smallImage).do(onNext: { [weak self] image in
+                                var mutableAlbumData = albumData
+                                mutableAlbumData.smallImageData = UIImagePNGRepresentation(image)
+                                self?.localDatabaseService.save(album: mutableAlbumData)
+                            }))
                         }
                     }
                 }

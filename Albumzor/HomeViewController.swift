@@ -87,7 +87,7 @@ class HomeViewController: UIViewController {
             .observeOn(MainScheduler.instance)
             .map { albumTupleArray -> [TableCellData] in
                 return albumTupleArray.map { albumTuple -> TableCellData in
-                    return TableCellData(title: albumTuple.0, subTitle: albumTuple.1, imageStream: albumTuple.2)
+                    return TableCellData(title: albumTuple.0, subTitle: albumTuple.1, imageData: albumTuple.2, imageStream: albumTuple.3)
                 }
             }
             .subscribe(onNext: { [unowned self] data in
