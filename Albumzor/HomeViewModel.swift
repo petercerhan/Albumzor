@@ -19,6 +19,7 @@ enum HomeSceneAction {
     case requestMenuScene
     case requestSuggestAlbumsScene
     case requestDetailsScene(albumId: String)
+    case deleteAlbum(id: String)
 }
 
 class HomeViewModel {
@@ -79,6 +80,8 @@ class HomeViewModel {
             handle_requestSuggestAlbumsScene()
         case .requestDetailsScene(let id):
             handle_requestDetailsScene(albumID: id)
+        case .deleteAlbum(let id):
+            handle_deleteAlbum(id: id)
         }
     }
     
@@ -92,6 +95,10 @@ class HomeViewModel {
     
     private func handle_requestDetailsScene(albumID: String) {
         likedAlbumsStateController.getDetailsForAlbum(albumID: albumID)
+    }
+    
+    private func handle_deleteAlbum(id: String) {
+        likedAlbumsStateController.deleteAlbum(id: id)
     }
     
 }

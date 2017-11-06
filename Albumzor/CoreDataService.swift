@@ -34,6 +34,8 @@ protocol LocalDatabaseServiceProtocol {
     func getLikedAlbums() -> Observable<[AlbumData]>
     
     func getAlbumArtistTracks(forAlbumID albumID: String) -> Observable<(AlbumData, ArtistData, [TrackData]?)>
+    
+    func deleteAlbum(id: String)
 }
 
 class CoreDataService: LocalDatabaseServiceProtocol {
@@ -49,6 +51,20 @@ class CoreDataService: LocalDatabaseServiceProtocol {
     }
     
     //MARK: - Interface
+    
+    func deleteAlbum(id: String) {
+        let backgroundContext = coreDataStack.backgroundContext
+        backgroundContext.perform {
+            
+            let request = NSFetchRequest<Album>(entityName: "Album")
+            request.predicate = NSPredicate(format: "id == %@", id)
+            
+            if let albumArray = try? backgroundContext.fetch(request), albumArray.count > 0 {
+                backgroundContext.delete(albumArray[0])
+                try? backgroundContext.save()
+            }
+        }
+    }
     
     func getAlbumArtistTracks(forAlbumID albumID: String) -> Observable<(AlbumData, ArtistData, [TrackData]?)> {
         return Observable<(AlbumData, ArtistData, [TrackData]?)>.create { [weak self] (observer) -> Disposable in

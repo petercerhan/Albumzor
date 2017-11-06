@@ -26,10 +26,25 @@ class TableViewProxy: NSObject, UITableViewDataSource, UITableViewDelegate {
     //MARK: - State
     
     private(set) lazy var albumDetailsID: Observable<String> = {
-        return self.albumDetailsIDSubject.asObservable().shareReplay(1)
+        return self.albumDetailsIDSubject.asObservable().share()
     }()
     
     private let albumDetailsIDSubject = PublishSubject<String>()
+    
+    private(set) lazy var editingActive: Observable<Bool> = {
+        return self.editingActiveSubject.asObservable().shareReplay(1)
+    }()
+    
+    private let editingActiveSubject = BehaviorSubject<Bool>(value: false)
+    
+    private(set) lazy var deleteAlbumID: Observable<String> = {
+        return self.deleteAlbumIDSubject.asObservable().share()
+    }()
+    
+    private let deleteAlbumIDSubject = PublishSubject<String>()
+    
+    
+    
     
     private var tableViewData = [TableCellData]()
     //image cache (?)
@@ -51,7 +66,6 @@ class TableViewProxy: NSObject, UITableViewDataSource, UITableViewDelegate {
     
     //RefreshTableCellDataArray
     func setTableViewData(_ tableViewData: [TableCellData]) {
-        print("Set table view data with \(tableViewData.count)")
         self.tableViewData = tableViewData
         tableView.reloadData()
     }
@@ -104,11 +118,24 @@ class TableViewProxy: NSObject, UITableViewDataSource, UITableViewDelegate {
     //MARK: - TableViewDelegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         albumDetailsIDSubject.onNext(tableViewData[indexPath.row].id)
-        
     }
     
+    func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath) {
+        editingActiveSubject.onNext(true)
+    }
+    
+    func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
+        editingActiveSubject.onNext(false)
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let albumData = tableViewData.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            deleteAlbumIDSubject.onNext(albumData.id)
+        }
+    }
     
     
 }

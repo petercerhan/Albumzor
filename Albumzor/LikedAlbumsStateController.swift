@@ -121,6 +121,10 @@ class LikedAlbumsStateController: AlbumDetailsStateControllerProtocol {
         detailsActiveSubject.onNext(false)
     }
     
+    func deleteAlbum(id: String) {
+        localDatabaseService.deleteAlbum(id: id)
+    }
+    
 }
 
 

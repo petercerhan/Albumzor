@@ -83,6 +83,7 @@ class HomeViewController: UIViewController {
     private func setUpTableView() {
         tableViewProxy = TableViewProxy(tableView: tableView)
         
+        //Album Data
         viewModel.likedAlbumData
             .observeOn(MainScheduler.instance)
             .map { albumTupleArray -> [TableCellData] in
@@ -95,9 +96,17 @@ class HomeViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        //Album Details
         tableViewProxy.albumDetailsID
             .subscribe(onNext: { [unowned self] id in
                 self.viewModel.dispatch(action: .requestDetailsScene(albumId: id))
+            })
+            .disposed(by: disposeBag)
+        
+        //Delete Album
+        tableViewProxy.deleteAlbumID
+            .subscribe(onNext: { [unowned self] id in
+                self.viewModel.dispatch(action: .deleteAlbum(id: id))
             })
             .disposed(by: disposeBag)
     }
@@ -144,7 +153,7 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.reloadData()
+//        tableView.reloadData()
     }
     
     @IBAction func edit() {
