@@ -59,6 +59,19 @@ class AlbumDetailsViewModel {
     
     private(set) lazy var tracks: Observable<[(String, Int)]?> = {
         return self.albumDetailsStateController.albumDetails_tracks
+            .map { tracks -> [TrackData]? in 
+                if let tracks = tracks {
+                    return tracks.sorted(by: {
+                        if $0.discNumber == $1.discNumber {
+                            return $0.trackNumber < $1.trackNumber
+                        } else {
+                            return $0.discNumber < $1.discNumber
+                        }
+                    })
+                } else {
+                    return nil
+                }
+            }
             .map { tracks -> [(String, Int)]? in
                 if let tracks = tracks {
                     return tracks.map { ($0.name, $0.trackNumber) }
