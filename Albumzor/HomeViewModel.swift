@@ -12,11 +12,13 @@ import RxSwift
 protocol HomeViewModelDelegate: class {
     func requestMenuScene(_ homeViewModel: HomeViewModel)
     func requestSuggestAlbumsScene(_ homeViewModel: HomeViewModel)
+    func requestDetailsScene(_ homeViewModel: HomeViewModel)
 }
 
 enum HomeSceneAction {
     case requestMenuScene
     case requestSuggestAlbumsScene
+    case requestDetailsScene(albumId: String)
 }
 
 class HomeViewModel {
@@ -29,19 +31,23 @@ class HomeViewModel {
     
     //MARK: - State
     
-    private(set) lazy var likedAlbumData: Observable<[(String, String, Data?, Observable<UIImage>?)]> = {
+    private(set) lazy var likedAlbumData: Observable<[(String, String, String, Data?, Observable<UIImage>?)]> = {
         return self.likedAlbumsStateController.likedAlbums
             .filter { $0 != nil }
             .map { $0! }
-            .map { albumDataArray -> [(String, String, Data?, Observable<UIImage>?)] in
-                return albumDataArray.map { albumTuple -> (String, String, Data?, Observable<UIImage>?) in
+            .map { albumDataArray -> [(String, String, String, Data?, Observable<UIImage>?)] in
+                return albumDataArray.map { albumTuple -> (String, String, String, Data?, Observable<UIImage>?) in
                     let albumData = albumTuple.0
                     let imageObservable = albumTuple.1
-                    return (albumData.cleanName, albumData.artistName ?? "", albumData.smallImageData, imageObservable)
+                    return (albumData.cleanName, albumData.artistName ?? "", albumData.id, albumData.smallImageData, imageObservable)
                 }
             }
             .shareReplay(1)
     }()
+    
+    //MARK: - Rx
+    
+    private let disposeBag = DisposeBag()
     
     //MARK: - Initialization
     
@@ -49,6 +55,18 @@ class HomeViewModel {
         self.delegate = delegate
         self.likedAlbumsStateController = likedAlbumsStateController
         self.userSettingsStateController = userSettingsStateController
+        
+        bindLikedAlbumsStateController()
+    }
+    
+    private func bindLikedAlbumsStateController() {
+        likedAlbumsStateController.detailsActive
+            .subscribe(onNext: { [unowned self] isActive in
+                if isActive {
+                    self.delegate?.requestDetailsScene(self)
+                }
+            })
+            .disposed(by: disposeBag)
     }
     
     //MARK: - Dispatch Actions
@@ -59,6 +77,8 @@ class HomeViewModel {
             handle_requestMenuScene()
         case .requestSuggestAlbumsScene:
             handle_requestSuggestAlbumsScene()
+        case .requestDetailsScene(let id):
+            handle_requestDetailsScene(albumID: id)
         }
     }
     
@@ -68,6 +88,10 @@ class HomeViewModel {
     
     private func handle_requestSuggestAlbumsScene() {
         delegate?.requestSuggestAlbumsScene(self)
+    }
+    
+    private func handle_requestDetailsScene(albumID: String) {
+        likedAlbumsStateController.getDetailsForAlbum(albumID: albumID)
     }
     
 }

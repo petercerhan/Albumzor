@@ -60,10 +60,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         dataManager = DataManager()
         
         //Get albums count
-//        mainContainerCoordinator.seedArtistStateController.localDBService
-//            .countUnseenAlbums()
-//            .subscribe(onNext: { print("Total unseen albums \($0)") })
-//            .disposed(by: disposeBag)
+        compositionRoot.localDatabaseService
+            .countUnseenAlbums()
+            .subscribe(onNext: { print("Total unseen albums \($0)") })
+            .disposed(by: disposeBag)
         
         return true
     }

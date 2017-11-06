@@ -30,6 +30,9 @@ protocol CompositionRootProtocol {
     func composeAlbumsDetailsScene(delegate: AlbumDetailsViewModelDelegate) -> AlbumDetailsViewController
     
     func composeHomeScene(delegate: HomeViewModelDelegate) -> HomeViewController
+    func composeAlbumDetailsScene_FromHome(delegate: AlbumDetailsViewModelDelegate) -> AlbumDetailsViewController
+    
+    var localDatabaseService: LocalDatabaseServiceProtocol { get }
 }
 
 class CompositionRoot: CompositionRootProtocol {
@@ -112,7 +115,7 @@ class CompositionRoot: CompositionRootProtocol {
     }
     
     func composeHomeSceneSetCoordinator(delegate: HomeSceneSetCoordinatorDelegate) -> HomeSceneSetCoordinator {
-        return HomeSceneSetCoordinator(containerViewController: NavigationContainerViewController(), compositionRoot: self, delegate: delegate)
+        return HomeSceneSetCoordinator(containerViewController: NavigationContainerViewController(), compositionRoot: self, likedAlbumsStateController: likedAlbumsStateController, delegate: delegate)
     }
     
     func composeSuggestAlbumsSceneSetCoordinator(delegate: SuggestAlbumsSceneSetCoordinatorDelegate) -> SuggestAlbumsSceneSetCoordinator {
@@ -179,6 +182,22 @@ class CompositionRoot: CompositionRootProtocol {
                                       likedAlbumsStateController: likedAlbumsStateController,
                                       userSettingsStateController: userSettingsStateController)
         return HomeViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
+    }
+
+    func composeAlbumDetailsScene_FromHome(delegate: AlbumDetailsViewModelDelegate) -> AlbumDetailsViewController {
+        let viewModel = AlbumDetailsViewModel(albumDetailsStateController: likedAlbumsStateController,
+                                              audioStateController: audioStateController,
+                                              externalURLProxy: AppDelegateURLProxy(),
+                                              delegate: delegate)
+        let vc = AlbumDetailsViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
+        return vc
+    }
+    
+    
+    //MARK: - Dev
+    
+    var localDatabaseService: LocalDatabaseServiceProtocol {
+        return coreDataService
     }
     
 }

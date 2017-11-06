@@ -93,7 +93,7 @@ extension SetupSceneSetCoordinator: OpenSceneViewModelDelegate {
     //Enter main application once a valid session has been obtained
     func launchPostAuthenticationScene() {
         
-//        print("\n\nInstructionsSeen: \(userSettingsStateController.instructionsSeen()) \nIsSeeded: \(userSettingsStateController.isSeeded()) \nAutoplay: \(userSettingsStateController.isAutoplayEnabled()) \nAlbumSortType: \(userSettingsStateController.getAlbumSortType())")
+//        print("\n\nInstructionsSeen: \(userSettingsStateController.instructionsSeen.value) \nIsSeeded: \(userSettingsStateController.isSeeded.value) \nAutoplay: \(userSettingsStateController.isAutoplayEnabled.value) \nAlbumSortType: \(userSettingsStateController.albumSortType.value)")
         
         let instructionsSeen = userSettingsStateController.instructionsSeen.value
         let isSeeded = userSettingsStateController.isSeeded.value

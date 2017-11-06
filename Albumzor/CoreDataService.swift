@@ -32,6 +32,8 @@ protocol LocalDatabaseServiceProtocol {
     func save(tracks: [TrackData], forAlbum album: AlbumData)
     
     func getLikedAlbums() -> Observable<[AlbumData]>
+    
+    func getAlbumArtistTracks(forAlbumID albumID: String) -> Observable<(AlbumData, ArtistData, [TrackData]?)>
 }
 
 class CoreDataService: LocalDatabaseServiceProtocol {
@@ -47,6 +49,38 @@ class CoreDataService: LocalDatabaseServiceProtocol {
     }
     
     //MARK: - Interface
+    
+    func getAlbumArtistTracks(forAlbumID albumID: String) -> Observable<(AlbumData, ArtistData, [TrackData]?)> {
+        return Observable<(AlbumData, ArtistData, [TrackData]?)>.create { [weak self] (observer) -> Disposable in
+            
+            guard let backgroundContext = self?.coreDataStack.backgroundContext else {
+                observer.onCompleted()
+                return Disposables.create()
+            }
+            
+            backgroundContext.perform {
+                let request = NSFetchRequest<Album>(entityName: "Album")
+                request.predicate = NSPredicate(format: "id == %@", albumID)
+                
+                if let albumArray = try? backgroundContext.fetch(request), albumArray.count > 0, let artist = albumArray[0].artist {
+                    let album = albumArray[0]
+                    
+                    var trackData: [TrackData]? = nil
+                    if let tracksSet = album.track, let tracksArray = Array(tracksSet) as? [Track] {
+                        trackData = tracksArray.map {
+                            return $0.trackDataRepresentation
+                        }
+                    }
+                    
+                    observer.onNext((album.albumDataRepresentation, artist.artistDataRepresentation, trackData))
+                }
+                
+                observer.onCompleted()
+            }
+            return Disposables.create()
+        }
+        
+    }
     
     func getLikedAlbums() -> Observable<[AlbumData]> {
         return Observable<[AlbumData]>.create { [weak self] observer -> Disposable in

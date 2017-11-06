@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol HomeSceneSetCoordinatorDelegate: class {
     
@@ -18,20 +19,27 @@ class HomeSceneSetCoordinator: Coordinator {
     
     fileprivate let containerVC: NavigationContainerViewController
     fileprivate let compositionRoot: CompositionRoot
+    fileprivate let likedAlbumsStateController: LikedAlbumsStateController
     fileprivate weak var delegate: HomeSceneSetCoordinatorDelegate?
     
     //MARK: - Children
     
     fileprivate var childCoordinator: Coordinator?
     
+    //MARK: - Rx
+    
+    fileprivate let disposeBag = DisposeBag()
+    
     //Mark: - Initialization
     
     init(containerViewController: NavigationContainerViewController,
          compositionRoot: CompositionRoot,
+         likedAlbumsStateController: LikedAlbumsStateController,
          delegate: HomeSceneSetCoordinatorDelegate)
     {
         self.containerVC = containerViewController
         self.compositionRoot = compositionRoot
+        self.likedAlbumsStateController = likedAlbumsStateController
         self.delegate = delegate
     }
     
@@ -58,6 +66,8 @@ class HomeSceneSetCoordinator: Coordinator {
     
 }
 
+//MARK: - SuggestAlbumsSceneSetCoordinatorDelegate
+
 extension HomeSceneSetCoordinator: SuggestAlbumsSceneSetCoordinatorDelegate {
     
     func requestCompleteSceneSet(_ suggestAlbumsSceneSetCoordinator: SuggestAlbumsSceneSetCoordinator) {
@@ -66,6 +76,8 @@ extension HomeSceneSetCoordinator: SuggestAlbumsSceneSetCoordinatorDelegate {
     }
     
 }
+
+//MARK: - HomeViewModelDelegate
 
 extension HomeSceneSetCoordinator: HomeViewModelDelegate {
     
@@ -78,7 +90,6 @@ extension HomeSceneSetCoordinator: HomeViewModelDelegate {
         containerVC.push(viewController: vc, animated: true)
     }
     
-    
     func requestSuggestAlbumsScene(_ homeViewModel: HomeViewModel) {
         let suggestAlbumsSceneSetCoordinator = compositionRoot.composeSuggestAlbumsSceneSetCoordinator(delegate: self)
         suggestAlbumsSceneSetCoordinator.start()
@@ -86,5 +97,28 @@ extension HomeSceneSetCoordinator: HomeViewModelDelegate {
         childCoordinator = suggestAlbumsSceneSetCoordinator
     }
     
+    func requestDetailsScene(_ homeViewModel: HomeViewModel) {
+        let vc = compositionRoot.composeAlbumDetailsScene_FromHome(delegate: self)
+        containerVC.showModally(viewController: vc)
+    }
+    
 }
+
+//MARK: - AlbumDetailsViewModelDelegate
+
+extension HomeSceneSetCoordinator: AlbumDetailsViewModelDelegate {
+    
+    func dismiss(_ albumDetailsViewModel: AlbumDetailsViewModel) {
+        //set albums showing false
+        likedAlbumsStateController.setDetailsInactive()
+        containerVC.dismissModalVC()
+    }
+    
+}
+
+
+
+
+
+
 

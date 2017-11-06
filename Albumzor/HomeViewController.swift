@@ -87,11 +87,17 @@ class HomeViewController: UIViewController {
             .observeOn(MainScheduler.instance)
             .map { albumTupleArray -> [TableCellData] in
                 return albumTupleArray.map { albumTuple -> TableCellData in
-                    return TableCellData(title: albumTuple.0, subTitle: albumTuple.1, imageData: albumTuple.2, imageStream: albumTuple.3)
+                    return TableCellData(title: albumTuple.0, subTitle: albumTuple.1, id: albumTuple.2, imageData: albumTuple.3, imageStream: albumTuple.4)
                 }
             }
             .subscribe(onNext: { [unowned self] data in
                 self.tableViewProxy.setTableViewData(data)
+            })
+            .disposed(by: disposeBag)
+        
+        tableViewProxy.albumDetailsID
+            .subscribe(onNext: { [unowned self] id in
+                self.viewModel.dispatch(action: .requestDetailsScene(albumId: id))
             })
             .disposed(by: disposeBag)
     }

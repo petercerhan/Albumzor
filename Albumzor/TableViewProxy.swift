@@ -12,19 +12,27 @@ import RxSwift
 struct TableCellData {
     var title: String
     var subTitle: String
+    var id: String
     var imageData: Data?
     var imageStream: Observable<UIImage>?
 }
 
-class TableViewProxy: NSObject, UITableViewDataSource {
+class TableViewProxy: NSObject, UITableViewDataSource, UITableViewDelegate {
     
     //MARK: - Dependencies
     
     private let tableView: UITableView
     
-    //image cache (?)
-    //[TableCellData]
+    //MARK: - State
+    
+    private(set) lazy var albumDetailsID: Observable<String> = {
+        return self.albumDetailsIDSubject.asObservable().shareReplay(1)
+    }()
+    
+    private let albumDetailsIDSubject = PublishSubject<String>()
+    
     private var tableViewData = [TableCellData]()
+    //image cache (?)
     
     //MARK: - Rx
     
@@ -36,15 +44,19 @@ class TableViewProxy: NSObject, UITableViewDataSource {
         self.tableView = tableView
         super.init()
         tableView.dataSource = self
+        tableView.delegate = self
     }
     
-    //Interface
+    //MARK: - Interface
+    
     //RefreshTableCellDataArray
     func setTableViewData(_ tableViewData: [TableCellData]) {
         print("Set table view data with \(tableViewData.count)")
         self.tableViewData = tableViewData
         tableView.reloadData()
     }
+    
+    //MARK: - TableViewDataSource
     
     //TableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -82,15 +94,22 @@ class TableViewProxy: NSObject, UITableViewDataSource {
             }
         }
         
-        
-        
-        
         cell.albumImageView.layer.borderColor = UIColor.lightGray.cgColor
         cell.albumImageView.layer.borderWidth = 0.5
         cell.selectionStyle = .none
         
         return cell
     }
+    
+    //MARK: - TableViewDelegate
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        albumDetailsIDSubject.onNext(tableViewData[indexPath.row].id)
+        
+    }
+    
+    
     
 }
 
