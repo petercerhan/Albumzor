@@ -83,9 +83,7 @@ extension HomeSceneSetCoordinator: HomeViewModelDelegate {
     
     func requestMenuScene(_ homeViewModel: HomeViewModel) {
         
-        //Move to composition root
-        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MenuTableViewController") as! MenuTableViewController
-        //
+        let vc = compositionRoot.composeMenuScene(delegate: self)
         
         containerVC.push(viewController: vc, animated: true)
     }
@@ -113,6 +111,14 @@ extension HomeSceneSetCoordinator: AlbumDetailsViewModelDelegate {
         likedAlbumsStateController.setDetailsInactive()
         containerVC.dismissModalVC()
     }
+    
+}
+
+//MARK: - MenuViewModelDelegate
+
+extension HomeSceneSetCoordinator: MenuViewModelDelegate {
+    
+    
     
 }
 

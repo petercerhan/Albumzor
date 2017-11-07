@@ -31,6 +31,7 @@ protocol CompositionRootProtocol {
     
     func composeHomeScene(delegate: HomeViewModelDelegate) -> HomeViewController
     func composeAlbumDetailsScene_FromHome(delegate: AlbumDetailsViewModelDelegate) -> AlbumDetailsViewController
+    func composeMenuScene(delegate: MenuViewModelDelegate) -> MenuTableViewController
     
     var localDatabaseService: LocalDatabaseServiceProtocol { get }
 }
@@ -193,6 +194,11 @@ class CompositionRoot: CompositionRootProtocol {
         return vc
     }
     
+    func composeMenuScene(delegate: MenuViewModelDelegate) -> MenuTableViewController {
+        let viewModel = MenuViewModel(delegate: delegate, userSettingsStateController: userSettingsStateController)
+        return MenuTableViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
+    }
+
     
     //MARK: - Dev
     

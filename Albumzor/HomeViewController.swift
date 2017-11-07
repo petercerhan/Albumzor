@@ -32,10 +32,6 @@ class HomeViewController: UIViewController {
     let stack = (UIApplication.shared.delegate as! AppDelegate).coreDataStack
     //remove
     
-    //Remove
-    var currentAlbumTracks: [Track]?
-    //remove
-    
     //MARK: - Rx
     
     let disposeBag = DisposeBag()
@@ -176,152 +172,6 @@ class HomeViewController: UIViewController {
 
 }
 
-//MARK:- UITableViewDelegate
-
-extension HomeViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let album = fetchedResultsController!.object(at: indexPath)
-        
-        let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
-        
-        currentAlbumTracks = dataManager.getTracks(forAlbum: album.objectID)
-        
-        let vc = storyboard!.instantiateViewController(withIdentifier: "AlbumDetailsViewController") as! AlbumDetailsViewController
-//        vc.albumImage = UIImage(data: album.imageData as! Data)
-//        vc.tracks = currentAlbumTracks
-//        vc.album = album
-        
-//        vc.trackPlaying = nil
-//        vc.audioState = .noTrack
-        
-//        vc.delegate = self
-        present(vc, animated: true, completion: nil)
-    }
-    
-    func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath) {
-        editButton.title = "Done"
-    }
-    
-    func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
-        if editButton.title != "Edit" {
-            editButton.title = "Edit"
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            let album = fetchedResultsController!.object(at: indexPath)
-            let artist = album.artist!
-            
-            if artist.priorSeed, artist.album?.count == 1 {
-                stack.context.delete(artist)
-            } else {
-                stack.context.delete(album)
-            }
-            
-            stack.save()
-        }
-    }
-}
-
-//MARK: - UITableViewDataSource
-
-extension HomeViewController: UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let fc = fetchedResultsController {
-            return fc.sections![section].numberOfObjects
-        } else {
-            return 0
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let album = fetchedResultsController!.object(at: indexPath) as Album
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "AlbumTableViewCell") as! AlbumTableViewCell
-        cell.nameLabel.text = album.name!.cleanAlbumName()
-        cell.artistLabel.text = album.artist!.name!
-        cell.albumImageView.image = nil
-
-        let albumID = album.objectID
-        let spotifyID = album.id!
-        let backgroundContext = stack.networkingContext
-        
-        //get UIImage from the image buffer if it's there, else get the data from core data and build the UIImage if there, else try to fetch over network
-        if let image = imageBuffer[spotifyID] {
-            cell.albumImageView.image = image
-        } else {
-            backgroundContext.perform {
-                //Get an album in the background context. Cannot use "album" which is in the main context!
-                var bgAlbum: Album!
-                do {
-                    bgAlbum = try self.stack.networkingContext.existingObject(with: albumID) as! Album
-                } catch {
-                    
-                }
-                //get image from core data
-                if let imageData = bgAlbum.smallImageData {
-                    DispatchQueue.main.async {
-                        let image = UIImage(data: imageData as Data)
-                        cell.albumImageView.image = image
-                        self.imageBuffer[spotifyID] = image
-                    }
-                    //get image over network
-                } else {
-                    self.downloadImage(imagePath: bgAlbum.smallImage!) { imageData, error in
-                        if let imageData = imageData {
-                           
-                            backgroundContext.perform {
-                                bgAlbum.smallImageData = imageData as NSData?
-                                do {
-                                    try backgroundContext.save()
-                                } catch {
-                                    
-                                }
-                                self.stack.save()
-                            }
-                            
-                            DispatchQueue.main.async {
-                                let image = UIImage(data: imageData as Data)
-                                cell.albumImageView.image = image
-                                self.imageBuffer[spotifyID] = image
-                            }
-                            
-                        }
-                    }
-                }
-            }
-        }
-        
-        cell.albumImageView.layer.borderColor = UIColor.lightGray.cgColor
-        cell.albumImageView.layer.borderWidth = 0.5
-        
-        cell.selectionStyle = .none
-        
-        return cell
-    }
-    
-    func downloadImage(imagePath: String, completionHandler: @escaping (_ imageData: Data?, _ errorString: String?) -> Void) {
-        let session = URLSession.shared
-        let imgURL = NSURL(string: imagePath)
-        let request: NSURLRequest = NSURLRequest(url: imgURL! as URL)
-        
-        let task = session.dataTask(with: request as URLRequest) {data, response, downloadError in
-            
-            if downloadError != nil {
-                completionHandler(nil, "Could not download image \(imagePath)")
-            } else {
-                completionHandler(data, nil)
-            }
-        }
-        
-        task.resume()
-    }
-    
-}
-
 // MARK: - NSFetchedResultsControllerDelegate
 
 extension HomeViewController: NSFetchedResultsControllerDelegate {
@@ -361,21 +211,6 @@ extension HomeViewController: NSFetchedResultsControllerDelegate {
     }
 }
 
-//MARK: - AlbumsContainerViewControllerDelegate
-
-extension HomeViewController: AlbumsContainerViewControllerDelegate {
-    func findAlbumsHome() {
-        dismiss(animated: true, completion: nil)
-    }
-}
-
-//MARK: - Menu Delegate
-
-extension HomeViewController: MenuDelegate {
-    func refreshAlbumDisplay() {
-        configureFetchedResultsController()
-    }
-}
 
 
 

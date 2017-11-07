@@ -7,26 +7,44 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 protocol MenuTableViewControllerDelegate: NSObjectProtocol {
     func resetData(action: ResetDataAction)
     func spotifyDisconnected()
 }
 
-protocol MenuDelegate: NSObjectProtocol {
-    func refreshAlbumDisplay()
-}
-
 class MenuTableViewController: UITableViewController {
+    
+    //MARK: - Dependencies
+    
+    private var viewModel: MenuViewModel!
+    
+    //MARK: - Interface Components
     
     @IBOutlet var autoPlaySwitch: UISwitch!
     @IBOutlet var sortAlbumsLabel: UILabel!
     
+    //MARK: - Rx
+    
+    private let disposeBag = DisposeBag()
+    
+    //Won't need
 //    weak var delegate = (UIApplication.shared.delegate as! AppDelegate).mainContainerViewController!
-    weak var menuDelegate: MenuDelegate?
     var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
     
-    var shouldReloadAlbums = false
+    //won't need
+    
+    //MARK: - Initialization
+    
+    static func createWith(storyBoard: UIStoryboard, viewModel: MenuViewModel) -> MenuTableViewController {
+        let vc = storyBoard.instantiateViewController(withIdentifier: "MenuTableViewController") as! MenuTableViewController
+        vc.viewModel = viewModel
+        return vc
+    }
+    
+    
     
     //MARK: - Life Cycle
     
@@ -35,27 +53,36 @@ class MenuTableViewController: UITableViewController {
 
         title = "Options"
 //        autoPlaySwitch.isOn = appDelegate.userSettings.autoplay
+        bindUI()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    private func bindUI() {
         
-//        guard let albumSortType = AlbumSortType(rawValue: appDelegate.userSettings.albumSortType) else {
-//            return
-//        }
-//
-//        switch albumSortType {
-//        case .dateAdded:
-//            sortAlbumsLabel.text = "Date Added"
-//        case .albumName:
-//            sortAlbumsLabel.text = "Album Name"
-//        case .artist:
-//            sortAlbumsLabel.text = "Artist"
-//        }
-//
-//        if shouldReloadAlbums {
-//            menuDelegate?.refreshAlbumDisplay()
-//        }
+        //autoplay switch initial value
+        viewModel.isAutoplayEnabled
+            .observeOn(MainScheduler.instance)
+            .take(1)
+            .subscribe(onNext: { [unowned self] enabled in
+                self.autoPlaySwitch.isOn = enabled
+            })
+            .disposed(by: disposeBag)
+        
+        //sortAlbumsLabel
+        viewModel.albumSortType
+            .map { sortType -> String in
+                switch sortType {
+                case .dateAdded:
+                    return "Date Added"
+                case .albumName:
+                    return "Album Name"
+                case .artist:
+                    return "Artist"
+                }
+            }
+            .observeOn(MainScheduler.instance)
+            .bind(to: sortAlbumsLabel.rx.text)
+            .disposed(by: disposeBag)
+        
     }
     
     //MARK: - User Actions
@@ -78,7 +105,7 @@ class MenuTableViewController: UITableViewController {
         appDelegate.saveUserSettings()
     }
     
-    // MARK: - Table view data source
+    //MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
@@ -103,7 +130,9 @@ class MenuTableViewController: UITableViewController {
         } else if indexPath.section == 0 && indexPath.row == 2 {
             disconnectSpotifyAlert()
         } else if indexPath.section == 1 && indexPath.row == 1 {
-            shouldReloadAlbums = true
+            
+            //dispatch open sort options scene
+            
             let vc = storyboard!.instantiateViewController(withIdentifier: "SortOptionsTableViewController")
             navigationController?.pushViewController(vc, animated: true)
         }
