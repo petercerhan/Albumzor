@@ -39,13 +39,21 @@ class UserSettingsStateController {
     
     func setIsSeeded(_ isSeeded: Bool) {
         self.isSeeded.value = isSeeded
-        let userSettings = UserSettings(instructionsSeen: instructionsSeen.value, isSeeded: isSeeded, autoplay: isAutoplayEnabled.value, albumSortType: albumSortType.value)
-        self.archiveService.archive(object: userSettings, forKey: "userSettings")
+        archive()
     }
     
     func setInstructionsSeen(_ instructionsSeen: Bool) {
         self.instructionsSeen.value = instructionsSeen
-        let userSettings = UserSettings(instructionsSeen: instructionsSeen, isSeeded: isSeeded.value, autoplay: isAutoplayEnabled.value, albumSortType: albumSortType.value)
+        archive()
+    }
+    
+    func setSortType(_ sortType: Int) {
+        self.albumSortType.value = sortType
+        archive()
+    }
+    
+    private func archive() {
+        let userSettings = UserSettings(instructionsSeen: instructionsSeen.value, isSeeded: isSeeded.value, autoplay: isAutoplayEnabled.value, albumSortType: albumSortType.value)
         self.archiveService.archive(object: userSettings, forKey: "userSettings")
     }
     

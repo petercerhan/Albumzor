@@ -201,7 +201,7 @@ class CompositionRoot: CompositionRootProtocol {
     }
     
     func composeSortOptionsScene(delegate: SortOptionsViewModelDelegate) -> SortOptionsTableViewController {
-        let viewModel = SortOptionsViewModel(delegate: delegate)
+        let viewModel = SortOptionsViewModel(delegate: delegate, userSettingsStateController: userSettingsStateController)
         return SortOptionsTableViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
     }
     

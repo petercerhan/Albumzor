@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 enum AlbumSortType: Int {
     case dateAdded = 0
@@ -25,12 +27,11 @@ class SortOptionsTableViewController: UITableViewController {
     @IBOutlet var check1: UILabel!
     @IBOutlet var check2: UILabel!
     @IBOutlet var check3: UILabel!
-    
-    //REMOVE
-    var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
-    //remove
 
+    //MARK: - Rx
     
+    private let disposeBag = DisposeBag()
+
     //MARK: - Initialization
     
     static func createWith(storyBoard: UIStoryboard, viewModel: SortOptionsViewModel) -> SortOptionsTableViewController {
@@ -38,28 +39,62 @@ class SortOptionsTableViewController: UITableViewController {
         vc.viewModel = viewModel
         return vc
     }
-    
-    
-    
-    
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         title = "Sort Albums By"
+        bindUI()
+    }
+    
+    private func bindUI() {
         
-        //different..
-        guard let sortType = AlbumSortType(rawValue: appDelegate.userSettings.albumSortType) else {
-            return
-        }
+        //1st cell
+        viewModel.albumSortType
+            .map { sortType -> String in
+                switch sortType {
+                case .dateAdded:
+                    return "✓"
+                case .albumName:
+                    return ""
+                case .artist:
+                    return ""
+                }
+            }
+            .observeOn(MainScheduler.instance)
+            .bind(to: check1.rx.text)
+            .disposed(by: disposeBag)
         
-        switch sortType {
-        case .dateAdded:
-            setCheck(.dateAdded)
-        case .albumName:
-            setCheck(.albumName)
-        case .artist:
-            setCheck(.artist)
-        }
+        //2nd cell
+        viewModel.albumSortType
+            .map { sortType -> String in
+                switch sortType {
+                case .dateAdded:
+                    return ""
+                case .albumName:
+                    return "✓"
+                case .artist:
+                    return ""
+                }
+            }
+            .observeOn(MainScheduler.instance)
+            .bind(to: check2.rx.text)
+            .disposed(by: disposeBag)
+        
+        //3rd cell
+        viewModel.albumSortType
+            .map { sortType -> String in
+                switch sortType {
+                case .dateAdded:
+                    return ""
+                case .albumName:
+                    return ""
+                case .artist:
+                    return "✓"
+                }
+            }
+            .observeOn(MainScheduler.instance)
+            .bind(to: check3.rx.text)
+            .disposed(by: disposeBag)
         
     }
 
@@ -77,40 +112,17 @@ class SortOptionsTableViewController: UITableViewController {
         
         switch indexPath.row {
         case 0:
-            setCheck(.dateAdded)
-            appDelegate.userSettings.albumSortType = AlbumSortType.dateAdded.rawValue
+            viewModel.dispatch(action: .setSortType(.dateAdded))
         case 1:
-            setCheck(.albumName)
-            appDelegate.userSettings.albumSortType = AlbumSortType.albumName.rawValue
+            viewModel.dispatch(action: .setSortType(.albumName))
         case 2:
-            setCheck(.artist)
-            appDelegate.userSettings.albumSortType = AlbumSortType.artist.rawValue
+            viewModel.dispatch(action: .setSortType(.artist))
         default:
             break
         }
         
-        appDelegate.saveUserSettings()
-        
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
-    private func setCheck(_ item: AlbumSortType) {
-        
-        switch item {
-        case .dateAdded:
-            check1.text = "✓"
-            check2.text = ""
-            check3.text = ""
-        case .albumName:
-            check1.text = ""
-            check2.text = "✓"
-            check3.text = ""
-        case .artist:
-            check1.text = ""
-            check2.text = ""
-            check3.text = "✓"
-        }
-        
-    }
+
 
 }

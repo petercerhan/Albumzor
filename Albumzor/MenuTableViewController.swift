@@ -50,9 +50,7 @@ class MenuTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         title = "Options"
-//        autoPlaySwitch.isOn = appDelegate.userSettings.autoplay
         bindUI()
     }
     

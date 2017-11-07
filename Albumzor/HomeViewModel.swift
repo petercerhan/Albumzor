@@ -36,6 +36,31 @@ class HomeViewModel {
         return self.likedAlbumsStateController.likedAlbums
             .filter { $0 != nil }
             .map { $0! }
+            .withLatestFrom(self.userSettingsStateController.albumSortType.asObservable()) { ($0, $1) }
+            .map { dataTuple -> [(AlbumData, Observable<UIImage>?)] in
+                let sortType = dataTuple.1
+                var dataArray = dataTuple.0
+                
+                switch sortType {
+                case 0:
+                    dataArray.sort() {
+                        let date1 = $0.0.likedDateTime as Date
+                        let date2 = $1.0.likedDateTime as Date
+                        return date1 > date2
+                    }
+                    print("0")
+                case 1:
+                    dataArray.sort() { $0.0.cleanName < $1.0.cleanName }
+                    print("1")
+                case 2:
+                    dataArray.sort() { ($0.0.artistName ?? "") < ($1.0.artistName ?? "") }
+                    print("2")
+                default:
+                    break
+                }
+                
+                return dataArray
+            }
             .map { albumDataArray -> [(String, String, String, Data?, Observable<UIImage>?)] in
                 return albumDataArray.map { albumTuple -> (String, String, String, Data?, Observable<UIImage>?) in
                     let albumData = albumTuple.0
@@ -58,14 +83,27 @@ class HomeViewModel {
         self.userSettingsStateController = userSettingsStateController
         
         bindLikedAlbumsStateController()
+        bindUserSettingsStateController()
     }
     
     private func bindLikedAlbumsStateController() {
+        //Launch Details
         likedAlbumsStateController.detailsActive
             .subscribe(onNext: { [unowned self] isActive in
                 if isActive {
                     self.delegate?.requestDetailsScene(self)
                 }
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func bindUserSettingsStateController() {
+        //Refresh albums on sort type change
+        userSettingsStateController.albumSortType.asObservable()
+            .distinctUntilChanged()
+            .subscribe(onNext: { [unowned self] _ in
+                print("Call refresh from view model")
+                self.likedAlbumsStateController.refreshLikedAlbums()
             })
             .disposed(by: disposeBag)
     }
