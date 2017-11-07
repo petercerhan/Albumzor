@@ -132,9 +132,9 @@ class MenuTableViewController: UITableViewController {
         } else if indexPath.section == 1 && indexPath.row == 1 {
             
             //dispatch open sort options scene
+
+            viewModel.dispatch(action: .requestSortOptionsScene)
             
-            let vc = storyboard!.instantiateViewController(withIdentifier: "SortOptionsTableViewController")
-            navigationController?.pushViewController(vc, animated: true)
         }
         
         tableView.deselectRow(at: indexPath, animated: true)

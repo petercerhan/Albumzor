@@ -32,6 +32,7 @@ protocol CompositionRootProtocol {
     func composeHomeScene(delegate: HomeViewModelDelegate) -> HomeViewController
     func composeAlbumDetailsScene_FromHome(delegate: AlbumDetailsViewModelDelegate) -> AlbumDetailsViewController
     func composeMenuScene(delegate: MenuViewModelDelegate) -> MenuTableViewController
+    func composeSortOptionsScene(delegate: SortOptionsViewModelDelegate) -> SortOptionsTableViewController
     
     var localDatabaseService: LocalDatabaseServiceProtocol { get }
 }
@@ -198,7 +199,11 @@ class CompositionRoot: CompositionRootProtocol {
         let viewModel = MenuViewModel(delegate: delegate, userSettingsStateController: userSettingsStateController)
         return MenuTableViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
     }
-
+    
+    func composeSortOptionsScene(delegate: SortOptionsViewModelDelegate) -> SortOptionsTableViewController {
+        let viewModel = SortOptionsViewModel(delegate: delegate)
+        return SortOptionsTableViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
+    }
     
     //MARK: - Dev
     

@@ -16,17 +16,38 @@ enum AlbumSortType: Int {
 
 class SortOptionsTableViewController: UITableViewController {
 
+    //MARK: - Dependencies
+    
+    private var viewModel: SortOptionsViewModel!
+    
+    //MARK: - Interface Components
+    
     @IBOutlet var check1: UILabel!
     @IBOutlet var check2: UILabel!
     @IBOutlet var check3: UILabel!
     
+    //REMOVE
     var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+    //remove
+
+    
+    //MARK: - Initialization
+    
+    static func createWith(storyBoard: UIStoryboard, viewModel: SortOptionsViewModel) -> SortOptionsTableViewController {
+        let vc = storyBoard.instantiateViewController(withIdentifier: "SortOptionsTableViewController") as! SortOptionsTableViewController
+        vc.viewModel = viewModel
+        return vc
+    }
+    
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = "Sort Albums By"
         
+        //different..
         guard let sortType = AlbumSortType(rawValue: appDelegate.userSettings.albumSortType) else {
             return
         }
@@ -73,7 +94,7 @@ class SortOptionsTableViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    func setCheck(_ item: AlbumSortType) {
+    private func setCheck(_ item: AlbumSortType) {
         
         switch item {
         case .dateAdded:

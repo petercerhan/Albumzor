@@ -118,11 +118,20 @@ extension HomeSceneSetCoordinator: AlbumDetailsViewModelDelegate {
 
 extension HomeSceneSetCoordinator: MenuViewModelDelegate {
     
+    func requestSortOptionsScene(_ menuViewModel: MenuViewModel) {
+        let vc = compositionRoot.composeSortOptionsScene(delegate: self)
+        containerVC.push(viewController: vc, animated: true)
+    }
+
+}
+
+//MARK: - SortOptionsViewModelDelegate
+
+extension HomeSceneSetCoordinator: SortOptionsViewModelDelegate {
+    
     
     
 }
-
-
 
 
 

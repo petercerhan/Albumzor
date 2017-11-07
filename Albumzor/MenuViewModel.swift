@@ -10,7 +10,11 @@ import Foundation
 import RxSwift
 
 protocol MenuViewModelDelegate: class {
-    
+    func requestSortOptionsScene(_ menuViewModel: MenuViewModel)
+}
+
+enum MenuSceneAction {
+    case requestSortOptionsScene
 }
 
 class MenuViewModel {
@@ -40,5 +44,17 @@ class MenuViewModel {
         self.userSettingsStateController = userSettingsStateController
     }
     
+    //MARK: - Dispatch Actions
+    
+    func dispatch(action: MenuSceneAction) {
+        switch action {
+        case .requestSortOptionsScene:
+            handle_requestSortOptionsScene()
+        }
+    }
+    
+    private func handle_requestSortOptionsScene() {
+        delegate?.requestSortOptionsScene(self)
+    }
     
 }
