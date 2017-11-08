@@ -99,7 +99,8 @@ struct AlbumData {
                            "Best of",
                            "Essential",
                            "Hits",
-                           "Music From"]
+                           "Music From",
+                           "Singles"]
         
         func containsDisallowedKeywords(_ title: String) -> Bool {
             for keyword in allKeywords {

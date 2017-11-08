@@ -12,6 +12,10 @@ import RxSwift
 
 class HomeViewController: UIViewController {
     
+    //MARK: - Dependencies
+    
+    fileprivate var viewModel: HomeViewModel!
+    
     //MARK: - Interface Components
     
     @IBOutlet var tableView: UITableView!
@@ -20,17 +24,6 @@ class HomeViewController: UIViewController {
     @IBOutlet var menuButton: UIBarButtonItem!
     
     var tableViewProxy: TableViewProxy!
-    
-    //MARK: - Dependencies
-    
-    fileprivate var viewModel: HomeViewModel!
-    
-    
-    
-    //Remove
-    let userSettings = (UIApplication.shared.delegate as! AppDelegate).userSettings
-    let stack = (UIApplication.shared.delegate as! AppDelegate).coreDataStack
-    //remove
     
     //MARK: - Rx
     
@@ -45,18 +38,6 @@ class HomeViewController: UIViewController {
         return vc
     }
     
-    var fetchedResultsController : NSFetchedResultsController<Album>? {
-        didSet {
-            fetchedResultsController?.delegate = self
-            executeSearch()
-            tableView.reloadData() 
-        }
-    }
-    
-    //How to best implement this?
-    var imageBuffer = [String : UIImage]()
-    //
-    
     //MARK:- Life Cycle
     
     override func viewDidLoad() {
@@ -70,10 +51,6 @@ class HomeViewController: UIViewController {
         
         setUpTableView()
         
-        
-        
-        
-//        configureFetchedResultsController()
     }
     
     private func setUpTableView() {
@@ -107,51 +84,6 @@ class HomeViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    
-    
-    
-    
-    
-    
-    func configureFetchedResultsController() {
-        guard let albumSortType = AlbumSortType(rawValue: userSettings.albumSortType) else {
-            return
-        }
-        
-        let request = NSFetchRequest<Album>(entityName: "Album")
-        let predicate = NSPredicate(format: "(liked = true)")
-        request.predicate = predicate
-        
-        switch albumSortType {
-        case .dateAdded:
-            request.sortDescriptors = [NSSortDescriptor(key: "likedDateTime", ascending: false)]
-        case .albumName:
-            request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        case .artist:
-            request.sortDescriptors = [NSSortDescriptor(key: "artist.name", ascending: true)]
-        }
-        
-        let frc = NSFetchedResultsController(fetchRequest: request, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
-        frc.delegate = self
-        
-        fetchedResultsController = frc
-    }
-    
-    func executeSearch() {
-        if let fc = fetchedResultsController {
-            do {
-                try fc.performFetch()
-            } catch _ as NSError {
-                
-            }
-        }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-//        tableView.reloadData()
-    }
-    
     @IBAction func edit() {
         if tableView.isEditing {
             tableView.setEditing(false, animated: true)
@@ -171,46 +103,3 @@ class HomeViewController: UIViewController {
     }
 
 }
-
-// MARK: - NSFetchedResultsControllerDelegate
-
-extension HomeViewController: NSFetchedResultsControllerDelegate {
-    
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.beginUpdates()
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-        
-        let set = IndexSet(integer: sectionIndex)
-        
-        switch (type) {
-        case .insert:
-            tableView.insertSections(set, with: .fade)
-        case .delete:
-            tableView.deleteSections(set, with: .fade)
-        default:
-            break
-        }
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        
-        switch(type) {
-        case .insert:
-            tableView.insertRows(at: [newIndexPath!], with: .fade)
-        case .delete:
-            tableView.deleteRows(at: [indexPath!], with: .fade)
-        default:
-            break
-        }
-    }
-    
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.endUpdates()
-    }
-}
-
-
-
-

@@ -71,6 +71,7 @@ class HomeSceneSetCoordinator: Coordinator {
 extension HomeSceneSetCoordinator: SuggestAlbumsSceneSetCoordinatorDelegate {
     
     func requestCompleteSceneSet(_ suggestAlbumsSceneSetCoordinator: SuggestAlbumsSceneSetCoordinator) {
+        likedAlbumsStateController.refreshLikedAlbums()
         containerVC.dismissModalVC()
         childCoordinator = nil
     }
@@ -107,7 +108,6 @@ extension HomeSceneSetCoordinator: HomeViewModelDelegate {
 extension HomeSceneSetCoordinator: AlbumDetailsViewModelDelegate {
     
     func dismiss(_ albumDetailsViewModel: AlbumDetailsViewModel) {
-        //set albums showing false
         likedAlbumsStateController.setDetailsInactive()
         containerVC.dismissModalVC()
     }
@@ -128,8 +128,6 @@ extension HomeSceneSetCoordinator: MenuViewModelDelegate {
 //MARK: - SortOptionsViewModelDelegate
 
 extension HomeSceneSetCoordinator: SortOptionsViewModelDelegate {
-    
-    
     
 }
 

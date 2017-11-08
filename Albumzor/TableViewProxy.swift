@@ -82,7 +82,7 @@ class TableViewProxy: NSObject, UITableViewDataSource, UITableViewDelegate {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "AlbumTableViewCell") as! AlbumTableViewCell
         cell.nameLabel.text = cellData.title
-        cell.artistLabel.text = cellData.title
+        cell.artistLabel.text = cellData.subTitle
         cell.albumImageView.image = nil
         
         //Set up image
