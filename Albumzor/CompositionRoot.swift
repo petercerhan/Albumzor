@@ -33,6 +33,7 @@ protocol CompositionRootProtocol {
     func composeAlbumDetailsScene_FromHome(delegate: AlbumDetailsViewModelDelegate) -> AlbumDetailsViewController
     func composeMenuScene(delegate: MenuViewModelDelegate) -> MenuTableViewController
     func composeSortOptionsScene(delegate: SortOptionsViewModelDelegate) -> SortOptionsTableViewController
+    func composeResetDataScene(delegate: ResetDataViewModelDelegate) -> ResetDataViewController
     
     var localDatabaseService: LocalDatabaseServiceProtocol { get }
 }
@@ -121,7 +122,10 @@ class CompositionRoot: CompositionRootProtocol {
     }
     
     func composeSuggestAlbumsSceneSetCoordinator(delegate: SuggestAlbumsSceneSetCoordinatorDelegate) -> SuggestAlbumsSceneSetCoordinator {
-        return SuggestAlbumsSceneSetCoordinator(containerViewController: ContainerViewController(), compositionRoot: self, delegate: delegate)
+        return SuggestAlbumsSceneSetCoordinator(containerViewController: ContainerViewController(),
+                                                compositionRoot: self,
+                                                delegate: delegate,
+                                                suggestedAlbumsStateController: suggestedAlbumsStateController)
     }
     
     //MARK: - Setup Scene Set
@@ -203,6 +207,13 @@ class CompositionRoot: CompositionRootProtocol {
     func composeSortOptionsScene(delegate: SortOptionsViewModelDelegate) -> SortOptionsTableViewController {
         let viewModel = SortOptionsViewModel(delegate: delegate, userSettingsStateController: userSettingsStateController)
         return SortOptionsTableViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
+    }
+    
+    func composeResetDataScene(delegate: ResetDataViewModelDelegate) -> ResetDataViewController {
+        let viewModel = ResetDataViewModel(delegate: delegate,
+                                           seedArtistStateController: seedArtistStateController,
+                                           userSettingsStateController: userSettingsStateController)
+        return ResetDataViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
     }
     
     //MARK: - Dev

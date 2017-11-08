@@ -124,6 +124,8 @@ class MenuTableViewController: UITableViewController {
         if indexPath.section == 0 && indexPath.row == 0 {
             reseedDataAlert()
         } else if indexPath.section == 0 && indexPath.row == 1 {
+            
+            
             resetDataAlert()
         } else if indexPath.section == 0 && indexPath.row == 2 {
             disconnectSpotifyAlert()
@@ -147,6 +149,7 @@ class MenuTableViewController: UITableViewController {
 
     //MARK: - Alerts
     
+    //Remove
     func reseedDataAlert() {
         let alert = UIAlertController(title: nil, message: "Are you sure you would like to re-seed LPSwipe?\n\nYour saved albums will not be erased. You will need to choose new seed artists.", preferredStyle: .alert)
         
@@ -161,14 +164,21 @@ class MenuTableViewController: UITableViewController {
         
         present(alert, animated: true, completion: nil)
     }
+    //remove
+    
+    
     
     func resetDataAlert() {
         let alert = UIAlertController(title: nil, message: "Are you sure you would like to reset LPSwipe?\n\nAll data will be erased.", preferredStyle: .alert)
         
-        let resetAction = UIAlertAction(title: "Reset", style: .default) { action in
-            let vc = self.storyboard!.instantiateViewController(withIdentifier: "ConfirmResetViewController") as! ConfirmResetViewController
-            vc.delegate = self
-            self.present(vc, animated: true, completion: nil)
+        let resetAction = UIAlertAction(title: "Reset", style: .default) { [weak self] _ in
+            
+            //dispatch to view model
+            self?.viewModel.dispatch(action: .requestResetDataScene)
+            
+//            let vc = self.storyboard!.instantiateViewController(withIdentifier: "ResetDataViewController") as! ResetDataViewController
+////            vc.delegate = self
+//            self.present(vc, animated: true, completion: nil)
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .default)
@@ -178,6 +188,8 @@ class MenuTableViewController: UITableViewController {
         
         present(alert, animated: true, completion: nil)
     }
+    
+    
     
     func disconnectSpotifyAlert() {
         let alert = UIAlertController(title: nil, message: "Are you sure you would like to disconnect Spotify? You will need to connect another account to use LPSwipe.", preferredStyle: .alert)

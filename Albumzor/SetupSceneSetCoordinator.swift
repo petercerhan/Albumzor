@@ -69,6 +69,11 @@ class SetupSceneSetCoordinator: Coordinator {
         mainContainerViewController.show(viewController: vc, animation: .none)
     }
     
+    func startAtWelcome() {
+        let vc = compositionRoot.composeWelcomeScene(delegate: self)
+        mainContainerViewController.show(viewController: vc, animation: .none)
+    }
+    
 }
 
 //MARK: - OpenSceneViewModelDelegate
@@ -99,20 +104,11 @@ extension SetupSceneSetCoordinator: OpenSceneViewModelDelegate {
         let isSeeded = userSettingsStateController.isSeeded.value
         
         if instructionsSeen && isSeeded {
-            //Launch Home Scene
-            
+            print("\n launch home scene")
             delegate?.requestHomeSceneSet(self)
-            
-            
-            //This happens in root coordinator
-//            let presentingVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-//            let modalVC = compositionRoot.composeSuggestAlbumsScene(delegate: self)
-//
-//            mainContainerViewController.showModalWithPresenter(modalViewController: modalVC, presentingViewController: presentingVC, animation: .none)
-            //
-            
         } else if !instructionsSeen && !isSeeded {
             //Launch Welcome Scene
+            print("\n launch welcome scene")
             let vc = compositionRoot.composeWelcomeScene(delegate: self)
             mainContainerViewController.show(viewController: vc, animation: .none)
         } else if instructionsSeen && !isSeeded {
@@ -120,8 +116,9 @@ extension SetupSceneSetCoordinator: OpenSceneViewModelDelegate {
             print("launch seed artist")
         } else if !instructionsSeen && isSeeded {
             //Launch Instructions Scene
+            print("\n launch instructions scene")
             let vc = compositionRoot.composeInstructionsScene(delegate: self)
-            mainContainerViewController.show(viewController: vc, animation: .slideFromRight)
+            mainContainerViewController.show(viewController: vc, animation: .none)
         }
     }
     
@@ -176,11 +173,8 @@ extension SetupSceneSetCoordinator: WelcomeViewModelDelegate {
 extension SetupSceneSetCoordinator: ChooseArtistViewModelDelegate {
     
     func chooseArtistSceneComplete(_ chooseArtistViewModel: ChooseArtistViewModel) {
-        print("Choose artists scene complete")
-        
         userSettingsStateController.setIsSeeded(true)
         
-        //launch instructions scene
         if userSettingsStateController.instructionsSeen.value {
             //launch suggest albums scene
         } else {
@@ -235,7 +229,7 @@ extension SetupSceneSetCoordinator: ConfirmArtistViewModelDelegate {
 extension SetupSceneSetCoordinator: InstructionsViewModelDelegate {
     
     func requestNextScene(_ instructionsViewModel: InstructionsViewModel) {
-        print("Instructions scene complete")
+        delegate?.requestSuggestAlbumsSceneSet(self)
     }
     
 }

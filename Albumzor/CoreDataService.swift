@@ -36,6 +36,8 @@ protocol LocalDatabaseServiceProtocol {
     func getAlbumArtistTracks(forAlbumID albumID: String) -> Observable<(AlbumData, ArtistData, [TrackData]?)>
     
     func deleteAlbum(id: String)
+    
+    func resetData() -> Observable<DataOperationState>
 }
 
 class CoreDataService: LocalDatabaseServiceProtocol {
@@ -51,6 +53,32 @@ class CoreDataService: LocalDatabaseServiceProtocol {
     }
     
     //MARK: - Interface
+    
+    func resetData() -> Observable<DataOperationState> {
+        return Observable<DataOperationState>.create { [weak self] (observer) -> Disposable in
+            
+            guard let backgroundContext = self?.coreDataStack.backgroundContext else {
+                observer.onCompleted()
+                return Disposables.create()
+            }
+            
+            observer.onNext(.operationBegan)
+            
+            backgroundContext.perform {
+                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Artist")
+                let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+                
+                do {
+                    _ = try backgroundContext.execute(deleteRequest)
+                    observer.onNext(.operationCompleted)
+                } catch {
+                    observer.onNext(.error(DatabaseOperationError.failure))
+                }
+            }
+            
+            return Disposables.create()
+        }
+    }
     
     func deleteAlbum(id: String) {
         let backgroundContext = coreDataStack.backgroundContext

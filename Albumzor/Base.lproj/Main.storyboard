@@ -1007,10 +1007,10 @@
             </objects>
             <point key="canvasLocation" x="1608.8" y="1350.6746626686659"/>
         </scene>
-        <!--Confirm Reset View Controller-->
+        <!--Reset Data View Controller-->
         <scene sceneID="w39-nZ-MYf">
             <objects>
-                <viewController storyboardIdentifier="ConfirmResetViewController" id="eVL-PN-w1B" customClass="ConfirmResetViewController" customModule="Albumzor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ResetDataViewController" id="eVL-PN-w1B" customClass="ResetDataViewController" customModule="Albumzor" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="PiQ-b4-Q4g"/>
                         <viewControllerLayoutGuide type="bottom" id="NIa-0b-dto"/>
@@ -1037,9 +1037,6 @@
                                 <state key="normal" title="Cancel">
                                     <color key="titleColor" red="1" green="0.44705882352941173" blue="0.043137254901960784" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
-                                <connections>
-                                    <action selector="cancel" destination="eVL-PN-w1B" eventType="touchUpInside" id="oUq-hZ-scn"/>
-                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U5X-wa-Xut">
                                 <rect key="frame" x="135" y="227" width="104" height="39"/>
@@ -1047,10 +1044,10 @@
                                 <state key="normal" title="Reset Data">
                                     <color key="titleColor" red="1" green="0.44705882349999998" blue="0.043137254899999998" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
-                                <connections>
-                                    <action selector="reset" destination="eVL-PN-w1B" eventType="touchUpInside" id="8gW-Pn-IOG"/>
-                                </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="vHD-F3-9PB">
+                                <rect key="frame" x="177.5" y="323.5" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -1058,13 +1055,20 @@
                             <constraint firstItem="0Ae-eR-Stn" firstAttribute="centerX" secondItem="iJP-ly-tZZ" secondAttribute="centerX" id="5vE-vh-3E7"/>
                             <constraint firstItem="9kq-Kj-542" firstAttribute="top" secondItem="FlJ-ID-eZt" secondAttribute="bottom" constant="87.5" id="AvG-07-Fuq"/>
                             <constraint firstItem="NIa-0b-dto" firstAttribute="top" secondItem="0Ae-eR-Stn" secondAttribute="bottom" constant="20" id="Dlo-7N-JJM"/>
+                            <constraint firstItem="vHD-F3-9PB" firstAttribute="centerY" secondItem="iJP-ly-tZZ" secondAttribute="centerY" id="Frr-qD-VI5"/>
                             <constraint firstItem="U5X-wa-Xut" firstAttribute="top" secondItem="9kq-Kj-542" secondAttribute="bottom" constant="25" id="Vfo-Xd-Mb6"/>
                             <constraint firstItem="FlJ-ID-eZt" firstAttribute="top" secondItem="PiQ-b4-Q4g" secondAttribute="bottom" constant="15" id="WBJ-7C-r0q"/>
+                            <constraint firstItem="vHD-F3-9PB" firstAttribute="centerX" secondItem="iJP-ly-tZZ" secondAttribute="centerX" id="WXO-lc-Gkb"/>
                             <constraint firstItem="U5X-wa-Xut" firstAttribute="centerX" secondItem="iJP-ly-tZZ" secondAttribute="centerX" id="bUk-b1-x8K"/>
                             <constraint firstItem="9kq-Kj-542" firstAttribute="width" secondItem="iJP-ly-tZZ" secondAttribute="width" multiplier="0.8" id="dRy-Af-tn4"/>
                             <constraint firstItem="FlJ-ID-eZt" firstAttribute="centerX" secondItem="iJP-ly-tZZ" secondAttribute="centerX" id="soI-0e-5zf"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="vHD-F3-9PB" id="oLR-gh-gjh"/>
+                        <outlet property="cancelButton" destination="0Ae-eR-Stn" id="4UM-v0-Q5H"/>
+                        <outlet property="resetButton" destination="U5X-wa-Xut" id="npe-zb-G6m"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KVv-wa-vfb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1073,7 +1077,7 @@
         <!--Reset Data View Controller-->
         <scene sceneID="tlU-cO-Rd2">
             <objects>
-                <viewController storyboardIdentifier="ResetDataViewController" id="m17-c3-sNy" customClass="ResetDataViewController" customModule="Albumzor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ResetDataViewControllerPrior" id="m17-c3-sNy" customClass="ResetDataViewController" customModule="Albumzor" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="oGU-4K-ZqW"/>
                         <viewControllerLayoutGuide type="bottom" id="gL9-jK-aQy"/>

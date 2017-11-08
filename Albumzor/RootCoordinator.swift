@@ -53,12 +53,22 @@ extension RootCoordinator: SetupSceneSetCoordinatorDelegate {
     }
     
     func requestSuggestAlbumsSceneSet(_ setupSceneSetCoordinator: SetupSceneSetCoordinator) {
-        print("Launch suggest albums scene set")
+        let homeSceneSetCoordinator = compositionRoot.composeHomeSceneSetCoordinator(delegate: self)
+        containerVC.show(viewController: homeSceneSetCoordinator.containerViewController, animation: .slideFromRight)
+        homeSceneSetCoordinator.startWithSuggestAlbumsActive()
+        childCoordinator = homeSceneSetCoordinator
     }
     
 }
 
 extension RootCoordinator: HomeSceneSetCoordinatorDelegate {
+    
+    func dataReset() {
+        let setupSceneSetCoordinator = compositionRoot.composeSetupSceneSetCoordinator(delegate: self)
+        setupSceneSetCoordinator.startAtWelcome()
+        containerVC.show(viewController: setupSceneSetCoordinator.containerViewController, animation: .fadeIn)
+        childCoordinator = setupSceneSetCoordinator
+    }
     
 }
 

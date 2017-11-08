@@ -16,13 +16,7 @@ class SeedArtistStateController {
     private let mediaLibraryService: MediaLibraryServiceProtocol
     private let remoteDataService: RemoteDataServiceProtocol
     private let localDatabaseService: LocalDatabaseServiceProtocol
-    
-    //convenience for development
-    var localDBService: LocalDatabaseServiceProtocol {
-        return localDatabaseService
-    }
-    //
-    
+
     //MARK: - State
     
     let seedArtists = Variable<[String]>([])
@@ -39,6 +33,8 @@ class SeedArtistStateController {
     
     let totalAlbumsSeeded = Variable<Int>(0)
 
+    let resetDataState = Variable<DataOperationState>(.none)
+    
     //MARK: - Rx
     
     let disposeBag = DisposeBag()
@@ -255,6 +251,25 @@ class SeedArtistStateController {
         localDatabaseService.countUnseenAlbums()
             .subscribe(onNext: { [unowned self] count in
                 self.totalAlbumsSeeded.value = count
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func resetData() {
+        localDatabaseService.resetData()
+            .subscribe(onNext: { [unowned self] state in
+                switch state {
+                case .operationBegan:
+                    self.resetDataState.value = .operationBegan
+                case .operationCompleted:
+                    self.totalAlbumsSeeded.value = 0
+                    self.resetDataState.value = .operationCompleted
+                case .error(let error):
+                    self.resetDataState.value = .error(error)
+                default:
+                    break
+                }
+                self.resetDataState.value = .none
             })
             .disposed(by: disposeBag)
     }

@@ -12,6 +12,8 @@
 		6E0F7F231F9BF1DC00F74879 /* ShufflingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0F7F221F9BF1DC00F74879 /* ShufflingService.swift */; };
 		6E1716851FB142B30052154E /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1716841FB142B30052154E /* MenuViewModel.swift */; };
 		6E1716881FB1545E0052154E /* SortOptionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1716871FB1545E0052154E /* SortOptionsViewModel.swift */; };
+		6E36D1301FB29E8300F1CF96 /* ResetDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E36D12F1FB29E8300F1CF96 /* ResetDataViewModel.swift */; };
+		6E36D1321FB2A7E300F1CF96 /* DatabaseOperationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E36D1311FB2A7E300F1CF96 /* DatabaseOperationError.swift */; };
 		6E4F5FA31FAF64A100A59B23 /* TableViewProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4F5FA21FAF64A100A59B23 /* TableViewProxy.swift */; };
 		6E5C3E971FABF63D008ACDAE /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5C3E961FABF63D008ACDAE /* RootCoordinator.swift */; };
 		6E5C3E991FABF832008ACDAE /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5C3E981FABF832008ACDAE /* Coordinator.swift */; };
@@ -136,6 +138,8 @@
 		6E0F7F221F9BF1DC00F74879 /* ShufflingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShufflingService.swift; sourceTree = "<group>"; };
 		6E1716841FB142B30052154E /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		6E1716871FB1545E0052154E /* SortOptionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortOptionsViewModel.swift; sourceTree = "<group>"; };
+		6E36D12F1FB29E8300F1CF96 /* ResetDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetDataViewModel.swift; sourceTree = "<group>"; };
+		6E36D1311FB2A7E300F1CF96 /* DatabaseOperationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseOperationError.swift; sourceTree = "<group>"; };
 		6E4F5FA21FAF64A100A59B23 /* TableViewProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewProxy.swift; sourceTree = "<group>"; };
 		6E5C3E961FABF63D008ACDAE /* RootCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCoordinator.swift; sourceTree = "<group>"; };
 		6E5C3E981FABF832008ACDAE /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
@@ -292,6 +296,15 @@
 			name = SortOptionsScene;
 			sourceTree = "<group>";
 		};
+		6E1716891FB29AE20052154E /* ResetDataScene */ = {
+			isa = PBXGroup;
+			children = (
+				E467C4CC1EB174A800B0A62B /* ResetDataViewController.swift */,
+				6E36D12F1FB29E8300F1CF96 /* ResetDataViewModel.swift */,
+			);
+			name = ResetDataScene;
+			sourceTree = "<group>";
+		};
 		6E1839351FAABAA300DA53E3 /* HomeScene */ = {
 			isa = PBXGroup;
 			children = (
@@ -383,6 +396,7 @@
 			children = (
 				E47E09A41F793BFF004A5C9E /* DataOperationState.swift */,
 				E44B0EA31F81875A00F29615 /* NetworkRequestError.swift */,
+				6E36D1311FB2A7E300F1CF96 /* DatabaseOperationError.swift */,
 				E45D99181E7F767400CD3CE7 /* String.swift */,
 				E45D99761E90927B00CD3CE7 /* Styles.swift */,
 				E45D99B61EA0568A00CD3CE7 /* AudioPlayer.swift */,
@@ -469,9 +483,10 @@
 				6E4F5FA21FAF64A100A59B23 /* TableViewProxy.swift */,
 				E44B02AB1F6DD95800B1A0D3 /* Coordinators */,
 				6E330A741FABF048008747E6 /* Models */,
-				6E1839351FAABAA300DA53E3 /* HomeScene */,
+				6E1716891FB29AE20052154E /* ResetDataScene */,
 				6E9281371FAE5E660066E9FB /* MenuScene */,
 				6E1716861FB14F290052154E /* SortOptionsScene */,
+				6E1839351FAABAA300DA53E3 /* HomeScene */,
 				E47E09A61F79D943004A5C9E /* Services */,
 				E4A7A5741F749C9B009D117D /* StateControllers */,
 				E44B02AE1F6DDEC600B1A0D3 /* ContainerViewControllers */,
@@ -554,15 +569,15 @@
 			children = (
 				E45D99741E908C6500CD3CE7 /* UIView.swift */,
 				E45D990F1E7A23E700CD3CE7 /* CollectionViewCell.swift */,
-				E45D99B81EA6E98900CD3CE7 /* AnimatedButton.swift */,
 				E45D99241E8B534000CD3CE7 /* ChooseArtistCollectionViewCell.swift */,
+				E45D99B41E93225C00CD3CE7 /* TrackTableViewCell.swift */,
+				E45D99B21E93159800CD3CE7 /* AlbumDetailsTableViewCell.swift */,
+				E45D99BA1EA843D900CD3CE7 /* AlbumTableViewCell.swift */,
+				E45D99B81EA6E98900CD3CE7 /* AnimatedButton.swift */,
 				E45D99261E8C7C7900CD3CE7 /* ArtistCollectionViewLayout.swift */,
 				E45D992C1E8DD41700CD3CE7 /* PaddedLabel.swift */,
 				E45D996C1E90369000CD3CE7 /* CGDraggableView.swift */,
 				E45D996E1E90369C00CD3CE7 /* CGOverlayView.swift */,
-				E45D99B21E93159800CD3CE7 /* AlbumDetailsTableViewCell.swift */,
-				E45D99B41E93225C00CD3CE7 /* TrackTableViewCell.swift */,
-				E45D99BA1EA843D900CD3CE7 /* AlbumTableViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -571,7 +586,6 @@
 			isa = PBXGroup;
 			children = (
 				E467C4D01EB2CFAC00B0A62B /* ConfirmResetViewController.swift */,
-				E467C4CC1EB174A800B0A62B /* ResetDataViewController.swift */,
 				E45D99141E7B6DB100CD3CE7 /* AlbumsContainerViewController.swift */,
 				E45D99121E7B5F7F00CD3CE7 /* PrepareAlbumsViewController.swift */,
 				E45D99161E7DC59300CD3CE7 /* NextStepViewController.swift */,
@@ -841,7 +855,9 @@
 				E45D991F1E89D69300CD3CE7 /* AlbumDetailsViewController.swift in Sources */,
 				E423E4FA1F92AEFA007531F5 /* AbbreviatedAlbumData.swift in Sources */,
 				E45D99251E8B534000CD3CE7 /* ChooseArtistCollectionViewCell.swift in Sources */,
+				6E36D1301FB29E8300F1CF96 /* ResetDataViewModel.swift in Sources */,
 				E45D99B51E93225C00CD3CE7 /* TrackTableViewCell.swift in Sources */,
+				6E36D1321FB2A7E300F1CF96 /* DatabaseOperationError.swift in Sources */,
 				E467C4CB1EAED4B400B0A62B /* UserSettings.swift in Sources */,
 				6E9281321FAE38D50066E9FB /* HomeSceneSetCoordinator.swift in Sources */,
 				E45D98FA1E78D71800CD3CE7 /* CoreDataStack.swift in Sources */,

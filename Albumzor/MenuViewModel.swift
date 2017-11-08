@@ -11,10 +11,12 @@ import RxSwift
 
 protocol MenuViewModelDelegate: class {
     func requestSortOptionsScene(_ menuViewModel: MenuViewModel)
+    func requestResetDataScene(_ menuViewModel: MenuViewModel)
 }
 
 enum MenuSceneAction {
     case requestSortOptionsScene
+    case requestResetDataScene
 }
 
 class MenuViewModel {
@@ -50,11 +52,17 @@ class MenuViewModel {
         switch action {
         case .requestSortOptionsScene:
             handle_requestSortOptionsScene()
+        case .requestResetDataScene:
+            handle_requestResetDataScene()
         }
     }
     
     private func handle_requestSortOptionsScene() {
         delegate?.requestSortOptionsScene(self)
+    }
+    
+    private func handle_requestResetDataScene() {
+        delegate?.requestResetDataScene(self)
     }
     
 }

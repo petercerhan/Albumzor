@@ -90,12 +90,16 @@ class SuggestAlbumsViewModel {
     
     private func bindSuggestedAlbumsStateController() {
         
+        //show details
         suggestedAlbumsStateController.showDetails.asObservable()
+            .filter { $0 }
+            .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [unowned self] _ in
                 self.delegate?.showAlbumDetails(self)
             })
             .disposed(by: disposeBag)
         
+        //Seed artists
         suggestedAlbumsStateController.likedAlbumArtistStream
             .subscribe(onNext: { [unowned self] artistData in
                 self.seedArtistStateController.addSeedArtist(artistData: artistData)

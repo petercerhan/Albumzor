@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 
 protocol HomeSceneSetCoordinatorDelegate: class {
-    
+    func dataReset()
 }
 
 class HomeSceneSetCoordinator: Coordinator {
@@ -122,7 +122,12 @@ extension HomeSceneSetCoordinator: MenuViewModelDelegate {
         let vc = compositionRoot.composeSortOptionsScene(delegate: self)
         containerVC.push(viewController: vc, animated: true)
     }
-
+    
+    func requestResetDataScene(_ menuViewModel: MenuViewModel) {
+        let vc = compositionRoot.composeResetDataScene(delegate: self)
+        containerVC.showModally(viewController: vc)
+    }
+    
 }
 
 //MARK: - SortOptionsViewModelDelegate
@@ -131,7 +136,20 @@ extension HomeSceneSetCoordinator: SortOptionsViewModelDelegate {
     
 }
 
+//MARK: - ResetDataViewModelDelegate
 
+extension HomeSceneSetCoordinator: ResetDataViewModelDelegate {
+
+    func cancel(_ resetDataViewModel: ResetDataViewModel) {
+        containerVC.dismissModalVC()
+    }
+    
+    
+    func dataReset(_ resetDataViewModel: ResetDataViewModel) {
+        delegate?.dataReset()
+    }
+
+}
 
 
 

@@ -458,8 +458,6 @@ extension SuggestedAlbumsStateController: AlbumDetailsStateControllerProtocol {
         return currentAlbumTracks
     }
     
-    
-    
 }
 
 

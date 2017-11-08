@@ -19,6 +19,7 @@ class SuggestAlbumsSceneSetCoordinator: Coordinator {
     fileprivate let containerVC: ContainerViewController
     fileprivate let compositionRoot: CompositionRoot
     fileprivate weak var delegate: SuggestAlbumsSceneSetCoordinatorDelegate?
+    fileprivate let suggestedAlbumsStateController: SuggestedAlbumsStateController
     
     //MARK: - Children
     
@@ -26,9 +27,10 @@ class SuggestAlbumsSceneSetCoordinator: Coordinator {
     
     //MARK: - Initialization
     
-    init(containerViewController: ContainerViewController, compositionRoot: CompositionRoot, delegate: SuggestAlbumsSceneSetCoordinatorDelegate) {
+    init(containerViewController: ContainerViewController, compositionRoot: CompositionRoot, delegate: SuggestAlbumsSceneSetCoordinatorDelegate, suggestedAlbumsStateController: SuggestedAlbumsStateController) {
         self.containerVC = containerViewController
         self.compositionRoot = compositionRoot
+        self.suggestedAlbumsStateController = suggestedAlbumsStateController
         self.delegate = delegate
     }
     
@@ -65,6 +67,7 @@ extension SuggestAlbumsSceneSetCoordinator: SuggestAlbumsViewModelDelegate {
 extension SuggestAlbumsSceneSetCoordinator: AlbumDetailsViewModelDelegate {
     
     func dismiss(_ albumDetailsViewModel: AlbumDetailsViewModel) {
+        suggestedAlbumsStateController.showDetails(false)
         containerVC.dismissModalVC()
     }
     
