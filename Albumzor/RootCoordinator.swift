@@ -48,7 +48,7 @@ extension RootCoordinator: SetupSceneSetCoordinatorDelegate {
     func requestHomeSceneSet(_ setupSceneSetCoordinator: SetupSceneSetCoordinator) {
         let homeSceneSetCoordinator = compositionRoot.composeHomeSceneSetCoordinator(delegate: self)
         containerVC.show(viewController: homeSceneSetCoordinator.containerViewController, animation: .none)
-        homeSceneSetCoordinator.startWithSuggestAlbumsActive()
+        homeSceneSetCoordinator.start()
         childCoordinator = homeSceneSetCoordinator
     }
     
@@ -61,6 +61,8 @@ extension RootCoordinator: SetupSceneSetCoordinatorDelegate {
     
 }
 
+//MARK: - HomeSceneSetCoordinatorDelegate
+
 extension RootCoordinator: HomeSceneSetCoordinatorDelegate {
     
     func dataReset() {
@@ -71,5 +73,10 @@ extension RootCoordinator: HomeSceneSetCoordinatorDelegate {
     }
     
 }
+
+
+
+
+
 
 

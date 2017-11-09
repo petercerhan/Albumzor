@@ -162,6 +162,7 @@ class CompositionRoot: CompositionRootProtocol {
     //MARK: - Suggest Albums Scene Set
     
     func composeSuggestAlbumsScene(delegate: SuggestAlbumsViewModelDelegate) -> SuggestAlbumsViewController {
+        resetSuggestedAlbumsStateController()
         let viewModel = SuggestAlbumsViewModel(seedArtistStateController: seedArtistStateController,
                                                suggestedAlbumsStateController: suggestedAlbumsStateController,
                                                audioStateController: audioStateController,
@@ -214,6 +215,14 @@ class CompositionRoot: CompositionRootProtocol {
                                            seedArtistStateController: seedArtistStateController,
                                            userSettingsStateController: userSettingsStateController)
         return ResetDataViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
+    }
+    
+    //MARK: - Manage State Controllers
+    
+    private func resetSuggestedAlbumsStateController() {
+        suggestedAlbumsStateController = SuggestedAlbumsStateController(localDatabaseService: self.coreDataService,
+                                                                        remoteDataService: self.spotifyRemoteDataService,
+                                                                        shufflingService: self.gameKitShufflingService)
     }
     
     //MARK: - Dev

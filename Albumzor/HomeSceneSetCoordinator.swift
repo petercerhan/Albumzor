@@ -50,7 +50,8 @@ class HomeSceneSetCoordinator: Coordinator {
     }
     
     func start() {
-        
+        let homeVC = compositionRoot.composeHomeScene(delegate: self)
+        containerVC.setRootViewController(homeVC)
     }
     
     func startWithSuggestAlbumsActive() {
