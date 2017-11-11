@@ -18,6 +18,7 @@ enum SuggestAlbumsSceneAction {
     case reviewAlbum(liked: Bool)
     case showDetails
     case autoPlay
+    case playTopTrack
     case pauseAudio
     case resumeAudio
     case openInSpotify
@@ -130,6 +131,8 @@ class SuggestAlbumsViewModel {
             handle_reviewAlbum(liked: liked)
         case .showDetails:
             handle_showDetails()
+        case .playTopTrack:
+            handle_playTopTrack()
         case .autoPlay:
             handle_autoPlay()
         case .pauseAudio:
@@ -153,9 +156,16 @@ class SuggestAlbumsViewModel {
     }
     
     private func handle_autoPlay() {
+        if userSettingsStateController.isAutoplayEnabled.value {
+            handle_playTopTrack()
+        }
+    }
+    
+    private func handle_playTopTrack() {
         suggestedAlbumsStateController.currentAlbumTracks
             .take(1)
             .subscribe(onNext: { [unowned self] tracks in
+                
                 guard let tracks = tracks else {
                     self.audioStateController.noPreview(trackListIndex: nil)
                     return
@@ -175,8 +185,6 @@ class SuggestAlbumsViewModel {
                     self.audioStateController.noPreview(trackListIndex: nil)
                     return
                 }
-
-                print("Autoplay track at index \(maxIndex)")
                 
                 self.audioStateController.playTrack(url: previewURL, trackListIndex: maxIndex)
             })

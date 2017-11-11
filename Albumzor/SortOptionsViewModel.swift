@@ -23,6 +23,7 @@ class SortOptionsViewModel {
     
     private weak var delegate: SortOptionsViewModelDelegate?
     private let userSettingsStateController: UserSettingsStateController
+    private let likedAlbumsStateController: LikedAlbumsStateController
     
     //MARK: - State
     
@@ -34,9 +35,10 @@ class SortOptionsViewModel {
     
     //MARK: - Initialization
     
-    init(delegate: SortOptionsViewModelDelegate, userSettingsStateController: UserSettingsStateController) {
+    init(delegate: SortOptionsViewModelDelegate, userSettingsStateController: UserSettingsStateController, likedAlbumsStateController: LikedAlbumsStateController) {
         self.delegate = delegate
         self.userSettingsStateController = userSettingsStateController
+        self.likedAlbumsStateController = likedAlbumsStateController
     }
     
     //MARK: - Dispatch Actions
@@ -50,6 +52,8 @@ class SortOptionsViewModel {
     
     private func handle_setSortType(_ sortType: AlbumSortType) {
         userSettingsStateController.setSortType(sortType.rawValue)
+        likedAlbumsStateController.refreshLikedAlbums()
     }
     
 }
+

@@ -19,6 +19,7 @@ enum MenuSceneAction {
     case requestSortOptionsScene
     case requestResetDataScene
     case disconnectSpotify
+    case setAutoplayIsEnabled(Bool)
 }
 
 class MenuViewModel {
@@ -66,6 +67,8 @@ class MenuViewModel {
             handle_requestResetDataScene()
         case .disconnectSpotify:
             handle_disconnectSpotify()
+        case .setAutoplayIsEnabled(let isEnabled):
+            handle_setAutoplayIsEnabled(isEnabled)
         }
     }
     
@@ -81,9 +84,11 @@ class MenuViewModel {
         userProfileStateController.setSpotifyConnected(false)
         authStateController.deleteSession()
         delegate?.requestAuthenticationScene(self)
-        //launch spotify scene
     }
     
+    private func handle_setAutoplayIsEnabled(_ isEnabled: Bool) {
+        userSettingsStateController.setIsAutoplayEnabled(isEnabled)
+    }
 }
 
 

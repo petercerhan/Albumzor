@@ -52,6 +52,11 @@ class UserSettingsStateController {
         archive()
     }
     
+    func setIsAutoplayEnabled(_ enabled: Bool) {
+        self.isAutoplayEnabled.value = enabled
+        archive()
+    }
+    
     private func archive() {
         let userSettings = UserSettings(instructionsSeen: instructionsSeen.value, isSeeded: isSeeded.value, autoplay: isAutoplayEnabled.value, albumSortType: albumSortType.value)
         self.archiveService.archive(object: userSettings, forKey: "userSettings")

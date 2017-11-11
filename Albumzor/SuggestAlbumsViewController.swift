@@ -222,7 +222,7 @@ class SuggestAlbumsViewController: UIViewController {
                 case AudioState.playing:
                     self.viewModel.dispatch(action: .pauseAudio)
                 case AudioState.none:
-                    self.viewModel.dispatch(action: .autoPlay)
+                    self.viewModel.dispatch(action: .playTopTrack)
                 default:
                     break
                 }

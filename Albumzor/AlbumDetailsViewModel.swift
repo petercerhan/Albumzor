@@ -192,8 +192,6 @@ class AlbumDetailsViewModel {
                     return
                 }
                 
-                print("Autoplay track at index \(maxIndex)")
-                
                 self.audioStateController.playTrack(url: previewURL, trackListIndex: maxIndex)
             })
             .disposed(by: disposeBag)

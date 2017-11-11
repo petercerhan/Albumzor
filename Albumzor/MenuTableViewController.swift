@@ -44,8 +44,6 @@ class MenuTableViewController: UITableViewController {
         return vc
     }
     
-    
-    
     //MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -80,7 +78,6 @@ class MenuTableViewController: UITableViewController {
             .observeOn(MainScheduler.instance)
             .bind(to: sortAlbumsLabel.rx.text)
             .disposed(by: disposeBag)
-        
     }
     
     //MARK: - User Actions
@@ -94,9 +91,13 @@ class MenuTableViewController: UITableViewController {
     }
 
     @IBAction func updateAutoplay(_ sender: UISwitch) {
-        let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
-        appDelegate.userSettings.autoplay = sender.isOn
-        appDelegate.saveUserSettings()
+        
+        //dispatch autoplay toggle
+        viewModel.dispatch(action: .setAutoplayIsEnabled(sender.isOn))
+        
+//        let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+//        appDelegate.userSettings.autoplay = sender.isOn
+//        appDelegate.saveUserSettings()
     }
     
     //MARK: - Table view data source
@@ -144,13 +145,7 @@ class MenuTableViewController: UITableViewController {
         let alert = UIAlertController(title: nil, message: "Are you sure you would like to reset LPSwipe?\n\nAll data will be erased.", preferredStyle: .alert)
         
         let resetAction = UIAlertAction(title: "Reset", style: .default) { [weak self] _ in
-            
-            //dispatch to view model
             self?.viewModel.dispatch(action: .requestResetDataScene)
-            
-//            let vc = self.storyboard!.instantiateViewController(withIdentifier: "ResetDataViewController") as! ResetDataViewController
-////            vc.delegate = self
-//            self.present(vc, animated: true, completion: nil)
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .default)
@@ -176,16 +171,6 @@ class MenuTableViewController: UITableViewController {
         present(alert, animated: true, completion: nil)
     }
 }
-
-extension MenuTableViewController: ConfirmResetViewControllerDelegate {
-    func dismiss() {
-        dismiss(animated: true, completion: nil)
-    }
-}
-
-
-
-
 
 
 
