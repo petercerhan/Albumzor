@@ -265,34 +265,6 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		6E1716861FB14F290052154E /* SortOptionsScene */ = {
-			isa = PBXGroup;
-			children = (
-				E44481FE1EBBFD0E008C7146 /* SortOptionsTableViewController.swift */,
-				6E1716871FB1545E0052154E /* SortOptionsViewModel.swift */,
-			);
-			name = SortOptionsScene;
-			sourceTree = "<group>";
-		};
-		6E1716891FB29AE20052154E /* ResetDataScene */ = {
-			isa = PBXGroup;
-			children = (
-				E467C4CC1EB174A800B0A62B /* ResetDataViewController.swift */,
-				6E36D12F1FB29E8300F1CF96 /* ResetDataViewModel.swift */,
-			);
-			name = ResetDataScene;
-			sourceTree = "<group>";
-		};
-		6E1839351FAABAA300DA53E3 /* HomeScene */ = {
-			isa = PBXGroup;
-			children = (
-				6E4F5FA21FAF64A100A59B23 /* TableViewProxy.swift */,
-				E45D98BC1E75DC2F00CD3CE7 /* HomeViewController.swift */,
-				6E9281351FAE5A790066E9FB /* HomeViewModel.swift */,
-			);
-			name = HomeScene;
-			sourceTree = "<group>";
-		};
 		6E330A741FABF048008747E6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -305,6 +277,55 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
+		6E36D1351FB6BA2A00F1CF96 /* HomeSceneSet */ = {
+			isa = PBXGroup;
+			children = (
+				6E9281311FAE38D50066E9FB /* HomeSceneSetCoordinator.swift */,
+				6E36D1391FB6BA9C00F1CF96 /* HomeScene */,
+				6E36D1381FB6BA7900F1CF96 /* SortOptionsScene */,
+				6E36D1371FB6BA4E00F1CF96 /* MenuScene */,
+				6E36D1361FB6BA3300F1CF96 /* ResetDataScene */,
+			);
+			name = HomeSceneSet;
+			sourceTree = "<group>";
+		};
+		6E36D1361FB6BA3300F1CF96 /* ResetDataScene */ = {
+			isa = PBXGroup;
+			children = (
+				E467C4CC1EB174A800B0A62B /* ResetDataViewController.swift */,
+				6E36D12F1FB29E8300F1CF96 /* ResetDataViewModel.swift */,
+			);
+			name = ResetDataScene;
+			sourceTree = "<group>";
+		};
+		6E36D1371FB6BA4E00F1CF96 /* MenuScene */ = {
+			isa = PBXGroup;
+			children = (
+				6E1716841FB142B30052154E /* MenuViewModel.swift */,
+				E467C4C81EAECD3800B0A62B /* MenuTableViewController.swift */,
+			);
+			name = MenuScene;
+			sourceTree = "<group>";
+		};
+		6E36D1381FB6BA7900F1CF96 /* SortOptionsScene */ = {
+			isa = PBXGroup;
+			children = (
+				E44481FE1EBBFD0E008C7146 /* SortOptionsTableViewController.swift */,
+				6E1716871FB1545E0052154E /* SortOptionsViewModel.swift */,
+			);
+			name = SortOptionsScene;
+			sourceTree = "<group>";
+		};
+		6E36D1391FB6BA9C00F1CF96 /* HomeScene */ = {
+			isa = PBXGroup;
+			children = (
+				6E4F5FA21FAF64A100A59B23 /* TableViewProxy.swift */,
+				E45D98BC1E75DC2F00CD3CE7 /* HomeViewController.swift */,
+				6E9281351FAE5A790066E9FB /* HomeViewModel.swift */,
+			);
+			name = HomeScene;
+			sourceTree = "<group>";
+		};
 		6E80E6C31FA6632300C7852B /* AlbumDetailsScene */ = {
 			isa = PBXGroup;
 			children = (
@@ -312,15 +333,6 @@
 				6E80E6C41FA667E000C7852B /* AlbumDetailsViewModel.swift */,
 			);
 			name = AlbumDetailsScene;
-			sourceTree = "<group>";
-		};
-		6E9281371FAE5E660066E9FB /* MenuScene */ = {
-			isa = PBXGroup;
-			children = (
-				E467C4C81EAECD3800B0A62B /* MenuTableViewController.swift */,
-				6E1716841FB142B30052154E /* MenuViewModel.swift */,
-			);
-			name = MenuScene;
 			sourceTree = "<group>";
 		};
 		6EFA3E271F983302002E9B04 /* SpotifyAuthManager */ = {
@@ -393,7 +405,6 @@
 				6E5C3E981FABF832008ACDAE /* Coordinator.swift */,
 				6E5C3E961FABF63D008ACDAE /* RootCoordinator.swift */,
 				E44B02AC1F6DD96B00B1A0D3 /* SetupSceneSetCoordinator.swift */,
-				6E9281311FAE38D50066E9FB /* HomeSceneSetCoordinator.swift */,
 				6EB4B14C1FAC0B9D0064A6B8 /* SuggestAlbumsSceneSetCoordinator.swift */,
 			);
 			name = Coordinators;
@@ -457,16 +468,12 @@
 				E45D98BA1E75DC2F00CD3CE7 /* AppDelegate.swift */,
 				E44B02A91F6DCB0700B1A0D3 /* CompositionRoot.swift */,
 				E44B02AB1F6DD95800B1A0D3 /* Coordinators */,
-				6E330A741FABF048008747E6 /* Models */,
-				6E1716891FB29AE20052154E /* ResetDataScene */,
-				6E9281371FAE5E660066E9FB /* MenuScene */,
-				6E1716861FB14F290052154E /* SortOptionsScene */,
-				6E1839351FAABAA300DA53E3 /* HomeScene */,
+				6E36D1351FB6BA2A00F1CF96 /* HomeSceneSet */,
 				E47E09A61F79D943004A5C9E /* Services */,
 				E4A7A5741F749C9B009D117D /* StateControllers */,
-				E44B02AE1F6DDEC600B1A0D3 /* ContainerViewControllers */,
 				6EFA3E281F983332002E9B04 /* SuggestAlbumsScene */,
 				6E80E6C31FA6632300C7852B /* AlbumDetailsScene */,
+				6E330A741FABF048008747E6 /* Models */,
 				E44872051F95A1E80090F5A2 /* InstructionsScene */,
 				E47E09A91F7B2CAC004A5C9E /* ChooseArtistsScene */,
 				E47E09B01F802A00004A5C9E /* ConfirmArtistsScene */,
@@ -474,6 +481,7 @@
 				E44B02B71F6F07BB00B1A0D3 /* SpotifyLoginScene */,
 				E44B02BC1F6F3F3D00B1A0D3 /* WelcomeScene */,
 				E45D990E1E7A23D300CD3CE7 /* View */,
+				E44B02AE1F6DDEC600B1A0D3 /* ContainerViewControllers */,
 				E44B02A81F6DCAF200B1A0D3 /* SupportingFiles */,
 				E45D98EA1E75EC0500CD3CE7 /* Model */,
 				E45D98BE1E75DC2F00CD3CE7 /* Main.storyboard */,
