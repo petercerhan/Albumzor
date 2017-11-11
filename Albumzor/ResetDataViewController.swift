@@ -24,13 +24,6 @@ protocol ResetDataViewControllerDelegate: NSObjectProtocol {
 
 class ResetDataViewController: UIViewController {
     
-    //REMOVE
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    let dataManager = (UIApplication.shared.delegate as! AppDelegate).dataManager!
-    weak var delegate: ResetDataViewControllerDelegate?
-    var action: ResetDataAction!
-    //remove
-    
     //MARK: - Interface Components
     
     @IBOutlet var cancelButton: UIButton!
@@ -91,44 +84,6 @@ class ResetDataViewController: UIViewController {
             })
             .disposed(by: disposeBag)
     }
-    
-    //REMOVE
-    func resetData() {
-        dataManager.reset() { error in
-            if let _ = error {
-                //unexpected error state - core data updates should succeed
-                DispatchQueue.main.async {
-                    self.delegate?.resetFailed()
-                }
-            } else {
-                DispatchQueue.main.async {
-                    self.appDelegate.userSettings = UserSettings(instructionsSeen: false, isSeeded: false, autoplay: true, albumSortType: 0)
-                    self.appDelegate.saveUserSettings()
-                    self.appDelegate.resetUserProfile()
-                    self.delegate?.resetSucceeded()
-                }
-            }
-        }
-    }
-    
-    func reseedData() {
-        dataManager.reseed() { error in
-            if let _ = error {
-                //unexpected error state - core data updates should succeed
-                DispatchQueue.main.async {
-                    self.delegate?.resetFailed()
-                }
-            } else {
-                DispatchQueue.main.async {
-                    self.appDelegate.userSettings.isSeeded = false
-                    self.appDelegate.saveUserSettings()
-                    self.delegate?.resetSucceeded()
-                }
-            }
-        }
-    }
-    
-    //remove
-    
+
 }
 

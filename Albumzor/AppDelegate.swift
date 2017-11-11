@@ -13,13 +13,13 @@ import RxSwift
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     let coreDataStack = CoreDataStack(modelName: "Model")!
-    var dataManager: DataManager!
+//    var dataManager: DataManager!
     var audioPlayer = AudioPlayer()
     //initial/default settings
     var userSettings = UserSettings(instructionsSeen: false, isSeeded: false, autoplay: true, albumSortType: 0)
     var userProfile = UserProfile(userMarket: "None", spotifyConnected: false)
     
-    var mainContainerViewController: MainContainerViewController?
+//    var mainContainerViewController: MainContainerViewController?
     
     var window: UIWindow?
 
@@ -58,8 +58,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window?.rootViewController = rootCoordinator.containerViewController
         window?.makeKeyAndVisible()
-        
-        dataManager = DataManager()
         
         //Get albums count
         compositionRoot.localDatabaseService

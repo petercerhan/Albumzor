@@ -11,7 +11,6 @@ import UIKit
 
 protocol CompositionRootProtocol {
     func composeWindow() -> UIWindow
-//    func composeAuthStateController() -> AuthStateController
     
     func composeRootCoordinator() -> RootCoordinator
     
@@ -235,7 +234,7 @@ class CompositionRoot: CompositionRootProtocol {
                                                                         shufflingService: self.gameKitShufflingService)
     }
     
-    //MARK: - Dev
+    //MARK: - Utilities
     
     var localDatabaseService: LocalDatabaseServiceProtocol {
         return coreDataService

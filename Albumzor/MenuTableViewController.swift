@@ -30,12 +30,6 @@ class MenuTableViewController: UITableViewController {
     
     private let disposeBag = DisposeBag()
     
-    //Won't need
-//    weak var delegate = (UIApplication.shared.delegate as! AppDelegate).mainContainerViewController!
-    var appDelegate = (UIApplication.shared.delegate as! AppDelegate)
-    
-    //won't need
-    
     //MARK: - Initialization
     
     static func createWith(storyBoard: UIStoryboard, viewModel: MenuViewModel) -> MenuTableViewController {
@@ -91,13 +85,7 @@ class MenuTableViewController: UITableViewController {
     }
 
     @IBAction func updateAutoplay(_ sender: UISwitch) {
-        
-        //dispatch autoplay toggle
         viewModel.dispatch(action: .setAutoplayIsEnabled(sender.isOn))
-        
-//        let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
-//        appDelegate.userSettings.autoplay = sender.isOn
-//        appDelegate.saveUserSettings()
     }
     
     //MARK: - Table view data source
