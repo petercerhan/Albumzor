@@ -85,10 +85,6 @@ class MenuTableViewController: UITableViewController {
     
     //MARK: - User Actions
     
-    @IBAction func reseedInfo() {
-        alert(title: "Re-Seed", message: "Choose new seed artists. \n\nThe current data used for suggesting albums will be erased, and you can choose a new set of seed artists.\n\nYour liked albums will not be erased.", buttonTitle: "Done")
-    }
-    
     @IBAction func resetInfo() {
         alert(title: "Reset Data", message: "All data will be erased.\n\nThis includes your saved albums.", buttonTitle: "Done")
     }
@@ -112,29 +108,23 @@ class MenuTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return 3
+            return 2
         case 1:
             return 2
         default:
             return 0
         }
     }
+    
+    //MARK: - Table view delegate
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 && indexPath.row == 0 {
-            reseedDataAlert()
-        } else if indexPath.section == 0 && indexPath.row == 1 {
-            
-            
             resetDataAlert()
-        } else if indexPath.section == 0 && indexPath.row == 2 {
+        } else if indexPath.section == 0 && indexPath.row == 1 {
             disconnectSpotifyAlert()
         } else if indexPath.section == 1 && indexPath.row == 1 {
-            
-            //dispatch open sort options scene
-
             viewModel.dispatch(action: .requestSortOptionsScene)
-            
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -148,24 +138,6 @@ class MenuTableViewController: UITableViewController {
     }
 
     //MARK: - Alerts
-    
-    //Remove
-    func reseedDataAlert() {
-        let alert = UIAlertController(title: nil, message: "Are you sure you would like to re-seed LPSwipe?\n\nYour saved albums will not be erased. You will need to choose new seed artists.", preferredStyle: .alert)
-        
-        let reseedAction = UIAlertAction(title: "Re-Seed", style: .default) { action in
-            self.appDelegate.mainContainerViewController!.resetData(action: .reseed)
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .default)
-        
-        alert.addAction(reseedAction)
-        alert.addAction(cancelAction)
-        
-        present(alert, animated: true, completion: nil)
-    }
-    //remove
-    
     
     
     func resetDataAlert() {

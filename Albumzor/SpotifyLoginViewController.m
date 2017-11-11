@@ -23,9 +23,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    NSLog(@"\n\nLogin Scene ViewDidLoad");
-    
+ 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionUpdatedNotification:) name:@"sessionUpdated" object:nil];
     
     if(_spotifyConnected) {
@@ -33,10 +31,6 @@
     }
     
     [[_spotifyButton layer] setCornerRadius:25.0];
-}
-
-- (void)dealloc {
-    NSLog(@"\n\n Login Scene dealloc");
 }
 
 - (void)openLoginPage
