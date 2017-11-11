@@ -326,6 +326,77 @@
 			name = HomeScene;
 			sourceTree = "<group>";
 		};
+		6E36D14B1FB783EE00F1CF96 /* SetupSceneSet */ = {
+			isa = PBXGroup;
+			children = (
+				E44B02AC1F6DD96B00B1A0D3 /* SetupSceneSetCoordinator.swift */,
+				6E36D1511FB7848C00F1CF96 /* WelcomeScene */,
+				6E36D1501FB7846800F1CF96 /* ConfirmArtistsScene */,
+				6E36D14F1FB7844800F1CF96 /* ChooseArtistsScene */,
+				6E36D14E1FB7843000F1CF96 /* InstructionsScene */,
+				6E36D14D1FB7840F00F1CF96 /* SpotifyLoginScene */,
+				6E36D14C1FB783FA00F1CF96 /* OpenScene */,
+			);
+			name = SetupSceneSet;
+			sourceTree = "<group>";
+		};
+		6E36D14C1FB783FA00F1CF96 /* OpenScene */ = {
+			isa = PBXGroup;
+			children = (
+				E4B5077B1EAB0BB80049831B /* OpenSceneViewController.swift */,
+				E44B02B11F6DF73800B1A0D3 /* OpenSceneViewModel.swift */,
+			);
+			name = OpenScene;
+			sourceTree = "<group>";
+		};
+		6E36D14D1FB7840F00F1CF96 /* SpotifyLoginScene */ = {
+			isa = PBXGroup;
+			children = (
+				E4A70BFB1F832773000301D0 /* SpotifyDelegateProxy.swift */,
+				E425AF5A1EC166F4004BB657 /* SpotifyLoginViewController.h */,
+				E425AF581EC166E9004BB657 /* SpotifyLoginViewController.m */,
+				E425AF671EC53070004BB657 /* WebViewController.h */,
+				E425AF681EC53070004BB657 /* WebViewController.m */,
+			);
+			name = SpotifyLoginScene;
+			sourceTree = "<group>";
+		};
+		6E36D14E1FB7843000F1CF96 /* InstructionsScene */ = {
+			isa = PBXGroup;
+			children = (
+				E4B507811EAD98070049831B /* InstructionsViewController.swift */,
+				E456D8A61F96D09B00FF539F /* InstructionsViewModel.swift */,
+			);
+			name = InstructionsScene;
+			sourceTree = "<group>";
+		};
+		6E36D14F1FB7844800F1CF96 /* ChooseArtistsScene */ = {
+			isa = PBXGroup;
+			children = (
+				E45D99221E8B4FEF00CD3CE7 /* ChooseArtistViewController.swift */,
+				E47E09AE1F7C88C3004A5C9E /* ChooseArtistViewModel.swift */,
+			);
+			name = ChooseArtistsScene;
+			sourceTree = "<group>";
+		};
+		6E36D1501FB7846800F1CF96 /* ConfirmArtistsScene */ = {
+			isa = PBXGroup;
+			children = (
+				E45D99281E8D398100CD3CE7 /* ConfirmArtistViewController.swift */,
+				E47E09B11F802CEA004A5C9E /* ConfirmArtistViewModel.swift */,
+			);
+			name = ConfirmArtistsScene;
+			sourceTree = "<group>";
+		};
+		6E36D1511FB7848C00F1CF96 /* WelcomeScene */ = {
+			isa = PBXGroup;
+			children = (
+				E4B5077F1EAD763D0049831B /* WelcomeViewController.swift */,
+				E4A7A5721F748A58009D117D /* WelcomeViewModel.swift */,
+			);
+			name = WelcomeScene;
+			sourceTree = "<group>";
+		};
 		6E80E6C31FA6632300C7852B /* AlbumDetailsScene */ = {
 			isa = PBXGroup;
 			children = (
@@ -364,24 +435,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		E44872051F95A1E80090F5A2 /* InstructionsScene */ = {
-			isa = PBXGroup;
-			children = (
-				E4B507811EAD98070049831B /* InstructionsViewController.swift */,
-				E456D8A61F96D09B00FF539F /* InstructionsViewModel.swift */,
-			);
-			name = InstructionsScene;
-			sourceTree = "<group>";
-		};
-		E44B02A71F6DC9C400B1A0D3 /* OpenScene */ = {
-			isa = PBXGroup;
-			children = (
-				E4B5077B1EAB0BB80049831B /* OpenSceneViewController.swift */,
-				E44B02B11F6DF73800B1A0D3 /* OpenSceneViewModel.swift */,
-			);
-			name = OpenScene;
-			sourceTree = "<group>";
-		};
 		E44B02A81F6DCAF200B1A0D3 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
@@ -404,7 +457,6 @@
 			children = (
 				6E5C3E981FABF832008ACDAE /* Coordinator.swift */,
 				6E5C3E961FABF63D008ACDAE /* RootCoordinator.swift */,
-				E44B02AC1F6DD96B00B1A0D3 /* SetupSceneSetCoordinator.swift */,
 				6EB4B14C1FAC0B9D0064A6B8 /* SuggestAlbumsSceneSetCoordinator.swift */,
 			);
 			name = Coordinators;
@@ -417,27 +469,6 @@
 				6E9281331FAE48580066E9FB /* NavigationContainerViewController.swift */,
 			);
 			name = ContainerViewControllers;
-			sourceTree = "<group>";
-		};
-		E44B02B71F6F07BB00B1A0D3 /* SpotifyLoginScene */ = {
-			isa = PBXGroup;
-			children = (
-				E4A70BFB1F832773000301D0 /* SpotifyDelegateProxy.swift */,
-				E425AF5A1EC166F4004BB657 /* SpotifyLoginViewController.h */,
-				E425AF581EC166E9004BB657 /* SpotifyLoginViewController.m */,
-				E425AF671EC53070004BB657 /* WebViewController.h */,
-				E425AF681EC53070004BB657 /* WebViewController.m */,
-			);
-			name = SpotifyLoginScene;
-			sourceTree = "<group>";
-		};
-		E44B02BC1F6F3F3D00B1A0D3 /* WelcomeScene */ = {
-			isa = PBXGroup;
-			children = (
-				E4B5077F1EAD763D0049831B /* WelcomeViewController.swift */,
-				E4A7A5721F748A58009D117D /* WelcomeViewModel.swift */,
-			);
-			name = WelcomeScene;
 			sourceTree = "<group>";
 		};
 		E45D98AE1E75DC2F00CD3CE7 = {
@@ -467,6 +498,7 @@
 			children = (
 				E45D98BA1E75DC2F00CD3CE7 /* AppDelegate.swift */,
 				E44B02A91F6DCB0700B1A0D3 /* CompositionRoot.swift */,
+				6E36D14B1FB783EE00F1CF96 /* SetupSceneSet */,
 				E44B02AB1F6DD95800B1A0D3 /* Coordinators */,
 				6E36D1351FB6BA2A00F1CF96 /* HomeSceneSet */,
 				E47E09A61F79D943004A5C9E /* Services */,
@@ -474,12 +506,6 @@
 				6EFA3E281F983332002E9B04 /* SuggestAlbumsScene */,
 				6E80E6C31FA6632300C7852B /* AlbumDetailsScene */,
 				6E330A741FABF048008747E6 /* Models */,
-				E44872051F95A1E80090F5A2 /* InstructionsScene */,
-				E47E09A91F7B2CAC004A5C9E /* ChooseArtistsScene */,
-				E47E09B01F802A00004A5C9E /* ConfirmArtistsScene */,
-				E44B02A71F6DC9C400B1A0D3 /* OpenScene */,
-				E44B02B71F6F07BB00B1A0D3 /* SpotifyLoginScene */,
-				E44B02BC1F6F3F3D00B1A0D3 /* WelcomeScene */,
 				E45D990E1E7A23D300CD3CE7 /* View */,
 				E44B02AE1F6DDEC600B1A0D3 /* ContainerViewControllers */,
 				E44B02A81F6DCAF200B1A0D3 /* SupportingFiles */,
@@ -565,24 +591,6 @@
 				6E0F7F221F9BF1DC00F74879 /* ShufflingService.swift */,
 			);
 			name = Services;
-			sourceTree = "<group>";
-		};
-		E47E09A91F7B2CAC004A5C9E /* ChooseArtistsScene */ = {
-			isa = PBXGroup;
-			children = (
-				E45D99221E8B4FEF00CD3CE7 /* ChooseArtistViewController.swift */,
-				E47E09AE1F7C88C3004A5C9E /* ChooseArtistViewModel.swift */,
-			);
-			name = ChooseArtistsScene;
-			sourceTree = "<group>";
-		};
-		E47E09B01F802A00004A5C9E /* ConfirmArtistsScene */ = {
-			isa = PBXGroup;
-			children = (
-				E45D99281E8D398100CD3CE7 /* ConfirmArtistViewController.swift */,
-				E47E09B11F802CEA004A5C9E /* ConfirmArtistViewModel.swift */,
-			);
-			name = ConfirmArtistsScene;
 			sourceTree = "<group>";
 		};
 		E4A7A5741F749C9B009D117D /* StateControllers */ = {
