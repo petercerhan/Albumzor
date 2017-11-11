@@ -293,6 +293,19 @@
 			name = AlbumDetailsScene;
 			sourceTree = "<group>";
 		};
+		6E101D781FB79316002C5455 /* CoreDataService */ = {
+			isa = PBXGroup;
+			children = (
+				E4A70BFF1F919198000301D0 /* CoreDataService.swift */,
+				E45D98F91E78D71800CD3CE7 /* CoreDataStack.swift */,
+				E45D98FB1E78D7A800CD3CE7 /* Model.xcdatamodeld */,
+				E45D99081E7A05A900CD3CE7 /* Artist.swift */,
+				E45D990A1E7A0ED400CD3CE7 /* Album.swift */,
+				E45D99201E8A9BAF00CD3CE7 /* Track.swift */,
+			);
+			name = CoreDataService;
+			sourceTree = "<group>";
+		};
 		6E330A741FABF048008747E6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -548,24 +561,11 @@
 		E45D98EA1E75EC0500CD3CE7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				E45D98F81E78D70D00CD3CE7 /* CoreData */,
 				E467C4CA1EAED4B400B0A62B /* UserSettings.swift */,
 				E425AF651EC34B24004BB657 /* UserProfile.swift */,
 				E43214381F780D190071B7B8 /* UserInfo.swift */,
 			);
 			name = Model;
-			sourceTree = "<group>";
-		};
-		E45D98F81E78D70D00CD3CE7 /* CoreData */ = {
-			isa = PBXGroup;
-			children = (
-				E45D98F91E78D71800CD3CE7 /* CoreDataStack.swift */,
-				E45D98FB1E78D7A800CD3CE7 /* Model.xcdatamodeld */,
-				E45D99081E7A05A900CD3CE7 /* Artist.swift */,
-				E45D990A1E7A0ED400CD3CE7 /* Album.swift */,
-				E45D99201E8A9BAF00CD3CE7 /* Track.swift */,
-			);
-			name = CoreData;
 			sourceTree = "<group>";
 		};
 		E45D990E1E7A23D300CD3CE7 /* View */ = {
@@ -589,10 +589,10 @@
 		E47E09A61F79D943004A5C9E /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				6E101D781FB79316002C5455 /* CoreDataService */,
 				6EFA3E271F983302002E9B04 /* SpotifyAuthManager */,
 				E42375AE1F93F855006D8DFD /* ExternalURLProxy.swift */,
 				6E7AFEA11FA6A133007553C2 /* AVAudioPlayerService.swift */,
-				E4A70BFF1F919198000301D0 /* CoreDataService.swift */,
 				E4A7A5751F76DA76009D117D /* SpotifyRemoteDataService.swift */,
 				E47E09A71F79D955004A5C9E /* ArchivingService.swift */,
 				E47E09AC1F7B3362004A5C9E /* ITunesLibraryService.swift */,
