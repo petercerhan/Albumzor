@@ -455,6 +455,7 @@
 		E44B02A81F6DCAF200B1A0D3 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
+				6E5C3E981FABF832008ACDAE /* Coordinator.swift */,
 				E47E09A41F793BFF004A5C9E /* DataOperationState.swift */,
 				E44B0EA31F81875A00F29615 /* NetworkRequestError.swift */,
 				6E36D1311FB2A7E300F1CF96 /* DatabaseOperationError.swift */,
@@ -467,15 +468,6 @@
 				6E0534781FA015080082BAD1 /* ObservableType+makeEventTypeOptional.swift */,
 			);
 			name = SupportingFiles;
-			sourceTree = "<group>";
-		};
-		E44B02AB1F6DD95800B1A0D3 /* Coordinators */ = {
-			isa = PBXGroup;
-			children = (
-				6E5C3E981FABF832008ACDAE /* Coordinator.swift */,
-				6E5C3E961FABF63D008ACDAE /* RootCoordinator.swift */,
-			);
-			name = Coordinators;
 			sourceTree = "<group>";
 		};
 		E44B02AE1F6DDEC600B1A0D3 /* ContainerViewControllers */ = {
@@ -514,9 +506,9 @@
 			children = (
 				E45D98BA1E75DC2F00CD3CE7 /* AppDelegate.swift */,
 				E44B02A91F6DCB0700B1A0D3 /* CompositionRoot.swift */,
+				6E5C3E961FABF63D008ACDAE /* RootCoordinator.swift */,
 				6E36D14B1FB783EE00F1CF96 /* SetupSceneSet */,
 				6E101D751FB78668002C5455 /* SuggestAlbumsSceneSet */,
-				E44B02AB1F6DD95800B1A0D3 /* Coordinators */,
 				6E36D1351FB6BA2A00F1CF96 /* HomeSceneSet */,
 				E47E09A61F79D943004A5C9E /* Services */,
 				E4A7A5741F749C9B009D117D /* StateControllers */,
