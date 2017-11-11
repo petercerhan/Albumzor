@@ -12,8 +12,8 @@ protocol OpenSceneViewModelDelegate: class {
     func sceneComplete(_ openSceneViewModel: OpenSceneViewModel)
 }
 
-struct OpenSceneActions {
-    struct SceneCompleteAction: Action {}
+enum OpenSceneAction {
+    case sceneComplete
 }
 
 class OpenSceneViewModel {
@@ -28,19 +28,16 @@ class OpenSceneViewModel {
         self.delegate = delegate
     }
     
+    //MARK: - Dispatch Actions
     
-    //MARK: - Actions
-    
-    func dispatch(action: Action) {
+    func dispatch(action: OpenSceneAction) {
         switch action {
-        case let action as OpenSceneActions.SceneCompleteAction:
-            handleSceneCompleteAction(action: action)
-        default:
-            return
+        case .sceneComplete:
+            handle_SceneCompleteAction()
         }
     }
     
-    func handleSceneCompleteAction(action: OpenSceneActions.SceneCompleteAction) {
+    func handle_SceneCompleteAction() {
         delegate?.sceneComplete(self)
     }
     

@@ -11,18 +11,10 @@ import RxSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-//    let coreDataStack = CoreDataStack(modelName: "Model")!
-//    var audioPlayer = AudioPlayer()
     
     var window: UIWindow?
-
     var compositionRoot: CompositionRootProtocol!
     var rootCoordinator: RootCoordinator!
-    
-    //Mark: - Rx
-    //Dev
-    let disposeBag = DisposeBag()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         compositionRoot = CompositionRoot()
@@ -33,12 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window?.rootViewController = rootCoordinator.containerViewController
         window?.makeKeyAndVisible()
-        
-        //Get albums count
-        compositionRoot.localDatabaseService
-            .countUnseenAlbums()
-            .subscribe(onNext: { print("Total unseen albums \($0)") })
-            .disposed(by: disposeBag)
         
         return true
     }
