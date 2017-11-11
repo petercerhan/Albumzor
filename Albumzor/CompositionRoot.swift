@@ -11,7 +11,7 @@ import UIKit
 
 protocol CompositionRootProtocol {
     func composeWindow() -> UIWindow
-    func composeAuthStateController() -> AuthStateController
+//    func composeAuthStateController() -> AuthStateController
     
     func composeRootCoordinator() -> RootCoordinator
     
@@ -71,6 +71,10 @@ class CompositionRoot: CompositionRootProtocol {
         return LikedAlbumsStateController(localDatabaseService: self.coreDataService, remoteDataService: self.spotifyRemoteDataService)
     }()
     
+    private lazy var authStateController: AuthStateController = {
+        return AuthStateController(authService: SpotifyAuthManager())
+    }()
+    
     //MARK: - Services
     
     private lazy var coreDataService: CoreDataService = {
@@ -96,9 +100,9 @@ class CompositionRoot: CompositionRootProtocol {
         return UIWindow(frame: UIScreen.main.bounds)
     }
     
-    func composeAuthStateController() -> AuthStateController {
-        return AuthStateController(authService: SpotifyAuthManager())
-    }
+//    func composeAuthStateController() -> AuthStateController {
+//        return AuthStateController(authService: SpotifyAuthManager())
+//    }
 
     //MARK: - Coordinators
     
@@ -109,7 +113,7 @@ class CompositionRoot: CompositionRootProtocol {
     
     func composeSetupSceneSetCoordinator(delegate: SetupSceneSetCoordinatorDelegate) -> SetupSceneSetCoordinator {
         return SetupSceneSetCoordinator(mainContainerViewController: ContainerViewController(),
-                                        authStateController: composeAuthStateController(),
+                                        authStateController: authStateController,
                                         userProfileStateController: userProfileStateController,
                                         userSettingsStateController: userSettingsStateController,
                                         seedArtistStateController: seedArtistStateController,
@@ -118,7 +122,10 @@ class CompositionRoot: CompositionRootProtocol {
     }
     
     func composeHomeSceneSetCoordinator(delegate: HomeSceneSetCoordinatorDelegate) -> HomeSceneSetCoordinator {
-        return HomeSceneSetCoordinator(containerViewController: NavigationContainerViewController(), compositionRoot: self, likedAlbumsStateController: likedAlbumsStateController, delegate: delegate)
+        return HomeSceneSetCoordinator(containerViewController: NavigationContainerViewController(), compositionRoot: self,
+                                       likedAlbumsStateController: likedAlbumsStateController,
+                                       userProfileStateController: userProfileStateController,
+                                       delegate: delegate)
     }
     
     func composeSuggestAlbumsSceneSetCoordinator(delegate: SuggestAlbumsSceneSetCoordinatorDelegate) -> SuggestAlbumsSceneSetCoordinator {
@@ -201,7 +208,10 @@ class CompositionRoot: CompositionRootProtocol {
     }
     
     func composeMenuScene(delegate: MenuViewModelDelegate) -> MenuTableViewController {
-        let viewModel = MenuViewModel(delegate: delegate, userSettingsStateController: userSettingsStateController)
+        let viewModel = MenuViewModel(delegate: delegate,
+                                      userSettingsStateController: userSettingsStateController,
+                                      userProfileStateController: userProfileStateController,
+                                      authStateController: authStateController)
         return MenuTableViewController.createWith(storyBoard: UIStoryboard(name: "Main", bundle: nil), viewModel: viewModel)
     }
     

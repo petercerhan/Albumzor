@@ -11,6 +11,7 @@ import Foundation
 protocol ArchivingServiceProtocol {
     func unarchiveObject(forKey key: String) -> Any?
     func archive(object: NSCoding, forKey key: String)
+    func removeObject(forKey key: String)
 }
 
 class UserDefaultsArchivingService: ArchivingServiceProtocol {
@@ -26,5 +27,9 @@ class UserDefaultsArchivingService: ArchivingServiceProtocol {
     func archive(object: NSCoding, forKey key: String) {
         let data = NSKeyedArchiver.archivedData(withRootObject: object)
         UserDefaults.standard.set(data, forKey: key)
+    }
+    
+    func removeObject(forKey key: String) {
+        
     }
 }

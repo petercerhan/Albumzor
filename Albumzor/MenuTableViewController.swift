@@ -189,14 +189,11 @@ class MenuTableViewController: UITableViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    
-    
     func disconnectSpotifyAlert() {
         let alert = UIAlertController(title: nil, message: "Are you sure you would like to disconnect Spotify? You will need to connect another account to use LPSwipe.", preferredStyle: .alert)
         
-        let disconnectAction = UIAlertAction(title: "Disconnect", style: .default) { action in
-            self.appDelegate.disconnectSpotify()
-//            self.delegate?.spotifyDisconnected()
+        let disconnectAction = UIAlertAction(title: "Disconnect", style: .default) { [weak self] _ in
+            self?.viewModel.dispatch(action: .disconnectSpotify)
         }
          
         let cancelAction = UIAlertAction(title: "Cancel", style: .default)
@@ -205,7 +202,6 @@ class MenuTableViewController: UITableViewController {
         alert.addAction(cancelAction)
         
         present(alert, animated: true, completion: nil)
-        
     }
 }
 
@@ -214,6 +210,8 @@ extension MenuTableViewController: ConfirmResetViewControllerDelegate {
         dismiss(animated: true, completion: nil)
     }
 }
+
+
 
 
 

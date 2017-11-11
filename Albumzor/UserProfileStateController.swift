@@ -54,8 +54,8 @@ class UserProfileStateController {
         return infoObservable.map { userInfo -> () in }
     }
     
-    func setSpotifyConnected() {
-        spotifyConnected.value = true
+    func setSpotifyConnected(_ connected: Bool) {
+        spotifyConnected.value = connected
         let userProfile = UserProfile(userMarket: userMarket.value, spotifyConnected: spotifyConnected.value)
         self.archiveService.archive(object: userProfile, forKey: "userProfile")
     }

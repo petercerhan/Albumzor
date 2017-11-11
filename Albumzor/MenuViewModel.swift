@@ -12,11 +12,13 @@ import RxSwift
 protocol MenuViewModelDelegate: class {
     func requestSortOptionsScene(_ menuViewModel: MenuViewModel)
     func requestResetDataScene(_ menuViewModel: MenuViewModel)
+    func requestAuthenticationScene(_ menuViewModel: MenuViewModel)
 }
 
 enum MenuSceneAction {
     case requestSortOptionsScene
     case requestResetDataScene
+    case disconnectSpotify
 }
 
 class MenuViewModel {
@@ -25,6 +27,8 @@ class MenuViewModel {
     
     private weak var delegate: MenuViewModelDelegate?
     private let userSettingsStateController: UserSettingsStateController
+    private let userProfileStateController: UserProfileStateController
+    private let authStateController: AuthStateController
     
     //MARK: - State
     
@@ -41,9 +45,15 @@ class MenuViewModel {
     
     //MARK: - Initialization
     
-    init(delegate: MenuViewModelDelegate, userSettingsStateController: UserSettingsStateController) {
+    init(delegate: MenuViewModelDelegate,
+         userSettingsStateController: UserSettingsStateController,
+         userProfileStateController: UserProfileStateController,
+         authStateController: AuthStateController)
+    {
         self.delegate = delegate
         self.userSettingsStateController = userSettingsStateController
+        self.userProfileStateController = userProfileStateController
+        self.authStateController = authStateController
     }
     
     //MARK: - Dispatch Actions
@@ -54,6 +64,8 @@ class MenuViewModel {
             handle_requestSortOptionsScene()
         case .requestResetDataScene:
             handle_requestResetDataScene()
+        case .disconnectSpotify:
+            handle_disconnectSpotify()
         }
     }
     
@@ -65,4 +77,13 @@ class MenuViewModel {
         delegate?.requestResetDataScene(self)
     }
     
+    private func handle_disconnectSpotify() {
+        userProfileStateController.setSpotifyConnected(false)
+        authStateController.deleteSession()
+        delegate?.requestAuthenticationScene(self)
+        //launch spotify scene
+    }
+    
 }
+
+

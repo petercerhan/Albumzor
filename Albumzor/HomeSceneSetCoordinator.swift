@@ -20,6 +20,7 @@ class HomeSceneSetCoordinator: Coordinator {
     fileprivate let containerVC: NavigationContainerViewController
     fileprivate let compositionRoot: CompositionRoot
     fileprivate let likedAlbumsStateController: LikedAlbumsStateController
+    fileprivate let userProfileStateController: UserProfileStateController
     fileprivate weak var delegate: HomeSceneSetCoordinatorDelegate?
     
     //MARK: - Children
@@ -35,11 +36,13 @@ class HomeSceneSetCoordinator: Coordinator {
     init(containerViewController: NavigationContainerViewController,
          compositionRoot: CompositionRoot,
          likedAlbumsStateController: LikedAlbumsStateController,
+         userProfileStateController: UserProfileStateController,
          delegate: HomeSceneSetCoordinatorDelegate)
     {
         self.containerVC = containerViewController
         self.compositionRoot = compositionRoot
         self.likedAlbumsStateController = likedAlbumsStateController
+        self.userProfileStateController = userProfileStateController
         self.delegate = delegate
     }
     
@@ -129,6 +132,14 @@ extension HomeSceneSetCoordinator: MenuViewModelDelegate {
         containerVC.showModally(viewController: vc)
     }
     
+    func requestAuthenticationScene(_ menuViewModel: MenuViewModel) {
+        let vc = compositionRoot.composeSpotifyLoginScene()
+        vc.spotifyConnected = false
+        containerVC.showModally(viewController: vc)
+        vc.cancelButton.isHidden = true
+        vc.controllerDelegate = self
+    }
+    
 }
 
 //MARK: - SortOptionsViewModelDelegate
@@ -151,6 +162,22 @@ extension HomeSceneSetCoordinator: ResetDataViewModelDelegate {
     }
 
 }
+
+//MARK: - SpotifyLoginViewControllerDelegate
+
+extension HomeSceneSetCoordinator: SpotifyLoginViewControllerDelegate {
+    
+    func loginSucceeded() {
+        userProfileStateController.setSpotifyConnected(true)
+        containerVC.dismissModalVC(animation: .none)
+    }
+    
+    func cancelLogin() {
+        //remain on login page
+    }
+    
+}
+
 
 
 

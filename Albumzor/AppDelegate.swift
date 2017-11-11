@@ -26,7 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var compositionRoot: CompositionRootProtocol!
     var rootCoordinator: RootCoordinator!
     
-    var authStateController: AuthStateController!
+    //Dev
+//    var authStateController: AuthStateController!
     
     
     //Mark: - Rx
@@ -44,7 +45,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         compositionRoot = CompositionRoot()
         
-        authStateController = compositionRoot.composeAuthStateController()
+        //Dev
+//        authStateController = compositionRoot.composeAuthStateController()
         //
 //        authStateController.deleteSession()
         //

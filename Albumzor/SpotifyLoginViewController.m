@@ -24,6 +24,8 @@
 {
     [super viewDidLoad];
     
+    NSLog(@"\n\nLogin Scene ViewDidLoad");
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionUpdatedNotification:) name:@"sessionUpdated" object:nil];
     
     if(_spotifyConnected) {
@@ -31,6 +33,10 @@
     }
     
     [[_spotifyButton layer] setCornerRadius:25.0];
+}
+
+- (void)dealloc {
+    NSLog(@"\n\n Login Scene dealloc");
 }
 
 - (void)openLoginPage
@@ -61,22 +67,24 @@
 - (void)sessionUpdatedNotification:(NSNotification *)notification
 {
     SPTAuth *auth = [SPTAuth defaultInstance];
-    [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+    [self.presentedViewController dismissViewControllerAnimated:YES completion: ^{
     
-    if (auth.session && [auth.session isValid]) {
-        [self loginSucceeded];
-    } else {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Could not Log In!"
-                                                                       message:@"Unable to authenticate your Spotify account"
-                                                                preferredStyle:UIAlertControllerStyleAlert];
+        if (auth.session && [auth.session isValid]) {
+            [self loginSucceeded];
+        } else {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Could not Log In!"
+                                                                           message:@"Unable to authenticate your Spotify account"
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
 
-        UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:@"Dismiss"
-                                                                style:UIAlertActionStyleDefault
-                                                              handler:nil];
-        
-        [alert addAction:dismissAction];
-        [self presentViewController:alert animated:YES completion:nil];
-    }
+            UIAlertAction *dismissAction = [UIAlertAction actionWithTitle:@"Dismiss"
+                                                                    style:UIAlertActionStyleDefault
+                                                                  handler:nil];
+            
+            [alert addAction:dismissAction];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+    }];
+    
 }
 
 - (void)loginSucceeded
