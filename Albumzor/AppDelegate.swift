@@ -13,7 +13,6 @@ import RxSwift
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     let coreDataStack = CoreDataStack(modelName: "Model")!
-//    var dataManager: DataManager!
     var audioPlayer = AudioPlayer()
     //initial/default settings
     var userSettings = UserSettings(instructionsSeen: false, isSeeded: false, autoplay: true, albumSortType: 0)
