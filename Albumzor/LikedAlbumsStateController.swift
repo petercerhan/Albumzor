@@ -107,7 +107,6 @@ class LikedAlbumsStateController: AlbumDetailsStateControllerProtocol {
     func getDetailsForAlbum(albumID: String) {
         localDatabaseService.getAlbumArtistTracks(forAlbumID: albumID)
             .subscribe(onNext: { [unowned self] dataTuple in
-                print("Got some album info")
                 self.albumDetails_albumSubject.onNext(dataTuple.0)
                 self.albumDetails_artistSubject.onNext(dataTuple.1)
                 self.albumDetails_tracksSubject.onNext(dataTuple.2)

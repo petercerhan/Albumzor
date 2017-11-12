@@ -81,8 +81,6 @@ class SetupSceneSetCoordinator: Coordinator {
 extension SetupSceneSetCoordinator: OpenSceneViewModelDelegate {
     func sceneComplete(_ openSceneViewModel: OpenSceneViewModel) {
         
-        print("\nValid Session: \(authStateController.sessionIsValid)")
-        
         if authStateController.sessionIsValid {
             launchPostAuthenticationScene()
         } else {

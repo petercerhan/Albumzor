@@ -41,7 +41,6 @@ class AuthStateController {
     //MARK: - Utils
     
     func deleteSession() {
-//        print("delete session")
         authService.deleteSession();
         UserDefaults.standard.removeObject(forKey: "SpotifySession")
     }

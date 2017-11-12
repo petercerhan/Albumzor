@@ -93,15 +93,10 @@ class CompositionRoot: CompositionRootProtocol {
     private lazy var avAudioPlayerService = AVAudioPlayerService()
     
     //MARK: - AppDelegate Dependencies
-    //(Non-coordinators)
     
     func composeWindow() -> UIWindow {
         return UIWindow(frame: UIScreen.main.bounds)
     }
-    
-//    func composeAuthStateController() -> AuthStateController {
-//        return AuthStateController(authService: SpotifyAuthManager())
-//    }
 
     //MARK: - Coordinators
     

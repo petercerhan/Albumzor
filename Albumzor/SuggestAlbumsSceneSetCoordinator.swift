@@ -53,8 +53,6 @@ extension SuggestAlbumsSceneSetCoordinator: SuggestAlbumsViewModelDelegate {
     }
     
     func showAlbumDetails(_ suggestArtistViewModel: SuggestAlbumsViewModel) {
-        print("Show album details")
-        
         let vc = compositionRoot.composeAlbumsDetailsScene(delegate: self)
         containerVC.showModally(viewController: vc)
     }

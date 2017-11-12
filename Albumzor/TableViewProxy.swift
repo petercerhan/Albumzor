@@ -89,20 +89,12 @@ class TableViewProxy: NSObject, UITableViewDataSource, UITableViewDelegate {
         if let imageData = cellData.imageData {
             cell.albumImageView.image = UIImage(data: imageData)
         } else {
-            print("Get image")
             if let imageStream = cellData.imageStream {
                 imageStream
                     .observeOn(MainScheduler.instance)
                     .subscribe(onNext: { [unowned self] image in
-                        print("Got image")
                         cell.albumImageView.image = image
-                        
-                        //set data in table data
                         self.tableViewData[indexPath.row].imageData = UIImagePNGRepresentation(image)
-                        
-                        //persist
-                        //persist in do() earlier in the channel
-                        
                     })
                     .disposed(by: disposeBag)
             }
