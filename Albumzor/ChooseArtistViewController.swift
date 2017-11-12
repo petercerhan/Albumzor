@@ -23,6 +23,11 @@ class ChooseArtistViewController: UIViewController {
     @IBOutlet var textField: UITextField!
     @IBOutlet var overlayView: UIView!
     @IBOutlet var doneButton: UIButton!
+    @IBOutlet var textFieldCenterXConstraint: NSLayoutConstraint!
+    
+    //MARK: - State
+    
+    private var uiInitialConfigurationComplete = false
     
     //MARK: - Rx
     
@@ -111,10 +116,18 @@ class ChooseArtistViewController: UIViewController {
         searchButton.imageEdgeInsets = UIEdgeInsetsMake(8.0, 8.0, 8.0, 8.0)
         overlayView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.cancelSearch)))
         
-        textField.translatesAutoresizingMaskIntoConstraints = true
-        
         if let layout = collectionView.collectionViewLayout as? ArtistCollectionViewLayout {
             layout.delegate = self
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if !uiInitialConfigurationComplete {
+            textFieldCenterXConstraint.constant += self.view.frame.width
+            self.view.layoutIfNeeded()
+            uiInitialConfigurationComplete = true
         }
     }
     
@@ -129,16 +142,16 @@ class ChooseArtistViewController: UIViewController {
     
     fileprivate func animateInSearch() {
         searchButton.isUserInteractionEnabled = false
-        textField.center.x += view.frame.width
         overlayView.alpha = 0
+        textFieldCenterXConstraint.constant = 0
         self.textField.isHidden = false
         self.overlayView.isHidden = false
         self.textField.becomeFirstResponder()
         
         UIView.animate(withDuration: 0.3,
                        animations: {
-                        self.textField.center.x -= self.view.frame.width
                         self.overlayView.alpha = 0.8
+                        self.view.layoutIfNeeded()
                        },
                        completion: {
                         _ in
@@ -149,16 +162,16 @@ class ChooseArtistViewController: UIViewController {
     fileprivate func animateOutSearch() {
         searchButton.isUserInteractionEnabled = false
         textField.text = ""
+        textFieldCenterXConstraint.constant += self.view.frame.width
         dismissKeyboard()
         
         UIView.animate(withDuration: 0.3,
                        animations: {
-                        self.textField.center.x += self.view.frame.width
+                        self.view.layoutIfNeeded()
                         self.overlayView.alpha = 0
                     },
                        completion: {
                         _ in
-                        self.textField.center.x -= self.view.frame.width
                         self.textField.isHidden = true
                         self.overlayView.isHidden = true
                         self.searchButton.isUserInteractionEnabled = true
