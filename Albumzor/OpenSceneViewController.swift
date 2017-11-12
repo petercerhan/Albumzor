@@ -17,6 +17,7 @@ class OpenSceneViewController: UIViewController {
     //MARK: - Interface Components
     
     @IBOutlet var recordImage: UIImageView!
+    @IBOutlet var imageXCenterContraint: NSLayoutConstraint!
 
     //MARK: - Initialization
     
@@ -28,19 +29,16 @@ class OpenSceneViewController: UIViewController {
     
     //MARK: - Life Cycle
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        recordImage.translatesAutoresizingMaskIntoConstraints = true
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        imageXCenterContraint.constant = self.view.frame.width
         
         UIView.animate(withDuration: 0.4,
                        delay: 0.5,
                        options: .curveEaseOut,
                        animations: {
-                        self.recordImage.center.x += self.view.frame.width
+                        self.view.layoutIfNeeded()
         },
                        completion: {_ in self.nextScene()})
     }

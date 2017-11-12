@@ -438,7 +438,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tVW-kz-4mT" customClass="PaddedLabel" customModule="Albumzor" customModuleProvider="target">
-                                                    <rect key="frame" x="58.5" y="51.5" width="46.5" height="23"/>
+                                                    <rect key="frame" x="48.5" y="44.5" width="66.5" height="37"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                     <color key="textColor" red="0.078431372549019607" green="0.078431372549019607" blue="0.078431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1055,7 +1055,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LargeRecord" translatesAutoresizingMaskIntoConstraints="NO" id="duF-AO-N6T">
-                                <rect key="frame" x="65" y="211.5" width="244" height="244"/>
+                                <rect key="frame" x="65.5" y="211.5" width="244" height="244"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="duF-AO-N6T" secondAttribute="height" multiplier="1:1" priority="999" id="Whq-dr-WVx"/>
                                 </constraints>
@@ -1069,6 +1069,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="imageXCenterContraint" destination="K4F-ex-o3b" id="Wg9-zX-HDV"/>
                         <outlet property="recordImage" destination="duF-AO-N6T" id="dGs-cy-lVw"/>
                     </connections>
                 </viewController>
