@@ -98,26 +98,19 @@ extension SetupSceneSetCoordinator: OpenSceneViewModelDelegate {
     
     //Enter main application once a valid session has been obtained
     func launchPostAuthenticationScene() {
-        
-//        print("\n\nInstructionsSeen: \(userSettingsStateController.instructionsSeen.value) \nIsSeeded: \(userSettingsStateController.isSeeded.value) \nAutoplay: \(userSettingsStateController.isAutoplayEnabled.value) \nAlbumSortType: \(userSettingsStateController.albumSortType.value)")
-        
+
         let instructionsSeen = userSettingsStateController.instructionsSeen.value
         let isSeeded = userSettingsStateController.isSeeded.value
         
         if instructionsSeen && isSeeded {
-            print("\n launch home scene")
             delegate?.requestHomeSceneSet(self)
         } else if !instructionsSeen && !isSeeded {
-            //Launch Welcome Scene
-            print("\n launch welcome scene")
             let vc = compositionRoot.composeWelcomeScene(delegate: self)
             mainContainerViewController.show(viewController: vc, animation: .none)
         } else if instructionsSeen && !isSeeded {
-            //launch Seed Artists scene
-            print("launch seed artist")
+            let vc = self.compositionRoot.composeChooseArtistsScene(delegate: self)
+            self.mainContainerViewController.show(viewController: vc, animation: .slideFromRight)
         } else if !instructionsSeen && isSeeded {
-            //Launch Instructions Scene
-            print("\n launch instructions scene")
             let vc = compositionRoot.composeInstructionsScene(delegate: self)
             mainContainerViewController.show(viewController: vc, animation: .none)
         }
