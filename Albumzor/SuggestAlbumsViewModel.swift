@@ -111,8 +111,19 @@ class SuggestAlbumsViewModel {
         suggestedAlbumsStateController.currentAlbumTracks
             .subscribe().disposed(by: disposeBag)
         
-        //Autoplay
-        currentAlbumTitle
+        //Autoplay (old)
+//        currentAlbumTitle
+//            .observeOn(MainScheduler.instance)
+//            .subscribe(onNext: { [unowned self] _ in
+//                if self.userSettingsStateController.isAutoplayEnabled.value {
+//                    self.handle_autoPlay()
+//                }
+//            })
+//            .disposed(by: disposeBag)
+    
+        //Autoplay (new)
+        suggestedAlbumsStateController.currentAlbumTracks
+            .filter { $0 != nil }
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [unowned self] _ in
                 if self.userSettingsStateController.isAutoplayEnabled.value {
@@ -120,7 +131,6 @@ class SuggestAlbumsViewModel {
                 }
             })
             .disposed(by: disposeBag)
-    
     }
     
     //MARK: - Dispatch Actions

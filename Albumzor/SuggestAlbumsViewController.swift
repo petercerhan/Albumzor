@@ -10,20 +10,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-//Remove
-//error - tried and failed to retrieve sample audio; noTrack - no attempt has been made to retrieve a track
-enum AudioState_old {
-    case loading, playing, paused, error, noTrack
-}
-//remove
-
-//Remove
-protocol SuggestAlbumsViewControllerDelegate : NSObjectProtocol {
-    func quit()
-    func batteryComplete(liked: Int)
-}
-//remove
-
 class SuggestAlbumsViewController: UIViewController {
     
     //MARK: - Interface Components
