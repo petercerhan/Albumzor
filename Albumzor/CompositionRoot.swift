@@ -224,6 +224,7 @@ class CompositionRoot: CompositionRootProtocol {
     //MARK: - Manage State Controllers
     
     private func resetSuggestedAlbumsStateController() {
+        print("Reset suggested albums state controller")
         suggestedAlbumsStateController = SuggestedAlbumsStateController(localDatabaseService: self.coreDataService,
                                                                         remoteDataService: self.spotifyRemoteDataService,
                                                                         shufflingService: self.gameKitShufflingService)

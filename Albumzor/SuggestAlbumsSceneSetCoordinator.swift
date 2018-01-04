@@ -28,6 +28,9 @@ class SuggestAlbumsSceneSetCoordinator: Coordinator {
     //MARK: - Initialization
     
     init(containerViewController: ContainerViewController, compositionRoot: CompositionRoot, delegate: SuggestAlbumsSceneSetCoordinatorDelegate, suggestedAlbumsStateController: SuggestedAlbumsStateController) {
+        
+        print("suggest scene set coordinator init")
+        
         self.containerVC = containerViewController
         self.compositionRoot = compositionRoot
         self.suggestedAlbumsStateController = suggestedAlbumsStateController

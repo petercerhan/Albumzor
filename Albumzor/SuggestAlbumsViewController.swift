@@ -189,6 +189,7 @@ class SuggestAlbumsViewController: UIViewController {
         
         //Album Stream
         viewModel.currentAlbumTitle
+            .filter { $0 != nil }
             .skip(1)
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [unowned self] _ in

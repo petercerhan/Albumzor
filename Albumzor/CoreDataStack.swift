@@ -28,8 +28,8 @@ struct CoreDataStack {
     init?(modelName: String) {
         
         guard let modelURL = Bundle.main.url(forResource: modelName, withExtension: "momd"),
-            let model = NSManagedObjectModel(contentsOf: modelURL) else {
-
+            let model = NSManagedObjectModel(contentsOf: modelURL) else
+        {
                 return nil
         }
         

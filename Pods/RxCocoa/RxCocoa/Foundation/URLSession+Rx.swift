@@ -140,11 +140,11 @@ extension Reactive where Base: URLSession {
 
                 if Logging.URLRequests(request) {
                     let interval = Date().timeIntervalSince(d ?? Date())
-                    print(convertURLRequestToCurlCommand(request))
+//                    print(convertURLRequestToCurlCommand(request))
                     #if os(Linux)
-                        print(convertResponseToString(response, error.flatMap { $0 as? NSError }, interval))
+//                        print(convertResponseToString(response, error.flatMap { $0 as? NSError }, interval))
                     #else
-                        print(convertResponseToString(response, error.map { $0 as NSError }, interval))
+//                        print(convertResponseToString(response, error.map { $0 as NSError }, interval))
                     #endif
                 }
                 
