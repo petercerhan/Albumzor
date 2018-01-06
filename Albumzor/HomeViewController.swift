@@ -29,7 +29,6 @@ class HomeViewController: UIViewController {
     
     let disposeBag = DisposeBag()
     
-    
     //MARK: - Initialization
     
     static func createWith(storyBoard: UIStoryboard, viewModel: HomeViewModel) -> HomeViewController {
@@ -50,7 +49,16 @@ class HomeViewController: UIViewController {
         findAlbumsButton.highlightedColor = Styles.shadedThemeBlue
         
         setUpTableView()
-        
+        bindActions()
+    }
+    
+    private func bindActions() {
+        findAlbumsButton.rx.tap
+            .throttle(1.0, latest: false, scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] in
+                self.viewModel.dispatch(action: .requestSuggestAlbumsScene)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func setUpTableView() {
@@ -71,6 +79,7 @@ class HomeViewController: UIViewController {
         
         //Album Details
         tableViewProxy.albumDetailsID
+            .throttle(1.0, latest: false, scheduler: MainScheduler.instance)
             .subscribe(onNext: { [unowned self] id in
                 self.viewModel.dispatch(action: .requestDetailsScene(albumId: id))
             })
@@ -93,13 +102,12 @@ class HomeViewController: UIViewController {
             editButton.title = "Done"
         }
     }
-    
-    @IBAction func findAlbums() {
-        viewModel.dispatch(action: .requestSuggestAlbumsScene)
-    }
 
     @IBAction func menu() {
         viewModel.dispatch(action: .requestMenuScene)
     }
 
 }
+
+
+

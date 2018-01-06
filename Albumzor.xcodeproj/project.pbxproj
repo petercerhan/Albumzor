@@ -350,9 +350,9 @@
 		6E36D1391FB6BA9C00F1CF96 /* HomeScene */ = {
 			isa = PBXGroup;
 			children = (
-				6E4F5FA21FAF64A100A59B23 /* TableViewProxy.swift */,
 				E45D98BC1E75DC2F00CD3CE7 /* HomeViewController.swift */,
 				6E9281351FAE5A790066E9FB /* HomeViewModel.swift */,
+				6E4F5FA21FAF64A100A59B23 /* TableViewProxy.swift */,
 			);
 			name = HomeScene;
 			sourceTree = "<group>";
