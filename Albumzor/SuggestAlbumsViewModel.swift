@@ -110,18 +110,8 @@ class SuggestAlbumsViewModel {
         //tracks
         suggestedAlbumsStateController.currentAlbumTracks
             .subscribe().disposed(by: disposeBag)
-        
-        //Autoplay (old)
-//        currentAlbumTitle
-//            .observeOn(MainScheduler.instance)
-//            .subscribe(onNext: { [unowned self] _ in
-//                if self.userSettingsStateController.isAutoplayEnabled.value {
-//                    self.handle_autoPlay()
-//                }
-//            })
-//            .disposed(by: disposeBag)
     
-        //Autoplay (new)
+        //Autoplay
         suggestedAlbumsStateController.currentAlbumTracks
             .filter { $0 != nil }
             .observeOn(MainScheduler.instance)
@@ -138,6 +128,7 @@ class SuggestAlbumsViewModel {
     func dispatch(action: SuggestAlbumsSceneAction) {
         switch action {
         case .reviewAlbum(let liked):
+            print("dipatch review album")
             handle_reviewAlbum(liked: liked)
         case .showDetails:
             handle_showDetails()

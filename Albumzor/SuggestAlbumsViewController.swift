@@ -232,6 +232,7 @@ class SuggestAlbumsViewController: UIViewController {
         
         //Like button
         likeButton.rx.tap
+            .throttle(1.0, latest: false, scheduler: MainScheduler.instance)
             .subscribe(onNext: { [unowned self] _ in
                 self.currentAlbumView.isUserInteractionEnabled = false
                 
@@ -255,6 +256,7 @@ class SuggestAlbumsViewController: UIViewController {
         
         //Dislike button
         dislikeButton.rx.tap
+            .throttle(1.0, latest: false, scheduler: MainScheduler.instance)
             .subscribe(onNext: { [unowned self] _ in
                 self.currentAlbumView.isUserInteractionEnabled = false
                 
