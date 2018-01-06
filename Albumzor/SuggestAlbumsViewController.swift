@@ -32,6 +32,8 @@ class SuggestAlbumsViewController: UIViewController {
 
     var currentAlbumView: CGDraggableView!
     var nextAlbumView: CGDraggableView!
+    
+    var albumViewDelegateProxy = CGDraggableViewDelegateProxy()
 
     //MARK: - Dependencies
     
@@ -169,6 +171,39 @@ class SuggestAlbumsViewController: UIViewController {
             .bind(to: activityIndicator.rx.isAnimating)
             .disposed(by: disposeBag)
         
+        bindUI_draggableViewDelegateProxy()
+    }
+    
+    private func bindUI_draggableViewDelegateProxy() {
+        albumViewDelegateProxy.swipeCompleteObservable
+            .subscribe(onNext: { [unowned self] direction in
+                if direction == .right {
+                    self.viewModel.dispatch(action: .reviewAlbum(liked: true))
+                } else {
+                    self.viewModel.dispatch(action: .reviewAlbum(liked: false))
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        albumViewDelegateProxy.tappedObservable
+            .subscribe(onNext: { [unowned self] in
+                self.viewModel.dispatch(action: .showDetails)
+            })
+            .disposed(by: disposeBag)
+        
+        albumViewDelegateProxy.swipeBeganObservable
+            .subscribe(onNext: { [unowned self] in
+                self.titleLabel.alpha = 0.4
+                self.artistLabel.alpha = 0.4
+            })
+            .disposed(by: disposeBag)
+        
+        albumViewDelegateProxy.swipeCanceledObservable
+            .subscribe(onNext: { [unowned self] in
+                self.titleLabel.alpha = 1.0
+                self.artistLabel.alpha = 1.0
+            })
+            .disposed(by: disposeBag)
     }
     
     private func bindAlbumStream() {
@@ -319,7 +354,7 @@ class SuggestAlbumsViewController: UIViewController {
     
     private func configureAlbumView(imageSource: Observable<UIImage?>) -> CGDraggableView {
         let albumView = CGDraggableView(frame: defaultView.frame)
-        albumView.delegate = self
+        albumView.delegate = albumViewDelegateProxy
         albumView.addShadow()
         albumView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0)
         albumView.bindImageSource(imageSource.skipWhile{ $0 == nil }.take(1))
@@ -349,7 +384,7 @@ class SuggestAlbumsViewController: UIViewController {
 
 //MARK:- CGDraggableViewDelegate
 
-extension SuggestAlbumsViewController: CGDraggableViewDelegate {
+extension SuggestAlbumsViewController {
     func swipeComplete(direction: SwipeDirection) {
         if direction == .right {
             viewModel.dispatch(action: .reviewAlbum(liked: true))

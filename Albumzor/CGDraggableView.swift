@@ -17,7 +17,7 @@ enum SwipeDirection: Int {
     case right
 }
 
-protocol CGDraggableViewDelegate: NSObjectProtocol {
+protocol CGDraggableViewDelegate: class {
     func swipeBegan()
     func swipeCanceled()
     func swipeComplete(direction: SwipeDirection)
@@ -175,5 +175,4 @@ extension CGDraggableView {
     }
     
 }
-
 
