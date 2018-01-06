@@ -186,6 +186,7 @@ class SuggestAlbumsViewController: UIViewController {
             .disposed(by: disposeBag)
         
         albumViewDelegateProxy.tappedObservable
+            .throttle(1.0, latest: false, scheduler: MainScheduler.instance)
             .subscribe(onNext: { [unowned self] in
                 self.viewModel.dispatch(action: .showDetails)
             })
