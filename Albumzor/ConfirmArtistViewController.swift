@@ -213,6 +213,7 @@ class ConfirmArtistViewController: UIViewController {
     
     private func bindAction_DislikeButton() {
         dislikeButton.rx.tap
+            .throttle(1.0, latest: false, scheduler: MainScheduler.instance)
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [unowned self] _ in
                 self.rejectArtist()
@@ -227,6 +228,7 @@ class ConfirmArtistViewController: UIViewController {
     
     private func bindAction_LikeButton() {
         likeButton.rx.tap
+            .throttle(1.0, latest: false, scheduler: MainScheduler.instance)
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [unowned self] _ in
                 self.selectArtist()

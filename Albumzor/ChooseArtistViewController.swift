@@ -67,6 +67,16 @@ class ChooseArtistViewController: UIViewController {
                 }
             })
             .disposed(by: disposeBag)
+        
+        artistSelectedSubject.asObservable()
+            .throttle(1.0, latest: false, scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] indexPath in
+                let cell = self.collectionView.cellForItem(at: indexPath) as! ChooseArtistCollectionViewCell
+                
+                self.viewModel.dispatch(action: .confirmArtistIndexActive(index: indexPath.row))
+                self.viewModel.dispatch(action: .requestConfirmArtists(searchString: cell.label.text!))
+            })
+            .disposed(by: disposeBag)
     }
     
     //MARK: - Bind UI
@@ -138,6 +148,8 @@ class ChooseArtistViewController: UIViewController {
         animateOutSearch()
     }
     
+    fileprivate let artistSelectedSubject = PublishSubject<IndexPath>()
+    
     //MARK: - Animations
     
     fileprivate func animateInSearch() {
@@ -185,11 +197,7 @@ class ChooseArtistViewController: UIViewController {
 extension ChooseArtistViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        let cell = collectionView.cellForItem(at: indexPath) as! ChooseArtistCollectionViewCell
-        
-        viewModel.dispatch(action: .confirmArtistIndexActive(index: indexPath.row))
-        viewModel.dispatch(action: .requestConfirmArtists(searchString: cell.label.text!))
-        
+        artistSelectedSubject.onNext(indexPath)
         return true
     }
     
