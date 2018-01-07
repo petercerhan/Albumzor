@@ -155,12 +155,20 @@ class SuggestedAlbumsStateController {
     //MARK: - Initialization
     
     init(localDatabaseService: LocalDatabaseServiceProtocol, remoteDataService: RemoteDataServiceProtocol, shufflingService: ShufflingService) {
+        
+        print("Suggested Album State Controller Init")
+        
         self.localDatabaseService = localDatabaseService
         self.remoteDataService = remoteDataService
         self.shufflingService = shufflingService
         
         fetchNewAlbumDataGroup()
         albumQueue.subscribe().disposed(by: disposeBag)
+    }
+    
+    //TEMP
+    deinit {
+        print("Suggested Album State Controller Deinit")
     }
     
     //MARK: - Album Queue Methods
@@ -171,19 +179,31 @@ class SuggestedAlbumsStateController {
                 let strongSelf = self
                 let shuffledArtistData = self.shufflingService.shuffleArray(array: artistsData)
                 let artistData = shuffledArtistData[0]
+                
                 let albumDataObservable: Observable<AlbumData> = self.localDatabaseService.getTopUnseenAlbumForArtist(artistData)
                     .map { data -> AlbumData in
                         return data.0
                     }
                     .shareReplay(1)
+                
                 let albumArtObservable = albumDataObservable
-                    .map { albumData -> Observable<UIImage> in
+                    .map { [weak strongSelf] albumData -> Observable<UIImage?> in
+                        guard let strongSelf = strongSelf else {
+                            let emptyObservable: Observable<UIImage?> = Observable.just(nil)
+                            return emptyObservable
+                        }
                         return strongSelf.remoteDataService.fetchImageFrom(urlString: albumData.largeImage)
+                            .makeEventTypeOptional(initialValue: nil)
                     }
                     .flatMap { $0 }
                     .shareReplay(1)
+
                 let tracksObservable = albumDataObservable
-                    .map { albumData -> Observable<[TrackData]?> in
+                    .map { [weak strongSelf] albumData -> Observable<[TrackData]?> in
+                        guard let strongSelf = strongSelf else {
+                            let emptyObservable: Observable<[TrackData]?> = Observable.just(nil)
+                            return emptyObservable
+                        }
                         return strongSelf.getTracksForAlbum(albumData: albumData)
                     }
                     .flatMap { $0 }
@@ -195,7 +215,7 @@ class SuggestedAlbumsStateController {
                 
                 let albumDataGroup: AlbumDataGroup = (artistData,
                                                       albumDataObservable.makeEventTypeOptional(initialValue: nil),
-                                                      albumArtObservable.makeEventTypeOptional(initialValue: nil),
+                                                      albumArtObservable,
                                                       tracksObservable)
                 
                 self.albumQueueEventSubject.onNext(.enqueue(albumDataGroup))

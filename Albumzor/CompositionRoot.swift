@@ -50,11 +50,7 @@ class CompositionRoot: CompositionRootProtocol {
         return UserSettingsStateController(archiveService: self.userDefaultsArchivingService)
     }()
     
-    private lazy var suggestedAlbumsStateController: SuggestedAlbumsStateController = {
-        return SuggestedAlbumsStateController(localDatabaseService: self.coreDataService,
-                                              remoteDataService: self.spotifyRemoteDataService,
-                                              shufflingService: self.gameKitShufflingService)
-    }()
+    private var suggestedAlbumsStateController: SuggestedAlbumsStateController!
     
     private lazy var seedArtistStateController: SeedArtistStateController = {
         return SeedArtistStateController(mediaLibraryService: self.itunesLibraryService,
@@ -123,6 +119,7 @@ class CompositionRoot: CompositionRootProtocol {
     }
     
     func composeSuggestAlbumsSceneSetCoordinator(delegate: SuggestAlbumsSceneSetCoordinatorDelegate) -> SuggestAlbumsSceneSetCoordinator {
+        initializeSuggestedAlbumsStateController()
         return SuggestAlbumsSceneSetCoordinator(containerViewController: ContainerViewController(),
                                                 compositionRoot: self,
                                                 delegate: delegate,
@@ -163,7 +160,6 @@ class CompositionRoot: CompositionRootProtocol {
     //MARK: - Suggest Albums Scene Set
     
     func composeSuggestAlbumsScene(delegate: SuggestAlbumsViewModelDelegate) -> SuggestAlbumsViewController {
-        resetSuggestedAlbumsStateController()
         let viewModel = SuggestAlbumsViewModel(seedArtistStateController: seedArtistStateController,
                                                suggestedAlbumsStateController: suggestedAlbumsStateController,
                                                audioStateController: audioStateController,
@@ -223,8 +219,9 @@ class CompositionRoot: CompositionRootProtocol {
     
     //MARK: - Manage State Controllers
     
-    private func resetSuggestedAlbumsStateController() {
-        print("Reset suggested albums state controller")
+    private func initializeSuggestedAlbumsStateController() {
+        print("Initialize suggested albums state controller\n")
+        suggestedAlbumsStateController = nil
         suggestedAlbumsStateController = SuggestedAlbumsStateController(localDatabaseService: self.coreDataService,
                                                                         remoteDataService: self.spotifyRemoteDataService,
                                                                         shufflingService: self.gameKitShufflingService)
