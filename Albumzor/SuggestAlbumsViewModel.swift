@@ -128,7 +128,6 @@ class SuggestAlbumsViewModel {
     func dispatch(action: SuggestAlbumsSceneAction) {
         switch action {
         case .reviewAlbum(let liked):
-            print("dipatch review album")
             handle_reviewAlbum(liked: liked)
         case .showDetails:
             handle_showDetails()

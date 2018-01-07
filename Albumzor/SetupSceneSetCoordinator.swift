@@ -228,35 +228,6 @@ extension SetupSceneSetCoordinator: InstructionsViewModelDelegate {
     
 }
 
-//REMOVE
-
-//MARK: - SuggestAlbumsViewModelDelegate
-
-extension SetupSceneSetCoordinator: SuggestAlbumsViewModelDelegate {
-
-    func suggestAlbumsSceneComplete(_ suggestAlbumsViewModel: SuggestAlbumsViewModel) {
-        mainContainerViewController.dismissModalVC()
-    }
-    
-    func showAlbumDetails(_ suggestArtistViewModel: SuggestAlbumsViewModel) {
-        let vc = compositionRoot.composeAlbumsDetailsScene(delegate: self)
-        mainContainerViewController.showModally(viewController: vc)
-    }
-    
-}
-
-//MARK: - AlbumDetailsViewModelDelegate
-
-extension SetupSceneSetCoordinator: AlbumDetailsViewModelDelegate {
-    
-    func dismiss(_ albumDetailsViewModel: AlbumDetailsViewModel) {
-        mainContainerViewController.dismissModalVC()
-    }
-    
-}
-
-//remove
-
 
 
 

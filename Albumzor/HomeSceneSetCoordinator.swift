@@ -116,6 +116,10 @@ extension HomeSceneSetCoordinator: AlbumDetailsViewModelDelegate {
         containerVC.dismissModalVC()
     }
     
+    func shouldResetAudioOnDismiss() -> Bool {
+        return true
+    }
+    
 }
 
 //MARK: - MenuViewModelDelegate

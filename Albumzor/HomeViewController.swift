@@ -52,6 +52,11 @@ class HomeViewController: UIViewController {
         bindActions()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
+    
     private func bindActions() {
         findAlbumsButton.rx.tap
             .throttle(1.0, latest: false, scheduler: MainScheduler.instance)

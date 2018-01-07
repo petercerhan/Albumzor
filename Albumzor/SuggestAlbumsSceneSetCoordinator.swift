@@ -69,6 +69,10 @@ extension SuggestAlbumsSceneSetCoordinator: AlbumDetailsViewModelDelegate {
         containerVC.dismissModalVC()
     }
     
+    func shouldResetAudioOnDismiss() -> Bool {
+        return false
+    }
+    
 }
 
 

@@ -11,6 +11,7 @@ import RxSwift
 
 protocol AlbumDetailsViewModelDelegate: class {
     func dismiss(_ albumDetailsViewModel: AlbumDetailsViewModel)
+    func shouldResetAudioOnDismiss() -> Bool
 }
 
 protocol AlbumDetailsStateControllerProtocol {
@@ -130,6 +131,10 @@ class AlbumDetailsViewModel {
     }
     
     private func handle_dismiss() {
+        let shouldResetAudio = delegate?.shouldResetAudioOnDismiss() ?? true
+        if shouldResetAudio {
+            audioStateController.clear()
+        }
         delegate?.dismiss(self)
     }
     
