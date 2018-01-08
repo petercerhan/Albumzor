@@ -155,20 +155,12 @@ class SuggestedAlbumsStateController {
     //MARK: - Initialization
     
     init(localDatabaseService: LocalDatabaseServiceProtocol, remoteDataService: RemoteDataServiceProtocol, shufflingService: ShufflingService) {
-        
-        print("Suggested Album State Controller Init")
-        
         self.localDatabaseService = localDatabaseService
         self.remoteDataService = remoteDataService
         self.shufflingService = shufflingService
         
         fetchNewAlbumDataGroup()
         albumQueue.subscribe().disposed(by: disposeBag)
-    }
-    
-    //TEMP
-    deinit {
-        print("Suggested Album State Controller Deinit")
     }
     
     //MARK: - Album Queue Methods

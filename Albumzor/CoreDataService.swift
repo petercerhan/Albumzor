@@ -167,6 +167,11 @@ class CoreDataService: LocalDatabaseServiceProtocol {
             }
             let album = albumArray[0]
             
+            //Guard against saving tracks a second time
+            if let tracksArray = album.track, tracksArray.count > 0 {
+                return
+            }
+            
             for trackData in trackDataArray {
                 let track = Track(trackData: trackData, context: backgroundContext)
                 track.album = album

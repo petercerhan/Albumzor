@@ -220,7 +220,6 @@ class CompositionRoot: CompositionRootProtocol {
     //MARK: - Manage State Controllers
     
     private func initializeSuggestedAlbumsStateController() {
-        print("Initialize suggested albums state controller\n")
         suggestedAlbumsStateController = nil
         suggestedAlbumsStateController = SuggestedAlbumsStateController(localDatabaseService: self.coreDataService,
                                                                         remoteDataService: self.spotifyRemoteDataService,
