@@ -41,27 +41,6 @@ class SuggestAlbumsViewController: UIViewController {
     
     //MARK: - State
     
-    private lazy var currentImageView: UIImageView = {
-        let imageView = UIImageView()
-        self.viewModel.currentAlbumArt
-            .observeOn(MainScheduler.instance)
-            .bind(to: imageView.rx.image)
-            .disposed(by: self.disposeBag)
-        
-        return imageView
-    }()
-    
-    private lazy var nextImageView: UIImageView = {
-        let imageView = UIImageView()
-        self.viewModel.nextAlbumArt
-            .observeOn(MainScheduler.instance)
-            .bind(to: imageView.rx.image)
-            .disposed(by: self.disposeBag)
-
-        return imageView
-    }()
-
-    
     var initialLayoutConfigured = false
     
     //MARK: - Rx
@@ -80,8 +59,9 @@ class SuggestAlbumsViewController: UIViewController {
     
     func bindUI() {
         
-        let _ = currentImageView
-        let _ = nextImageView
+        //Persist album art streams
+        viewModel.currentAlbumArt.subscribe().disposed(by: disposeBag)
+        viewModel.nextAlbumArt.subscribe().disposed(by: disposeBag)
         
         //Album Title
         viewModel.currentAlbumTitle
@@ -332,25 +312,26 @@ class SuggestAlbumsViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(appWillResignActive), name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
     }
     
-    override func viewDidLayoutSubviews() {
+    override func viewDidAppear(_ animated: Bool) {
         if !initialLayoutConfigured {
-            
-            currentAlbumView = configureAlbumView(imageSource: viewModel.currentAlbumArt)
-            view.addSubview(currentAlbumView)
-            
-            nextAlbumView = configureAlbumView(imageSource: viewModel.nextAlbumArt)
-            nextAlbumView.isUserInteractionEnabled = false
-            view.insertSubview(nextAlbumView, belowSubview: currentAlbumView)
-            
-            
-            configureAudioButton()
-            configureHomeButton()
-            
-            
-            initialLayoutConfigured = true
-            
-            bindAlbumStream()
+            initializeUI()
         }
+    }
+    
+    private func initializeUI() {
+        currentAlbumView = configureAlbumView(imageSource: viewModel.currentAlbumArt)
+        view.addSubview(currentAlbumView)
+        
+        nextAlbumView = configureAlbumView(imageSource: viewModel.nextAlbumArt)
+        nextAlbumView.isUserInteractionEnabled = false
+        view.insertSubview(nextAlbumView, belowSubview: currentAlbumView)
+        
+        configureAudioButton()
+        configureHomeButton()
+        
+        initialLayoutConfigured = true
+        
+        bindAlbumStream()
     }
     
     private func configureAlbumView(imageSource: Observable<UIImage?>) -> CGDraggableView {
@@ -380,7 +361,6 @@ class SuggestAlbumsViewController: UIViewController {
         }
     }
 
-    
 }
 
 //MARK:- CGDraggableViewDelegate

@@ -48,13 +48,10 @@ class HomeViewModel {
                         let date2 = $1.0.likedDateTime as Date
                         return date1 > date2
                     }
-                    print("0")
                 case 1:
                     dataArray.sort() { $0.0.cleanName < $1.0.cleanName }
-                    print("1")
                 case 2:
                     dataArray.sort() { ($0.0.artistName ?? "") < ($1.0.artistName ?? "") }
-                    print("2")
                 default:
                     break
                 }
@@ -102,7 +99,6 @@ class HomeViewModel {
         userSettingsStateController.albumSortType.asObservable()
             .distinctUntilChanged()
             .subscribe(onNext: { [unowned self] _ in
-                print("Call refresh from view model")
                 self.likedAlbumsStateController.refreshLikedAlbums()
             })
             .disposed(by: disposeBag)
